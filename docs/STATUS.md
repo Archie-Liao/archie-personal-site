@@ -5,7 +5,7 @@
 
 ## 当前阶段
 
-第一期改版 · 视觉方向 **benchmark**（暖色出版物流）· 文档体系已建立 · **待首次 push GitHub**
+第一期改版 · 视觉方向 **benchmark** · 文档体系已建立 · **待首次 push GitHub**（本地 commit `49910b2` 已完成）
 
 ## 进度快照
 
@@ -19,7 +19,7 @@
 | 反馈 `/feedback` | 已有 | localStorage |
 | 关于 `/about` | 已有 | QR 占位 |
 | Markdown 内容管道 | 未开始 | 仍用 `src/app/data/posts.ts` |
-| Git / GitHub | 进行中 | `.gitignore` + 文档已建，待远程仓库 |
+| Git / GitHub | 进行中 | 本地已 commit；待建远程仓库并 push（见 [GITHUB-SETUP.md](GITHUB-SETUP.md)） |
 | 部署 Vercel | 未开始 | 无 vercel.json |
 
 ## 下一步（按优先级）

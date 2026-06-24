@@ -115,7 +115,7 @@ v0 是 [Vercel 的 AI 建站工具](https://v0.app)，可预览 UI、Sync GitHub
 | 文件 | 用途 |
 |------|------|
 | [docs/STATUS.md](docs/STATUS.md) | 当前进度、下一步、阻塞 |
-| [docs/sessions/](docs/sessions/) | 每日详细日志 |
+| [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md) | GitHub 首次上传步骤 |
 | [guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md) | 需求、站点地图、分期 |
 | [guidelines/网站需求填空.md](guidelines/网站需求填空.md) | 原始需求 |
 | [design-demos/_spec.md](design-demos/_spec.md) | 三版设计共同约束 |
