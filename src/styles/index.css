@@ -1,0 +1,190 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* —— 全局纸感基底 —— */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 极淡纸张颗粒，叠在全站之上（不挡点击），是「高级 vs 土」的关键一层 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 22%, transparent);
+  color: var(--foreground);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+  border-radius: 999px;
+  border: 3px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--foreground) 30%, transparent);
+}
+
+/* —— 复古分隔线（叶饰居中） —— */
+.vintage-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gold);
+}
+.vintage-divider__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--foreground) 18%, transparent),
+    transparent
+  );
+}
+.vintage-divider__leaf {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* —— 角落植物点缀 —— */
+.corner-sprig {
+  position: absolute;
+  color: var(--primary);
+  opacity: var(--decoration-opacity);
+  pointer-events: none;
+}
+
+@keyframes logo-breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.88; transform: scale(1.02); }
+}
+
+.logo-breathe {
+  animation: logo-breathe 3s ease-in-out infinite;
+}
+
+.logo-breathe:active {
+  transform: scale(0.97);
+  transition: transform 0.15s ease;
+}
+
+/* —— Site logo wordmark（字体设计字标） —— */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--foreground);
+}
+
+.site-logo__mark {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: var(--primary);
+}
+
+.site-logo__text {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.site-logo__zh {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--foreground);
+}
+
+.site-logo__en {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink-green, var(--muted-foreground));
+}
+
+/* nav：横排，· 分隔 */
+.site-logo--nav .site-logo__zh {
+  font-size: 1.0625rem;
+}
+.site-logo--nav .site-logo__en {
+  font-size: 0.8125rem;
+}
+.site-logo--nav .site-logo__en::before {
+  content: '·';
+  margin-right: 8px;
+  font-style: normal;
+  color: var(--muted-foreground);
+  opacity: 0.6;
+}
+
+/* hero：竖排堆叠（中英文字体设计区分，参考图1） */
+.site-logo--hero,
+.site-logo--hero-xl {
+  align-items: flex-start;
+}
+.site-logo--hero .site-logo__text,
+.site-logo--hero-xl .site-logo__text {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.site-logo--hero .site-logo__zh {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 2rem;
+}
+.site-logo--hero .site-logo__en {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+}
+
+/* hero-xl：出版物字标 — 中文思源宋体重 + 英文 Playfair 斜体墨黑（benchmark 方向） */
+.site-logo--hero-xl .site-logo__zh {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(3.25rem, 8.5vw, 5.5rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--foreground);
+}
+.site-logo--hero-xl .site-logo__en {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  letter-spacing: 0.005em;
+  line-height: 1.05;
+  color: var(--foreground);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}

@@ -1,0 +1,27 @@
+# Dependencies — 每台电脑 npm i 重建，勿提交
+node_modules/
+
+# Build output — npm run build 重建
+dist/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs & caches
+*.log
+npm-debug.log*
+.vite/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor (optional local settings)
+*.swp
+*.swo
+
+# Large local-only assets (uncomment if needed)
+# reference/

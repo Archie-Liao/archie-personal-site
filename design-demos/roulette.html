@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>廖智强 Archie · 博物标本墙</title>
+<!--
+  逻辑一 · 风格轮盘 #5 改编 —— 博物标本墙 / 编辑网格
+  决策：① accent 描金 #9A7B3F ② 标本编号 CAT.086 贯穿 ③ Hero 多蝶图版+网格叠层
+        ④ 三卡作 catalog card ⑤ 时间线=标本登记簿行
+  假设：偏「档案馆」气质，信息密度略高于 benchmark，仍浅色可读
+-->
+<style>
+@import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Noto+Serif+SC:wght@500;600;700;900&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root{
+  --paper:#F6F0E2;--paper-2:#EDE5D4;--ink:#1E1B17;--ink-2:#4A443C;--ink-3:#6E655A;
+  --gold:#9A7B3F;--gold-l:#C4A574;--rule:rgba(30,27,23,.14);
+  --serif-en:'Playfair Display',Georgia,serif;--serif-sc:'Noto Serif SC',serif;--sans:'Inter','Noto Sans SC',sans-serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;mix-blend-mode:multiply;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.cat{font-family:var(--serif-en);font-style:italic;font-size:12px;letter-spacing:.12em;color:var(--gold)}
+
+header{position:sticky;top:0;z-index:50;background:rgba(246,240,226,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .zh{font-family:var(--serif-sc);font-weight:700;font-size:20px;letter-spacing:.14em}
+.brand .en{font-family:var(--serif-en);font-style:italic;font-size:17px;color:var(--ink-2)}
+nav{display:flex;gap:30px}
+nav a{font-size:14px;font-weight:500;letter-spacing:.06em;color:var(--ink-2);position:relative;padding:4px 0}
+nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:1.5px;background:var(--gold);transition:right .2s}
+nav a:hover{color:var(--ink)} nav a:hover::after{right:0}
+.has-tip{position:relative}.has-tip .tip{position:absolute;top:130%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:11px;padding:4px 10px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none}
+.has-tip:hover .tip{opacity:1}
+
+.hero{padding:48px 0 32px}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:stretch;min-height:640px}
+.hero-left{display:flex;flex-direction:column;justify-content:center}
+.hero-left .bar{width:48px;height:2px;background:var(--gold);margin-bottom:24px}
+.display .zh{display:block;font-family:var(--serif-sc);font-weight:700;font-size:clamp(56px,7vw,88px);letter-spacing:.04em;line-height:1}
+.display .en{display:block;font-family:var(--serif-en);font-style:italic;font-weight:600;font-size:clamp(48px,6vw,72px);margin-top:4px}
+.tagline{margin-top:28px;font-family:var(--serif-sc);font-size:20px;letter-spacing:.06em}
+.tagline-en{display:block;margin-top:6px;font-family:var(--serif-en);font-style:italic;font-size:15px;color:var(--ink-3)}
+.hero-cta{margin-top:32px;display:flex;gap:24px;align-items:center}
+.btn-gold{font-size:14px;font-weight:600;letter-spacing:.08em;padding:10px 0;border-bottom:2px solid var(--gold)}
+.btn-quiet{font-size:14px;color:var(--ink-3)}
+
+.specimen-wall{position:relative;border:1px solid var(--rule);background:var(--paper-2);padding:12px;display:grid;grid-template-rows:1fr auto;min-height:520px}
+.specimen-wall .grid-bg{position:absolute;inset:12px;background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:48px 48px;opacity:.35;pointer-events:none}
+.specimen-wall .main-plate{position:relative;z-index:1;padding:16px;border:1px solid var(--rule);background:var(--paper);margin:8px}
+.specimen-wall .main-plate img{width:100%;height:auto;display:block;mix-blend-mode:multiply}
+.specimen-wall .spec-footer{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 8px 8px}
+.specimen-wall .mini{border:1px solid var(--rule);padding:6px;background:var(--paper)}
+.specimen-wall .mini img{width:100%;height:72px;object-fit:cover;object-position:center;mix-blend-mode:multiply;display:block}
+.specimen-wall .mini .lbl{font-size:10px;letter-spacing:.14em;color:var(--ink-3);margin-top:4px}
+
+.band{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--paper-2)}
+.band-inner{display:grid;grid-template-columns:1fr auto 1fr;gap:32px;padding:20px 0;align-items:center}
+.band .lab{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.clock .time{font-family:var(--serif-en);font-weight:600;font-size:28px}
+.day-center{text-align:center;padding:0 32px;border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.day-center .big{font-family:var(--serif-sc);font-weight:600;font-size:18px;letter-spacing:.08em}
+.day-center .num{font-family:var(--serif-en);font-style:italic;color:var(--gold);font-size:22px}
+.cal{justify-self:end;font-size:11px;color:var(--ink-3);text-align:right}
+
+.section{padding:72px 0}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:36px;border-bottom:1px solid var(--rule);padding-bottom:16px}
+.section-head h2{margin:0;font-family:var(--serif-sc);font-size:28px;letter-spacing:.04em}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule)}
+.card{padding:32px 28px;border-right:1px solid var(--rule);position:relative}
+.card:last-child{border-right:0}
+.card .kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.card .folio{position:absolute;top:28px;right:28px;font-family:var(--serif-en);font-style:italic;font-size:36px;color:rgba(154,123,63,.25)}
+.card h3{margin:0 0 12px;font-family:var(--serif-sc);font-size:20px;font-weight:600;line-height:1.4}
+.card .meta{font-size:13px;color:var(--ink-3);margin-bottom:12px}
+.card .tags{font-size:12px;color:var(--ink-2)}
+.card .more{display:inline-block;margin-top:20px;font-size:13px;font-weight:600;border-bottom:1px solid var(--gold);padding-bottom:2px}
+.hot-list .row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.hot-list .row:last-child{border-bottom:0}
+.hot-list .n{font-family:var(--serif-en);font-style:italic;color:var(--gold);width:20px}
+
+.timeline{border:1px solid var(--rule)}
+.t-row{display:grid;grid-template-columns:88px 1fr auto;gap:20px;padding:18px 24px;border-bottom:1px solid var(--rule);align-items:baseline}
+.t-row:last-child{border-bottom:0}
+.t-row:hover{background:rgba(154,123,63,.04)}
+.t-row .cat{font-size:13px}
+.t-row h4{margin:0;font-family:var(--serif-sc);font-size:17px;font-weight:600}
+.t-row .date{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.t-row .tags{font-size:11px;color:var(--ink-2);margin-top:4px}
+
+footer{padding:48px 0 64px;border-top:1px solid var(--rule)}
+.footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px}
+.footer-links{display:flex;gap:20px;font-size:14px}
+.footer-links a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="brand" href="#"><span class="zh">廖智强</span><span class="en">Archie</span></a>
+  <nav>
+    <a href="#">知识图谱</a>
+    <a class="has-tip" href="#">日记<span class="tip">点我点我～</span></a>
+    <a href="#">反馈</a>
+    <a href="#">关于我</a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-left">
+    <div class="bar"></div>
+    <span class="eyebrow">Specimen Register · Vol. 102</span>
+    <h1 class="display"><span class="zh">廖智强</span><span class="en">Archie</span></h1>
+    <p class="tagline">记录就是生命的延续<span class="tagline-en">Recording is the continuation of life</span></p>
+    <div class="hero-cta">
+      <a class="btn-gold" href="#selected">浏览标本簿 →</a>
+      <a class="btn-quiet" href="#timeline">往期登记</a>
+    </div>
+  </div>
+  <div class="specimen-wall">
+    <div class="grid-bg"></div>
+    <div class="main-plate">
+      <img src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="新英格兰蝴蝶标本图版" />
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--ink-3);letter-spacing:.1em">
+        <span>PLATE IV · Eastern United States</span><span class="cat">CAT. HERO-01</span>
+      </div>
+    </div>
+    <div class="spec-footer">
+      <div class="mini"><img src="assets/img/vintage_moth_lithograph_Butterflies_and_moths__Plate_XX.jpg" alt="天蛾图版" /><div class="lbl">CAT. MOTH-XX</div></div>
+      <div class="mini"><img src="assets/img/vintage_moth_lithograph_British_moths_and_their_transfo.jpg" alt="英国蛾类" /><div class="lbl">CAT. BRIT-07</div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="band"><div class="wrap band-inner">
+  <div class="clock"><div class="lab">北京时间</div><div class="time" id="bj-time">--:--:--</div></div>
+  <div class="day-center"><div class="big">视频日记 · 第 <span class="num">102</span> 天</div><div class="lab" style="margin-top:6px">Since 2026.03.14</div></div>
+  <div class="cal">June 2026 · 浏览记录<br/>最近阅读 Day 99</div>
+</div></div>
+
+<section class="section" id="selected"><div class="wrap">
+  <div class="section-head"><h2>精选入口</h2><span class="cat">Selected · 03 entries</span></div>
+  <div class="cards">
+    <article class="card"><span class="folio">099</span><div class="kicker">最新 · Latest</div><h3>成长会自动消解很多难题</h3><div class="meta">Day 99 · 2026-06-05</div><div class="tags">人生 · 认知 · 原创</div><a class="more" href="#">登记详情 →</a></article>
+    <article class="card"><span class="folio">094</span><div class="kicker">精选 · Featured</div><h3>一个比喻讲透AI与人的关系</h3><div class="meta">Day 94 · 2026-05-31</div><div class="tags">AI · 认知 · 观点</div><a class="more" href="#">登记详情 →</a></article>
+    <article class="card"><div class="kicker">本周热门 · Hot</div><div class="hot-list">
+      <a class="row" href="#"><span class="n">1</span><span>成长会自动消解很多难题</span></a>
+      <a class="row" href="#"><span class="n">2</span><span>一个比喻讲透AI与人的关系</span></a>
+      <a class="row" href="#"><span class="n">3</span><span>信息爆炸！别怕错过优质内容</span></a>
+    </div></article>
+  </div>
+</div></section>
+
+<section class="section" id="timeline"><div class="wrap">
+  <div class="section-head"><h2>往期时间线</h2><span class="cat">Archive · 14 records</span></div>
+  <div class="timeline">
+    <a class="t-row" href="#"><span class="cat">CAT.099</span><div><h4>成长会自动消解很多难题</h4><div class="tags">人生 · 认知 · 原创</div></div><span class="date">2026-06-05</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.098</span><div><h4>学会用筷子，却发现没菜可夹</h4><div class="tags">AI · 方法 · 原创</div></div><span class="date">2026-06-04</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.097</span><div><h4>手机被忽视，AI正在重蹈覆辙</h4><div class="tags">AI · 社会 · 观点</div></div><span class="date">2026-06-03</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.096</span><div><h4>信息爆炸！别怕错过优质内容</h4><div class="tags">认知 · 方法 · 原创</div></div><span class="date">2026-06-02</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.095</span><div><h4>西西弗少儿区，原来我看错了</h4><div class="tags">随想 · 记录 · 原创</div></div><span class="date">2026-06-01</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.094</span><div><h4>一个比喻讲透AI与人的关系</h4><div class="tags">AI · 认知 · 观点</div></div><span class="date">2026-05-31</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.093</span><div><h4>踩了两个坑，总结出两大洞见</h4><div class="tags">复盘 · 方法 · 原创</div></div><span class="date">2026-05-30</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.092</span><div><h4>津巴多心理学，高效记忆两大妙招</h4><div class="tags">认知 · 方法 · 书籍</div></div><span class="date">2026-05-29</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.091</span><div><h4>AI学知识套路居然和人类一样</h4><div class="tags">AI · 认知 · 原创</div></div><span class="date">2026-05-28</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.090</span><div><h4>读书是攒经验，并非一朝挖出黄金</h4><div class="tags">认知 · 方法 · 原创</div></div><span class="date">2026-05-27</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.089</span><div><h4>十周年新品！得到大脑优缺点盘点</h4><div class="tags">AI · 商业 · 观点</div></div><span class="date">2026-05-26</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.088</span><div><h4>想练好表达？一定要多和真人交流</h4><div class="tags">自媒体 · 方法 · 原创</div></div><span class="date">2026-05-25</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.087</span><div><h4>LPL对决！涅槃组以下克上战胜登峰组</h4><div class="tags">随想 · 记录</div></div><span class="date">2026-05-24</span></a>
+    <a class="t-row" href="#"><span class="cat">CAT.086</span><div><h4>困住创作的三条枷锁，看完豁然开朗</h4><div class="tags">自媒体 · 方法 · 原创</div></div><span class="date">2026-05-23</span></a>
+  </div>
+</div></section>
+
+<footer><div class="wrap footer-inner">
+  <span style="font-size:13px;color:var(--ink-3)">廖智强Archie · 记录就是生命的延续</span>
+  <div class="footer-links">
+    <a href="https://space.bilibili.com/24473971" target="_blank">B站</a>
+    <a href="https://github.com/Archie-Liao" target="_blank">GitHub</a>
+    <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank">小红书</a>
+    <a href="#">回到顶部</a>
+  </div>
+</div></footer>
+<script>
+(function(){function tick(){var n=new Date(),u=n.getTime()+n.getTimezoneOffset()*6e4+288e5,d=new Date(u);
+document.getElementById('bj-time').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(x){return String(x).padStart(2,'0')}).join(':');}
+tick();setInterval(tick,1000);})();
+</script>
+</body>
+</html>

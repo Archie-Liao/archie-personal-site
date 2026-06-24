@@ -1,0 +1,14 @@
+---
+description: 个人网站项目硬约束与常见坑点
+alwaysApply: true
+---
+
+# 项目硬约束
+
+- 新任务前先读 `docs/STATUS.md` 和 `AGENTS.md`
+- 根目录 `index.html` 是 React 入口：必须 `npm run dev`，双击会空白
+- 设计探索改 `design-demos/`；功能实现改 `src/`
+- 视觉对齐 benchmark：纸底 `#F6F0E2` / `#F5F0E8`，accent `#CC785C`
+- 字体用 `fonts.loli.net`，勿直连 Google Fonts
+- 勿提交 `node_modules/`、`dist/`、`.env`
+- 不要擅自修改 `guidelines/` 除非用户明确要求

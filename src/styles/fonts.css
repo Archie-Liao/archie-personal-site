@@ -1,0 +1,8 @@
+/* 字体地基（经 fonts.loli.net 国内镜像加载，解决 Google Fonts 在中国大陆加载慢/失败 → 回退系统宋体的问题）：
+   - Playfair Display → 英文/数字 展示衬线（高对比、杂志感，用于大标题/LOGO 英文）
+   - Noto Serif SC → 中文衬线标题（思源宋体）
+   - Inter     → 英文/数字 正文无衬线
+   - Noto Sans SC → 中文正文（思源黑体）
+   - JetBrains Mono → 小标签 / 时间戳 / 期号
+   生产环境如需更稳，可改为自托管 woff2（huasheng.ai 即自托管）。*/
+@import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>三版首页设计方向对比</title>
+<style>
+/* 不依赖外网字体，避免 @import 阻塞或 file:// 下空白 */
+*{box-sizing:border-box}
+body{margin:0;background:#EDE8DF;font-family:Georgia,"Noto Serif SC","Songti SC",serif;color:#2A2622;padding:32px}
+h1{font-size:28px;margin:0 0 8px;letter-spacing:.06em}
+.intro{font-family:system-ui,"Segoe UI","Noto Sans SC",sans-serif;font-size:14px;color:#6E655A;margin-bottom:24px;max-width:720px;line-height:1.7}
+.howto{font-family:system-ui,"Segoe UI","Noto Sans SC",sans-serif;margin-bottom:28px;padding:16px 18px;background:#FFF8EE;border:1px solid rgba(154,123,63,.35);font-size:13px;line-height:1.7;color:#534B40;max-width:720px}
+.howto strong{color:#2A2622}
+.howto code{font-size:12px;background:rgba(42,38,34,.06);padding:2px 6px;border-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#F6F0E2;border:1px solid rgba(42,38,34,.12);overflow:hidden}
+.card-head{padding:16px 18px;border-bottom:1px solid rgba(42,38,34,.1)}
+.card-head h2{margin:0;font-size:17px}
+.card-head .logic{font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9A7B3F;margin-bottom:6px}
+.card-head .why{font-family:system-ui,sans-serif;font-size:12px;color:#6E655A;margin-top:8px;line-height:1.5}
+.preview{aspect-ratio:16/10;background:#F5F0E8;position:relative;overflow:hidden}
+.preview img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.preview iframe{position:absolute;inset:0;width:1440px;height:900px;border:0;transform-origin:top left;pointer-events:none}
+.card-foot{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.card-foot a{font-family:system-ui,sans-serif;font-size:13px;color:#3C5A4A;text-decoration:none;font-weight:600;white-space:nowrap}
+.card-foot a:hover{text-decoration:underline}
+.card-foot .tag{font-family:system-ui,sans-serif;font-size:12px;color:#8A8278}
+.note{margin-top:28px;padding:20px;background:#F6F0E2;border:1px solid rgba(42,38,34,.1);font-family:system-ui,sans-serif;font-size:13px;line-height:1.7;color:#534B40;max-width:1100px}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>首页设计方向 · 三版对比</h1>
+<p class="intro">同一套真实内容与复古版画素材，三种视觉逻辑并行。请打开完整页面感受排版节奏，或告诉我「选 A / B / C / 混搭」。默认推荐 <strong>benchmark</strong>（暖色出版物，最接近 Claude Fable）。</p>
+
+<div class="howto">
+  <strong>怎么打开？</strong> 请打开本文件夹里的 HTML，<em>不要</em>打开项目根目录的 <code>index.html</code>（那是 React 站点，双击会空白）。<br>
+  推荐：在资源管理器中进入 <code>design-demos</code>，双击下面三份文件之一；或在本页点「全屏打开 →」。
+</div>
+
+<div class="grid">
+  <article class="card">
+    <div class="card-head">
+      <div class="logic">逻辑一 · 标本墙</div>
+      <h2>roulette.html</h2>
+      <p class="why">描金编号 + 网格标本墙，信息密度略高，像档案馆登记簿。适合强调「日记=标本」隐喻。</p>
+    </div>
+    <div class="preview" id="preview-roulette">
+      <img src="screenshots/roulette-1440x900.png" alt="roulette 预览" onerror="this.style.display='none'" />
+    </div>
+    <div class="card-foot">
+      <span class="tag">accent 描金 #9A7B3F</span>
+      <a href="roulette.html">全屏打开 →</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head">
+      <div class="logic">逻辑二 · 标杆迁移 ★推荐</div>
+      <h2>benchmark.html</h2>
+      <p class="why">Claude / Penguin 出版物流：赤陶橙 accent、卷首语单栏、hairline 分隔。温暖易读，稳妥中心版。</p>
+    </div>
+    <div class="preview" id="preview-benchmark">
+      <img src="screenshots/benchmark-1440x900.png" alt="benchmark 预览" onerror="this.style.display='none'" />
+    </div>
+    <div class="card-foot">
+      <span class="tag">accent 赤陶 #CC785C</span>
+      <a href="benchmark.html">全屏打开 →</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head">
+      <div class="logic">逻辑三 · 留白画廊</div>
+      <h2>designer.html</h2>
+      <p class="why">原研哉式白盒：极大留白 + 单蝶小图。最安静克制，首屏几乎空，靠字距建立气质。</p>
+    </div>
+    <div class="preview" id="preview-designer">
+      <img src="screenshots/designer-1440x900.png" alt="designer 预览" onerror="this.style.display='none'" />
+    </div>
+    <div class="card-foot">
+      <span class="tag">accent 墨绿 #3C5A4A</span>
+      <a href="designer.html">全屏打开 →</a>
+    </div>
+  </article>
+</div>
+
+<p class="note">说明：缩略图加载失败时，请直接点「全屏打开 →」。字体与细节以完整页面为准。React 站点已按 <strong>benchmark</strong> 方向做第一版移植；你选定后可再微调 accent / 留白 / 标本墙元素。</p>
+
+<script>
+(function () {
+  if (location.protocol === 'file:') return;
+  var pairs = [
+    ['preview-roulette', 'roulette.html'],
+    ['preview-benchmark', 'benchmark.html'],
+    ['preview-designer', 'designer.html']
+  ];
+  pairs.forEach(function (pair) {
+    var box = document.getElementById(pair[0]);
+    if (!box) return;
+    var scale = box.clientWidth / 1440;
+    var iframe = document.createElement('iframe');
+    iframe.src = pair[1];
+    iframe.title = pair[1];
+    iframe.style.transform = 'scale(' + scale + ')';
+    iframe.loading = 'lazy';
+    box.appendChild(iframe);
+  });
+})();
+</script>
+</body>
+</html>

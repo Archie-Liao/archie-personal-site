@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>廖智强 Archie · 留白画廊</title>
+<!--
+  逻辑三 · 原研哉式留白 —— 白盒画廊 / 单蝶极简
+  决策：① 85% 留白 ② accent 仅墨绿 #3C5A4A ③ 单只 Pieris 小图偏右 ④ 信息贴边如展签
+        ⑤ 三卡=三条细线分隔，无填充块
+  假设：最安静的一版；首屏几乎空，靠字距与比例建立气质
+-->
+<style>
+@import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Noto+Serif+SC:wght@500;600;700;900&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root{
+  --paper:#F7F3ED;--ink:#2A2622;--ink-2:#5C554C;--ink-3:#8A8278;
+  --green:#3C5A4A;--rule:rgba(42,38,34,.1);
+  --serif-en:'Playfair Display',Georgia,serif;--serif-sc:'Noto Serif SC',serif;--sans:'Inter','Noto Sans SC',sans-serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;mix-blend-mode:multiply;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px}
+
+header{padding:36px 0 0}
+.nav{display:flex;justify-content:space-between;align-items:flex-start}
+.brand .zh{font-family:var(--serif-sc);font-weight:600;font-size:15px;letter-spacing:.32em;color:var(--ink-2)}
+.brand .en{display:block;font-family:var(--serif-en);font-style:italic;font-size:13px;letter-spacing:.08em;color:var(--ink-3);margin-top:4px}
+nav{display:flex;gap:36px}
+nav a{font-size:13px;letter-spacing:.12em;color:var(--ink-3);transition:color .15s}
+nav a:hover{color:var(--green)}
+
+.hero{min-height:78vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:80px 0 120px}
+.hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:80px;align-items:center}
+.hero-text .label{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-3);margin-bottom:48px}
+.display{margin:0}
+.display .zh{display:block;font-family:var(--serif-sc);font-weight:700;font-size:clamp(48px,6vw,72px);letter-spacing:.18em;line-height:1.15;color:var(--ink)}
+.display .en{display:block;font-family:var(--serif-en);font-style:italic;font-weight:500;font-size:clamp(40px,5vw,58px);letter-spacing:.02em;margin-top:12px;color:var(--ink-2)}
+.tagline{margin-top:56px;max-width:320px}
+.tagline .zh{font-family:var(--serif-sc);font-size:17px;letter-spacing:.14em;line-height:2;color:var(--ink-2)}
+.tagline .en{display:block;margin-top:16px;font-size:13px;letter-spacing:.06em;color:var(--ink-3);font-style:italic;font-family:var(--serif-en)}
+.hero-link{margin-top:64px;font-size:13px;letter-spacing:.2em;color:var(--green)}
+
+.butterfly-slot{display:flex;justify-content:flex-end;align-items:center;padding-right:24px}
+.butterfly-slot figure{margin:0;text-align:right}
+.butterfly-slot img{width:min(240px,100%);height:auto;mix-blend-mode:multiply;opacity:.92}
+.butterfly-slot figcaption{margin-top:20px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+
+.band{margin:0 48px;padding:28px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.band-inner{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:0 48px}
+.band .item .lab{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3)}
+.band .item .val{margin-top:6px;font-family:var(--serif-en);font-size:22px;letter-spacing:.04em}
+.band .item .val em{font-style:italic;color:var(--green)}
+
+.section{padding:100px 0}
+.section h2{margin:0 0 64px;font-family:var(--serif-sc);font-weight:600;font-size:16px;letter-spacing:.28em;color:var(--ink-3)}
+
+.entries{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.entry{padding:0 40px 0 0;border-right:1px solid var(--rule)}
+.entry:last-child{border-right:0;padding-right:0;padding-left:40px}
+.entry .num{font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--green);margin-bottom:20px}
+.entry h3{margin:0 0 16px;font-family:var(--serif-sc);font-size:18px;font-weight:600;line-height:1.5;letter-spacing:.04em}
+.entry .meta{font-size:12px;letter-spacing:.08em;color:var(--ink-3)}
+.entry .tags{margin-top:12px;font-size:11px;letter-spacing:.1em;color:var(--ink-2)}
+.entry a.more{display:inline-block;margin-top:28px;font-size:12px;letter-spacing:.16em;color:var(--green)}
+.hot .line{padding:14px 0;border-bottom:1px solid var(--rule);font-size:14px;letter-spacing:.02em}
+.hot .line:first-child{padding-top:0}
+
+.timeline{margin-top:0}
+.t-item{display:grid;grid-template-columns:72px 1fr auto;gap:32px;padding:22px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.t-item .day{font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--green)}
+.t-item h4{margin:0;font-family:var(--serif-sc);font-size:16px;font-weight:500;letter-spacing:.04em}
+.t-item .date{font-size:11px;letter-spacing:.1em;color:var(--ink-3)}
+
+footer{padding:80px 0 100px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.12em;color:var(--ink-3)}
+.footer-links{display:flex;gap:28px}
+.footer-links a:hover{color:var(--green)}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="brand" href="#"><span class="zh">廖智强</span><span class="en">Archie</span></a>
+  <nav>
+    <a href="#">知识图谱</a>
+    <a href="#" title="点我点我～">日记</a>
+    <a href="#">反馈</a>
+    <a href="#">关于我</a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap hero-inner">
+  <div class="hero-text">
+    <div class="label">Video Diary · Day 102</div>
+    <h1 class="display"><span class="zh">廖智强</span><span class="en">Archie</span></h1>
+    <div class="tagline">
+      <span class="zh">记录就是生命的延续</span>
+      <span class="en">Recording is the continuation of life</span>
+    </div>
+    <a class="hero-link" href="#entries">进入日记 →</a>
+  </div>
+  <div class="butterfly-slot">
+    <figure>
+      <img src="assets/img/Pieris_butterfly_plate_Pieris_wollastoni-PD.png" alt="Pieris wollastoni 粉蝶" />
+      <figcaption>Pieris wollastoni · Plate I</figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<div class="band"><div class="band-inner">
+  <div class="item"><div class="lab">Beijing</div><div class="val" id="bj-time">--:--</div></div>
+  <div class="item" style="text-align:center"><div class="lab">Diary</div><div class="val">第 <em>102</em> 天</div></div>
+  <div class="item" style="text-align:right"><div class="lab">June 2026</div><div class="val" style="font-size:14px;font-family:var(--sans)">今日 · 23</div></div>
+</div></div>
+
+<section class="section" id="entries"><div class="wrap">
+  <h2>精选入口</h2>
+  <div class="entries">
+    <article class="entry">
+      <div class="num">099</div>
+      <h3>成长会自动消解很多难题</h3>
+      <div class="meta">2026-06-05</div>
+      <div class="tags">人生 · 认知 · 原创</div>
+      <a class="more" href="#">阅读 →</a>
+    </article>
+    <article class="entry">
+      <div class="num">094</div>
+      <h3>一个比喻讲透AI与人的关系</h3>
+      <div class="meta">2026-05-31</div>
+      <div class="tags">AI · 认知 · 观点</div>
+      <a class="more" href="#">阅读 →</a>
+    </article>
+    <article class="entry hot">
+      <div class="num">Hot</div>
+      <a class="line" href="#">成长会自动消解很多难题</a>
+      <a class="line" href="#">一个比喻讲透AI与人的关系</a>
+      <a class="line" href="#">信息爆炸！别怕错过优质内容</a>
+    </article>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>往期</h2>
+  <div class="timeline">
+    <a class="t-item" href="#"><span class="day">99</span><h4>成长会自动消解很多难题</h4><span class="date">06-05</span></a>
+    <a class="t-item" href="#"><span class="day">98</span><h4>学会用筷子，却发现没菜可夹</h4><span class="date">06-04</span></a>
+    <a class="t-item" href="#"><span class="day">97</span><h4>手机被忽视，AI正在重蹈覆辙</h4><span class="date">06-03</span></a>
+    <a class="t-item" href="#"><span class="day">96</span><h4>信息爆炸！别怕错过优质内容</h4><span class="date">06-02</span></a>
+    <a class="t-item" href="#"><span class="day">95</span><h4>西西弗少儿区，原来我看错了</h4><span class="date">06-01</span></a>
+    <a class="t-item" href="#"><span class="day">94</span><h4>一个比喻讲透AI与人的关系</h4><span class="date">05-31</span></a>
+    <a class="t-item" href="#"><span class="day">93</span><h4>踩了两个坑，总结出两大洞见</h4><span class="date">05-30</span></a>
+    <a class="t-item" href="#"><span class="day">92</span><h4>津巴多心理学，高效记忆两大妙招</h4><span class="date">05-29</span></a>
+    <a class="t-item" href="#"><span class="day">91</span><h4>AI学知识套路居然和人类一样</h4><span class="date">05-28</span></a>
+    <a class="t-item" href="#"><span class="day">90</span><h4>读书是攒经验，并非一朝挖出黄金</h4><span class="date">05-27</span></a>
+    <a class="t-item" href="#"><span class="day">89</span><h4>十周年新品！得到大脑优缺点盘点</h4><span class="date">05-26</span></a>
+    <a class="t-item" href="#"><span class="day">88</span><h4>想练好表达？一定要多和真人交流</h4><span class="date">05-25</span></a>
+    <a class="t-item" href="#"><span class="day">87</span><h4>LPL对决！涅槃组以下克上战胜登峰组</h4><span class="date">05-24</span></a>
+    <a class="t-item" href="#"><span class="day">86</span><h4>困住创作的三条枷锁，看完豁然开朗</h4><span class="date">05-23</span></a>
+  </div>
+</div></section>
+
+<footer><div class="wrap footer-inner">
+  <span>廖智强Archie</span>
+  <div class="footer-links">
+    <a href="https://space.bilibili.com/24473971" target="_blank">B站</a>
+    <a href="https://github.com/Archie-Liao" target="_blank">GitHub</a>
+    <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank">小红书</a>
+    <a href="#">顶部</a>
+  </div>
+</div></footer>
+<script>
+(function(){function tick(){var n=new Date(),u=n.getTime()+n.getTimezoneOffset()*6e4+288e5,d=new Date(u);
+document.getElementById('bj-time').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+tick();setInterval(tick,1000);})();
+</script>
+</body>
+</html>
