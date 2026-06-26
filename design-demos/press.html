@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>廖智强 Archie · D1 Press v1</title>
+<!--
+  ============================================================================
+  D1 · Stripe Press 学校 — v1 全量
+  ----------------------------------------------------------------------------
+  v1 相对 v0：真实 14 期数据 · 本地博物版画 · 北京时间 · 迷你日历
+  · 精选卡 hover · 往期时间线 · 列表全量 · 详情字幕摘录 · 页脚外链
+  · Hero 随机色块 + 随机图版 · 书封 Ken Burns 微动
+  ============================================================================
+-->
+<style>
+  @import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Noto+Serif+SC:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    /* Huemint A 默认 — https://huemint.com/website-1/#palette=fff9e8-472f26-b42b26 */
+    --paper:          #fff9e8;
+    --paper-2:        #f5eedc;
+    --paper-3:        #ede4d4;
+    --paper-surface:  #f2ead8;
+    --ink:            #472f26;
+    --ink-2:          #6b4f44;
+    --ink-3:          #8f7a70;
+    --accent:         #BB4C42;
+    --accent-d:       #9A3A32;
+    --rule:           #ddd0bc;
+    --rule-soft:      rgba(71, 47, 38, 0.12);
+    --radius-md:      10px;
+
+    --serif-en:    'Playfair Display', Georgia, serif;
+    --serif-sc:    'Noto Serif SC', 'Songti SC', serif;
+    --serif-body:  'Lora', 'Noto Serif SC', Georgia, serif;
+    --sans:        'Inter', 'Noto Sans SC', sans-serif;
+
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-5: 48px;
+    --space-6: 88px;
+
+    --book-shadow: 0 24px 48px rgba(71, 47, 38, 0.14), 0 4px 12px rgba(71, 47, 38, 0.08);
+    --hero-blob-color: #BB4C42;
+    --warhol-opacity: 0.11;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--serif-body);
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background: var(--paper);
+    position: relative;
+  }
+
+  /* Warhol 网点：叠在内容之上，multiply 混合；纯色块上仍可见细点 */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent) 55%, transparent) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 12px 12px;
+    opacity: var(--warhol-opacity);
+    mix-blend-mode: multiply;
+  }
+
+  header.nav,
+  .view,
+  footer,
+  #tweaks-fab,
+  #tweaks-panel,
+  .v0-badge {
+    position: relative;
+    z-index: 1;
+  }
+
+  #tweaks-fab,
+  #tweaks-panel,
+  .v0-badge {
+    z-index: 10001;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  /* ---- 排印元件 ---- */
+  .kicker-zh {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+
+  .kicker-en {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-d);
+  }
+
+  .kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-d);
+  }
+
+  .folio {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent-d);
+  }
+
+  .ph {
+    border: 1px dashed var(--rule);
+    background: var(--paper-2);
+    color: var(--ink-3);
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-3);
+  }
+
+  .hr {
+    height: 1px;
+    background: var(--rule);
+    border: 0;
+    margin: 0;
+  }
+
+  /* ---- 视图切换 ---- */
+  .view { display: none; }
+  .view.is-active { display: block; }
+
+  /* ---- 导航 ---- */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+
+  /* Site Logo / Wordmark（左上角字标） */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-surface);
+    color: var(--accent-d);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    line-height: 1.15;
+  }
+
+  .brand-zh {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+  }
+
+  .brand-en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--accent-d);
+  }
+
+  .brand:hover .brand-mark {
+    background: color-mix(in srgb, var(--accent) 8%, var(--paper-surface));
+  }
+
+  nav.links {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  nav.links a {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: 0.05em;
+    position: relative;
+    transition: color 0.15s ease;
+  }
+
+  nav.links a:hover { color: var(--accent-d); }
+
+  .has-tip .tip {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+
+  .has-tip:hover .tip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: var(--space-6) 0 var(--space-5);
+    position: relative;
+  }
+
+  .hero-left {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero 背后 Warhol 色块：颜色由 JS 每次进站随机 */
+  .hero-left::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 10%;
+    width: 44%;
+    height: 58%;
+    z-index: -1;
+    transform: rotate(-2.5deg);
+    background: color-mix(in srgb, var(--hero-blob-color) 26%, transparent);
+    border-radius: 2px;
+    animation: hero-blob-in 0.7s ease-out both;
+  }
+
+  @keyframes hero-blob-in {
+    from { opacity: 0; transform: rotate(-2.5deg) scale(0.92); }
+    to   { opacity: 1; transform: rotate(-2.5deg) scale(1); }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+    min-height: 520px;
+  }
+
+  .display .zh {
+    display: block;
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: clamp(56px, 7vw, 84px);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .display .en {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(48px, 6vw, 72px);
+    margin-top: var(--space-2);
+  }
+
+  .display .dot {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .tagline {
+    margin-top: var(--space-3);
+  }
+
+  .tagline .zh {
+    font-family: var(--serif-sc);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .tagline .en {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-2);
+  }
+
+  .book-hero {
+    background: var(--paper-2);
+    padding: 18px;
+    box-shadow: var(--book-shadow);
+    position: relative;
+  }
+
+  .book-hero .plate-img {
+    aspect-ratio: 4 / 5;
+    min-height: 280px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--paper-3);
+  }
+
+  .book-hero .plate-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    animation: ken-burns 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes ken-burns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.07) translate(-1.5%, -1%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .book-hero .plate-img img { animation: none; }
+    .hero-left::before { animation: none; }
+  }
+
+  .book-hero .ph {
+    aspect-ratio: 4 / 5;
+    min-height: 280px;
+    border-style: solid;
+    border-color: var(--rule);
+    background: var(--paper-3);
+  }
+
+  .book-cap {
+    margin-top: 14px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  /* ---- 窄条 band ---- */
+  .band {
+    background: var(--paper-2);
+    border-block: 1px solid var(--rule);
+  }
+
+  .band-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    padding: 22px 0;
+    align-items: center;
+  }
+
+  .band .ph-sm {
+    min-height: 48px;
+    font-size: 11px;
+  }
+
+  .day-center {
+    text-align: center;
+    padding: 0 var(--space-4);
+    border-inline: 1px solid var(--rule);
+  }
+
+  /* ---- 区块通用 ---- */
+  .section {
+    padding: var(--space-6) 0;
+    background: var(--paper);
+  }
+
+  /* 精选入口：纯色纸底，避免颗粒叠色发脏 */
+  .section-featured {
+    background: var(--paper);
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .section-archive {
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-4);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-family: var(--serif-sc);
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--paper-surface);
+  }
+
+  .card {
+    padding: var(--space-4);
+    border-right: 1px solid var(--rule);
+    min-height: 200px;
+    background: var(--paper-surface);
+    transition: background 0.18s ease;
+  }
+
+  .card:last-child { border-right: 0; }
+
+  .card:hover { background: var(--paper); }
+
+  .card.is-pick {
+    background: color-mix(in srgb, var(--accent) 5%, var(--paper-surface));
+  }
+
+  .card.is-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .card.is-link:hover {
+    background: var(--paper);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 25%, var(--rule));
+  }
+
+  .card h3 {
+    margin: 0 0 8px;
+    font-family: var(--serif-sc);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .card .card-meta {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 12px;
+  }
+
+  .card .card-more {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-d);
+    letter-spacing: 0.04em;
+  }
+
+  .hot-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hot-list li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .hot-list li:last-child { border-bottom: 0; }
+
+  .hot-list .rank {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--accent-d);
+  }
+
+  .hot-list .h-d {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  /* ---- 时钟 / 日历 ---- */
+  .clock-block .lab {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-d);
+    margin-bottom: 4px;
+  }
+
+  .clock-block .time {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .clock-block .date {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  .cal-mini { width: 200px; justify-self: end; }
+
+  .cal-mini .cal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .cal-mini .cal-head .m {
+    font-weight: 700;
+    color: var(--ink-2);
+    letter-spacing: 0.06em;
+  }
+
+  .cal-mini table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .cal-mini th {
+    font-weight: 600;
+    color: var(--ink-3);
+    padding: 2px 0 6px;
+  }
+
+  .cal-mini td {
+    padding: 3px 0;
+    color: var(--ink-2);
+  }
+
+  .cal-mini td.today span {
+    display: inline-block;
+    min-width: 20px;
+    line-height: 20px;
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 50%;
+    font-weight: 600;
+  }
+
+  .cal-mini td.mute { color: var(--rule); }
+
+  /* ---- 往期时间线 ---- */
+  .tl {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .tl-row {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule-soft);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+  }
+
+  .tl-row:last-child { border-bottom: 0; }
+
+  .tl-row:hover { background: color-mix(in srgb, var(--accent) 6%, var(--paper)); }
+
+  .tl-day .d {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--accent-d);
+    line-height: 1;
+  }
+
+  .tl-day .l {
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .tl-title {
+    font-family: var(--serif-sc);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .tl-meta {
+    text-align: right;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .tl-meta .tags {
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  /* ---- 视频 / 字幕 ---- */
+  .video-frame {
+    display: block;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--paper-3);
+    box-shadow: var(--book-shadow);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .video-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .video-frame:hover img { transform: scale(1.03); }
+
+  .video-frame .play-badge {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(71, 47, 38, 0.18);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--paper);
+  }
+
+  .subtitle-excerpt {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    background: var(--paper-surface);
+  }
+
+  .subtitle-excerpt p {
+    margin: 0 0 1em;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  .subtitle-excerpt p:last-child { margin-bottom: 0; }
+
+  /* ---- Footer ---- */
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 0.8fr 140px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .foot-brand .zh {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  .foot-brand .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    margin-left: 8px;
+    color: var(--ink-2);
+  }
+
+  .foot-brand .tag {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .foot-brand .tag em {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  .foot-col h4 {
+    margin: 0 0 12px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-d);
+  }
+
+  .foot-col a {
+    display: block;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-2);
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+
+  .foot-col a:hover { color: var(--accent-d); }
+
+  .foot-colophon img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    display: block;
+  }
+
+  .foot-colophon .cap {
+    margin-top: 8px;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+
+  .foot-end {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .foot-end .top {
+    font-weight: 600;
+    color: var(--accent-d);
+  }
+
+  .foot-end .top:hover { text-decoration: underline; }
+
+  .hero-intro {
+    margin-top: var(--space-3);
+    max-width: 420px;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .hero-cta {
+    margin-top: var(--space-3);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .hero-cta a {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-d);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-cta a:hover { text-decoration: underline; }
+
+  .card .k {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    margin-bottom: var(--space-3);
+  }
+
+  .card .k .en-sub {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-d);
+    margin-left: 6px;
+  }
+
+  /* ---- List view：左栏日期列表 + 右栏正文 ---- */
+  .list-shell {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+
+  .list-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 76px);
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+
+  .list-sidebar {
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+    overflow-y: auto;
+    max-height: calc(100vh - 76px);
+  }
+
+  .list-sidebar-head {
+    padding: 20px 18px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+
+  .list-sidebar-head h1 {
+    margin: 0 0 6px;
+    font-family: var(--serif-sc);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .list-latest {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: color-mix(in srgb, var(--accent) 12%, var(--paper));
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+
+  .list-month-group {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .list-month {
+    width: 100%;
+    padding: 14px 18px 10px;
+    border: 0;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    text-align: left;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .list-month:hover {
+    color: var(--ink-2);
+    background: var(--paper-2);
+  }
+
+  .list-month .month-label { flex: 1; }
+
+  .list-month .month-chevron {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--accent-d);
+    transition: transform 0.2s ease;
+  }
+
+  .list-month-group.is-collapsed .list-month .month-chevron {
+    transform: rotate(-90deg);
+  }
+
+  .list-month-body {
+    overflow: hidden;
+    transition: max-height 0.28s ease, opacity 0.2s ease;
+    max-height: 800px;
+    opacity: 1;
+  }
+
+  .list-month-group.is-collapsed .list-month-body {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .list-day {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .list-day:hover { background: var(--paper-2); }
+
+  .list-day.is-active {
+    background: color-mix(in srgb, var(--accent) 10%, var(--paper));
+    border-left: 3px solid var(--accent);
+    padding-left: 15px;
+  }
+
+  .list-day .d-num {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent-d);
+    line-height: 1;
+  }
+
+  .list-day .d-sub {
+    font-size: 10px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  .list-day .d-title {
+    font-family: var(--serif-sc);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .list-day .d-meta {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  .list-main {
+    padding: 32px 40px 48px;
+    background: var(--paper);
+    overflow-y: auto;
+    max-height: calc(100vh - 76px);
+  }
+
+  .list-main .vol {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--accent-d);
+    margin-bottom: 12px;
+  }
+
+  .list-main h2 {
+    margin: 0 0 8px;
+    font-family: var(--serif-sc);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .list-main .lead {
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.75;
+    margin: 20px 0 28px;
+    max-width: 640px;
+  }
+
+  .list-article-card {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    background: var(--paper-surface);
+    margin-bottom: 14px;
+  }
+
+  .list-article-card h3 {
+    margin: 0 0 10px;
+    font-family: var(--serif-sc);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .list-article-card p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  .list-main-actions {
+    margin-top: 24px;
+  }
+
+  .list-main-actions a {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-d);
+    border-bottom: 1.5px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  /* ---- Detail view ---- */
+  .detail-hero {
+    padding: var(--space-5) 0 var(--space-4);
+  }
+
+  .detail-hero h1 {
+    margin: 0;
+    font-family: var(--serif-sc);
+    font-size: 34px;
+    line-height: 1.35;
+    max-width: 720px;
+  }
+
+  .detail-block {
+    margin: var(--space-4) 0;
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .detail-block h2 {
+    font-family: var(--serif-sc);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 var(--space-2);
+    color: var(--ink);
+  }
+
+  /* 敲黑板：精简重点 */
+  .blackboard {
+    position: relative;
+    background: var(--paper-surface);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: 0 2px 10px rgba(71, 47, 38, 0.06);
+  }
+
+  .blackboard > * { position: relative; z-index: 1; }
+
+  .blackboard .label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .blackboard ul {
+    margin: 0;
+    padding-left: 1.2em;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* 思维导图：放射状 + 语义连线 */
+  .mindmap {
+    position: relative;
+    min-height: 320px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+
+  .mindmap .mm-layer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 300px;
+  }
+
+  .mindmap svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .mm-edge {
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .mm-edge.is-strong {
+    stroke: var(--accent);
+    stroke-width: 2.8;
+  }
+
+  .mm-edge.is-medium {
+    stroke: color-mix(in srgb, var(--ink-2) 85%, var(--accent));
+    stroke-width: 1.8;
+  }
+
+  .mm-edge.is-weak {
+    stroke: var(--rule);
+    stroke-width: 1.2;
+    stroke-dasharray: 5 4;
+  }
+
+  .mm-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 96px;
+    max-width: 130px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--rule);
+    background: var(--paper-surface);
+    color: var(--ink);
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(71, 47, 38, 0.06);
+  }
+
+  .mm-kicker {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .mm-title {
+    font-family: var(--serif-sc);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+  }
+
+  .mm-node.is-core {
+    min-width: 120px;
+    max-width: 148px;
+    padding: 12px 14px;
+    border-width: 2px;
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 6%, var(--paper));
+    box-shadow: 0 4px 14px rgba(187, 76, 66, 0.12);
+  }
+
+  .mm-node.is-core .mm-kicker { color: var(--accent-d); }
+  .mm-node.is-core .mm-title { font-size: 15px; color: var(--accent-d); }
+
+  .mm-node.is-primary {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--rule));
+    background: var(--paper-2);
+  }
+
+  .mm-node.is-primary .mm-kicker { color: var(--accent-d); }
+  .mm-node.is-primary .mm-title { color: var(--ink); }
+
+  .mm-node.is-secondary {
+    border-style: dashed;
+    border-color: var(--rule);
+    background: var(--paper);
+  }
+
+  .mm-node.is-secondary .mm-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  /* ---- Footer ---- */
+  footer {
+    padding: var(--space-5) 0;
+    border-top: 2px solid var(--accent);
+    margin-top: var(--space-5);
+  }
+
+  .foot-ph {
+    min-height: 80px;
+    font-size: 11px;
+  }
+
+  /* ---- v0 标记 ---- */
+  .v0-badge {
+    position: fixed;
+    top: 88px;
+    left: 16px;
+    z-index: 9999;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 6px 10px;
+  }
+
+  /* ---- Tweaks ---- */
+  #tweaks-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10001;
+    padding: 10px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 0;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  #tweaks-panel {
+    position: fixed;
+    bottom: 64px;
+    right: 20px;
+    z-index: 10001;
+    width: 280px;
+    background: rgba(26, 26, 24, 0.95);
+    color: #fff;
+    padding: 16px;
+    font-family: var(--sans);
+    font-size: 13px;
+    display: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  #tweaks-panel.is-open { display: block; }
+
+  #tweaks-panel h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
+
+  #tweaks-panel label {
+    display: block;
+    margin: 10px 0 4px;
+    opacity: 0.75;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  #tweaks-panel select {
+    width: 100%;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body data-view="home" id="top">
+
+<div class="v0-badge">D1 Press · v1</div>
+
+<!-- data-component 供沟通命名，见文件末尾 COMPONENT MAP -->
+<header class="nav" data-component="site-header">
+  <div class="wrap nav-inner">
+    <a class="brand" id="site-logo" href="#top" aria-label="廖智强 Archie 首页" data-component="site-logo">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-text">
+        <span class="brand-zh">廖智强</span>
+        <span class="brand-en">Archie</span>
+      </span>
+    </a>
+    <nav class="links" data-component="primary-nav" aria-label="主导航">
+      <a href="#">知识图谱</a>
+      <a class="has-tip" href="#" data-goto="list">点我点我<span class="tip">点我点我～</span></a>
+      <a href="#">反馈</a>
+      <a href="#">关于我</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== VIEW: HOME ========== -->
+<div class="view view-home is-active" data-screen-label="01 Home">
+
+  <section class="hero" data-component="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-left">
+        <p class="kicker"><span class="kicker-zh">视频日记 · 生命之书</span></p>
+        <h1 class="display">
+          <span class="zh">廖智强</span>
+          <span class="en">Archie<span class="dot">.</span></span>
+        </h1>
+        <div class="tagline">
+          <span class="zh">记录就是生命的延续</span>
+          <span class="en">Recording is the continuation of life</span>
+        </div>
+        <p class="hero-intro">
+          视频日记 + 网络优质内容（当前以 AI 为主）的沉淀归档。像布面精装书一样，把每一天的所思所记钉进时间——已写到第 102 天，仍在日更。
+        </p>
+        <div class="hero-cta">
+          <a href="#featured-section" data-goto="list">进入日记列表 →</a>
+          <a href="#archive-section">浏览往期 →</a>
+        </div>
+      </div>
+      <figure class="book-hero">
+        <div class="plate-img">
+          <img id="hero-plate-img" src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="复古博物版画 · 新英格兰蝴蝶图版" />
+        </div>
+        <figcaption class="book-cap" id="hero-plate-cap">Plate III — <em>Butterflies of New England</em></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="band" data-component="status-band">
+    <div class="wrap band-inner">
+      <div class="clock-block">
+        <div class="lab">北京时间 · Beijing</div>
+        <div class="time"><span id="bj-time">--:--:--</span></div>
+        <div class="date" id="bj-date">正在校准…</div>
+      </div>
+      <div class="day-center">
+        <div class="eyebrow">视频日记</div>
+        <div class="kicker-zh" style="font-size:18px;margin-top:8px">
+          第 <span class="folio" style="font-size:26px">102</span> 天
+        </div>
+        <div style="font-family:var(--sans);font-size:11px;color:var(--ink-3);margin-top:6px">Since 2026.03.14</div>
+      </div>
+      <div class="cal-mini">
+        <div class="cal-head">
+          <span class="m">June 2026</span>
+          <span>本月</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+            <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+            <tr><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
+            <tr><td>22</td><td>23</td><td>24</td><td class="today"><span>25</span></td><td>26</td><td>27</td><td>28</td></tr>
+            <tr><td>29</td><td>30</td><td class="mute">1</td><td class="mute">2</td><td class="mute">3</td><td class="mute">4</td><td class="mute">5</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section-featured" id="featured-section" data-component="featured-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>精选入口</h2>
+        <span class="kicker-en">Selected · Folio</span>
+      </div>
+      <div class="cards" data-component="featured-cards">
+        <a class="card is-link" href="#" data-goto="list" data-select-day="99">
+          <div class="k">最新一期 <span class="en-sub">Latest</span> · <span class="folio">099</span></div>
+          <h3>成长会自动消解很多难题</h3>
+          <div class="card-meta">Day 99 · 2026-06-05 · 人生 · 认知 · 原创</div>
+          <span class="card-more">阅读这一期 →</span>
+        </a>
+        <a class="card is-link is-pick" href="#" data-goto="detail">
+          <div class="k">编辑精选 <span class="en-sub">Pick</span> · <span class="folio">094</span></div>
+          <h3>一个比喻讲透 AI 与人的关系</h3>
+          <div class="card-meta">Day 94 · 2026-05-31 · AI · 认知 · 观点</div>
+          <span class="card-more">阅读这一期 →</span>
+        </a>
+        <div class="card">
+          <div class="k">本周热门 <span class="en-sub">Trending</span></div>
+          <ul class="hot-list">
+            <li><span class="rank">1</span><span>成长会自动消解很多难题<span class="h-d">Day 99 · 2026-06-05</span></span></li>
+            <li><span class="rank">2</span><span>一个比喻讲透 AI 与人的关系<span class="h-d">Day 94 · 2026-05-31</span></span></li>
+            <li><span class="rank">3</span><span>信息爆炸！别怕错过优质内容<span class="h-d">Day 96 · 2026-06-02</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-archive" id="archive-section" data-component="archive-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>往期日记</h2>
+        <span class="kicker-en">Archive · 14 Issues</span>
+      </div>
+      <div class="tl" id="archive-timeline" data-component="archive-timeline"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ========== VIEW: LIST（AI HOT 式左栏 + 右栏） ========== -->
+<div class="view view-list" data-screen-label="02 Posts List">
+  <div class="list-shell">
+    <div class="list-layout">
+      <aside class="list-sidebar">
+        <div class="list-sidebar-head">
+          <p class="kicker-zh">点我点我 · 视频日记</p>
+          <h1>日记列表</h1>
+          <div class="list-latest"><strong>最新</strong> · Day 99 · 2026-06-05</div>
+        </div>
+        <div id="list-months-root"></div>
+      </aside>
+      <main class="list-main" id="list-main">
+        <div class="vol" id="list-vol">VOL.2026.06.05 · DAY 99</div>
+        <h2 id="list-title">成长会自动消解很多难题</h2>
+        <p class="kicker-zh" id="list-tags" style="font-size:12px;color:var(--ink-3)">人生 · 认知 · 原创</p>
+        <p class="lead" id="list-lead">成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。</p>
+        <div class="list-article-card">
+          <h3>敲黑板 · 本期重点</h3>
+          <p id="list-snippet">成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。</p>
+        </div>
+        <div class="list-main-actions">
+          <a href="#" data-goto="detail">阅读完整详情 →</a>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ========== VIEW: DETAIL ========== -->
+<div class="view view-detail" data-screen-label="03 Post Detail">
+  <div class="wrap">
+    <div class="detail-hero">
+      <p class="eyebrow"><a href="#" data-goto="list" style="color:var(--ink-2)">← 返回列表</a></p>
+      <p class="eyebrow" style="margin-top:16px">Day <span class="folio">94</span> · 2026-05-31</p>
+      <h1>一个比喻讲透 AI 与人的关系</h1>
+      <p style="font-family:var(--sans);font-size:13px;color:var(--ink-3);margin-top:12px">AI · 认知 · 观点</p>
+    </div>
+    <div class="detail-block">
+      <h2>敲黑板</h2>
+      <div class="blackboard">
+        <div class="label">本期精简重点</div>
+        <ul>
+          <li>罗振宇提出：AI 与人是「内嵌」——像猎犬与人共同狩猎，不能在家甩手指令就指望猎物归来。</li>
+          <li>手机与人同理：彼此塑造、难以分离；工具越强，越要想清楚「望向哪里」。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="detail-block">
+      <h2>思维导图</h2>
+      <div class="mindmap" aria-label="思维导图" data-component="mindmap">
+        <div class="mm-layer">
+          <svg viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true">
+            <!-- 中心 → 分支；strong=直接论证 medium=同层延伸 weak=应用层 -->
+            <line class="mm-edge is-strong" x1="300" y1="150" x2="138" y2="75" />
+            <line class="mm-edge is-strong" x1="300" y1="150" x2="462" y2="75" />
+            <line class="mm-edge is-medium" x1="300" y1="150" x2="120" y2="225" />
+            <line class="mm-edge is-weak" x1="300" y1="150" x2="480" y2="225" />
+          </svg>
+          <span class="mm-node is-core" style="left:50%;top:50%">
+            <span class="mm-kicker">中心议题</span>
+            <span class="mm-title">AI 与人的关系</span>
+          </span>
+          <span class="mm-node is-primary" style="left:23%;top:25%">
+            <span class="mm-kicker">核心隐喻</span>
+            <span class="mm-title">猎犬与人狩猎</span>
+          </span>
+          <span class="mm-node is-primary" style="left:77%;top:25%">
+            <span class="mm-kicker">类比延伸</span>
+            <span class="mm-title">手机内嵌</span>
+          </span>
+          <span class="mm-node is-secondary" style="left:20%;top:75%">
+            <span class="mm-kicker">协作原则</span>
+            <span class="mm-title">内嵌而非替代</span>
+          </span>
+          <span class="mm-node is-secondary" style="left:80%;top:75%">
+            <span class="mm-kicker">落地校验</span>
+            <span class="mm-title">真实场景校验</span>
+          </span>
+        </div>
+      </div>
+      <p style="font-family:var(--sans);font-size:11px;color:var(--ink-3);margin-top:10px">连线：实线粗=强关联 · 细实线=中等 · 虚线=弱/远层</p>
+    </div>
+    <div class="detail-block">
+      <h2>视频</h2>
+      <a class="video-frame" href="https://space.bilibili.com/24473971" target="_blank" rel="noopener noreferrer">
+        <img src="assets/img/vintage_moth_lithograph_Butterflies_and_moths__Plate_XX.jpg" alt="视频封面 · 天蛾博物版画" />
+        <span class="play-badge">在 B 站观看 ↗</span>
+      </a>
+    </div>
+    <div class="detail-block">
+      <h2>字幕摘录</h2>
+      <div class="subtitle-excerpt">
+        <p>今天我看罗振宇，提出了一个新的概念，就是在 AI 时代，AI 与人的关系到底是什么——AI 既不是简单地替代人类，也不是和人类进行一种简单的合作，他提出了一个新的概念，叫做人与 AI 互相的内嵌。</p>
+        <p>比如在远古时代的狩猎时期，一个人如果会驯化猎犬，那么他的能力就一定比那些没有猎犬的人更强。人跟猎犬必须要同时在场——如果离了谁，单独一个都没办法完成这一场狩猎。</p>
+        <p>不要指望给一个指令，然后让 AI 就完成了所有的任务。另外内嵌的例子就是手机跟人的关系：现在的人肯定没有办法离开手机，而人也在不断改变手机、创造手机、增进它的功能。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer data-component="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div><span class="zh">廖智强</span><span class="en">Archie</span></div>
+        <div class="tag">记录就是生命的延续。<em>Recording is the continuation of life.</em></div>
+      </div>
+      <div class="foot-col">
+        <h4>站内 · Site</h4>
+        <a href="#">知识图谱</a>
+        <a href="#" data-goto="list">视频日记</a>
+        <a href="#">反馈</a>
+        <a href="#">关于我</a>
+      </div>
+      <div class="foot-col">
+        <h4>关注 · Elsewhere</h4>
+        <a href="https://space.bilibili.com/24473971" target="_blank" rel="noopener noreferrer">哔哩哔哩 ↗</a>
+        <a href="https://github.com/Archie-Liao" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank" rel="noopener noreferrer">小红书 ↗</a>
+      </div>
+      <div class="foot-colophon">
+        <img src="assets/img/antique_botanical_illustration_plate_Botanical_extracts.jpg" alt="植物图录扉页" />
+        <div class="cap">Botanical Extracts<br/>Public Domain Plate</div>
+      </div>
+    </div>
+    <div class="foot-end">
+      <span>© 2026 廖智强 Archie · 生命之书 · 自 2026 年 3 月 14 日起日更</span>
+      <a class="top" href="#top">回到顶部 ↑</a>
+    </div>
+  </div>
+</footer>
+
+<button type="button" id="tweaks-fab" aria-expanded="false" aria-controls="tweaks-panel">Tweaks</button>
+<div id="tweaks-panel" role="dialog" aria-label="设计参数">
+  <h3>Tweaks</h3>
+  <label for="tw-view">视图</label>
+  <select id="tw-view">
+    <option value="home">Home 首页</option>
+    <option value="list">Posts 列表</option>
+    <option value="detail">Post 详情 Day94</option>
+  </select>
+  <label for="tw-warhol">Warhol 网点</label>
+  <select id="tw-warhol">
+    <option value="0.05">淡</option>
+    <option value="0.11" selected>中（默认）</option>
+    <option value="0.18">明显</option>
+    <option value="0">关</option>
+  </select>
+  <p style="margin-top:14px;font-size:11px;opacity:.6;line-height:1.5">
+    <strong>Warhol 网点</strong>：赤陶色圆点纹理，Andy Warhol 丝印风；叠在页面上方，用「明显」最易辨认。<br>
+    Hero 色块与图版每次刷新随机。素材见 assets/img/README.md
+  </p>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+
+  var POSTS = [
+    { id: '99', title: '成长会自动消解很多难题', date: '2026-06-05', tags: '人生 · 认知 · 原创', month: '2026-06', lead: '成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。', snippet: '成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。' },
+    { id: '98', title: '学会用筷子，却发现没菜可夹', date: '2026-06-04', tags: 'AI · 方法 · 原创', month: '2026-06', lead: '会用 AI 工具不等于有场景可练——如同学会用筷子，却发现桌上没菜可夹。', snippet: '工具先行、场景滞后：AI 能力需要真实任务与反馈闭环才能长出来。' },
+    { id: '97', title: '手机被忽视，AI正在重蹈覆辙', date: '2026-06-03', tags: 'AI · 社会 · 观点', month: '2026-06', lead: '智能手机早期也曾被低估；AI 产品化正在重复「技术很强、体验很弱」的老路。', snippet: '历史不会简单重复，但会押着相似的韵脚——忽视用户场景的产品很难走远。' },
+    { id: '96', title: '信息爆炸！别怕错过优质内容', date: '2026-06-02', tags: '认知 · 方法 · 原创', month: '2026-06', lead: '信息过载时代，接受「必然错过」比强迫全读更理性——用筛选机制代替焦虑。', snippet: '建立个人过滤器：主题订阅 + 定期复盘，比 FOMO 更可持续。' },
+    { id: '95', title: '西西弗少儿区，原来我看错了', date: '2026-06-01', tags: '随想 · 记录 · 原创', month: '2026-06', lead: '对西西弗少儿区的再认识：先入为主的判断需要被真实体验修正。', snippet: '逛书店也是一次认知更新——别用旧标签替新事实。' },
+    { id: '94', title: '一个比喻讲透AI与人的关系', date: '2026-05-31', tags: 'AI · 认知 · 观点', month: '2026-05', lead: 'AI 与人是「内嵌」关系：猎犬与人、手机与人——不是简单替代，也不能甩手协作。', snippet: 'AI 像望远镜：放大信息与算力，但不能替代你的价值判断与方向感。' },
+    { id: '93', title: '踩了两个坑，总结出两大洞见', date: '2026-05-30', tags: '复盘 · 方法 · 原创', month: '2026-05', lead: '两次踩坑后的两条可复用洞见：先验证假设，再放大投入。', snippet: '小步试错 + 及时复盘，比一次押注大而全更省时间。' },
+    { id: '92', title: '津巴多心理学，高效记忆两大妙招', date: '2026-05-29', tags: '认知 · 方法 · 书籍', month: '2026-05', lead: '从津巴多心理学提炼两条记忆策略：间隔重复与主动提取。', snippet: '记笔记不是终点——能复述、能应用，才算进入长期记忆。' },
+    { id: '91', title: 'AI学知识套路居然和人类一样', date: '2026-05-28', tags: 'AI · 认知 · 原创', month: '2026-05', lead: 'AI 学知识的套路与人类惊人相似：示例、反馈、迁移，本质都是统计+经验。', snippet: '理解 AI 的学习方式，反过来能优化人类自己的学习路径。' },
+    { id: '90', title: '读书是攒经验，并非一朝挖出黄金', date: '2026-05-27', tags: '认知 · 方法 · 原创', month: '2026-05', lead: '读书是攒经验，不是指望一次挖出黄金——复利在认知上同样成立。', snippet: '把阅读变成行动清单，比囤积划线更有价值。' },
+    { id: '89', title: '十周年新品！得到大脑优缺点盘点', date: '2026-05-26', tags: 'AI · 商业 · 观点', month: '2026-05', lead: '得到大脑十周年：梳理产品优缺点，看 AI 知识服务的边界在哪里。', snippet: '工具再强，也要回答「为谁、在什么场景、解决什么决策」。' },
+    { id: '88', title: '想练好表达？一定要多和真人交流', date: '2026-05-25', tags: '自媒体 · 方法 · 原创', month: '2026-05', lead: '练好表达要多和真人交流——AI 对练补不了现场反馈与情绪张力。', snippet: '表达是双向的：听众的反应，才是校准语气和结构的仪表盘。' },
+    { id: '87', title: 'LPL对决！涅槃组以下克上战胜登峰组', date: '2026-05-24', tags: '随想 · 记录', month: '2026-05', lead: 'LPL 涅槃组逆袭的随想：弱势阵容也能靠协作与节奏赢下强敌。', snippet: '竞技与创作一样——体系与心态，有时比资源更重要。' },
+    { id: '86', title: '困住创作的三条枷锁，看完豁然开朗', date: '2026-05-23', tags: '自媒体 · 方法 · 原创', month: '2026-05', lead: '困住自媒体创作的三条枷锁：完美主义、比较焦虑、缺反馈闭环。', snippet: '先发布再迭代；用真实数据而不是想象观众来改内容。' }
+  ];
+
+  var HERO_PALETTE = ['#BB4C42', '#C87466', '#D4A574', '#8B7355', '#7A9E7E', '#6B8CAE', '#B8860B'];
+
+  var HERO_PLATES = [
+    { src: 'assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg', cap: 'Plate III — <em>Butterflies of New England</em>', alt: '新英格兰蝴蝶标本图版' },
+    { src: 'assets/img/bhl_butterflies_new_england_plate.jpg', cap: 'Scudder — <em>Butterflies of the East</em>', alt: 'BHL 蝴蝶图版' },
+    { src: 'assets/img/bhl_insect_plate_engraving.jpg', cap: 'BHL — Insect Engraving Plate', alt: 'BHL 昆虫版画' },
+    { src: 'assets/img/bhl_moth_transformation_plate.jpg', cap: 'BHL — Moth Transformation', alt: 'BHL 蛾类变态图' },
+    { src: 'assets/img/vintage_moth_lithograph_Butterflies_and_moths__Plate_XX.jpg', cap: 'Plate XX — Death&rsquo;s-head Hawkmoth', alt: '天蛾博物版画' },
+    { src: 'assets/img/Pieris_butterfly_plate_Pieris_wollastoni-PD.png', cap: 'Pieris wollastoni — Specimen Plate', alt: '粉蝶标本 PNG' },
+    { src: 'assets/img/botanical_redoute_rose_pontiana.jpg', cap: 'Redouté — <em>Rosa gallica pontiana</em>', alt: 'Redouté 玫瑰图版' },
+    { src: 'assets/img/botanical_redoute_regalis.jpg', cap: 'Redouté — <em>Rosa gallica regalis</em>', alt: 'Redouté 蔷薇图版' },
+    { src: 'assets/img/antique_botanical_illustration_plate_Botanical_extracts.jpg', cap: 'Botanical Extracts — Curtis Plate', alt: '植物提取图版' },
+    { src: 'assets/img/bhl_ferns_botanical_plate.jpg', cap: 'BHL — Ferns Botanical Plate', alt: 'BHL 蕨类植物' },
+    { src: 'assets/img/bhl_gould_bird_plate.jpg', cap: 'Gould — Ornithological Plate', alt: 'Gould 鸟类图版' },
+    { src: 'assets/img/bhl_curtis_botanical_magazine_plate.jpg', cap: 'Curtis&rsquo;s Botanical Magazine', alt: 'Curtis 植物杂志' }
+  ];
+
+  function initHero() {
+    document.documentElement.style.setProperty('--hero-blob-color', HERO_PALETTE[Math.floor(Math.random() * HERO_PALETTE.length)]);
+    var plate = HERO_PLATES[Math.floor(Math.random() * HERO_PLATES.length)];
+    var img = document.getElementById('hero-plate-img');
+    var cap = document.getElementById('hero-plate-cap');
+    if (img) { img.src = plate.src; img.alt = plate.alt; }
+    if (cap) { cap.innerHTML = plate.cap; }
+  }
+
+  function renderArchive() {
+    var root = document.getElementById('archive-timeline');
+    if (!root) return;
+    root.innerHTML = POSTS.map(function (p) {
+      return '<a class="tl-row" href="#" data-goto="list" data-select-day="' + p.id + '">' +
+        '<span class="tl-day"><span class="d">' + p.id + '</span><span class="l">Day</span></span>' +
+        '<span class="tl-title">' + p.title + '</span>' +
+        '<span class="tl-meta"><span class="date">' + p.date + '</span><span class="tags">' + p.tags + '</span></span></a>';
+    }).join('');
+  }
+
+  function renderListMonths() {
+    var root = document.getElementById('list-months-root');
+    if (!root) return;
+    var months = [
+      { key: '2026-06', label: '2026 年 6 月' },
+      { key: '2026-05', label: '2026 年 5 月' }
+    ];
+    root.innerHTML = months.map(function (m) {
+      var items = POSTS.filter(function (p) { return p.month === m.key; });
+      var rows = items.map(function (p) {
+        var sub = p.date.slice(5);
+        return '<div class="list-day" data-id="' + p.id + '" data-title="' + p.title + '" data-date="' + p.date + '" data-tags="' + p.tags + '">' +
+          '<div><div class="d-num">' + p.id + '</div><div class="d-sub">' + sub + '</div></div>' +
+          '<div><div class="d-title">' + p.title + '</div><div class="d-meta">Day ' + p.id + '</div></div></div>';
+      }).join('');
+      return '<div class="list-month-group is-open" data-component="list-month-group">' +
+        '<button type="button" class="list-month" aria-expanded="true" aria-controls="month-' + m.key + '">' +
+        '<span class="month-label">' + m.label + '</span><span class="month-chevron" aria-hidden="true">▾</span></button>' +
+        '<div class="list-month-body" id="month-' + m.key + '">' + rows + '</div></div>';
+    }).join('');
+    bindListDays();
+    bindMonthGroups();
+    selectListDay('99');
+  }
+
+  function getPost(id) {
+    for (var i = 0; i < POSTS.length; i++) {
+      if (POSTS[i].id === String(id)) return POSTS[i];
+    }
+    return POSTS[0];
+  }
+
+  function selectListDay(id) {
+    var p = getPost(id);
+    document.querySelectorAll('.list-day').forEach(function (r) {
+      r.classList.toggle('is-active', r.dataset.id === String(id));
+    });
+    document.getElementById('list-vol').textContent = 'VOL.' + p.date.replace(/-/g, '.') + ' · DAY ' + p.id;
+    document.getElementById('list-title').textContent = p.title;
+    document.getElementById('list-tags').textContent = p.tags;
+    document.getElementById('list-lead').textContent = p.lead;
+    document.getElementById('list-snippet').textContent = p.snippet;
+  }
+
+  function bindListDays() {
+    document.querySelectorAll('.list-day').forEach(function (row) {
+      row.addEventListener('click', function () { selectListDay(row.dataset.id); });
+    });
+  }
+
+  function bindMonthGroups() {
+    document.querySelectorAll('.list-month-group').forEach(function (group) {
+      var btn = group.querySelector('.list-month');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var collapsed = group.classList.toggle('is-collapsed');
+        group.classList.toggle('is-open', !collapsed);
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+  }
+
+  function initBeijingClock() {
+    var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    var elT = document.getElementById('bj-time');
+    var elD = document.getElementById('bj-date');
+    if (!elT || !elD) return;
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var bj = new Date(utc + 8 * 3600000);
+      elT.textContent = pad(bj.getHours()) + ':' + pad(bj.getMinutes()) + ':' + pad(bj.getSeconds());
+      elD.textContent = bj.getFullYear() + '年' + (bj.getMonth() + 1) + '月' + bj.getDate() + '日 · ' + WEEK[bj.getDay()];
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  initHero();
+  renderArchive();
+  renderListMonths();
+  initBeijingClock();
+
+  function setView(v, selectDay) {
+    body.dataset.view = v;
+    document.querySelectorAll('.view').forEach(function (el) {
+      el.classList.toggle('is-active', el.classList.contains('view-' + v));
+    });
+    var sel = document.getElementById('tw-view');
+    if (sel) sel.value = v;
+    if (v === 'list' && selectDay) selectListDay(selectDay);
+    window.scrollTo(0, 0);
+  }
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      var day = el.getAttribute('data-select-day');
+      setView(el.getAttribute('data-goto'), day || null);
+    });
+  });
+
+  document.getElementById('tw-view').addEventListener('change', function (e) {
+    setView(e.target.value);
+  });
+
+  document.getElementById('tw-warhol').addEventListener('change', function (e) {
+    document.documentElement.style.setProperty('--warhol-opacity', e.target.value);
+  });
+
+  var fab = document.getElementById('tweaks-fab');
+  var panel = document.getElementById('tweaks-panel');
+  fab.addEventListener('click', function () {
+    var open = panel.classList.toggle('is-open');
+    fab.setAttribute('aria-expanded', open);
+  });
+})();
+</script>
+
+<!--
+  COMPONENT MAP（沟通用英文名）
+  site-header      顶栏 header.nav
+  site-logo        左上角字标 a#site-logo.brand
+  primary-nav      主导航 nav.links
+  hero             首屏 section.hero
+  status-band      窄条 div.band
+  featured-section 精选入口 section.section-featured
+  featured-cards   三卡 div.cards
+  archive-section  往期 section.section-archive
+  blackboard       敲黑板 div.blackboard
+  list-month-group  列表月份折叠组 div.list-month-group
+  list-month        月份栏按钮 button.list-month
+  mindmap           思维导图 div.mindmap
+  site-footer      页脚 footer
+-->
+
+</body>
+</html>

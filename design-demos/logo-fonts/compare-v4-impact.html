@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo v4 · 古意字标 · 冲击向探索</title>
+<!--
+  Assumptions（Archie 2026-06-25 确认）：
+  1. 中文古意/字标优先（A），英文 Playfair 暂占位
+  2. 刀隶 = 对照基准，新候选同赛道（非 WPS 正文宋）
+  3. 颜色可大胆（含血红）；视觉冲击 > 固定色值
+  4. 参考：Awwwards 中文排版（Mason Wong / Wewe Liu retro）、米兰设计奖「匾额/北魏楷」方向
+
+  四栏：
+  对照 · 刀隶 | G 齐伋木刻 | H 汇文压扁木刻 | I 马善政·匾额冲击
+-->
+<link rel="stylesheet" href="fonts/lxgw-neo-zhi-song/result.css" disabled />
+<style>
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/PlayfairDisplay-600-italic.woff2') format('woff2');
+    font-weight: 600; font-style: italic; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Alimama DaoLiTi';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-weight: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Huiwen-mincho';
+    src: url('fonts/Huiwenmincho-improved.woff2') format('woff2');
+    font-weight: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'QIJIC';
+    src: url('fonts/QijiCombo.woff2') format('woff2');
+    font-weight: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Ma Shan Zheng';
+    src: url('fonts/MaShanZheng-400.woff2') format('woff2');
+    font-weight: 400; font-display: swap;
+  }
+
+  :root {
+    --paper: #F5F0E8;
+    --paper-dark: #1a1210;
+    --ink-warm: #5A4F44;
+    --ink-print: #4A4238;
+    --blood: #A01414;
+    --blood-deep: #6B0F0F;
+    --blood-glow: rgba(160, 20, 20, 0.35);
+    --accent: #CC785C;
+    --rule: rgba(25, 25, 25, 0.12);
+    --serif-en: 'Playfair Display', Georgia, serif;
+    --sans: system-ui, 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: #191919;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero {
+    padding: 40px 32px 32px;
+    background: linear-gradient(165deg, #1a1210 0%, #2d1818 45%, #1a1210 100%);
+    color: #F5EDE0;
+    border-bottom: 3px solid var(--blood);
+  }
+  .hero .back { color: rgba(245,237,224,0.55); text-decoration: none; font-size: 13px; }
+  .hero .back:hover { color: #ff6b6b; }
+  .hero h1 {
+    font-family: 'Alimama DaoLiTi', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: 0.06em;
+    margin: 16px 0 8px;
+    color: #F5EDE0;
+    text-shadow: 0 0 40px var(--blood-glow);
+  }
+  .hero .sub { max-width: 720px; color: rgba(245,237,224,0.72); font-size: 14px; }
+  .hero .refs {
+    margin-top: 20px;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .hero .ref-pill {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border: 1px solid rgba(160,20,20,0.45);
+    color: #ffb4b4;
+    background: rgba(160,20,20,0.12);
+  }
+
+  .warn-open {
+    max-width: 960px;
+    margin: 24px 32px;
+    padding: 12px 16px;
+    font-size: 13px;
+    background: rgba(160,20,20,0.08);
+    border-left: 3px solid var(--blood);
+    color: var(--ink-print);
+  }
+  .warn-open code { font-size: 12px; }
+
+  section { padding: 0 32px 48px; }
+  section > h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin: 0 0 20px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.is-baseline { border-color: rgba(160,20,20,0.35); box-shadow: 0 0 0 1px rgba(160,20,20,0.15); }
+  .card-head { padding: 16px 18px 12px; border-bottom: 1px solid var(--rule); }
+  .card-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #888; }
+  .card-title { font-size: 17px; font-weight: 600; letter-spacing: 0.04em; margin: 4px 0; }
+  .card-ref { font-size: 11px; color: var(--blood); letter-spacing: 0.05em; margin-bottom: 6px; }
+  .card-desc { font-size: 12px; color: #666; line-height: 1.55; margin: 0; }
+
+  .duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 200px;
+  }
+  .duo-cell {
+    padding: 20px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+  }
+  .duo-cell + .duo-cell { border-left: 1px solid var(--rule); }
+  .duo-tag {
+    position: absolute;
+    top: 10px; left: 12px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .cell-cream { background: var(--paper); }
+  .cell-blood { background: var(--paper-dark); }
+  .cell-blood .duo-tag { color: #ffb4b4; opacity: 0.8; }
+
+  .wm { margin: 18px 0 0; line-height: 1; }
+  .wm .zh {
+    display: block;
+    font-size: clamp(2.5rem, 6vw, 3.4rem);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+  .wm .en {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 8px;
+    opacity: 0.45;
+    letter-spacing: 0.02em;
+  }
+  .cell-blood .wm .en { opacity: 0.35; color: #ccc; }
+
+  /* 对照 · 刀隶 */
+  .sample-a .zh { font-family: 'Alimama DaoLiTi', serif; font-weight: 400; }
+  .sample-a .cream .zh { color: var(--ink-print); }
+  .sample-a .blood .zh { color: #E8C4C4; text-shadow: 0 0 28px var(--blood-glow), 0 2px 0 var(--blood-deep); }
+
+  /* G · 齐伋木刻 */
+  .sample-g .zh { font-family: 'QIJIC', 'Huiwen-mincho', serif; font-weight: 400; letter-spacing: 0.02em; }
+  .sample-g .cream .zh { color: #3d3428; }
+  .sample-g .blood .zh { color: #F0D0D0; text-shadow: 0 0 24px rgba(200,40,40,0.4); }
+
+  /* H · 汇文压扁 */
+  .sample-h .zh-wrap { display: inline-block; transform: scaleX(0.68) scaleY(1.14); transform-origin: left center; }
+  .sample-h .zh { font-family: 'Huiwen-mincho', serif; letter-spacing: 0.1em; }
+  .sample-h .cream .zh { color: var(--ink-warm); }
+  .sample-h .blood .zh { color: var(--blood); filter: drop-shadow(0 0 12px var(--blood-glow)); }
+
+  /* I · 马善政匾额 */
+  .sample-i .zh { font-family: 'Ma Shan Zheng', cursive; font-size: clamp(2.8rem, 7vw, 3.8rem) !important; letter-spacing: 0.06em; }
+  .sample-i .cream .zh { color: var(--blood-deep); }
+  .sample-i .blood .zh { color: #ff4444; text-shadow: 0 0 32px rgba(255,60,60,0.45); }
+
+  .nav-preview {
+    padding: 12px 18px 16px;
+    border-top: 1px dashed var(--rule);
+    font-size: 12px;
+    color: #888;
+  }
+  .nav-preview .nav-zh { font-size: 1.05rem; margin-right: 6px; }
+
+  .note-block {
+    max-width: 960px;
+    margin: 32px 32px 48px;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+  }
+  .note-block strong { color: var(--blood-deep); }
+
+  .font-status {
+    max-width: 960px;
+    margin: 0 32px 24px;
+    padding: 12px 14px;
+    font-size: 12px;
+    border: 1px solid var(--rule);
+    background: #FFFDF8;
+  }
+  .font-status.ok { border-color: rgba(60,90,74,0.35); }
+  .font-status.warn { border-color: rgba(160,20,20,0.4); background: rgba(160,20,20,0.05); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <a class="back" href="index.html">← v2 古印刷 A/B/C</a>
+  <a class="back" href="compare-en-pairing.html" style="margin-left:14px">← v3（已作废·正文宋）</a>
+  <h1>廖智强</h1>
+  <p class="sub">
+    <strong>v4 · 古意字标 · 冲击向</strong> — 中文优先（A），刀隶作对照；同色票下对比<strong>暖墨 cream</strong>与<strong>纸底+血红 blood</strong>。
+    英文 Archie 暂弱化（Playfair 斜体、低透明度），不阻塞中文选字。
+  </p>
+  <div class="refs">
+    <span class="ref-pill">Ref · Awwwards Mason Wong 中文排版</span>
+    <span class="ref-pill">Ref · Awwwards Wewe Liu retro typography</span>
+    <span class="ref-pill">Ref · 米兰设计奖 匾额/北魏楷方向</span>
+    <span class="ref-pill">Ref · 图1 方笔结构 / 图2 木刻标题比例</span>
+  </div>
+</header>
+
+<div class="warn-open">
+  <strong>打开方式：</strong>请用 <code>cd design-demos && python -m http.server 8765</code>
+  → <code>http://127.0.0.1:8765/logo-fonts/compare-v4-impact.html</code>（勿 file:// 双击）。
+</div>
+
+<div class="font-status warn" id="font-status" role="status">
+  <strong>字体加载</strong> · 检测中…
+</div>
+
+<section>
+  <h2>Hero 四栏 · 每栏 cream / blood 双色</h2>
+  <div class="grid">
+
+    <article class="card is-baseline sample-a">
+      <div class="card-head">
+        <div class="card-label">对照</div>
+        <div class="card-title">刀隶体 · 爨宝子碑</div>
+        <div class="card-ref">你已选方向 · 基准线</div>
+        <p class="card-desc">阿里妈妈刀隶。方笔雁尾、朴茂倔犟。与 Playfair 异质——本页故意弱化英文，先看中文性格。</p>
+      </div>
+      <div class="duo">
+        <div class="duo-cell cell-cream cream">
+          <span class="duo-tag">cream · 暖墨</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+        <div class="duo-cell cell-blood blood">
+          <span class="duo-tag">blood · 血红</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+      </div>
+      <div class="nav-preview">nav · <span class="nav-zh" style="font-family:'Alimama DaoLiTi';color:#4A4238">廖智强</span><span style="font-family:var(--serif-en);font-style:italic;opacity:0.5">Archie</span></div>
+    </article>
+
+    <article class="card sample-g">
+      <div class="card-head">
+        <div class="card-label">候选 G</div>
+        <div class="card-title">齐伋复刻 · 木刻</div>
+        <div class="card-ref">对齐参考图 2 · 凌闵刻本</div>
+        <p class="card-desc">明代木版印刷复刻（OFL）。人文、刀刻、纸感颗粒——出版物气质，非 WPS 宋。</p>
+      </div>
+      <div class="duo">
+        <div class="duo-cell cell-cream cream">
+          <span class="duo-tag">cream</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+        <div class="duo-cell cell-blood blood">
+          <span class="duo-tag">blood</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+      </div>
+      <div class="nav-preview">nav · <span class="nav-zh" style="font-family:'QIJIC'">廖智强</span></div>
+    </article>
+
+    <article class="card sample-h">
+      <div class="card-head">
+        <div class="card-label">候选 H</div>
+        <div class="card-title">汇文 · 压扁木刻</div>
+        <div class="card-ref">v2-C 改良 · 参考图 2 比例</div>
+        <p class="card-desc">汇文明朝体 + scaleX 压扁。修长活字标题感；残破度低于纯 B，血红下测冲击。</p>
+      </div>
+      <div class="duo">
+        <div class="duo-cell cell-cream cream">
+          <span class="duo-tag">cream</span>
+          <h3 class="wm"><span class="zh-wrap"><span class="zh">廖智强</span></span><span class="en">Archie</span></h3>
+        </div>
+        <div class="duo-cell cell-blood blood">
+          <span class="duo-tag">blood</span>
+          <h3 class="wm"><span class="zh-wrap"><span class="zh">廖智强</span></span><span class="en">Archie</span></h3>
+        </div>
+      </div>
+      <div class="nav-preview">nav · <span class="nav-zh" style="font-family:'Huiwen-mincho';transform:scaleX(0.78);display:inline-block">廖智强</span></div>
+    </article>
+
+    <article class="card sample-i">
+      <div class="card-head">
+        <div class="card-label">候选 I · 实验</div>
+        <div class="card-title">马善政 · 匾额冲击</div>
+        <div class="card-ref">米兰奖「匾额书法」气质 · 偏戏剧</div>
+        <p class="card-desc">Google 马善政 — 匾额、招牌级冲击。接近「大字能量」，<strong>不是</strong>日常出版物流；供你要视觉锤时对比。</p>
+      </div>
+      <div class="duo">
+        <div class="duo-cell cell-cream cream">
+          <span class="duo-tag">cream</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+        <div class="duo-cell cell-blood blood">
+          <span class="duo-tag">blood</span>
+          <h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+        </div>
+      </div>
+      <div class="nav-preview">nav · <span class="nav-zh" style="font-family:'Ma Shan Zheng';color:var(--blood)">廖智强</span></div>
+    </article>
+
+  </div>
+</section>
+
+<div class="note-block">
+  <strong>怎么回我：</strong>
+  例如「G + blood 左栏」「刀隶 cream 但再 refined」「H 压扁再狠一点」「I 太戏剧不要」。
+  选定后我再进 React <code>SiteLogo</code>，并<strong>单开</strong>英文 pairing（不牺牲中文）。
+  <br><br>
+  <strong>作废：</strong> <a href="compare-en-pairing.html">v3 Noto/霞鹜/思源</a> = 正文宋路线，与需求冲突。
+</div>
+
+<script>
+(function () {
+  var SIZE = '64px';
+  var TEST = '廖智强';
+  var FALLBACK = 'SimSun, serif';
+  var FONTS = [
+    { name: 'Alimama DaoLiTi', label: '刀隶' },
+    { name: 'QIJIC', label: '齐伋木刻' },
+    { name: 'Huiwen-mincho', label: '汇文' },
+    { name: 'Ma Shan Zheng', label: '马善政' },
+    { name: 'Playfair Display', label: 'Archie' }
+  ];
+
+  function spec(family, weight) {
+    return (weight || 'normal') + ' ' + SIZE + ' "' + family + '"';
+  }
+
+  function visualOk(family, text, weight) {
+    var el = document.createElement('span');
+    el.style.cssText = 'position:absolute;left:-9999px;font-size:64px;white-space:nowrap';
+    el.textContent = text;
+    document.body.appendChild(el);
+    el.style.fontFamily = FALLBACK;
+    el.style.fontWeight = 'normal';
+    var w0 = el.getBoundingClientRect().width;
+    el.style.fontFamily = '"' + family + '", ' + FALLBACK;
+    el.style.fontWeight = weight || 'normal';
+    var w1 = el.getBoundingClientRect().width;
+    document.body.removeChild(el);
+    return Math.abs(w1 - w0) > 0.5;
+  }
+
+  function check(f) {
+    var test = f.name === 'Playfair Display' ? 'Archie' : TEST;
+    var w = f.name === 'Playfair Display' ? '600' : 'normal';
+    if (document.fonts && document.fonts.check(spec(f.name, w), test)) return true;
+    return visualOk(f.name, test, w);
+  }
+
+  function start() {
+    var loads = FONTS.map(function (f) {
+      var test = f.name === 'Playfair Display' ? 'Archie' : TEST;
+      var w = f.name === 'Playfair Display' ? '600' : 'normal';
+      return document.fonts.load(spec(f.name, w), test);
+    });
+    Promise.all(loads).then(function () {
+      var results = FONTS.map(check);
+      var allOk = results.every(Boolean);
+      var el = document.getElementById('font-status');
+      el.className = 'font-status ' + (allOk ? 'ok' : 'warn');
+      el.innerHTML = '<strong>字体加载</strong> · ' + FONTS.map(function (f, i) {
+        return (results[i] ? '✓' : '✗') + ' ' + f.label;
+      }).join(' · ') + (allOk ? '' : ' — 请用 http 打开；齐伋首次加载较慢');
+    }).catch(function () {
+      document.getElementById('font-status').textContent = '字体 API 不可用，请用 http 预览并以肉眼为准';
+    });
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { setTimeout(start, 500); });
+  } else {
+    window.addEventListener('load', function () { setTimeout(start, 800); });
+  }
+})();
+</script>
+</body>
+</html>

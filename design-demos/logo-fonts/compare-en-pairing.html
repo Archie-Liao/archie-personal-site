@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo 字体 v3 · 中英搭配 · 廖智强</title>
+<!--
+  v3 · 2026-06-25
+  背景：刀隶体与 Playfair Display 斜体气质冲突（方笔碑刻 vs 欧洲 Transitional 衬线）
+  本轮：3 个更偏「衬线系 / 出版物」的中文候选 + 现站刀隶对照
+  英文 Archie 固定 Playfair 600 italic（与 React 站一致）
+-->
+<link rel="stylesheet" href="fonts/lxgw-neo-zhi-song/result.css" />
+<link rel="stylesheet" href="fonts/sypxzs/result.css" />
+<style>
+  @font-face {
+    font-family: 'Noto Serif SC';
+    src: url('fonts/NotoSerifSC-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Noto Serif SC';
+    src: url('fonts/NotoSerifSC-600.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Noto Serif SC';
+    src: url('fonts/NotoSerifSC-500.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/PlayfairDisplay-600-italic.woff2') format('woff2');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Alimama DaoLiTi';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #F5F0E8;
+    --paper-2: #EFE7D8;
+    --ink: #191919;
+    --ink-warm: #5A4F44;
+    --ink-print: #4A4238;
+    --ink-soft: #6E6557;
+    --accent: #CC785C;
+    --rule: rgba(25, 25, 25, 0.12);
+    --serif-en: 'Playfair Display', Georgia, serif;
+    --serif-sc: 'Noto Serif SC', 'Songti SC', SimSun, serif;
+    --font-cuan: 'Alimama DaoLiTi', var(--serif-sc);
+    --font-lxgw: 'LXGW Neo ZhiSong', var(--serif-sc);
+    --font-display-han: 'Source Han Serif CN for Display', var(--serif-sc);
+    --sans: system-ui, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 36px 28px 64px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif-sc);
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    margin: 0 0 10px;
+  }
+
+  .intro, .need-info {
+    max-width: 820px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .intro strong, .need-info strong { color: var(--ink); }
+
+  .need-info {
+    padding: 14px 18px;
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    margin-bottom: 28px;
+  }
+  .need-info ul { margin: 8px 0 0; padding-left: 1.2em; }
+  .need-info li { margin-bottom: 6px; }
+
+  .font-status {
+    max-width: 960px;
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    border: 1px solid var(--rule);
+    background: #FFFDF8;
+    font-size: 13px;
+  }
+  .font-status.is-warn { border-color: rgba(180, 60, 40, 0.45); background: rgba(180, 60, 40, 0.08); }
+  .font-status.is-ok { border-color: rgba(60, 90, 74, 0.35); }
+  .font-status h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; }
+  .font-status ul { margin: 0; padding-left: 1.2em; color: var(--ink-soft); }
+  .font-status .ok { color: #3C5A4A; }
+  .font-status .fail { color: #B43C28; font-weight: 600; }
+
+  section { margin-bottom: 44px; }
+  section > h2 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1280px;
+  }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    padding: 18px 16px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.is-current { outline: 2px solid rgba(204, 120, 92, 0.45); outline-offset: -2px; }
+
+  .card-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+  .card-title { font-family: var(--serif-sc); font-weight: 600; font-size: 15px; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .card-ref { font-size: 11px; color: var(--accent); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .card-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 16px; flex: 1; }
+
+  .load-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 7px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    border-radius: 3px;
+    background: var(--paper-2);
+    color: var(--ink-soft);
+  }
+  .card.font-fail { outline: 2px dashed rgba(180, 60, 40, 0.55); outline-offset: -2px; }
+  .card.font-fail .load-badge { background: rgba(180, 60, 40, 0.12); color: #B43C28; }
+
+  .preview-hero {
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    min-height: 130px;
+  }
+  .wordmark { margin: 0; }
+  .wordmark .zh {
+    display: block;
+    font-size: 50px;
+    line-height: 1;
+    letter-spacing: 0.03em;
+  }
+  .wordmark .en {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: 0.005em;
+    margin-top: 8px;
+    margin-left: 2px;
+    color: var(--ink);
+  }
+
+  .preview-nav {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+  }
+  .preview-nav-label { font-size: 10px; letter-spacing: 0.12em; color: var(--ink-soft); margin-bottom: 6px; }
+  .nav-wordmark { display: inline-flex; align-items: baseline; gap: 8px; }
+  .nav-wordmark .zh { font-size: 1.05rem; }
+  .nav-wordmark .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .nav-wordmark .en::before {
+    content: '·';
+    margin-right: 8px;
+    font-style: normal;
+    opacity: 0.55;
+  }
+
+  /* 现站 · 刀隶 */
+  .sample-current .zh { font-family: var(--font-cuan); font-weight: 400; color: var(--ink-print); letter-spacing: 0.02em; }
+  .sample-current .nav-wordmark .zh { font-family: var(--font-cuan); font-size: 1.05rem; color: var(--ink-print); }
+
+  /* D · Noto 600 暖墨 */
+  .sample-d .zh { font-family: var(--serif-sc); font-weight: 600; color: var(--ink-print); letter-spacing: 0.06em; }
+  .sample-d .nav-wordmark .zh { font-family: var(--serif-sc); font-weight: 600; color: var(--ink-print); letter-spacing: 0.08em; }
+
+  /* E · 霞鹜新致宋 */
+  .sample-e .zh { font-family: var(--font-lxgw); font-weight: 400; color: var(--ink-print); letter-spacing: 0.04em; }
+  .sample-e .nav-wordmark .zh { font-family: var(--font-lxgw); color: var(--ink-warm); letter-spacing: 0.06em; }
+
+  /* F · 思源屏显臻宋 */
+  .sample-f .zh { font-family: var(--font-display-han); font-weight: 400; color: var(--ink-print); letter-spacing: 0.05em; }
+  .sample-f .nav-wordmark .zh { font-family: var(--font-display-han); color: var(--ink-warm); letter-spacing: 0.07em; }
+
+  .pairing-note {
+    max-width: 820px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 24px;
+    padding: 12px 16px;
+    background: rgba(60, 90, 74, 0.06);
+    border: 1px solid rgba(60, 90, 74, 0.15);
+  }
+
+  .meta { font-size: 12px; color: var(--ink-soft); max-width: 820px; margin-top: 28px; }
+  .meta code { font-size: 11px; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← v2 古印刷三路线（A/B/C）</a>
+<a class="back" href="../index.html" style="margin-left: 16px;">← design-demos</a>
+
+<h1>Logo 字体 v3 · 中英搭配</h1>
+<p class="intro">
+  你反馈<strong>刀隶体与英文 Playfair 不搭</strong>——这判断准确：刀隶是方笔碑刻（隶楷），Playfair 是欧洲 Transitional 衬线斜体，属于不同「字体文明」。
+  本轮 3 个候选都改走<strong>宋/衬线系</strong>，与 Archie 英文同屏时更协调；英文固定不动。
+</p>
+
+<div class="need-info">
+  <strong>打开方式（重要）：</strong>请用本地服务器，<strong>不要</strong>直接双击 file://。
+  <code>cd design-demos && python -m http.server 8765</code>
+  → <code>http://127.0.0.1:8765/logo-fonts/compare-en-pairing.html</code>
+  <br><br>
+  <strong>现在就能看，不必先补信息。</strong> 若要缩小范围，可选补充：
+  <ul>
+    <li><strong>中文气质</strong>：要更「古印刷铅字」还是更「现代出版物克制」？（默认两者都给你看了）</li>
+    <li><strong>英文是否可换</strong>：若 D/E/F 中文满意但 Archie 仍别扭，可第二轮试 Cormorant / Libre Baskerville（默认本轮不换）</li>
+    <li><strong>参考图</strong>：任意中英 lockup 截图 / 网站链接（比文字描述快）</li>
+    <li><strong>否决项</strong>：例如「不要仿宋」「不要过细」「不要像政府网站」</li>
+  </ul>
+</div>
+
+<div class="font-status is-warn" id="font-status" role="status">
+  <h3>字体加载检测 · 检测中…</h3>
+  <ul id="font-status-list"><li>验证本地 fonts/ …</li></ul>
+</div>
+
+<section aria-label="Hero 中英 lockup 对比">
+  <h2>Hero 大标题 · 四栏（现站刀隶 + 3 新候选）</h2>
+  <div class="grid">
+
+    <article class="card is-current sample-current" data-sample="current">
+      <span class="load-badge" data-badge="current">检测中…</span>
+      <div class="card-label">现站</div>
+      <div class="card-title">刀隶体</div>
+      <div class="card-ref">方笔碑刻 · 与 Playfair 异质</div>
+      <p class="card-desc">阿里妈妈刀隶体 · 你已反馈中英不搭。保留作对照，方便确认「问题在搭配不在字号」。</p>
+      <div class="preview-hero">
+        <h3 class="wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-d" data-sample="d">
+      <span class="load-badge" data-badge="d">检测中…</span>
+      <div class="card-label">候选 D</div>
+      <div class="card-title">Noto Serif · 600 暖墨</div>
+      <div class="card-ref">Playfair 同族衬线 · 最稳妥</div>
+      <p class="card-desc">
+        思源宋体 600 + 暖墨 #4A4238 + 略宽字距。<br>
+        解决「700 过黑」但不换字体文明；与 Playfair 同为经典出版物衬线。
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-e" data-sample="e">
+      <span class="load-badge" data-badge="e">检测中…</span>
+      <div class="card-label">候选 E</div>
+      <div class="card-title">霞鹜新致宋</div>
+      <div class="card-ref">复古铅印宋 · 有细节</div>
+      <p class="card-desc">
+        LXGW Neo ZhiSong · 比 Noto 多一层老铅印颗粒感，仍属宋系。<br>
+        SIL / IPA 授权 · 与 Playfair 粗细节奏较接近。
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-f" data-sample="f">
+      <span class="load-badge" data-badge="f">检测中…</span>
+      <div class="card-label">候选 F</div>
+      <div class="card-title">思源屏显臻宋</div>
+      <div class="card-ref">Display 宋 · 标题专用</div>
+      <p class="card-desc">
+        Source Han Serif CN for Display · Adobe 屏显宋，笔画为 Logo 级优化。<br>
+        比正文 Noto 更「标题感」，和 Playfair Display 定位一致。
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+  </div>
+
+  <p class="pairing-note">
+    <strong>怎么选：</strong>
+    先看 Hero 竖排「廖智强 + Archie」是否<strong>同一套杂志</strong>气质；
+    再看 nav 横排小字是否仍可读。
+    回复例如「D 最顺」「E 有味道但 nav 略糊」「F Hero 好 nav 换 D」——或混搭（Hero 用 F、nav 用 D）。
+  </p>
+</section>
+
+<p class="meta">
+  打开方式：<strong>请用</strong> <code>cd design-demos && python -m http.server 8765</code>
+  → <code>http://127.0.0.1:8765/logo-fonts/compare-en-pairing.html</code>（勿 file:// 双击）<br>
+  字体：<code>fonts/</code> 本地自托管（含 lxgw-neo-zhi-song、sypxzs 分片包）。选定后复制对应 woff2 / CSS 进 React 站。
+</p>
+
+<script>
+(function () {
+  var SIZE = '64px';
+  var TEST_ZH = '廖智强';
+  var TEST_EN = 'Archie';
+  var FALLBACK = 'SimSun, serif';
+
+  var CHECKS = [
+    { id: 'current', keys: ['Alimama DaoLiTi', '阿里妈妈刀隶体'], label: '刀隶体（现站）', card: '.sample-current' },
+    { id: 'd', keys: ['Noto Serif SC'], label: 'Noto Serif SC 600', card: '.sample-d', weight: '600' },
+    { id: 'e', keys: ['LXGW Neo ZhiSong'], label: '霞鹜新致宋', card: '.sample-e' },
+    { id: 'f', keys: ['Source Han Serif CN for Display'], label: '思源屏显臻宋', card: '.sample-f' },
+    { id: 'en', keys: ['Playfair Display'], label: 'Playfair Archie', card: null, test: TEST_EN }
+  ];
+
+  function fontSpec(family, weight) {
+    return (weight ? weight + ' ' : 'normal ') + SIZE + ' "' + family + '"';
+  }
+
+  function visualOk(family, text, weight) {
+    var el = document.createElement('span');
+    el.style.cssText = 'position:absolute;left:-9999px;font-size:' + SIZE + ';white-space:nowrap';
+    el.textContent = text;
+    document.body.appendChild(el);
+    el.style.fontFamily = FALLBACK;
+    el.style.fontWeight = 'normal';
+    var w0 = el.getBoundingClientRect().width;
+    el.style.fontFamily = '"' + family + '", ' + FALLBACK;
+    el.style.fontWeight = weight || 'normal';
+    var w1 = el.getBoundingClientRect().width;
+    document.body.removeChild(el);
+    return Math.abs(w1 - w0) > 0.5;
+  }
+
+  function checkItem(item) {
+    var test = item.test || TEST_ZH;
+    for (var i = 0; i < item.keys.length; i++) {
+      var spec = fontSpec(item.keys[i], item.weight);
+      if (document.fonts && document.fonts.check && document.fonts.check(spec, test)) return true;
+      if (visualOk(item.keys[i], test, item.weight)) return true;
+    }
+    return false;
+  }
+
+  function loadItem(item) {
+    var test = item.test || TEST_ZH;
+    return Promise.all(item.keys.map(function (k) {
+      return document.fonts.load(fontSpec(k, item.weight), test);
+    }));
+  }
+
+  function run(results) {
+    var list = document.getElementById('font-status-list');
+    var panel = document.getElementById('font-status');
+    var html = '';
+    var allOk = true;
+    CHECKS.forEach(function (item, i) {
+      var ok = results[i];
+      if (!ok) allOk = false;
+      html += '<li class="' + (ok ? 'ok' : 'fail') + '">' + (ok ? '✓' : '✗') + ' ' + item.label + '</li>';
+      if (item.card) {
+        var card = document.querySelector(item.card);
+        var badge = card && card.querySelector('[data-badge="' + item.id + '"]');
+        if (badge) {
+          badge.textContent = ok ? '✓ 已加载' : '✗ 未加载（系统回退）';
+          card.classList.toggle('font-fail', !ok);
+        }
+      }
+    });
+    if (!allOk) {
+      html += '<li class="fail"><strong>若仍 ✗：</strong>请确认用 <code>http://127.0.0.1:8765/...</code> 打开（非 file://）；确认 <code>fonts/</code> 完整。</li>';
+    }
+    list.innerHTML = html;
+    panel.classList.toggle('is-warn', !allOk);
+    panel.classList.toggle('is-ok', allOk);
+    panel.querySelector('h3').textContent = allOk ? '字体加载检测 · 全部 OK' : '字体加载检测 · 有字体未加载';
+  }
+
+  function start() {
+    if (!document.fonts || !document.fonts.load) {
+      run(CHECKS.map(checkItem));
+      return;
+    }
+    Promise.all(CHECKS.map(loadItem))
+      .then(function () { return CHECKS.map(checkItem); })
+      .then(run)
+      .catch(function () { run(CHECKS.map(checkItem)); });
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { setTimeout(start, 400); });
+  } else {
+    window.addEventListener('load', function () { setTimeout(start, 600); });
+  }
+})();
+</script>
+</body>
+</html>

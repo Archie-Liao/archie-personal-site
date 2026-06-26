@@ -1,0 +1,39 @@
+---
+description: 本项目规则存放分层 — AI 每次会话如何找到规范
+alwaysApply: true
+---
+
+# 项目规则放在哪 · 怎么进 AI 上下文
+
+## 三层（不要全堆进 .cursor/rules）
+
+| 层 | 位置 | 何时进 AI 上下文 | 放什么 |
+|----|------|------------------|--------|
+| **硬约束** | `.cursor/rules/*.mdc` 且 `alwaysApply: true` | **每次对话自动注入** | 短、稳定、全项目必守（如 gotchas、本文件） |
+| **按文件触发** | `.cursor/rules/*.mdc` 带 `globs:` | 打开/编辑匹配文件时 | 如 `src/**/*.tsx` 组件约定 |
+| **专题规范** | `docs/*.md`（如 `SUBTITLE-FORMAT.md`） | **不自动全文注入**；由 alwaysApply 规则 **点名路径**，或你 `@docs/...` | 可执行的详细规则 + 脚本路径 |
+| **进度与叙事** | `docs/STATUS.md`、`docs/sessions/` | 新任务约定先读 STATUS | 进行中的事，不是永久规范 |
+| **稳定需求** | `guidelines/` | 仅在你 `@` 或任务涉及时 | 产品需求；**少改** |
+
+## 回答你的两个问题
+
+1. **所有独特规则都会记在 `.cursor/rules/` 吗？**  
+   **不会。** 这里只放「短而必守」的索引与硬约束。**细则**写 `docs/`（字幕、Logo、部署…），由 gotchas 或本文件指向路径。
+
+2. **`.cursor/rules/` 每次启动都会进上下文吗？**  
+   **只有** frontmatter 里 `alwaysApply: true` 的文件会**每会话自动**加入。  
+   带 `globs` 的规则仅在相关文件在编辑器中时被加入。  
+   `docs/SUBTITLE-FORMAT.md` 等 **不会**自动全文注入——除非 alwaysApply 规则写了「处理字幕前先读该文件」，或你主动 `@docs/SUBTITLE-FORMAT.md`。
+
+## 新增一条「项目独特规则」时
+
+1. 能写成 3～10 条 bullet → 追加到合适的 `.cursor/rules/*.mdc`（或新建 + 设 `alwaysApply` / `globs`）
+2. 需要步骤、示例、脚本 → 写 `docs/主题-xxx.md`，并在 gotchas 或本文件加 **一行链接**
+3. 一次性决策 → `docs/sessions/` + `STATUS.md`「最近决策」
+4. **不要**指望「说过一次 AI 永远记得」——必须落盘到上述位置
+
+## 当前专题规范索引
+
+- 字幕排版：`docs/SUBTITLE-FORMAT.md` → `node scripts/format-subtitles.mjs`
+- 协作入口：`docs/STATUS.md`、`AGENTS.md`
+- Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`

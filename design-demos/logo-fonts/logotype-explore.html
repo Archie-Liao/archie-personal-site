@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo 字标探索 · 廖智强 · A+ 精致化</title>
+<!--
+  Junior pass · 基于你已选边界（方案 2 对齐后）：
+
+  Assumptions：
+  1. 骨架 = A 刀隶（Alimama DaoLiTi），不是换字体
+  2. 装饰档 = C：仅 ONE 字有一点图形化点缀，克制（非帝国坟场整字改造）
+  3. 字重混搭：廖 / 智 偏精致（暖墨、略收、匀）；强 保留刀隶力量 + 装饰
+  4. nav = 顶栏导航左侧小 Logo（全站每页顶部）；hero = 首页大标题。nav 用简化版（去装饰）
+  5. 英文 Archie 仍 Playfair 斜体；最终可导出 SVG 进 SiteLogo
+
+  三版差异（装饰落在不同字 / 不同母题）：
+  V1 · 强·雁尾 — 强字上方小三角 + 横画延长（刀隶雁尾放大）
+  V2 · 强·叶冠 — 强字顶饰：站点叶形印记缩小（呼应 benchmark 博物/生长）
+  V3 · 智·书卷 — 智字一点卷草饰（测试装饰是否更适合中间字）
+
+  Placeholder 说明：当前用「字体 + SVG 叠层」模拟字标；选定后可在 Figma 描矢量定稿。
+
+  *** 反例 · 已作废（2026-06-24）***
+  贴在外面的简笔画/图标 ≠ 字标设计。不再迭代本文件。
+  请用 FIGMA-LOGOTYPE-BRIEF.md 在 Figma 改字形轮廓。
+-->
+<style>
+  @font-face {
+    font-family: 'Alimama DaoLiTi';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/PlayfairDisplay-600-italic.woff2') format('woff2');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #F5F0E8;
+    --paper-2: #EFE7D8;
+    --ink: #191919;
+    --ink-soft: #5A4F44;
+    --ink-power: #3A342E;
+    --accent: #CC785C;
+    --accent-d: #B5612F;
+    --rule: rgba(25, 25, 25, 0.12);
+    --font-cuan: 'Alimama DaoLiTi', 'Songti SC', serif;
+    --font-en: 'Playfair Display', Georgia, serif;
+    --sans: system-ui, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 36px 28px 56px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: #6E6557;
+    text-decoration: none;
+  }
+  .back:hover { color: var(--accent); }
+
+  h1 {
+    font-family: var(--font-cuan);
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .intro {
+    max-width: 760px;
+    color: #6E6557;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .nav-note {
+    max-width: 760px;
+    padding: 12px 14px;
+    margin-bottom: 28px;
+    background: var(--paper-2);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: #6E6557;
+    line-height: 1.7;
+  }
+  .nav-note code { font-size: 12px; background: rgba(0,0,0,.05); padding: 1px 5px; border-radius: 3px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 1180px;
+  }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    padding: 18px 16px 16px;
+  }
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-family: var(--font-cuan);
+    font-size: 16px;
+    color: var(--ink-power);
+    margin-bottom: 6px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #6E6557;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    min-height: 52px;
+  }
+
+  .preview-block {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+  }
+  .preview-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #8A8278;
+    margin-bottom: 10px;
+  }
+
+  /* —— 字标核心 —— */
+  .logotype {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 0.06em;
+    line-height: 1;
+  }
+  .logotype .char {
+    font-family: var(--font-cuan);
+    display: inline-block;
+    position: relative;
+  }
+  .logotype .char--soft {
+    color: var(--ink-soft);
+    transform: scale(0.94, 1);
+    transform-origin: bottom center;
+    letter-spacing: 0.02em;
+  }
+  .logotype .char--power {
+    color: var(--ink-power);
+    transform: scale(1.02, 1.04);
+    transform-origin: bottom center;
+  }
+
+  .logotype--hero { font-size: 52px; }
+  .logotype--nav { font-size: 21px; letter-spacing: 0.1em; }
+  .logotype--nav .char--soft { transform: scale(1); opacity: 0.92; }
+  .logotype--nav .char--power { transform: scale(1); }
+  .logotype--nav .accent { display: none; }
+
+  .wordmark-en {
+    display: block;
+    font-family: var(--font-en);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.05;
+    margin-top: 6px;
+  }
+  .logotype--hero + .wordmark-en { font-size: 42px; margin-left: 2px; }
+  .logotype--nav + .wordmark-en { font-size: 17px; color: #6E6557; margin-top: 0; margin-left: 6px; display: inline; }
+
+  .nav-row {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+
+  /* V1 · 强·雁尾 */
+  .v1 .char--power .accent-yan {
+    position: absolute;
+    left: 50%;
+    top: -0.22em;
+    width: 0.36em;
+    height: 0.36em;
+    margin-left: -0.18em;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.2;
+    stroke-linejoin: round;
+  }
+  .v1 .char--power .accent-tail {
+    position: absolute;
+    right: -0.12em;
+    bottom: 0.08em;
+    width: 0.55em;
+    height: 0.12em;
+    background: var(--accent-d);
+    opacity: 0.85;
+    transform: skewX(-12deg);
+  }
+
+  /* V2 · 强·叶冠 */
+  .v2 .char--power .accent-leaf {
+    position: absolute;
+    left: 50%;
+    top: -0.28em;
+    width: 0.42em;
+    height: 0.42em;
+    margin-left: -0.21em;
+    color: var(--accent);
+  }
+
+  /* V3 · 智·书卷 */
+  .v3 .char--soft:nth-child(2) .accent-scroll {
+    position: absolute;
+    right: -0.08em;
+    top: 0.12em;
+    width: 0.28em;
+    height: 0.5em;
+    border: 1.5px solid var(--accent-d);
+    border-radius: 1px 3px 3px 1px;
+    opacity: 0.75;
+  }
+  .v3 .char--soft:nth-child(2) .accent-scroll::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .pick {
+    margin-top: 32px;
+    max-width: 760px;
+    padding: 16px 18px;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    font-size: 13px;
+    color: #6E6557;
+  }
+  .pick strong { color: var(--ink); }
+
+  .deprecated-banner {
+    max-width: 760px;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    border: 2px dashed rgba(180, 60, 40, 0.55);
+    background: rgba(180, 60, 40, 0.1);
+    font-size: 14px;
+    color: #6E6557;
+    line-height: 1.7;
+  }
+  .deprecated-banner strong { color: #B43C28; font-size: 15px; }
+  .deprecated-banner a { color: #3C5A4A; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← 返回字体小样</a>
+
+<div class="deprecated-banner" role="alert">
+  <strong>反例 · 已作废</strong><br>
+  本页是在刀隶字体上<strong>贴 SVG 简笔画</strong>，不是字标设计。请勿基于此迭代或选样。<br>
+  正确路径：<a href="FIGMA-LOGOTYPE-BRIEF.md">FIGMA-LOGOTYPE-BRIEF.md</a> → Figma 改轮廓 → 导出 SVG → <code>SiteLogo</code>。
+</div>
+
+<h1>Logo 字标 · A+ 精致化探索</h1>
+<p class="intro">
+  基于你选的边界：<strong>刀隶骨架</strong> · 装饰档 C（一字点缀）· 廖/智 精致 + 强 有力 · nav 简化版。
+  下面是 3 个可见方向，请选 V1 / V2 / V3 或混搭说明。
+</p>
+
+<div class="nav-note">
+  <strong>nav 是什么？</strong>
+  指网站<strong>顶栏导航</strong>左侧的小 Logo（每页顶部「廖智强 Archie」那一行），对应 React 里
+  <code>SiteLogo variant="nav"</code>。
+  首页中间超大标题叫 <strong>hero / hero-xl</strong>（<code>variant="hero-xl"</code>）。
+  你选了 nav 用<strong>简化版</strong>：去掉 Hero 上的装饰，小字更清晰。
+</div>
+
+<div class="grid">
+
+  <article class="card v1">
+    <div class="card-label">V1</div>
+    <div class="card-title">强 · 雁尾</div>
+    <p class="card-desc">强字顶小三角 + 横画雁尾延长。最贴刀隶/爨碑「方强外露」。</p>
+    <div class="preview-block">
+      <div class="preview-label">Hero 大标题</div>
+      <div class="logotype logotype--hero" aria-label="廖智强">
+        <span class="char char--soft">廖</span>
+        <span class="char char--soft">智</span>
+        <span class="char char--power">
+          强
+          <svg class="accent accent-yan" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 L11 10 H1 Z"/></svg>
+          <span class="accent accent-tail" aria-hidden="true"></span>
+        </span>
+      </div>
+      <span class="wordmark-en">Archie</span>
+      <div class="nav-row">
+        <span class="preview-label" style="width:100%;margin:0 0 4px">nav 顶栏（简化·无装饰）</span>
+        <div class="logotype logotype--nav">
+          <span class="char char--soft">廖</span><span class="char char--soft">智</span><span class="char char--power">强</span>
+        </div>
+        <span class="wordmark-en">Archie</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="card v2">
+    <div class="card-label">V2 · 推荐试</div>
+    <div class="card-title">强 · 叶冠</div>
+    <p class="card-desc">强字顶.site 同款叶饰缩小 — 精致 + 与 benchmark 博物/生长主题一致。</p>
+    <div class="preview-block">
+      <div class="preview-label">Hero 大标题</div>
+      <div class="logotype logotype--hero" aria-label="廖智强">
+        <span class="char char--soft">廖</span>
+        <span class="char char--soft">智</span>
+        <span class="char char--power">
+          强
+          <svg class="accent accent-leaf" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3 C7 8 7 16 12 21 C17 16 17 8 12 3 Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M12 6 V17" stroke="currentColor" stroke-width="0.9" opacity="0.7"/>
+          </svg>
+        </span>
+      </div>
+      <span class="wordmark-en">Archie</span>
+      <div class="nav-row">
+        <span class="preview-label" style="width:100%;margin:0 0 4px">nav 顶栏（简化·无装饰）</span>
+        <div class="logotype logotype--nav">
+          <span class="char char--soft">廖</span><span class="char char--soft">智</span><span class="char char--power">强</span>
+        </div>
+        <span class="wordmark-en">Archie</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="card v3">
+    <div class="card-label">V3</div>
+    <div class="card-title">智 · 书卷</div>
+    <p class="card-desc">装饰改落在「智」— 测试中间字点缀是否比强字更均衡（出版物/日记气质）。</p>
+    <div class="preview-block">
+      <div class="preview-label">Hero 大标题</div>
+      <div class="logotype logotype--hero" aria-label="廖智强">
+        <span class="char char--soft">廖</span>
+        <span class="char char--soft">
+          智
+          <span class="accent accent-scroll" aria-hidden="true"></span>
+        </span>
+        <span class="char char--power">强</span>
+      </div>
+      <span class="wordmark-en">Archie</span>
+      <div class="nav-row">
+        <span class="preview-label" style="width:100%;margin:0 0 4px">nav 顶栏（简化·无装饰）</span>
+        <div class="logotype logotype--nav">
+          <span class="char char--soft">廖</span><span class="char char--soft">智</span><span class="char char--power">强</span>
+        </div>
+        <span class="wordmark-en">Archie</span>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<div class="pick">
+  <strong>怎么回复：</strong>
+  「选 V1 / V2 / V3」或混搭（如「V2 叶冠 + V1 的雁尾但不要三角」）。
+  选定后我会把 Hero 定稿 SVG + nav 简化版写进 <code>SiteLogo</code>。
+</div>
+
+</body>
+</html>

@@ -6,9 +6,8 @@ interface SiteLogoProps {
 }
 
 /**
- * 站点字标 — 以「字体设计」为主：
- * 中文思源宋体加宽字距 + 英文 Fraunces 斜体，辅以一枚极简叶饰印记，
- * 呼应「记录 / 生长」与复古花鸟主题（克制、可读）。
+ * 站点字标 — 中文阿里妈妈刀隶体（小样 A）+ 英文 Playfair 斜体；
+ * nav 保留小叶饰印记。
  */
 export function SiteLogo({ variant = "nav" }: SiteLogoProps) {
   // Hero 区让字体本身成为主角（参考图1：纯字标，无图形干扰）；nav 保留小印记

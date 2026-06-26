@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo v5 · 高对比宋体 · 刀隶对照 + Ref4 定向</title>
+<!--
+  v5.2
+  · 对照：刀隶（用户要求保留，不可删）
+  · Ref-4 定向：思源屏显臻宋 + 竖排 lockup（只取 ref-4 字形/比例，色票用站点奶油纸）
+  · 候选 A–D：宋系差异对比（500 / 900 / 霞鹜 / 屏显横排）
+-->
+<link rel="stylesheet" href="fonts/lxgw-neo-zhi-song/result.css" />
+<link rel="stylesheet" href="fonts/sypxzs/result.css" />
+<style>
+  @font-face {
+    font-family: 'Logo-Daoli';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-weight: normal; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Logo-Noto-500';
+    src: url('fonts/NotoSerifSC-500.woff2') format('woff2');
+    font-weight: normal; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Logo-Noto-900';
+    src: url('fonts/NotoSerifSC-900.woff2') format('woff2');
+    font-weight: normal; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/PlayfairDisplay-600-italic.woff2') format('woff2');
+    font-weight: normal; font-style: italic; font-display: block;
+  }
+
+  :root {
+    --paper: #F5F0E8;
+    --paper-card: #FFFDF8;
+    --paper-2: #EFE7D8;
+    --ink: #191919;
+    --ink-warm: #5A4F44;
+    --ink-print: #4A4238;
+    --ink-soft: #6E6557;
+    --accent: #CC785C;
+    --rule: rgba(25, 25, 25, 0.12);
+    --serif-en: 'Playfair Display', Georgia, serif;
+    --sans: system-ui, 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 15px; line-height: 1.65; text-wrap: pretty;
+  }
+
+  .top { padding: 36px 32px 20px; max-width: 1280px; }
+  .back { font-size: 13px; color: var(--ink-soft); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: 0.04em; margin: 14px 0 8px; }
+  .intro { max-width: 760px; font-size: 14px; color: var(--ink-soft); margin: 0; }
+  .intro strong { color: var(--ink); }
+
+  .refs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    max-width: 1280px; margin: 24px 32px 0;
+  }
+  @media (max-width: 720px) { .refs { grid-template-columns: 1fr; } }
+  .ref-card { border: 1px solid var(--rule); background: var(--paper-card); overflow: hidden; }
+  .ref-card img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .ref-card figcaption {
+    padding: 12px 14px; font-size: 12px; color: var(--ink-soft); line-height: 1.55;
+    border-top: 1px solid var(--rule);
+  }
+  .ref-card figcaption b { display: block; font-size: 13px; color: var(--ink); margin-bottom: 4px; }
+  .ref-card.is-target { border-color: rgba(204, 120, 92, 0.45); box-shadow: 0 0 0 1px rgba(204, 120, 92, 0.12); }
+  .ref-card .tag {
+    display: inline-block; margin-top: 6px; padding: 2px 8px; font-size: 10px;
+    letter-spacing: 0.08em; background: var(--paper-2); color: var(--accent);
+  }
+
+  .warn {
+    max-width: 1280px; margin: 20px 32px 0; padding: 10px 14px; font-size: 12px;
+    color: var(--ink-soft); border-left: 3px solid var(--accent); background: rgba(204, 120, 92, 0.08);
+  }
+  .warn code { font-size: 11px; }
+
+  .font-status {
+    max-width: 1280px; margin: 16px 32px 0; padding: 12px 14px; font-size: 12px;
+    border: 1px solid var(--rule); background: var(--paper-card); line-height: 1.8;
+  }
+  .font-status.ok { border-color: rgba(60, 90, 74, 0.35); }
+  .font-status.bad { border-color: rgba(180, 60, 40, 0.5); background: rgba(180, 60, 40, 0.06); }
+  .font-status .fail { color: #B43C28; font-weight: 600; }
+  .font-status .ok-line { color: #3C5A4A; }
+
+  /* —— 主舞台：刀隶对照 vs Ref-4 定向 —— */
+  .spotlight {
+    max-width: 1280px; margin: 28px 32px 0;
+    display: grid; grid-template-columns: 1fr 1.35fr; gap: 16px;
+  }
+  @media (max-width: 900px) { .spotlight { grid-template-columns: 1fr; } }
+
+  .spot-card {
+    background: var(--paper-card); border: 1px solid var(--rule);
+    padding: 20px 18px 18px; min-height: 320px; display: flex; flex-direction: column;
+  }
+  .spot-card.is-baseline { background: rgba(25, 25, 25, 0.02); }
+  .spot-card.is-ref4 { border-color: rgba(204, 120, 92, 0.4); }
+  .spot-card.is-fail { outline: 2px dashed rgba(180, 60, 40, 0.55); outline-offset: -2px; }
+  .spot-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .spot-title { font-size: 16px; font-weight: 600; margin: 4px 0 6px; letter-spacing: 0.04em; }
+  .spot-diff { font-size: 11px; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.04em; }
+  .spot-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px; }
+
+  .spot-preview {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 16px 8px; border-top: 1px solid var(--rule);
+  }
+
+  /* 刀隶对照 */
+  .wm-daoli { text-align: center; margin: 0; }
+  .wm-daoli .zh {
+    font-family: 'Logo-Daoli', serif; font-size: 56px; line-height: 1;
+    letter-spacing: 0.03em; color: var(--ink-print); font-weight: normal !important;
+  }
+  .wm-daoli .en {
+    font-family: var(--serif-en); font-size: 36px; font-style: italic; margin-top: 8px;
+    color: var(--ink-soft); font-weight: normal;
+  }
+
+  /* Ref-4 定向：竖排 lockup（对齐 ref「人類」构图）+ 横排站点 Hero */
+  .ref4-lockup { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .ref4-vertical {
+    margin: 0; text-align: center;
+    font-family: 'Source Han Serif CN for Display', 'Logo-Display', serif;
+    font-weight: normal !important; font-synthesis: none;
+    color: var(--ink);
+  }
+  .ref4-vertical .char {
+    display: block; font-size: clamp(3.2rem, 8vw, 4.5rem);
+    line-height: 0.88; letter-spacing: 0.12em;
+  }
+  .ref4-vertical .char + .char { margin-top: 0.06em; }
+
+  .ref4-horizontal {
+    margin: 0; border-left: 1px solid var(--rule); padding-left: 24px;
+  }
+  .ref4-horizontal .zh {
+    display: block; font-family: 'Source Han Serif CN for Display', serif;
+    font-size: 42px; line-height: 1; letter-spacing: 0.08em;
+    color: var(--ink-print); font-weight: normal !important; font-synthesis: none;
+  }
+  .ref4-horizontal .en {
+    display: block; font-family: var(--serif-en); font-style: italic;
+    font-size: 32px; margin-top: 8px; color: var(--ink); font-weight: normal;
+  }
+  .ref4-caption {
+    width: 100%; margin-top: 12px; font-size: 10px; letter-spacing: 0.12em;
+    text-align: center; color: var(--ink-soft);
+  }
+
+  .specimen, section { max-width: 1280px; margin-left: 32px; margin-right: 32px; }
+  .specimen {
+    margin-top: 28px; padding: 20px 16px 16px;
+    background: var(--paper-card); border: 1px solid var(--rule);
+  }
+  .specimen h2, section > h2 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 16px;
+  }
+  .specimen-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; text-align: center;
+  }
+  @media (max-width: 1020px) { .specimen-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) { .specimen-grid { grid-template-columns: repeat(2, 1fr); } }
+  .specimen-cell { padding: 8px 4px 12px; border: 1px dashed var(--rule); }
+  .specimen-cell.is-fail { border-color: rgba(180, 60, 40, 0.55); background: rgba(180, 60, 40, 0.04); }
+  .specimen-label { font-size: 9px; letter-spacing: 0.08em; color: var(--ink-soft); margin-bottom: 6px; line-height: 1.4; }
+  .specimen-char {
+    font-size: 72px; line-height: 1; color: var(--ink-print);
+    font-weight: normal !important; font-synthesis: none;
+  }
+
+  section { padding: 28px 0 48px; }
+  .grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+  }
+  @media (max-width: 1020px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--paper-card); border: 1px solid var(--rule);
+    padding: 14px 12px 12px; display: flex; flex-direction: column;
+  }
+  .card.is-fail { outline: 2px dashed rgba(180, 60, 40, 0.55); outline-offset: -2px; }
+  .card.is-baseline { background: rgba(25, 25, 25, 0.02); }
+  .card-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+  .card-title { font-size: 14px; font-weight: 600; margin: 4px 0 4px; }
+  .card-diff { font-size: 10px; color: var(--accent); margin-bottom: 6px; }
+  .card-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.5; margin: 0 0 12px; flex: 1; }
+
+  .preview { padding-top: 10px; border-top: 1px solid var(--rule); min-height: 118px; }
+  .wm { margin: 0; }
+  .wm .zh {
+    display: block; font-size: 46px; line-height: 1; letter-spacing: 0.05em;
+    color: var(--ink-print); font-weight: normal !important; font-synthesis: none;
+  }
+  .wm .en {
+    display: block; font-family: var(--serif-en); font-style: italic; font-weight: normal;
+    font-size: 34px; line-height: 1.05; margin-top: 6px; color: var(--ink);
+  }
+  .nav-preview {
+    margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--rule);
+    font-size: 10px; color: var(--ink-soft);
+  }
+  .nav-preview .nzh {
+    font-size: 18px; letter-spacing: 0.1em; color: var(--ink-warm); margin-right: 6px;
+    font-weight: normal !important; font-synthesis: none;
+  }
+  .nav-preview .nen { font-family: var(--serif-en); font-style: italic; font-size: 16px; color: var(--ink-soft); }
+
+  .col-baseline .zh, .col-baseline .nzh, .col-baseline .specimen-char { font-family: 'Logo-Daoli', serif; }
+  .col-a .zh, .col-a .nzh, .col-a .specimen-char { font-family: 'Logo-Noto-500', serif; }
+  .col-b .zh, .col-b .nzh, .col-b .specimen-char { font-family: 'Logo-Noto-900', serif; color: var(--ink); }
+  .col-c .zh, .col-c .nzh, .col-c .specimen-char { font-family: 'LXGW Neo ZhiSong', serif; }
+  .col-d .zh, .col-d .nzh, .col-d .specimen-char { font-family: 'Source Han Serif CN for Display', serif; }
+  .col-a .zh, .col-a .nzh { color: var(--ink-warm); letter-spacing: 0.06em; }
+
+  .note {
+    max-width: 1280px; margin: 0 32px 48px; padding: 16px 18px; font-size: 13px;
+    line-height: 1.7; color: var(--ink-soft); border: 1px solid var(--rule); background: var(--paper-2);
+  }
+  .note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a class="back" href="index.html">← logo-fonts 索引</a>
+  <h1>Logo v5 · 刀隶对照 + Ref-4 字形定向</h1>
+  <p class="intro">
+    <strong>对照</strong>：刀隶体（你之前选定的基准，保留）。<strong>定向稿</strong>：按 ref-4「人類」的高对比宋、竖排大字 lockup，字体用<strong>思源屏显臻宋</strong>（最接近 ref 的三角衬线/横细竖粗）；<strong>配色一律站点奶油纸</strong>，不抄红底。
+  </p>
+</div>
+
+<div class="refs">
+  <figure class="ref-card">
+    <img src="refs/ref-3-editorial-dark.png" alt="参考字形 A" />
+    <figcaption><b>参考 A · 编辑宋</b>只取字形。<span class="tag">辅助</span></figcaption>
+  </figure>
+  <figure class="ref-card is-target">
+    <img src="refs/ref-4-blood-red.png" alt="参考字形 B · 人類海报宋" />
+    <figcaption>
+      <b>参考 B · Ref-4（你要对齐的字形）</b>
+      高对比宋、竖排、三角衬线、横细竖粗 —— <strong>下方「Ref-4 定向」按此设计</strong>，色仍用暖墨。
+      <span class="tag">字形主参考</span>
+    </figcaption>
+  </figure>
+</div>
+
+<div class="warn">
+  双击 <code>design-demos/preview-logo-fonts.bat</code> →
+  <code>http://127.0.0.1:8765/logo-fonts/compare-v5-editorial-song.html</code>
+</div>
+
+<div class="font-status bad" id="font-status" role="alert"><strong>字体检测</strong> · 加载中…</div>
+
+<!-- 主舞台 -->
+<div class="spotlight">
+  <article class="spot-card is-baseline col-baseline" data-col="baseline">
+    <div class="spot-label">对照 · 不可删</div>
+    <div class="spot-title">刀隶体</div>
+    <div class="spot-diff">爨宝子碑方向 · 你已选过的基准</div>
+    <p class="spot-desc">与 Ref-4 宋系不同赛道；并看左侧，确认还要不要从刀隶切到高对比宋。</p>
+    <div class="spot-preview">
+      <h3 class="wm-daoli"><span class="zh">廖智强</span><span class="en">Archie</span></h3>
+    </div>
+  </article>
+
+  <article class="spot-card is-ref4 col-d" data-col="ref4" id="ref4-design">
+    <div class="spot-label">定向稿 · Ref-4 字形</div>
+    <div class="spot-title">思源屏显臻宋 · 竖排 lockup</div>
+    <div class="spot-diff">对齐 ref「人類」构图 + 高对比笔画</div>
+    <p class="spot-desc">竖排三字大字 + 右侧横排 Hero（站点实际用法）。字体：Source Han Serif CN for Display。</p>
+    <div class="spot-preview">
+      <div class="ref4-lockup">
+        <h3 class="ref4-vertical" aria-label="廖智强">
+          <span class="char">廖</span>
+          <span class="char">智</span>
+          <span class="char">强</span>
+        </h3>
+        <div class="ref4-horizontal">
+          <h4 style="margin:0;padding:0;border:none">
+            <span class="zh">廖智强</span>
+            <span class="en">Archie</span>
+          </h4>
+        </div>
+      </div>
+      <p class="ref4-caption">竖排 = ref-4 比例 · 横排 = 顶栏 / Hero 落地</p>
+    </div>
+  </article>
+</div>
+
+<div class="specimen">
+  <h2>标本 · 单字「廖」五栏（含刀隶对照）</h2>
+  <div class="specimen-grid">
+    <div class="specimen-cell col-baseline" data-col="baseline"><div class="specimen-label">对照<br>刀隶</div><span class="specimen-char">廖</span></div>
+    <div class="specimen-cell col-a" data-col="a"><div class="specimen-label">A<br>Noto 500</div><span class="specimen-char">廖</span></div>
+    <div class="specimen-cell col-b" data-col="b"><div class="specimen-label">B<br>Noto 900</div><span class="specimen-char">廖</span></div>
+    <div class="specimen-cell col-c" data-col="c"><div class="specimen-label">C<br>霞鹜新致宋</div><span class="specimen-char">廖</span></div>
+    <div class="specimen-cell col-d" data-col="d"><div class="specimen-label">D<br>屏显臻宋</div><span class="specimen-char">廖</span></div>
+  </div>
+</div>
+
+<section>
+  <h2>Hero 横排 · 五栏（统一站点色）</h2>
+  <div class="grid">
+
+    <article class="card is-baseline col-baseline" data-col="baseline">
+      <div class="card-label">对照</div>
+      <div class="card-title">刀隶体</div>
+      <div class="card-diff">基准线</div>
+      <p class="card-desc">阿里妈妈刀隶 · 方笔碑刻。</p>
+      <div class="preview"><h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3></div>
+      <div class="nav-preview"><span class="nzh">廖智强</span><span class="nen">Archie</span></div>
+    </article>
+
+    <article class="card col-a" data-col="a">
+      <div class="card-label">候选 A</div>
+      <div class="card-title">Noto 500</div>
+      <div class="card-diff">最轻宋</div>
+      <p class="card-desc">横画最细，偏杂志标题。</p>
+      <div class="preview"><h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3></div>
+      <div class="nav-preview"><span class="nzh">廖智强</span><span class="nen">Archie</span></div>
+    </article>
+
+    <article class="card col-b" data-col="b">
+      <div class="card-label">候选 B</div>
+      <div class="card-title">Noto 900</div>
+      <div class="card-diff">最重宋</div>
+      <p class="card-desc">接近 ref-4 重量感的一档。</p>
+      <div class="preview"><h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3></div>
+      <div class="nav-preview"><span class="nzh">廖智强</span><span class="nen">Archie</span></div>
+    </article>
+
+    <article class="card col-c" data-col="c">
+      <div class="card-label">候选 C</div>
+      <div class="card-title">霞鹜新致宋</div>
+      <div class="card-diff">锐 serif</div>
+      <p class="card-desc">铅印颗粒 · 与思源不同源。</p>
+      <div class="preview"><h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3></div>
+      <div class="nav-preview"><span class="nzh">廖智强</span><span class="nen">Archie</span></div>
+    </article>
+
+    <article class="card col-d" data-col="d">
+      <div class="card-label">候选 D = Ref-4 字体</div>
+      <div class="card-title">屏显臻宋</div>
+      <div class="card-diff">定向稿同款</div>
+      <p class="card-desc">与上方 Ref-4 lockup 同 family，横排对比。</p>
+      <div class="preview"><h3 class="wm"><span class="zh">廖智强</span><span class="en">Archie</span></h3></div>
+      <div class="nav-preview"><span class="nzh">廖智强</span><span class="nen">Archie</span></div>
+    </article>
+
+  </div>
+</section>
+
+<div class="note">
+  <strong>怎么选：</strong>
+  ① 先看主舞台「刀隶 vs Ref-4 竖排定向」决定赛道；
+  ② Ref-4 方向 OK → 定 D（屏显臻宋）或试 B（900）/ C（霞鹜）微调；
+  ③ 刀隶 specimen 的「廖」应与其余四字<strong>完全不同</strong> — 若一样则字体未加载。
+</div>
+
+<script>
+(function () {
+  var SIZE = '72px';
+  var GLYPH = '廖';
+  var EN = 'Archie';
+  var FALLBACK = 'serif';
+
+  var COLS = [
+    { id: 'baseline', label: '刀隶', family: 'Logo-Daoli', test: GLYPH },
+    { id: 'a', label: 'Noto 500', family: 'Logo-Noto-500', test: GLYPH },
+    { id: 'b', label: 'Noto 900', family: 'Logo-Noto-900', test: GLYPH },
+    { id: 'c', label: '霞鹜新致宋', family: 'LXGW Neo ZhiSong', test: GLYPH },
+    { id: 'd', label: '屏显臻宋', family: 'Source Han Serif CN for Display', test: GLYPH },
+    { id: 'ref4', label: 'Ref-4 lockup', family: 'Source Han Serif CN for Display', test: GLYPH, skipSpecimen: true }
+  ];
+
+  function widthOf(family, text) {
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d');
+    ctx.font = SIZE + ' ' + FALLBACK;
+    var base = ctx.measureText(text).width;
+    ctx.font = SIZE + ' "' + family + '", ' + FALLBACK;
+    return { base: base, w: ctx.measureText(text).width };
+  }
+
+  function loaded(family, text) {
+    if (document.fonts && document.fonts.check) {
+      if (document.fonts.check(SIZE + ' "' + family + '"')) return true;
+    }
+    var m = widthOf(family, text);
+    return Math.abs(m.w - m.base) > 0.8;
+  }
+
+  function loadAll() {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
+    var seen = {};
+    var jobs = [];
+    COLS.forEach(function (col) {
+      if (seen[col.family]) return;
+      seen[col.family] = true;
+      jobs.push(document.fonts.load(SIZE + ' "' + col.family + '"', col.test));
+    });
+    jobs.push(document.fonts.load('40px "Playfair Display"', EN));
+    jobs.push(document.fonts.load(SIZE + ' "Logo-Daoli"', '廖智强'));
+    return Promise.all(jobs);
+  }
+
+  function markFails(results) {
+    COLS.forEach(function (col, i) {
+      if (col.skipSpecimen && results[i]) return;
+      var ok = results[i];
+      document.querySelectorAll('[data-col="' + col.id + '"]').forEach(function (el) {
+        el.classList.toggle('is-fail', !ok);
+      });
+    });
+  }
+
+  function run() {
+    var results = COLS.map(function (col) { return loaded(col.family, col.test); });
+    markFails(results);
+
+    var panel = document.getElementById('font-status');
+    var unique = COLS.filter(function (c) { return !c.skipSpecimen; });
+    var lines = unique.map(function (col) {
+      var i = COLS.indexOf(col);
+      var ok = results[i];
+      var cls = ok ? 'ok-line' : 'fail';
+      return '<span class="' + cls + '">' + (ok ? '✓' : '✗') + ' ' + col.label + '</span>';
+    });
+    var specimenCols = unique.slice(0, 5);
+    var widths = specimenCols.map(function (col) {
+      return col.id.toUpperCase().slice(0, 1) + '=' + widthOf(col.family, GLYPH).w.toFixed(0);
+    }).join(' · ');
+    var allOk = unique.every(function (col) { return results[COLS.indexOf(col)]; });
+
+    panel.innerHTML = '<strong>字体检测</strong> · ' + lines.join(' · ') +
+      '<br><span style="color:#888;font-size:11px">「廖」宽度（五栏应明显不同，刀隶最宽/最方）：' + widths + '</span>' +
+      (allOk ? '' : '<br><strong class="fail">未全部加载 — 请 HTTP 打开 preview-logo-fonts.bat</strong>');
+    panel.className = 'font-status ' + (allOk ? 'ok' : 'bad');
+  }
+
+  loadAll().then(function () { setTimeout(run, 150); }).catch(run);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { setTimeout(run, 250); });
+  }
+})();
+</script>
+</body>
+</html>

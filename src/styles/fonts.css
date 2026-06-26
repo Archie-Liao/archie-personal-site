@@ -6,3 +6,12 @@
    - JetBrains Mono → 小标签 / 时间戳 / 期号
    生产环境如需更稳，可改为自托管 woff2（huasheng.ai 即自托管）。*/
 @import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Logo 中文：阿里妈妈刀隶体（本地自托管，SIL 免费商用） */
+@font-face {
+  font-family: 'Alimama DaoLiTi';
+  src: url('/fonts/AlimamaDaoLiTi.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

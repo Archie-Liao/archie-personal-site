@@ -5,7 +5,7 @@
 ## 项目是什么
 
 廖智强 Archie 的个人网站：**视频日记 + AI/网络优质内容归档**。  
-Figma Make 导出为 Vite + React 项目，正在按 **benchmark** 视觉方向（暖色出版物流 / Claude Fable 气质）改版。
+Figma Make 导出为 Vite + React 项目，第一期**暖色复古出版物流**改版中。`design-demos/` 三版探索已完成，**整站方向待用户选定**（AI 曾推荐 benchmark，未锁定）。
 
 - 人类读者：[README.md](README.md)
 - 需求与分期：[guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md)
@@ -48,7 +48,7 @@ src/app/site.config.ts
 design-demos/        # 三版 HTML 设计稿（benchmark 为选定方向）
 guidelines/          # 需求与改版方案（稳定，少改）
 docs/STATUS.md       # 活进度（每次收工更新）
-docs/sessions/       # 每日详细工作日志（按需归档）
+docs/sessions/       # 详细计划 + 当日长文（见 _TEMPLATE.md）
 public/assets/       # 静态资源
 ```
 
@@ -65,7 +65,8 @@ public/assets/       # 静态资源
 
 ## 已锁定决策（摘要）
 
-- 视觉：**benchmark**（奶油纸 `#F6F0E2` / `#F5F0E8`，accent 赤陶 `#CC785C`）
+- 视觉气质：暖奶油纸 + 复古博物点缀 + 单一暖 accent（具体 A/B/C demo **待用户选定**）
+- 配色参考：纸 `#F6F0E2` / `#F5F0E8`，accent 赤陶 `#CC785C`（benchmark 方案）
 - Day 1：`2026-03-14`（见 site.config.ts）
 - 反馈：第一期仅 localStorage，无后端
 - 框架：继续 Vite + React，第一期不迁 Next.js
@@ -102,19 +103,37 @@ v0 是 [Vercel 的 AI 建站工具](https://v0.app)，可预览 UI、Sync GitHub
 
 > 请先 `git pull`，读 `@docs/STATUS.md` 和 `@AGENTS.md`，继续 [任务]。
 
+## 规划与文档：何时用 STATUS / sessions / Plan
+
+| 场景 | 做法 |
+|------|------|
+| 日常进度、下一步、阻塞 | 只改 **docs/STATUS.md**（含**主任务 + 进度快照表 + 接下来**；保持约一页） |
+| 详细计划、多方案讨论、步骤清单 | 写入 **docs/sessions/YYYY-MM-DD.md**（用 [_TEMPLATE.md](docs/sessions/_TEMPLATE.md)） |
+| 子任务（Logo 字体、某块颜色、间距） | STATUS「进行中」加一行 → **Agent 直接改**，不新建 `.cursor/plans/` |
+| 跨多天的大重构 | 可在 Plan 模式起草，**定稿后归档到 sessions**，仍以 STATUS 为入口 |
+| 代码改了什么 | **git commit**，不重复写进 sessions |
+
+**禁止：** 每个小需求都新建一份 `.cursor/plans/*.plan.md`（易重复、不进 Git、难追溯）。
+
 ## 给 AI 的工作约定
 
-1. 动手改代码前先读 **docs/STATUS.md**。
-2. 大需求变更写入 STATUS「最近决策」；不要擅自改 **guidelines/** 除非用户明确要求。
-3. 视觉改版对照 **design-demos/benchmark.html** 与 **_spec.md**。
-4. 收工时可帮用户更新 STATUS 并准备 git commit message。
-5. 不要提交 `node_modules`、`.env`、`dist/`。
+1. 动手改代码前先读 **docs/STATUS.md**；细节读当日 **docs/sessions/**。
+2. 决策写入 STATUS「最近决策」；长方案写 sessions 对应小节。
+3. 不要擅自改 **guidelines/** 除非用户明确要求。
+4. 视觉改版对照用户**已选定**的 design-demo + **_spec.md**（选定前勿假定 benchmark）。
+5. 收工：更新 STATUS → 补 sessions → 准备 commit message。
+6. 不要提交 `node_modules`、`.env`、`dist/`。
 
 ## 文档索引
 
 | 文件 | 用途 |
 |------|------|
-| [docs/STATUS.md](docs/STATUS.md) | 当前进度、下一步、阻塞 |
+| [docs/STATUS.md](docs/STATUS.md) | 当前进度（日常唯一入口） |
+| [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | 八版 demo 试吃笔记（混搭用） |
+| [docs/LOGO-FONT-BRIEF.md](docs/LOGO-FONT-BRIEF.md) | Logo 中文字标需求（确认版） |
+| [docs/SUBTITLE-FORMAT.md](docs/SUBTITLE-FORMAT.md) | 字幕 TXT 排版规则（AI 处理源稿必读） |
+| [docs/sessions/](docs/sessions/) | 详细计划与当日长文 |
+| [docs/sessions/_TEMPLATE.md](docs/sessions/_TEMPLATE.md) | 日志结构模板 |
 | [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md) | GitHub 首次上传步骤 |
 | [guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md) | 需求、站点地图、分期 |
 | [guidelines/网站需求填空.md](guidelines/网站需求填空.md) | 原始需求 |

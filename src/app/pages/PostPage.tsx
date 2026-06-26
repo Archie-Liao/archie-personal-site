@@ -94,18 +94,7 @@ export function PostPage() {
       <section className="flex flex-col gap-4">
         <SectionTitle>{post.bvid ? "视频" : "原文"}</SectionTitle>
         {post.bvid ? (
-          <>
-            <VideoPlayer bvid={post.bvid} title={post.title} />
-            <a
-              href={`https://www.bilibili.com/video/${post.bvid}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm self-end"
-              style={{ color: "var(--primary)", textDecoration: "none" }}
-            >
-              在 B 站观看 →
-            </a>
-          </>
+          <VideoPlayer post={post} />
         ) : post.sourceUrl ? (
           <a
             href={post.sourceUrl}
@@ -121,10 +110,10 @@ export function PostPage() {
       </section>
 
       {/* 字幕 */}
-      {post.subtitles && post.subtitles.length > 0 && (
+      {post.subtitlePath && (
         <section className="flex flex-col gap-4">
           <SectionTitle>完整字幕</SectionTitle>
-          <SubtitleViewer subtitles={post.subtitles} />
+          <SubtitleViewer path={post.subtitlePath} />
         </section>
       )}
 

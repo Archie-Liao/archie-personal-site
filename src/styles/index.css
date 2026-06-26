@@ -117,10 +117,10 @@ a {
 }
 
 .site-logo__zh {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--foreground);
+  font-family: var(--font-logo);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #4A4238;
 }
 
 .site-logo__en {
@@ -159,23 +159,25 @@ a {
 }
 
 .site-logo--hero .site-logo__zh {
-  font-family: var(--font-serif);
-  font-weight: 700;
+  font-family: var(--font-logo);
+  font-weight: 400;
   font-size: 2rem;
+  letter-spacing: 0.03em;
+  color: #4A4238;
 }
 .site-logo--hero .site-logo__en {
   font-family: var(--font-display);
   font-size: 1.125rem;
 }
 
-/* hero-xl：出版物字标 — 中文思源宋体重 + 英文 Playfair 斜体墨黑（benchmark 方向） */
+/* hero-xl：出版物字标 — 中文刀隶 + 英文 Playfair 斜体 */
 .site-logo--hero-xl .site-logo__zh {
-  font-family: var(--font-serif);
-  font-weight: 700;
+  font-family: var(--font-logo);
+  font-weight: 400;
   font-size: clamp(3.25rem, 8.5vw, 5.5rem);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   line-height: 1;
-  color: var(--foreground);
+  color: #4A4238;
 }
 .site-logo--hero-xl .site-logo__en {
   font-family: var(--font-display);

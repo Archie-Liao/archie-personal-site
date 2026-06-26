@@ -1,34 +1,64 @@
-import type { Subtitle } from "../data/posts";
+import { useEffect, useState } from "react";
 
 interface SubtitleViewerProps {
-  subtitles: Subtitle[];
+  /** public/ 下 TXT 路径，如 /subtitles/ep099.txt */
+  path: string;
 }
 
-export function SubtitleViewer({ subtitles }: SubtitleViewerProps) {
+/** 完整字幕：纯文本段落，无时间轴 */
+export function SubtitleViewer({ path }: SubtitleViewerProps) {
+  const [text, setText] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setText(null);
+    setError(false);
+
+    fetch(path)
+      .then((res) => {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.text();
+      })
+      .then((body) => {
+        if (!cancelled) setText(body.trim());
+      })
+      .catch(() => {
+        if (!cancelled) setError(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [path]);
+
+  if (error) {
+    return (
+      <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
+        字幕稿加载失败
+      </p>
+    );
+  }
+
+  if (text == null) {
+    return (
+      <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
+        加载字幕…
+      </p>
+    );
+  }
+
+  const paragraphs = text.split(/\n\s*\n/).filter(Boolean);
+
   return (
     <div
-      className="flex flex-col rounded-xl overflow-hidden border"
-      style={{ borderColor: "var(--border)" }}
+      className="rounded-xl border px-6 py-5 flex flex-col gap-4"
+      style={{ borderColor: "var(--border)", background: "var(--card)" }}
     >
-      {subtitles.map((subtitle, i) => (
-        <div
-          key={`${subtitle.time}-${i}`}
-          className="flex items-start gap-4 px-5 py-3"
-          style={{
-            background: i % 2 === 0 ? "var(--card)" : "var(--secondary)",
-            borderBottom: i < subtitles.length - 1 ? "1px solid var(--border)" : "none",
-          }}
-        >
-          <span
-            className="shrink-0 text-xs pt-0.5 w-16"
-            style={{ color: "var(--primary)", fontFamily: "var(--font-mono)" }}
-          >
-            {subtitle.time}
-          </span>
-          <span className="text-sm leading-relaxed" style={{ color: "var(--foreground)" }}>
-            {subtitle.text}
-          </span>
-        </div>
+      {paragraphs.map((para, i) => (
+        <p key={i} className="text-sm leading-relaxed m-0" style={{ color: "var(--foreground)" }}>
+          {para.replace(/\n/g, "")}
+        </p>
       ))}
     </div>
   );

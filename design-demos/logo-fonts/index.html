@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo 字体 · 廖智强 · 爨体 / 古印刷方向</title>
+<!--
+  v2.1 · 字体改本地 fonts/ 自托管（v2 CDN 汇文 403 → B/C 回退系统宋体，三栏看起来一样）
+  v2 · 按 reference/字体1.png + 字体2.jpeg 重做（上一版 A/B/C 偏离参考，已废弃）
+
+  Assumptions（请 Archie 确认）：
+  1. 参考图1「帝国坟场」= 爨体/碑刻方笔气质，不是整字照搬装饰（皇冠、鹰）
+  2. 参考图2 左小祖咒 = 主字「太阳」是飞白书法（太戏剧，Logo 不整字照搬）；
+     右侧/顶部那排修长压扁的木刻活字标题才是可迁移的「古印刷体」方向
+  3. 你说「还不如原版」→ 对照栏保留 Noto Serif 700；新小样要有古意，不是把 700 换成 500
+  4. 「过黑过粗」优先用暖墨 + 字距调，不是换 Inter/小薇这类无关字体
+  5. 仅 Hero / Logo 大字；英文 Archie 不动
+
+  三路线：
+  A = 阿里妈妈刀隶体（机器学习爨宝子碑，隶楷方笔）
+  B = 汇文明朝体（50–60 年代铅字印刷质感）
+  C = 汇文明朝体 + 横向压扁（对齐字体2 木刻标题比例）+ 暖墨
+-->
+<style>
+  /* 全部本地 fonts/ · 不依赖 loli / jsDelivr / 汇文 CDN（file:// 双击可用） */
+  @font-face {
+    font-family: 'Noto Serif SC';
+    src: url('fonts/NotoSerifSC-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/PlayfairDisplay-600-italic.woff2') format('woff2');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Alimama DaoLiTi';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: '阿里妈妈刀隶体';
+    src: url('fonts/AlimamaDaoLiTi.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Huiwen-mincho';
+    src: url('fonts/Huiwenmincho-improved.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #F5F0E8;
+    --paper-2: #EFE7D8;
+    --ink: #191919;
+    --ink-warm: #5A4F44;
+    --ink-print: #4A4238;
+    --ink-soft: #6E6557;
+    --accent: #CC785C;
+    --rule: rgba(25, 25, 25, 0.12);
+    --serif-en: 'Playfair Display', Georgia, serif;
+    --serif-sc: 'Noto Serif SC', 'Songti SC', SimSun, serif;
+    --font-cuan: 'Alimama DaoLiTi', '阿里妈妈刀隶体', var(--serif-sc);
+    --font-lead: 'Huiwen-mincho', '汇文明朝体', var(--serif-sc);
+    --sans: system-ui, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 36px 32px 64px;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .back:hover { color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px;
+  }
+
+  .intro {
+    max-width: 780px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .intro strong { color: var(--ink); }
+
+  .correction {
+    max-width: 780px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    background: rgba(204, 120, 92, 0.1);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .correction strong { color: var(--ink); }
+
+  .font-status {
+    max-width: 960px;
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    border: 1px solid var(--rule);
+    background: #FFFDF8;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .font-status.is-warn {
+    border-color: rgba(180, 60, 40, 0.45);
+    background: rgba(180, 60, 40, 0.08);
+  }
+  .font-status.is-ok { border-color: rgba(60, 90, 74, 0.35); }
+  .font-status h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .font-status ul { margin: 0; padding-left: 1.2em; color: var(--ink-soft); }
+  .font-status li { margin-bottom: 4px; }
+  .font-status .ok { color: #3C5A4A; }
+  .font-status .fail { color: #B43C28; font-weight: 600; }
+
+  .card .load-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 2px 7px;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    border-radius: 3px;
+    background: var(--paper-2);
+    color: var(--ink-soft);
+  }
+  .card.font-fail { outline: 2px dashed rgba(180, 60, 40, 0.55); outline-offset: -2px; }
+  .card.font-fail .load-badge { background: rgba(180, 60, 40, 0.12); color: #B43C28; }
+
+  /* —— 参考图并排 —— */
+  .refs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 960px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 720px) { .refs { grid-template-columns: 1fr; } }
+
+  .ref-card {
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .ref-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .ref-card figcaption {
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    border-top: 1px solid var(--rule);
+  }
+  .ref-card figcaption b {
+    display: block;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+  .ref-card .tag {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    background: var(--paper-2);
+    color: var(--accent);
+  }
+
+  section { margin-bottom: 44px; }
+  section > h2 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1240px;
+  }
+  @media (max-width: 1020px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #FFFDF8;
+    border: 1px solid var(--rule);
+    padding: 18px 16px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.is-baseline {
+    background: rgba(25, 25, 25, 0.03);
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .card-ref {
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .preview-hero {
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    min-height: 120px;
+  }
+  .wordmark { margin: 0; }
+  .wordmark .zh {
+    display: block;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .wordmark .en {
+    display: block;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: 0.005em;
+    margin-top: 6px;
+    margin-left: 2px;
+    color: var(--ink);
+  }
+
+  /* 对照：原版 Noto 700 近黑 */
+  .sample-current .zh {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* A · 爨宝子碑 / 刀隶 */
+  .sample-a .zh {
+    font-family: var(--font-cuan);
+    font-weight: 400;
+    font-size: 54px;
+    letter-spacing: 0.02em;
+    color: var(--ink-print);
+  }
+
+  /* B · 五六十年代铅字 */
+  .sample-b .zh {
+    font-family: var(--font-lead);
+    font-weight: 400;
+    font-size: 54px;
+    letter-spacing: 0.06em;
+    color: var(--ink-warm);
+  }
+
+  /* C · 修长木刻标题（字体2 那排活字比例） */
+  .sample-c .zh-wrap {
+    display: inline-block;
+    transform: scaleX(0.62) scaleY(1.18);
+    transform-origin: left center;
+    margin-left: 2px;
+  }
+  .sample-c .zh {
+    font-family: var(--font-lead);
+    font-weight: 400;
+    font-size: 62px;
+    letter-spacing: 0.12em;
+    color: var(--ink-warm);
+  }
+
+  .preview-nav {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+  }
+  .preview-nav-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .nav-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .nav-wordmark .zh {
+    font-size: 21px;
+    letter-spacing: 0.14em;
+    line-height: 1;
+  }
+  .nav-wordmark .en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+
+  .sample-current .nav-wordmark .zh { font-weight: 700; color: var(--ink); }
+  .sample-a .nav-wordmark .zh { font-family: var(--font-cuan); font-size: 22px; color: var(--ink-print); letter-spacing: 0.04em; }
+  .sample-b .nav-wordmark .zh { font-family: var(--font-lead); color: var(--ink-warm); letter-spacing: 0.12em; }
+  .sample-c .nav-wrap { display: inline-block; transform: scaleX(0.78) scaleY(1.08); transform-origin: left center; }
+  .sample-c .nav-wordmark .zh { font-family: var(--font-lead); font-size: 22px; color: var(--ink-warm); letter-spacing: 0.14em; }
+
+  .note-block {
+    max-width: 780px;
+    padding: 16px 18px;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .note-block strong { color: var(--ink); }
+  .note-block ul { margin: 8px 0 0; padding-left: 1.2em; }
+  .note-block li { margin-bottom: 5px; }
+
+  .meta {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    max-width: 780px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="../index.html">← 返回三版首页对比</a>
+
+<h1>Logo「廖智强」· 爨体 / 古印刷方向（v2）</h1>
+
+<p class="intro">
+  上一版 A/B/C（轻宋、霞鹜新致宋、站酷小薇）<strong>没有对齐你的参考图</strong>，已作废。
+  本页按 <code>reference/字体1.png</code> 与 <code>reference/字体2.jpeg</code> 重选字体路线；
+  英文 Archie 仍用 Playfair 斜体，正文不动。
+  · <a href="compare-v6-ref4-hunt.html"><strong>v6 Ref-4 字形狩猎</strong></a>（当前 · 刀隶+Noto900+源界/装甲/刻宋）
+  · <a href="compare-v5-editorial-song.html">v5 高对比宋</a>（已收窄）
+  · <a href="compare-v4-impact.html">v4 古意冲击</a>（已搁置）
+  · <s>v3 中英搭配</s>（Noto/霞鹜/思源 · 已作废，太像正文宋）
+</p>
+
+<div class="correction">
+  <strong>上一版错在哪：</strong>把「过黑过粗」理解成「换更轻的网页宋体」，而不是找<strong>爨体 / 老铅字 / 木刻活字</strong>气质的字。
+  你说原版 Noto 700 反而更好 —— 所以对照栏保留原版；新小样要有古意和字标设计感，不是更「素」。
+</div>
+
+<div class="font-status is-warn" id="font-status" role="status" aria-live="polite">
+  <h3>字体加载检测 · 检测中…</h3>
+  <ul id="font-status-list">
+    <li>正在验证本地 fonts/（无需联网）…</li>
+  </ul>
+</div>
+
+<section aria-label="参考图">
+  <h2>你的参考图 · 本页对齐逻辑</h2>
+  <div class="refs">
+    <figure class="ref-card">
+      <img src="refs/ref-1-cuan-style.png" alt="参考图1：帝国坟场标题，方笔碑刻气质" />
+      <figcaption>
+        <b>参考图 1 · 爨体 / 碑刻方笔</b>
+        「帝国坟场」：三角折弯、雁尾方强、拙朴倔犟 —— 接近爨宝子碑隶楷之间。
+        Logo 迁移<strong>气质</strong>，不照搬皇冠/鹰等图形化装饰。
+        <span class="tag">→ 小样 A 刀隶体</span>
+      </figcaption>
+    </figure>
+    <figure class="ref-card">
+      <img src="refs/ref-2-woodblock.jpeg" alt="参考图2：左小祖咒海报，木刻活字标题" />
+      <figcaption>
+        <b>参考图 2 · 古印刷 / 木刻活字</b>
+        主字「太阳」是飞白书法，太戏剧，不适合整字 Logo。
+        右侧那排<strong>修长、压扁、刀刻感</strong>的标题字才是古印刷体方向。
+        <span class="tag">→ 小样 B 自然比例 · C 压扁比例</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <h2>Hero 大标题 · 四栏对比</h2>
+  <div class="grid">
+    <article class="card is-baseline sample-current">
+      <div class="card-label">对照</div>
+      <div class="card-title">现状 · 原版</div>
+      <div class="card-ref">你说「还不如这版」的基准</div>
+      <p class="card-desc">Noto Serif SC 700 · 近黑 #191919<br>问题：奶油纸底上偏扎眼，但结构是对的</p>
+      <div class="preview-hero">
+        <h3 class="wordmark">
+          <span class="zh">廖智强</span>
+          <span class="en">Archie</span>
+        </h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-a" data-font="Alimama DaoLiTi" data-font-label="刀隶体">
+      <span class="load-badge" data-load-for="a">检测中…</span>
+      <div class="card-label">小样 A</div>
+      <div class="card-title">爨宝子碑 · 刀隶</div>
+      <div class="card-ref">对齐参考图 1</div>
+      <p class="card-desc">
+        阿里妈妈刀隶体 · 机器学习<strong>爨宝子碑</strong><br>
+        隶楷方笔、三角折弯、朴茂倔犟 · SIL 免费商用
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark">
+          <span class="zh">廖智强</span>
+          <span class="en">Archie</span>
+        </h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-b" data-font="Huiwen-mincho" data-font-label="汇文明朝体">
+      <span class="load-badge" data-load-for="b">检测中…</span>
+      <div class="card-label">小样 B</div>
+      <div class="card-title">五六十年代 · 铅字</div>
+      <div class="card-ref">对齐参考图 2 · 自然比例</div>
+      <p class="card-desc">
+        汇文明朝体 · 复刻 50–60 年代铅字印刷<br>
+        暖墨 #5A4F44 · 老期刊 / 活字排印感
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark">
+          <span class="zh">廖智强</span>
+          <span class="en">Archie</span>
+        </h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span>
+      </div>
+    </article>
+
+    <article class="card sample-c" data-font="Huiwen-mincho" data-font-label="汇文+压扁">
+      <span class="load-badge" data-load-for="c">检测中…</span>
+      <div class="card-label">小样 C</div>
+      <div class="card-title">修长 · 木刻标题</div>
+      <div class="card-ref">对齐参考图 2 · 压扁比例</div>
+      <p class="card-desc">
+        同汇文明朝体 + 横向压扁 scaleX(0.62)<br>
+        复刻海报右侧那排<strong>刀刻活字标题</strong>的修长比例
+      </p>
+      <div class="preview-hero">
+        <h3 class="wordmark">
+          <span class="zh-wrap"><span class="zh">廖智强</span></span>
+          <span class="en">Archie</span>
+        </h3>
+      </div>
+      <div class="preview-nav">
+        <div class="preview-nav-label">顶栏 nav</div>
+        <span class="nav-wrap"><span class="nav-wordmark"><span class="zh">廖智强</span><span class="en">Archie</span></span></span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div class="note-block">
+  <strong>怎么选 / 怎么混：</strong>
+  <ul>
+    <li><strong>A</strong> — 要明显爨体/碑刻文气，接受 Logo 更「字标化」、个性更强。</li>
+    <li><strong>B</strong> — 要古印刷、老铅字，但保持正常字比例，最贴出版物站点气质。</li>
+    <li><strong>C</strong> — 要字体2 那种修长压扁木刻标题感；nav 小字需单独调比例。</li>
+    <li><strong>混搭</strong> — 例如「B 的字 + C 的压扁程度一半」或「A 的古意 + B 的暖墨色值」。</li>
+    <li><strong>仍选原版</strong> — 也可以；那就只调暖墨/字距，不换字体 family。</li>
+  </ul>
+</div>
+
+<p class="meta">
+  字体文件：<code>design-demos/logo-fonts/fonts/</code>（全部本地 woff2，<strong>无需联网</strong>，file:// 双击可用）。<br>
+  若选定 <strong>A 刀隶</strong> 且需精致字标 → 下一步见 <a href="FIGMA-LOGOTYPE-BRIEF.md">FIGMA-LOGOTYPE-BRIEF.md</a>（Figma 改轮廓，非换字体）。
+</p>
+
+<script>
+(function () {
+  var SIZE = '64px';
+  var TEST_ZH = '廖智强';
+  var TEST_EN = 'Archie';
+
+  var FONT_CHECKS = [
+    { keys: ['Alimama DaoLiTi', '阿里妈妈刀隶体'], label: '刀隶体（小样 A）', card: '.sample-a', badge: '刀隶体' },
+    { keys: ['Huiwen-mincho', '汇文明朝体'], label: '汇文明朝体（小样 B/C）', card: '.sample-b', badge: '汇文明朝体' },
+    { keys: ['Noto Serif SC'], label: 'Noto 700（对照栏）', card: '.sample-current', badge: null },
+    { keys: ['Playfair Display'], label: 'Archie 英文', card: null, badge: null, test: TEST_EN }
+  ];
+
+  function checkOne(family, testChar) {
+    if (document.fonts && document.fonts.check) {
+      if (document.fonts.check(SIZE + ' "' + family + '"')) return true;
+    }
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d');
+    var text = testChar || TEST_ZH;
+    ctx.font = SIZE + ' ' + FALLBACK_SANS;
+    var base = ctx.measureText(text).width;
+    ctx.font = SIZE + ' "' + family + '", ' + FALLBACK_SANS;
+    return Math.abs(ctx.measureText(text).width - base) > 0.5;
+  }
+
+  var FALLBACK_SANS = 'SimSun, serif';
+
+  function checkGroup(item) {
+    for (var i = 0; i < item.keys.length; i++) {
+      if (checkOne(item.keys[i], item.test)) return true;
+    }
+    return false;
+  }
+
+  function loadGroup(item) {
+    return Promise.all(item.keys.map(function (key) {
+      var test = item.test || TEST_ZH;
+      return document.fonts.load(SIZE + ' "' + key + '"', test);
+    }));
+  }
+
+  function setBadge(card, ok, label) {
+    if (!card || !label) return;
+    var badge = card.querySelector('.load-badge');
+    if (!badge) return;
+    badge.textContent = ok ? '✓ ' + label + ' 已加载' : '✗ ' + label + ' 未加载（显示的是系统回退字体）';
+    card.classList.toggle('font-fail', !ok);
+  }
+
+  function runCheck(results) {
+    var list = document.getElementById('font-status-list');
+    var panel = document.getElementById('font-status');
+    if (!list || !panel) return;
+
+    var html = '';
+    var allOk = true;
+    FONT_CHECKS.forEach(function (item, idx) {
+      var ok = results[idx];
+      if (!ok) allOk = false;
+      html += '<li class="' + (ok ? 'ok' : 'fail') + '">' +
+        (ok ? '✓' : '✗') + ' ' + item.label + ' · 本地 fonts/' + '</li>';
+    });
+
+    if (!results[0] || !results[1]) {
+      html += '<li class="fail"><strong>若 A/B/C 看起来一样：</strong>通常是 specialty 字体未加载。请确认 <code>fonts/</code> 下 woff2 文件完整。</li>';
+    }
+
+    list.innerHTML = html;
+    panel.classList.toggle('is-warn', !allOk);
+    panel.classList.toggle('is-ok', allOk);
+    panel.querySelector('h3').textContent = allOk
+      ? '字体加载检测 · 全部 OK'
+      : '字体加载检测 · 有字体未加载（请勿据此选样）';
+
+    setBadge(document.querySelector('.sample-a'), results[0], '刀隶体');
+    setBadge(document.querySelector('.sample-b'), results[1], '汇文明朝体');
+    setBadge(document.querySelector('.sample-c'), results[1], '汇文+压扁');
+  }
+
+  function start() {
+    if (!document.fonts || !document.fonts.load) {
+      var fallback = FONT_CHECKS.map(function (item) { return checkGroup(item); });
+      runCheck(fallback);
+      return;
+    }
+    Promise.all(FONT_CHECKS.map(loadGroup))
+      .then(function () {
+        return FONT_CHECKS.map(function (item) { return checkGroup(item); });
+      })
+      .then(runCheck)
+      .catch(function () {
+        runCheck(FONT_CHECKS.map(function (item) { return checkGroup(item); }));
+      });
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { setTimeout(start, 80); });
+  } else {
+    window.addEventListener('load', function () { setTimeout(start, 200); });
+  }
+})();
+</script>
+
+</body>
+</html>

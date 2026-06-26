@@ -7,11 +7,6 @@ export interface KnowledgeCard {
   tag: string;
 }
 
-export interface Subtitle {
-  time: string;
-  text: string;
-}
-
 export interface ContentItem {
   id: string;
   type: "video" | "link" | "note";
@@ -31,7 +26,20 @@ export interface ContentItem {
     quote: string;
   };
   knowledgeCards: KnowledgeCard[];
-  subtitles?: Subtitle[];
+  /** public/subtitles/{id}.txt — 纯文本字幕稿，无时间轴 */
+  subtitlePath?: string;
+}
+
+const VIDEO_COVERS = [
+  "/assets/img/antique_botanical_illustration_plate_Curtis_s_botanical.jpg",
+  "/assets/img/Pieris_butterfly_plate_Pieris_wollastoni-PD.png",
+  "/assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg",
+] as const;
+
+function videoCover(id: string): string {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return VIDEO_COVERS[h % VIDEO_COVERS.length];
 }
 
 export const posts: ContentItem[] = [
@@ -41,7 +49,7 @@ export const posts: ContentItem[] = [
     episode: 99,
     title: "成长会自动消解很多难题",
     date: "2025-06-20",
-    coverUrl: "",
+    coverUrl: videoCover("ep099"),
     bvid: "BV1GJ411x7h7",
     tags: ["人生", "认知", "观点", "原创"],
     featured: true,
@@ -70,14 +78,7 @@ export const posts: ContentItem[] = [
         tag: "方法",
       },
     ],
-    subtitles: [
-      { time: "00:00:00", text: "大家好，我是 Archie，第 99 期视频日记。" },
-      { time: "00:00:08", text: "今天想聊一个我最近越来越确定的感受：成长会自动消解很多难题。" },
-      { time: "00:00:22", text: "不是说难题会消失，而是它在你能力坐标系里的「尺寸」变了。" },
-      { time: "00:00:35", text: "三个月前让我失眠的事，现在回头看，可能只是当时水位不够。" },
-      { time: "00:00:48", text: "行动会改变你对问题的定义，这是静态思考很难抵达的地方。" },
-      { time: "00:01:02", text: "如果你也感觉卡住，不妨先记录、再行动，让成长自己说话。" },
-    ],
+    subtitlePath: "/subtitles/ep099.txt",
   },
   {
     id: "ep098",
@@ -85,9 +86,8 @@ export const posts: ContentItem[] = [
     episode: 98,
     title: "学会用筷子，却发现没菜可夹",
     date: "2025-06-19",
-    coverUrl: "",
+    coverUrl: videoCover("ep098"),
     bvid: "BV1GJ411x7h7",
-    tags: ["AI", "方法", "随想", "原创"],
     views: 96,
     aiSummary: {
       overview:
@@ -107,11 +107,7 @@ export const posts: ContentItem[] = [
         tag: "认知",
       },
     ],
-    subtitles: [
-      { time: "00:00:00", text: "第 98 期，一个有点怪的比喻：学会用筷子，却发现没菜可夹。" },
-      { time: "00:00:12", text: "这两年 AI 工具学得太快了，快到我经常觉得自己只是在练筷子功。" },
-      { time: "00:00:25", text: "真正稀缺的是问题、上下文、和愿意长期打磨的领域。" },
-    ],
+    subtitlePath: "/subtitles/ep098.txt",
   },
   {
     id: "ep097",
@@ -119,9 +115,8 @@ export const posts: ContentItem[] = [
     episode: 97,
     title: "手机被忽视，AI正在重蹈覆辙",
     date: "2025-06-18",
-    coverUrl: "",
+    coverUrl: videoCover("ep097"),
     bvid: "BV1GJ411x7h7",
-    tags: ["AI", "社会", "观点", "原创"],
     views: 84,
     aiSummary: {
       overview: "对比智能手机早期「功能堆砌、体验割裂」的阶段，讨论当前 AI 产品是否正在重复同样的路径，以及个人使用者如何保持清醒。",
@@ -133,10 +128,7 @@ export const posts: ContentItem[] = [
       quote: "每一代革命都会先制造噪音，再留下少数真正改变习惯的东西。",
     },
     knowledgeCards: [],
-    subtitles: [
-      { time: "00:00:00", text: "第 97 期，聊聊 AI 和手机早期有多像。" },
-      { time: "00:00:10", text: "还记得智能手机刚开始也是功能又多又杂吗？" },
-    ],
+    subtitlePath: "/subtitles/ep097.txt",
   },
   {
     id: "ep096",
@@ -144,9 +136,8 @@ export const posts: ContentItem[] = [
     episode: 96,
     title: "信息爆炸！别怕错过优质内容",
     date: "2025-06-17",
-    coverUrl: "",
+    coverUrl: videoCover("ep096"),
     bvid: "BV1GJ411x7h7",
-    tags: ["认知", "方法", "记录", "原创"],
     views: 72,
     aiSummary: {
       overview: "在 AI 资讯与内容过载环境下，建立个人过滤系统：从 FOMO 转向「可检索的沉淀」，与本站的定位直接相关。",
@@ -165,33 +156,29 @@ export const posts: ContentItem[] = [
         tag: "认知",
       },
     ],
-    subtitles: [
-      { time: "00:00:00", text: "第 96 期，信息爆炸时代，如何不怕错过？" },
-    ],
+    subtitlePath: "/subtitles/ep096.txt",
   },
   {
     id: "ep095",
     type: "video",
     episode: 95,
-    title: "一个比喻讲透AI与人的关系",
+    title: "西西弗少儿区，原来我看错了",
     date: "2025-06-16",
-    coverUrl: "",
+    coverUrl: videoCover("ep095"),
     bvid: "BV1GJ411x7h7",
-    tags: ["AI", "认知", "观点", "原创"],
+    tags: ["社会", "观点", "原创"],
     views: 65,
     aiSummary: {
-      overview: "用「镜子 / 杠杆 / 协作者」三个比喻拆解 AI 与人的关系，帮助粉丝建立不神化、不贬低的日常使用心态。",
+      overview: "讨论 B 站「少儿区」标签与内容生态的误解，以及创作者如何理解平台分类与受众预期。（摘要待 Archie 补全）",
       keyPoints: [
-        "AI 像镜子：输出反映你的提问与上下文",
-        "AI 像杠杆：放大已有能力，而非凭空创造方向",
-        "AI 像协作者：需要分工、验收与边界",
+        "平台标签不等于内容本身的受众定位",
+        "分类机制影响推荐，但不定义创作价值",
+        "待补：本期核心观点",
       ],
-      quote: "管理 AI 和管理人一样，给错层级指令，越强越痛苦。",
+      quote: "待补本期金句。",
     },
     knowledgeCards: [],
-    subtitles: [
-      { time: "00:00:00", text: "第 95 期，三个比喻讲透 AI 和人的关系。" },
-    ],
+    subtitlePath: "/subtitles/ep095.txt",
   },
   {
     id: "link-fugu",
@@ -248,25 +235,22 @@ export const posts: ContentItem[] = [
     id: "ep094",
     type: "video",
     episode: 94,
-    title: "踩了两个坑，总结出两大洞见",
+    title: "一个比喻讲透AI与人的关系",
     date: "2025-06-13",
-    coverUrl: "",
+    coverUrl: videoCover("ep094"),
     bvid: "BV1GJ411x7h7",
-    tags: ["复盘", "方法", "记录", "原创"],
     views: 41,
     aiSummary: {
-      overview: "复盘两期内容制作中的失误：过度追求完整字幕而延迟发布、摘要写得太长失去 skim 价值。提出「最小可发布单元」原则。",
+      overview: "用「镜子 / 杠杆 / 协作者」三个比喻拆解 AI 与人的关系，帮助粉丝建立不神化、不贬低的日常使用心态。",
       keyPoints: [
-        "先发布可检索版本，再迭代丰富度",
-        "摘要的第一屏必须回答「这期值不值得点」",
-        "错误日志和成功日志同样值得沉淀",
+        "AI 像镜子：输出反映你的提问与上下文",
+        "AI 像杠杆：放大已有能力，而非凭空创造方向",
+        "AI 像协作者：需要分工、验收与边界",
       ],
-      quote: "完美是发布的敌人，可检索的草稿是朋友。",
+      quote: "管理 AI 和管理人一样，给错层级指令，越强越痛苦。",
     },
     knowledgeCards: [],
-    subtitles: [
-      { time: "00:00:00", text: "第 94 期，两个坑，两个洞见。" },
-    ],
+    subtitlePath: "/subtitles/ep094.txt",
   },
 ];
 
