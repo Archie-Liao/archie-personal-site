@@ -1,0 +1,13 @@
+---
+description: {{PROJECT_NAME}} 硬约束 — 新任务前读 STATUS
+alwaysApply: true
+---
+
+# 项目硬约束
+
+- 新任务前先读 `docs/STATUS.md` 和 `AGENTS.md`；详细计划在 `docs/sessions/`
+- 子任务不新建 `.cursor/plans/`；长方案写 sessions
+- {{DEV_RUN_REMINDER}}  # 例如：根 index.html 须 npm run dev，双击会空白
+- 勿提交 `node_modules/`、`dist/`、`.env`
+- {{TOPIC_RULE_INDEX}}  # 例如：处理 X 前先读 `docs/X-FORMAT.md`
+- 不要擅自修改 `guidelines/` 除非用户明确要求

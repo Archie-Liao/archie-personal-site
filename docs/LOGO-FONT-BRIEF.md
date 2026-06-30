@@ -1,7 +1,23 @@
-# Logo 中文字标需求（确认版）
+---
+doc_type: project_doc
+title: Logo 中文字标需求
+status: shelved
+canonical: docs/LOGO-FONT-BRIEF.md
+revised_at: "2026-06-30 15:30:00"
+timezone: Asia/Shanghai
+shelved_reason: 多轮 v3–v7 未锁定；先推进整站视觉
+resume_when: 整站 demo 混搭锁定后；或 Archie 明确要求续做 Logo
+latest_demo: design-demos/logo-fonts/compare-v7-final.html
+---
 
-> **状态：搁置（2026-06-25）** — Archie 暂不满意，先推进整站风格；日后可从 v7 续做。  
-> 末轮小样：[compare-v7-final.html](../design-demos/logo-fonts/compare-v7-final.html)
+## 修订记录（最新在上）
+
+| 北京时间 | 变更 |
+|----------|------|
+| 2026-06-30 15:06:15 | YAML 去 okf |
+| 2026-06-25 18:00:00 | 搁置决定 |
+
+# Logo 中文字标需求（确认版）
 
 ## 搁置前进度
 
@@ -12,9 +28,9 @@
 ## 日后若续做
 
 1. 打开 v7 或 `docs/sessions/2026-06-25.md` Logo 小节
-2. 用户定 A/B/C 或给新 ref
+2. Archie 定 A/B/C 或给新 ref
 3. 字体 woff2 迁入 `public/fonts/`，改 `theme.css` / `SiteLogo`
 
 ## 站点色（整站仍适用）
 
-纸 `#F5F0E8` · 暖墨 `#4A4238` · accent `#CC785C`（benchmark）
+纸 `#F5F0E8` · 暖墨 `#4A4238` · accent `#CC785C`（试吃参考，见 DEMO-TASTING-NOTES）

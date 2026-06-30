@@ -1,0 +1,13 @@
+{
+  "name": "project-context",
+  "version": "1.0.0",
+  "category": "Workflow / Documentation",
+  "description": "Cross-session project context via AGENTS.md, docs/STATUS.md, five-layer docs, and Git sync. Bootstrap new repos, end-of-day wrap-up, and new-chat handoff.",
+  "homepage": "",
+  "compat": [
+    "cursor",
+    "claude-code",
+    "codex-cli",
+    "claude-ai"
+  ]
+}

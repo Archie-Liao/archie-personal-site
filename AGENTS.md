@@ -1,29 +1,25 @@
 # AGENTS.md — AI 项目入口
 
-> **新 AI 会话必须先读 [docs/STATUS.md](docs/STATUS.md)**（当前进度以 STATUS 为准），再按需查阅本文与 guidelines。
+> **新 AI 会话必须先读** [docs/STATUS.md](docs/STATUS.md)（进度）+ [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md)（网站现状）+ **[docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md)**（协作根本规则 · **禁止删改缩写**），再按需查阅本文。
 
 ## 项目是什么
 
-廖智强 Archie 的个人网站：**视频日记 + AI/网络优质内容归档**。  
-Figma Make 导出为 Vite + React 项目，第一期**暖色复古出版物流**改版中。`design-demos/` 三版探索已完成，**整站方向待用户选定**（AI 曾推荐 benchmark，未锁定）。
+廖智强 Archie 的个人网站：**视频日记 + AI/网络优质内容归档**（知识存储 / 学习 / 检索）。  
+Vite + React；第一期暖色复古出版物流改版中。`design-demos/` **D1–D5 案例库试吃**（D4–D5 未交付）；**整站视觉待选定/混搭** → 见 [STATUS](docs/STATUS.md) + [DEMO-TASTING-NOTES](docs/DEMO-TASTING-NOTES.md)（**勿假定**某一 demo 已锁定）。
 
 - 人类读者：[README.md](README.md)
-- 需求与分期：[guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md)
+- 网站现状（线框）：[docs/SITE-MANUAL.md](docs/SITE-MANUAL.md)
+- 原始需求（可能过时）：[guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md)
 - 设计约束：[design-demos/_spec.md](design-demos/_spec.md)
-- v0 探索项目：<https://v0.app/liaozq9-6964s-projects>
 
 ## 快速启动
 
 ```powershell
-# React 站点（项目根目录）
-npm i          # 首次或换电脑后
-npm run dev    # 本地预览，勿双击根 index.html
+npm i          # 项目根目录，首次或换电脑
+npm run dev    # 本地预览；勿双击根 index.html
 
-# 设计稿对比（独立 HTML，不经 Vite）
-cd design-demos
-python -m http.server 8765
-# 浏览器打开 http://127.0.0.1:8765/index.html
-# 或直接双击 design-demos/benchmark.html
+cd design-demos && python -m http.server 8765
+# http://127.0.0.1:8765/index.html
 ```
 
 ## 技术栈
@@ -31,110 +27,190 @@ python -m http.server 8765
 | 层 | 选型 |
 |----|------|
 | UI | React 18 + TypeScript |
-| 构建 | Vite 6 |
-| 路由 | React Router 7 |
+| 构建 | Vite 6 · React Router 7 |
 | 样式 | Tailwind 4 + `src/styles/theme.css` |
-| 内容（目标） | Markdown + frontmatter（**现用** `src/app/data/posts.ts` mock） |
-| 本地存储 | localStorage（反馈、浏览日历） |
-| 配置 | `src/app/site.config.ts`（外链、Day1、头像模式） |
+| 内容 | **现用** `src/app/data/posts.ts` · **规划** `content/` build 读 md |
+| 知识生产 | **已建** `knowledge/raw/dialogues/` · **延后** `wiki/`、`content/` |
+| 配置 | `src/app/site.config.ts` |
 
 ## 目录地图
 
-```
-src/app/pages/       # 页面组件
-src/app/components/  # 布局、卡片、时钟等
-src/app/data/        # posts.ts, tags.ts, mockPosts.ts
-src/app/site.config.ts
-design-demos/        # 三版 HTML 设计稿（benchmark 为选定方向）
-guidelines/          # 需求与改版方案（稳定，少改）
-docs/STATUS.md       # 活进度（每次收工更新）
-docs/sessions/       # 详细计划 + 当日长文（见 _TEMPLATE.md）
-public/assets/       # 静态资源
-```
+「仓库里主要文件夹是干什么的」——左边是路径，右边是说明：
+
+| 路径 | 是什么 |
+|------|--------|
+| `src/app/pages/` | **线上站**页面代码（首页、日记列表、详情页…） |
+| `src/app/data/posts.ts` | 日记 **mock 数据**（将来换成 `content/*.md`） |
+| `design-demos/` | **视觉探索** HTML（D1–D5），不是线上站，双击可预览 |
+| `docs/STATUS.md` | 进度、下一步、最近决策 |
+| `docs/SITE-MANUAL.md` | 给你看的网站说明书（几页、什么布局） |
+| `docs/sessions/` | 某天讨论的长文记录 |
+| `knowledge/raw/dialogues/` | **你的对话原文**（女娲蒸馏语料） |
+| `docs/AI-COLLABORATION-CHARTER.md` | **协作根本规则**（复杂任务/对话/覆盖旧需求/读档优先级） |
+| `guidelines/` | 早期需求文档（**可能过时**，以 SITE-MANUAL 为准） |
 
 ## 路由与功能
 
+> 线框与 `[已实现]`/`[规划]` 以 **SITE-MANUAL** 为准。
+
 | 路由 | 页面 | 说明 |
 |------|------|------|
-| `/` | HomePage | Hero 双栏、北京时间、Day 计数、精选/时间线 |
-| `/posts` | PostsListPage | 全量列表 + 标签筛选 |
-| `/post/:id` | PostPage | AI 总结 → 知识卡片 → 视频/外链 → 字幕 |
-| `/graph` | GraphPage | 标签共现知识图谱 |
-| `/feedback` | FeedbackPage | 表单 → localStorage |
-| `/about` | AboutPage | 简介、微信 QR 占位、人生阶段网格 |
+| `/` | HomePage | Hero、时钟/Day、精选、时间线 |
+| `/posts` | PostsListPage | 列表 + 标签筛选 |
+| `/post/:id` | PostPage | AI 总结 → 知识卡片 → 视频 → 字幕 |
+| `/graph` | GraphPage | 标签共现；**规划** 同页双 Tab（标签 \| 文内链接） |
+| `/feedback` | FeedbackPage | localStorage |
+| `/about` | AboutPage | 简介、QR 占位 |
 
 ## 已锁定决策（摘要）
 
-- 视觉气质：暖奶油纸 + 复古博物点缀 + 单一暖 accent（具体 A/B/C demo **待用户选定**）
-- 配色参考：纸 `#F6F0E2` / `#F5F0E8`，accent 赤陶 `#CC785C`（benchmark 方案）
-- Day 1：`2026-03-14`（见 site.config.ts）
-- 反馈：第一期仅 localStorage，无后端
-- 框架：继续 Vite + React，第一期不迁 Next.js
-- Git：**不上传** `node_modules/`、`dist/`
+- 站点定位：知识存储 / 检索，非炫技 portfolio
+- 纸色 / accent 参考范围：见 STATUS 与试吃笔记（**非**锁定某一 demo）
+- Day 1：`2026-03-14`（`site.config.ts`）
+- 反馈：localStorage，无后端
+- 单数据源 md（规划）；访客**只读**，无网页改仓库
+- Git：不上传 `node_modules/`、`dist/`
 
-详情见 [guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md)。
+## 本项目特有问题
 
-## 本项目特有问题与解法
-
-1. **根目录 `index.html` 双击空白** — 它是 React 入口，必须 `npm run dev`，不是设计稿。
-2. **`design-demos/` 与 Vite 无关** — 独立 HTML；视觉探索改 demos，功能实现改 `src/`。
-3. **字体** — 大陆环境用 `fonts.loli.net`，勿直连 Google Fonts（会阻塞或回退系统字体）。
-4. **Figma 资源** — `vite.config.ts` 中 `figma:asset/` 别名解析。
-5. **SPA 部署** — 深链 `/post/:id` 需 Vercel/Netlify rewrite 到 `index.html`。
-6. **node_modules** — 本地开发必需；Git 只存 `package.json`，换机 `npm i` 重建。
-
-## v0 / Cursor / GitHub 工作流
-
-v0 是 [Vercel 的 AI 建站工具](https://v0.app)，可预览 UI、Sync GitHub、Deploy Vercel。与当前 Vite 项目**栈不同**，可并行试：
-
-| 路径 | 做法 |
-|------|------|
-| A · v0 原型 | v0 出 UI → 满意后合并进 `src/` 或推 GitHub 分支 |
-| B · Cursor 为主 | design-demos 定视觉 → 改 `src/`（当前主线） |
-| C · v0 快速 demo | v0 Deploy Vercel 得临时 URL，确认后再迁入主仓 |
-
-**GitHub 是中心枢纽**：源码 + `docs/STATUS.md` 同步；换设备 `git pull` → `npm i` → `npm run dev`。
-
-### 收工 ritual（对用户）
-
-> **收工更新**：更新 `docs/STATUS.md`；必要时归档 `docs/sessions/YYYY-MM-DD.md`；`git add` + `commit` + `push`。
-
-### 新对话开场（对用户）
-
-> 请先 `git pull`，读 `@docs/STATUS.md` 和 `@AGENTS.md`，继续 [任务]。
-
-## 规划与文档：何时用 STATUS / sessions / Plan
-
-| 场景 | 做法 |
-|------|------|
-| 日常进度、下一步、阻塞 | 只改 **docs/STATUS.md**（含**主任务 + 进度快照表 + 接下来**；保持约一页） |
-| 详细计划、多方案讨论、步骤清单 | 写入 **docs/sessions/YYYY-MM-DD.md**（用 [_TEMPLATE.md](docs/sessions/_TEMPLATE.md)） |
-| 子任务（Logo 字体、某块颜色、间距） | STATUS「进行中」加一行 → **Agent 直接改**，不新建 `.cursor/plans/` |
-| 跨多天的大重构 | 可在 Plan 模式起草，**定稿后归档到 sessions**，仍以 STATUS 为入口 |
-| 代码改了什么 | **git commit**，不重复写进 sessions |
-
-**禁止：** 每个小需求都新建一份 `.cursor/plans/*.plan.md`（易重复、不进 Git、难追溯）。
+1. 根 `index.html` 须 `npm run dev`
+2. `design-demos/` 独立于 Vite；视觉改 demos，功能改 `src/`
+3. 字体用 `fonts.loli.net`，勿直连 Google Fonts
+4. SPA 深链需部署 rewrite 到 `index.html`
 
 ## 给 AI 的工作约定
 
-1. 动手改代码前先读 **docs/STATUS.md**；细节读当日 **docs/sessions/**。
-2. 决策写入 STATUS「最近决策」；长方案写 sessions 对应小节。
-3. 不要擅自改 **guidelines/** 除非用户明确要求。
-4. 视觉改版对照用户**已选定**的 design-demo + **_spec.md**（选定前勿假定 benchmark）。
-5. 收工：更新 STATUS → 补 sessions → 准备 commit message。
-6. 不要提交 `node_modules`、`.env`、`dist/`。
+1. 改代码前读 **STATUS** + **SITE-MANUAL**；长讨论读当日 **sessions/**
+2. 改 `src/` 路由/页面 → **同步 SITE-MANUAL**
+3. 决策 → STATUS「最近决策」；覆盖旧需求 → [DOC-LIFECYCLE.md](docs/DOC-LIFECYCLE.md)
+4. **勿擅自改** `guidelines/`（除非 Archie 明确要求）
+5. 视觉以 **STATUS + DEMO-TASTING** 为准，选定前勿假定某一 demo
+6. 收工：STATUS → 必要时 SITE-MANUAL → sessions → commit
+7. 不提交 `node_modules`、`.env`、`dist/`
+
+## 文档文首 YAML 与修订记录
+
+> 细则：[docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md)（**无 `okf:` 前缀**；字段中英对照；按 `doc_type` 分字段）
+
+- 会变的 `docs/*.md`、`knowledge/raw/dialogues/*.md`：**YAML frontmatter** + **`## 修订记录` 置顶**（最新在上）
+- `revised_at`：**北京时间到秒**；取时见 DOC-FRONTMATTER §八
+- `AGENTS.md` **不加 YAML**（Cursor 入口）；变更记入本节「修订记录」或 STATUS
+
+## 新需求覆盖旧需求
+
+> **完整版 → [AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §三** · 细则 [DOC-LIFECYCLE.md](docs/DOC-LIFECYCLE.md)
+
+- **默认不删**旧文件；改 YAML `status` + 修订记录 + 更新权威源
+- 权威源分散：网站 → SITE-MANUAL · 进度 → STATUS · 专题 → `docs/主题-*.md`
+- 冲突优先级：`src/` → SITE-MANUAL → STATUS → 专题 → guidelines
+
+## 对话语料归档（女娲蒸馏用）
+
+> **完整版 → [AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §二**
+
+**触发词**：`整理对话` · `归档语料` · `保存这次讨论`
+
+| 规则 | 内容 |
+|------|------|
+| 路径 | `knowledge/raw/dialogues/YYYY-MM-DD-主题.md` |
+| 读序 | **最新轮次在最上**（`#009` → `#001`） |
+| 轮次 | 本会话内 Archie 第 N 次发言 = `#00N`，**从 1 递增**；不用 Cursor transcript 行号 |
+| Archie | **原文完整**，不改写 |
+| Assistant | **一行摘要**或省略 |
+| 称谓 | 固定 **Archie** |
+| 时间 | 实时归档：每条 `revised_at` 到秒；补档注明「无原始时间戳」 |
+| 排版 | `## #00N · Archie` → 正文 → `### Assistant` → 一行；见 dialogues 范例 |
+
+## 复杂任务与判断（通用 · 每会话必守）
+
+> **完整版（背景 + 自检 + 警示）→ [docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §一**  
+> 下文为每会话注入摘要；**改规则须先改宪章，禁止只删 AGENTS 不维护宪章。**
+
+### 底层方法论（结论 · 不含步骤表）
+
+**流程 1 · 复杂任务 / 信息是否充足**
+
+- **先外化，再行动** — 最大风险是脑内模型不完整仍动手；复述与清单是把假设变成可检查的文字。
+- **清单随任务变** — 「缺什么会做错」取决于具体任务；专用 Gate 只是某分支的清单，不是全局万能表。
+- **完备度是责任声明** — 明确「还缺 X，缺了会导致 Y」比假装全懂重要；缺关键项时 **只规划不写码**。
+- **默认小步试点** — 信息够时也先小范围验证，再铺开，便于复核与回滚。
+
+**流程 2 · 复杂判断 / 决策可复核**
+
+- **判断要留证据链** — 好结论能回答「为何选 A 不选 B」，日后可对照事实检验。
+- **「不做 / 延后」是合法选项** — 与「现在做」同等认真比较，避免为动而动。
+- **量化是对抗直觉偏误** — 自设维度与权重不是官僚流程，是让双方对同一标准说话。
+- **推荐与假设分离** — 写清依赖哪些未验证前提；前提不成立时推荐应如何变。
+- **时机是决策的一部分** — 「对不对」与「现在做对不对」是两道题；分期本身是可复核的判断。
+
+### 何时视为「复杂任务」（自动识别，命中任一即启用）
+
+- 架构 / 数据流 / 多系统整合（如网站 + Obsidian + OKF）
+- 新增路由或改变信息架构
+- 不可逆或高返工成本（内容格式、目录大规模迁移）
+- Archie 说「探讨」「不确定什么时候做」「你定标准」
+- 需求跨多条线（视觉 + 内容 + 知识库同时动）
+
+### 复杂任务四步（信息是否够用）
+
+1. **复述需求** — 用自己的话写清目标、约束、非目标；Archie 未反对视为可继续；**应写入 AGENTS 协作节或对话归档，帮 Archie 理清思路**。
+2. **自定信息清单** — 按任务类型列 5～10 条「没有则做不对」的信息（不限于 Gate；Gate 0–3 仅用于**知识库×网站**分支，见 STATUS）。
+3. **完备度声明** — 写明：已满足 / 仍缺 / 缺了会怎样；**缺关键项则只规划不写代码**。
+4. **执行或归档** — 动手则小步试点；仅探讨则写入 `docs/sessions/` + STATUS「最近决策」。
+
+### 复杂判断四步（结论要可复核）
+
+1. 至少 **2 个选项**（含「不做 / 延后」）。
+2. **可量化标准** — 自列 3～6 个维度 + 权重或 1–5 分表（任务相关，非固定模板）。
+3. **推荐 + 假设** — 写明依赖哪些未验证假设。
+4. **时机判断** — 若涉及分期：现在做 / 视觉锁定后做 / 内容管道前做，并给一句理由。
+
+### 上下文注入优先级
+
+> **完整版 → [AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §四**
+
+见 [.cursor/rules/project-conventions.mdc](.cursor/rules/project-conventions.mdc)（P0 gotchas+AGENTS → P1 STATUS+SITE-MANUAL+宪章 → P2 专题 doc → P3 guidelines）
+
+## 规划与文档分工
+
+| 场景 | 写哪 |
+|------|------|
+| 进度、下一步 | STATUS.md |
+| 网站线框、功能现状 | SITE-MANUAL.md |
+| 多方案长讨论 | sessions/YYYY-MM-DD.md |
+| 协作硬约束 | gotchas.mdc + 本文件 |
+| 专题细则 | docs/主题-*.md |
+| 原始产品需求 | guidelines/（少改） |
+
+**禁止**：子任务新建 `.cursor/plans/*.plan.md`
+
+### 收工 ritual
+
+更新 STATUS（含 `revised_at` 到秒）→ 必要时 SITE-MANUAL / YAML / 修订记录 → sessions delta → commit（Archie 要求时 push）
+
+### 新对话开场（对 Archie）
+
+> 请先 `git pull`，读 `@docs/STATUS.md` + `@docs/SITE-MANUAL.md`，继续 [任务]。
 
 ## 文档索引
 
 | 文件 | 用途 |
 |------|------|
-| [docs/STATUS.md](docs/STATUS.md) | 当前进度（日常唯一入口） |
-| [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | 八版 demo 试吃笔记（混搭用） |
-| [docs/LOGO-FONT-BRIEF.md](docs/LOGO-FONT-BRIEF.md) | Logo 中文字标需求（确认版） |
-| [docs/SUBTITLE-FORMAT.md](docs/SUBTITLE-FORMAT.md) | 字幕 TXT 排版规则（AI 处理源稿必读） |
-| [docs/sessions/](docs/sessions/) | 详细计划与当日长文 |
-| [docs/sessions/_TEMPLATE.md](docs/sessions/_TEMPLATE.md) | 日志结构模板 |
-| [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md) | GitHub 首次上传步骤 |
-| [guidelines/个人网站改版方案.md](guidelines/个人网站改版方案.md) | 需求、站点地图、分期 |
-| [guidelines/网站需求填空.md](guidelines/网站需求填空.md) | 原始需求 |
-| [design-demos/_spec.md](design-demos/_spec.md) | 三版设计共同约束 |
+| [docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) | **协作根本规则（宪章）· Archie 优先备份** |
+| [docs/STATUS.md](docs/STATUS.md) | 进度、阻塞、最近决策 |
+| [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md) | 给人看的网站说明书 + ASCII 线框 |
+| [docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md) | YAML 文首 + 修订记录规范 |
+| [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | demo 试吃与混搭 |
+| [docs/SUBTITLE-FORMAT.md](docs/SUBTITLE-FORMAT.md) | 字幕排版 |
+| [docs/LOGO-FONT-BRIEF.md](docs/LOGO-FONT-BRIEF.md) | Logo（搁置） |
+| [docs/sessions/](docs/sessions/) | 当日长文 |
+| [guidelines/](guidelines/) | 原始需求（可能过时） |
+| [design-demos/_spec.md](design-demos/_spec.md) | demo 共同约束 |
+
+## 修订记录（AGENTS）
+
+| 北京时间 | 变更 |
+|----------|------|
+| 2026-06-30 15:11:50 | 新建 **AI-COLLABORATION-CHARTER.md** 完整宪章；AGENTS 链宪章、禁止再删复杂任务节 |
+| 2026-06-30 15:06:15 | 恢复复杂任务全文；对话 #轮次倒序 |
+| 2026-06-26 23:59:59 | SITE-MANUAL 入口；复杂任务/判断；对话触发词 |

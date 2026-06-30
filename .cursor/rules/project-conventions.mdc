@@ -15,15 +15,39 @@ alwaysApply: true
 | **进度与叙事** | `docs/STATUS.md`、`docs/sessions/` | 新任务约定先读 STATUS | 进行中的事，不是永久规范 |
 | **稳定需求** | `guidelines/` | 仅在你 `@` 或任务涉及时 | 产品需求；**少改** |
 
+## `.mdc` 与 `.md` 进上下文（别混）
+
+| 格式 | 典型文件 | 注入方式 | 你的理解 |
+|------|----------|----------|----------|
+| **`.mdc`** | `.cursor/rules/*.mdc` | `alwaysApply: true` → **每会话全文注入**；`globs:` → 编辑匹配文件时注入 | ✅ 对「强制全文」基本正确 |
+| **`.md`** | `AGENTS.md` | 本仓库作 **Cursor 工作区规则** → **每会话全文注入**（与 gotchas 同级） | ⚠️ 不是「只有描述」；本项目的 AGENTS **是全文** |
+| **`.md`** | `docs/*.md`、`guidelines/` | **默认不注入**；gotchas/AGENTS **点名路径**时 AI 应 Read，或你 `@` | ✅ 对「不一定会全文」正确 |
+| **Skill** | `.agents/skills/*/SKILL.md` | 按 description **任务匹配**时加载，非每会话 | 非全文常驻 |
+
+**结论：** 要「每会话必守」→ 写进 **`alwaysApply` 的 .mdc`** 或 **`AGENTS.md` 短节**；长细则放 `docs/` 并由 gotchas/AGENTS **一行索引**。
+
+## 上下文注入优先级（本仓库）
+
+| 优先级 | 文件 | 何时 |
+|--------|------|------|
+| P0 | `project-gotchas.mdc`、`project-conventions.mdc` | 每会话自动 |
+| P0 | `AGENTS.md` | 每会话自动（工作区规则） |
+| P1 | `docs/AI-COLLABORATION-CHARTER.md` | 协作根本规则；复杂任务/对话/覆盖旧需求 |
+| P1 | `docs/STATUS.md` | gotchas 要求新任务先读 |
+| P1 | `docs/SITE-MANUAL.md` | 改站 / 新任务先读（网站现状 + ASCII 线框） |
+| P2 | `docs/SUBTITLE-FORMAT.md` 等专题 | gotchas 点名路径 或 `@` |
+| P2 | `docs/sessions/YYYY-MM-DD.md` | 收工 / 延续昨日 / `@` |
+| P3 | `guidelines/` | `@` 或任务涉及 |
+
 ## 回答你的两个问题
 
 1. **所有独特规则都会记在 `.cursor/rules/` 吗？**  
-   **不会。** 这里只放「短而必守」的索引与硬约束。**细则**写 `docs/`（字幕、Logo、部署…），由 gotchas 或本文件指向路径。
+   **不会。** 这里只放「短而必守」的索引与硬约束。**细则**写 `docs/` 或 **AGENTS 协作节**；由 gotchas 或 AGENTS 点名路径。
 
 2. **`.cursor/rules/` 每次启动都会进上下文吗？**  
    **只有** frontmatter 里 `alwaysApply: true` 的文件会**每会话自动**加入。  
    带 `globs` 的规则仅在相关文件在编辑器中时被加入。  
-   `docs/SUBTITLE-FORMAT.md` 等 **不会**自动全文注入——除非 alwaysApply 规则写了「处理字幕前先读该文件」，或你主动 `@docs/SUBTITLE-FORMAT.md`。
+   `docs/*.md` **不会**自动全文注入——除非 gotchas/AGENTS 写了「先读该文件」，或你 `@`。
 
 ## 新增一条「项目独特规则」时
 
@@ -32,8 +56,18 @@ alwaysApply: true
 3. 一次性决策 → `docs/sessions/` + `STATUS.md`「最近决策」
 4. **不要**指望「说过一次 AI 永远记得」——必须落盘到上述位置
 
+## 新需求覆盖旧需求（文档生命周期）
+
+> 细则：[docs/DOC-LIFECYCLE.md](../docs/DOC-LIFECYCLE.md)
+
+- **默认不删**旧 md / demo；用 **文首状态条**（`已推翻` / `搁置`）或移入 `docs/_archive/`
+- **最新状态按线分散**：网站现状 → `SITE-MANUAL` · 进度决策 → `STATUS` · 专题 → `docs/主题-*.md` · **不是**堆进一个文件
+- 覆盖发生：**更新权威源** + STATUS「最近决策」一行 + 旧文件标注；`guidelines/` **默认不改**（除非用户明确要求）
+- 冲突优先级：`src/` → `SITE-MANUAL` → `STATUS` → 专题 doc → `guidelines`
+
 ## 当前专题规范索引
 
 - 字幕排版：`docs/SUBTITLE-FORMAT.md` → `node scripts/format-subtitles.mjs`
-- 协作入口：`docs/STATUS.md`、`AGENTS.md`
+- 协作入口：`docs/AI-COLLABORATION-CHARTER.md`、`docs/STATUS.md`、`docs/SITE-MANUAL.md`、`AGENTS.md`
+- 文档 YAML 文首：`docs/DOC-FRONTMATTER.md`
 - Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`

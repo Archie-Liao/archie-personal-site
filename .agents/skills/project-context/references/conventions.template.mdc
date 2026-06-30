@@ -1,0 +1,29 @@
+---
+description: {{PROJECT_NAME}} 规则存放分层 — AI 如何找到规范
+alwaysApply: true
+---
+
+# 项目规则放在哪
+
+## 五层（不要全堆进 .cursor/rules）
+
+| 层 | 位置 | 何时进上下文 | 放什么 |
+|----|------|--------------|--------|
+| **硬约束** | `.cursor/rules/*-gotchas.mdc` `alwaysApply: true` | 每会话 | ≤15 条必守 |
+| **元规则** | 本文件 | 每会话 | 规则写哪 |
+| **按文件** | `.cursor/rules/*.mdc` + `globs:` | 编辑匹配文件时 | 如 `src/**/*.tsx` |
+| **专题规范** | `docs/*.md` | gotchas 点名或用户 `@` | 细则 + 脚本路径 |
+| **活状态** | `docs/STATUS.md`、`docs/sessions/` | 新任务先读 STATUS | 进度，非永久规范 |
+| **稳定需求** | `guidelines/` | 用户 `@` 或任务涉及 | 少改 |
+
+## 新增一条项目规则
+
+1. 3～10 条 bullet → 合适的 `.cursor/rules/*.mdc`
+2. 需步骤/示例/脚本 → `docs/主题-xxx.md` + gotchas **一行链接**
+3. 一次性决策 → STATUS「最近决策」+ 可选 sessions
+4. **不要**指望「说过一次 AI 永远记得」——必须落盘
+
+## 专题规范索引（按项目填写）
+
+- 协作入口：`docs/STATUS.md`、`AGENTS.md`
+- {{TOPIC_1}}：`docs/{{TOPIC_1_FILE}}.md`
