@@ -1,18 +1,21 @@
 ---
+
 doc_type: project_doc
 title: 文档文首 YAML 规范
 status: active
 canonical: docs/DOC-FRONTMATTER.md
-revised_at: "2026-06-30 15:35:00"
+revised_at: "2026-07-02 11:15:49"
 timezone: Asia/Shanghai
+
 ---
 
 ## 修订记录（最新在上）
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 15:35:00 | 更正 Preview 说明；项目 `.vscode` 设 `frontMatter: hide` |
-| 2026-06-30 15:30:00 | frontmatter 内禁止空行；去掉装饰行 |
+| 2026-07-02 11:15:49 | 更正 Preview 空行规则（首尾各空一行）；补 `revised_at` 规则；区分 Skill YAML |
+| 2026-07-01 18:30:49 | （已作废）误写「字段间禁止空行」 |
+| 2026-06-30 18:23:09 | 恢复 `---` YAML；Preview 刻意显示 |
 
 ---
 
@@ -20,51 +23,79 @@ timezone: Asia/Shanghai
 
 灵感：Google [OKF](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing/) 用 YAML 声明文件状态——**本项目不用 `okf:` 嵌套**，字段**平铺**在 frontmatter 顶层。
 
+## 零、文首 YAML 是干什么的
+
+| 作用 | 说明 |
+|------|------|
+| **状态声明** | 这文件还生效吗？`active` / `shelved` / `superseded`；搁置何时重启 |
+| **权威路径** | `canonical` — 同名话题以哪份为准 |
+| **最后修订** | `revised_at` + 下方修订记录表（给你和 AI 扫变更） |
+| **类型分字段** | `doc_type` 决定要不要 `speaker`、`may_be_stale` 等（见 §二） |
+| **生命周期** | 配合 [DOC-LIFECYCLE.md](DOC-LIFECYCLE.md) — 新需求覆盖旧需求时**改 status，不静默删文** |
+
+**不做什么**：不驱动网站前端；不替代 STATUS/SITE-MANUAL 正文；`AGENTS.md` **不加** YAML（Cursor 工作区入口例外）。
+
+### 与 Cursor **Skill** 文首 YAML 的区别（重要）
+
+| | **Skill 的 `SKILL.md`** | **本仓库 `docs/*.md` 文首 YAML** |
+|---|-------------------------|----------------------------------|
+| **frontmatter 里有什么** | `name` + **`description`（触发场景）** | `doc_type` / `status` / `revised_at` 等 **文档状态** |
+| **Agent 会不会自动读** | Skill 列表会注入 **description**，用于「该不该用这个技能」；**全文**通常在你 `@` 技能或任务匹配时才读 | **不会**因 YAML  alone 自动注入全文；要读须 **打开文件**、被 **gotchas/AGENTS 点名**，或你 **`@docs/...`** |
+| **类似「使用场景」的字段** | ✅ `description` 就是 | ❌ 本项目 doc **没有**等价字段；用途看 `doc_type` + `authority` + 标题 |
+| **你的理解** | ✅ 大体对：Skill 靠 description 做路由，不必每次读完 SKILL | ⚠️ **不要套用**到项目 doc — 我们的 YAML 是 **给你我扫状态**，不是 Cursor 的 skill 路由机制 |
+
+之前没写清 Skill 对比，是遗漏；二者 **格式相似、机制不同**。
+
+### AI 怎么「读」项目 doc 的 YAML
+
+- 读文件时当普通文本解析 `key: value`；无专用 build 步骤。
+- **`---` 后、闭合 `---` 前各空一行**：只影响 Preview 样式；**不影响** AI 识别。
+- **字段之间可空行**（你已验证 Preview 正常）；以前「禁止字段间空行」是误判，已作废。
+- 决策时看 `status` / `may_be_stale` / `latest_at` 等字段。
+
 ## 文件结构（固定顺序）
 
 ```
 ---
+（此处空一行 — Cursor Preview：字段不易被渲染成粗体）
 doc_type: ...
 title: ...
-（连续 key: value，中间不要空行）
+（字段之间可空行 — 不影响 Preview）
+（此处空一行）
 ---
 ## 修订记录（最新在上）
 正文
 ```
 
-## 编辑器 vs Preview（必读）
+## Preview 里 YAML 怎么显示
 
-| 视图 | YAML 长什么样 |
-|------|----------------|
-| **源码（Markdown）** | 语法高亮：键名、字符串、布尔值颜色不同 |
-| **侧边 Preview**（`Ctrl+Shift+V`） | 本项目已设 **`markdown.preview.frontMatter": "hide"`** → **不显示** frontmatter |
-| **内联 Preview**（编辑器右上角 Preview 钮） | Cursor **已知问题**：可能仍把 frontmatter 当大字正文；**不读**上面的设置 |
+**元数据给你（Archie）和 AI 都要读** — 刻意不隐藏。
 
-**为何你看见一大块扎眼的 YAML？**
-
-1. **新版 VS Code 默认** `frontMatter: "table"`，会把 `---` 里内容渲染成**顶部大表**（不是隐藏）。  
-2. **Cursor 内联 Preview** 有时更糟：整块当普通大字文本输出。  
-3. 之前 frontmatter **中间有空行** 时，还会被截断，后半段像「一级标题」——已禁止空行。
-
-**你怎么做（任选）**
-
-| 做法 | 效果 |
+| 视图 | 表现 |
 |------|------|
-| **推荐** 用 **`Ctrl+Shift+V`** 开侧边预览 | 读本仓库 `.vscode/settings.json` 后应**看不到** frontmatter |
-| 改 metadata 时看 **Markdown 源码** | 有 YAML 着色，最稳 |
-| 坚持用右上角 **内联 Preview** | 可能仍显示；等 Cursor 修，或暂时忽略顶部块 |
-| 在 frontmatter 上 **右键**（侧边预览里） | 部分版本可快速切 hide / table / codeBlock |
+| **源码** | YAML 语法高亮 |
+| **Preview** | 显示 frontmatter；**首尾各空一行** 可改善字段粗体问题 |
 
-本项目 **`.vscode/settings.json`** 已写 `"markdown.preview.frontMatter": "hide"`。若侧边预览仍显示，重载窗口（`Ctrl+Shift+P` → Reload Window）。
+### 书写规则（Preview 版 · 2026-07-02）
 
-**Preview 里没有 YAML 语法彩色** — 正常；彩色只在**源码**里。要彩色 Preview 需扩展（如 Markdown Preview Enhanced），非内置能力。
+- **必须**：开 `---` **后**空一行；闭 `---` **前**空一行
+- **允许**：字段与字段之间空行（排版可读；不影响 Preview）
+- **不要**：在 YAML 块里写 `# ── 文档元数据 ──` 装饰行
+- 嵌套（`latest_at:`）用 **2 空格缩进**
 
-### frontmatter 书写硬规则
+## 时间标注规则（`revised_at` 与修订记录表）
 
-- **不要**在 `---` 块内写空行  
-- **不要**写 `# ── 文档元数据 ──` 之类装饰行（无必要；`#` 在块外会被当成标题）  
-- 行尾说明用 `docs/DOC-FRONTMATTER.md` 正文表查阅，**尽量别**在 frontmatter 里堆 `# 注释`  
-- 嵌套（如 `latest_at:`）用 **2 空格缩进**，子项紧跟父键，中间仍不要空行
+**写在本文件 §八命令 + 此处规则；gotchas 要求北京时间到秒。**
+
+| 规则 | 说明 |
+|------|------|
+| **何时写** | 每次 **实质修改** 该文件内容时（不是只改错别字可酌情） |
+| **取值** | 修改完成时刻的 **电脑北京时间，精确到秒** |
+| **怎么取** | 运行 §八 PowerShell 命令；**禁止**抄上一轮对话里的旧时间 |
+| **两处同步** | frontmatter 的 `revised_at` = 修订记录表 **最上一行** 的时间 |
+| **修订记录表** | 最新一行在最上；写 **人话摘要**（改了什么） |
+
+**我（AI）之前乱标时间的原因**：用了更早一条 shell 结果（如 18:30:49），而不是 **落笔保存当下** 再跑一次命令 — 这是执行错误，不是规则允许。
 
 ---
 
@@ -76,7 +107,7 @@ title: ...
 | `title` | title | 标题 | ✅ | `网站说明书` |
 | `status` | status | 生命周期状态 | ✅ | `active` · `shelved` · `superseded` · `deprecated` |
 | `canonical` | canonical path | 权威路径（本文件） | ✅ | `docs/STATUS.md` |
-| `revised_at` | last revised | 最后修订时间 | ✅ | `"2026-06-30 15:06:15"` |
+| `revised_at` | last revised | 最后修订时间 | ✅ | `"2026-07-02 11:15:49"` |
 | `timezone` | timezone | 时区 | ✅ | `Asia/Shanghai` |
 
 **`status` 含义**
@@ -114,19 +145,21 @@ title: ...
 
 ---
 
-## 三、排版示例（对话语料）
+## 三、排版示例（带 Preview 空行）
 
 ```yaml
 ---
+
 doc_type: dialogue_corpus
 title: 知识库协作与网站说明书
 status: active
 canonical: knowledge/raw/dialogues/2026-06-26-知识库协作与网站说明书.md
-revised_at: "2026-06-30 15:30:00"
+revised_at: "2026-07-02 11:15:49"
 timezone: Asia/Shanghai
 speaker: Archie
 corpus_use: nuwa_skill_distill
-turn_count: 9
+turn_count: 15
+
 ---
 ```
 
@@ -134,15 +167,17 @@ turn_count: 9
 
 ```yaml
 ---
+
 doc_type: project_doc
 title: Logo 中文字标需求
 status: shelved
 canonical: docs/LOGO-FONT-BRIEF.md
-revised_at: "2026-06-30 15:30:00"
+revised_at: "2026-07-02 11:15:49"
 timezone: Asia/Shanghai
 shelved_reason: 多轮 v3–v7 未锁定；先推进整站视觉
 resume_when: 整站 demo 混搭锁定后
 latest_demo: design-demos/logo-fonts/compare-v7-final.html
+
 ---
 ```
 
@@ -150,6 +185,7 @@ latest_demo: design-demos/logo-fonts/compare-v7-final.html
 
 ```yaml
 ---
+
 doc_type: guideline
 title: 个人网站改版实施计划
 status: active
@@ -161,22 +197,20 @@ latest_at:
   site_layout: docs/SITE-MANUAL.md
   progress: docs/STATUS.md
   visual: docs/DEMO-TASTING-NOTES.md
+
 ---
 ```
 
 ---
 
-## 六、自检清单（AI 写 YAML 前过一遍）
+## 六、自检清单（AI 改 doc 前过一遍）
 
-- [ ] **`---` 块内无空行**（避免 Preview 截断 frontmatter）
-- [ ] **无「文档元数据」装饰注释行**
-- [ ] **无 `okf:` 嵌套** — 字段在顶层
-- [ ] `revised_at` **到秒**，北京时间
-- [ ] `doc_type` 与追加字段匹配（对话语料必有 `speaker: Archie`）
-- [ ] `status: shelved` 必有 `resume_when`
-- [ ] `status: superseded` 必有 `superseded_by`
-- [ ] 修订记录表**最新行在最上**
-- [ ] `AGENTS.md` **不加 YAML**（Cursor 工作区入口）
+- [ ] **`---` 后、闭 `---` 前各空一行**（Preview）
+- [ ] 字段间空行 **允许**
+- [ ] **`revised_at` = 修订表首行 = 保存前刚跑的北京时间（到秒）**
+- [ ] **无 `okf:` 嵌套**
+- [ ] `doc_type` 与追加字段匹配
+- [ ] `AGENTS.md` **不加 YAML**
 
 ## 七、哪些文件必须有 YAML
 
@@ -190,7 +224,7 @@ latest_at:
 | `knowledge/raw/dialogues/*.md` | `dialogue_corpus` |
 | `guidelines/*.md` | `guideline` |
 
-## 八、时间取值命令
+## 八、时间取值命令（保存前运行）
 
 ```powershell
 [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'China Standard Time').ToString('yyyy-MM-dd HH:mm:ss')

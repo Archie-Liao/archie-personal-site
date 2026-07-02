@@ -1,18 +1,20 @@
 ---
+
 doc_type: project_doc
 title: 文档生命周期
 status: active
 canonical: docs/DOC-LIFECYCLE.md
 authority: 需求覆盖旧需求
-revised_at: "2026-06-30 15:30:00"
+revised_at: "2026-06-30 18:23:09"
 timezone: Asia/Shanghai
+
 ---
 
 ## 修订记录（最新在上）
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 15:06:15 | 对齐 DOC-FRONTMATTER（无 okf 前缀） |
+| 2026-06-30 18:23:09 | 恢复 `---` YAML frontmatter |
 | 2026-06-26 23:59:59 | 初版：四种处置、权威源地图 |
 
 # 文档生命周期 · 新需求覆盖旧需求

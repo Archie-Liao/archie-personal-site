@@ -90,7 +90,7 @@ cd design-demos && python -m http.server 8765
 
 ## 文档文首 YAML 与修订记录
 
-> 细则：[docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md)（**无 `okf:` 前缀**；字段中英对照；按 `doc_type` 分字段）
+> 细则：[docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md)（**无 `okf:` 前缀**；Preview **刻意显示** YAML 供人读）
 
 - 会变的 `docs/*.md`、`knowledge/raw/dialogues/*.md`：**YAML frontmatter** + **`## 修订记录` 置顶**（最新在上）
 - `revised_at`：**北京时间到秒**；取时见 DOC-FRONTMATTER §八
@@ -115,7 +115,7 @@ cd design-demos && python -m http.server 8765
 | 路径 | `knowledge/raw/dialogues/YYYY-MM-DD-主题.md` |
 | 读序 | **最新轮次在最上**（`#009` → `#001`） |
 | 轮次 | 本会话内 Archie 第 N 次发言 = `#00N`，**从 1 递增**；不用 Cursor transcript 行号 |
-| Archie | **原文完整**，不改写 |
+| Archie | **原文完整**，不改写；**禁止**摘要/缩写/「…」；须从 **agent transcript** 逐字粘贴（见 `.cursor/rules/project-gotchas.mdc`） |
 | Assistant | **一行摘要**或省略 |
 | 称谓 | 固定 **Archie** |
 | 时间 | 实时归档：每条 `revised_at` 到秒；补档注明「无原始时间戳」 |

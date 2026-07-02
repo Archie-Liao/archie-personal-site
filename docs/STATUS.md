@@ -1,89 +1,98 @@
 ---
+
 doc_type: status
 title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-06-30 17:14:09"
+revised_at: "2026-07-02 18:16:45"
 timezone: Asia/Shanghai
+
 ---
 
 ## 修订记录（最新在上）
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 17:14:09 | 收工：sessions/2026-06-30；Preview 设置；宪章 frontmatter 修复 |
-| 2026-06-30 15:35:00 | DOC-FRONTMATTER Preview 说明；`.vscode` frontMatter hide |
-| 2026-06-30 15:24:38 | 宪章增补 §五–§八 |
-| 2026-06-30 15:06:15 | YAML 去 okf；AGENTS 复杂任务节恢复 |
-| 2026-06-30 14:37:56 | YAML 文首；DOC-FRONTMATTER |
-| 2026-06-26 23:59:59 | SITE-MANUAL、DOC-LIFECYCLE、dialogues 首条 |
+| 2026-07-02 18:16:45 | 试吃 6/8 版；站点功能盘点 §5 旅程；COMPLEX-TASK-GATE；对话 #016–#020 |
+| 2026-06-30 18:23:09 | 恢复 `---` YAML；Preview 可见元数据 |
 
 # 项目状态
 
 > **新 AI 会话请先读本文 + [AGENTS.md](../AGENTS.md) + [SITE-MANUAL.md](SITE-MANUAL.md) + [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md)**  
-> 详细计划 → [docs/sessions/](sessions/) · 今日日志 → [2026-06-30.md](sessions/2026-06-30.md)
+> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-01.md](sessions/2026-07-01.md)
 
 ## 主任务（仅 1 条）
 
-**第一期改版**：视觉 + 页面内容（Vite + React，暖色复古出版物流）
+**第一期改版**：视觉混搭（benchmark 气质为主）+ 六页功能（P1）→ 迁入 `src/`
 
 ## 进度快照
 
 | 模块 | 状态 | 备注 |
 |------|------|------|
-| **协作宪章** | **完成** | [`AI-COLLABORATION-CHARTER.md`](AI-COLLABORATION-CHARTER.md) — Archie 优先单独备份 |
-| **文档 YAML 规范** | **完成** | [`DOC-FRONTMATTER.md`](DOC-FRONTMATTER.md)；`.vscode` Preview 隐藏 frontmatter |
-| **文档生命周期** | **完成** | [`DOC-LIFECYCLE.md`](DOC-LIFECYCLE.md) |
-| **网站说明书** | **完成** | [`SITE-MANUAL.md`](SITE-MANUAL.md) ASCII 线框 |
-| 设计方向探索 | 进行中 | D1 press v1 · D2 monocle v1 · D3 midcentury v0；**D4–D5 未交付** |
-| 项目文档 / Git | 完成 | [archie-personal-site](https://github.com/Archie-Liao/archie-personal-site) |
-| 首页 Hero / 整站视觉 | **阻塞** | 五版试吃；[`DEMO-TASTING-NOTES.md`](DEMO-TASTING-NOTES.md) **待填** → 选定后迁入 `src/` |
-| 日记列表 `/posts` | 已有 | mock 数据 |
-| 详情页 `/post/:id` | 进行中 | 字幕 ep86–99；ep86–93 待 posts 条目 |
-| 知识图谱 `/graph` | 已有 | 标签共现；规划双 Tab |
-| 知识库 × 网站 | **部分启动** | `knowledge/raw/dialogues/` 已建（#011）；wiki/content 延后 |
-| 对话语料 | **已启动** | 触发词：整理对话 / 归档语料 |
-| 反馈 `/feedback` | 已有 | localStorage |
-| 关于 `/about` | 已有 | 占位 |
-| Logo 中文字标 | **搁置** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) |
-| Markdown 管道 | 未开始 | 第二期 |
-| 部署 Vercel | 未开始 | |
+| **协作宪章** | **完成** | [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md) |
+| **复述门控** | **完成** | [COMPLEX-TASK-GATE.md](COMPLEX-TASK-GATE.md) + `.cursor/hooks` |
+| **文档 YAML** | **完成** | [DOC-FRONTMATTER.md](DOC-FRONTMATTER.md)（Preview 首尾空行；Skill 对比 §零） |
+| **网站说明书** | **完成** | [SITE-MANUAL.md](SITE-MANUAL.md) |
+| **站点功能盘点** | **进行中** | [sessions/2026-07-01.md](sessions/2026-07-01.md) §5 旅程已定 · §6 表待填 |
+| **Demo 试吃** | **进行中** | [DEMO-TASTING-NOTES.md](DEMO-TASTING-NOTES.md)：**6/8 已填**（缺 roulette、D4/D5） |
+| 设计 demo 交付 | 进行中 | D1–D3 v0/v1 有；**D4 turley、D5 tufte 未交付** |
+| 整站视觉混搭 | **阻塞** | benchmark 气质优先；勿整页照搬 D2/D3 |
+| 首页 Hero / `src/` | **未迁入** | 等试吃齐 + 混搭清单 |
+| 日记 `/posts` | 已有 | mock；旅程 A 侧栏筛选待盘点定稿 |
+| 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
+| 知识图谱 `/graph` | 已有 | 标签共现；双 Tab **P2** |
+| **产品畅想** | **探讨中** | 思维模型助手 + wiki/clusters → sessions §9；**P2/P3** |
+| 知识库 | 部分 | `dialogues/` #020；`wiki/` `content/` 延后 |
+| Logo | 搁置 | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) |
+| 部署 | 未开始 | |
+
+### 试吃进度（2026-07-02）
+
+| Demo | 状态 | 一句话 |
+|------|------|--------|
+| benchmark | ✅ | **production 气质首选**（仅首页） |
+| D1 press | ✅ | 温馨；偷 hero 色块、字幕平排 |
+| D2 monocle | ✅ | 杂志感；偷动效/双栏思路，不要黑底板 |
+| D3 midcentury | ✅ | 元件库；太浮夸不当整站 |
+| designer | ✅ | **反例**（柔弱/性冷淡） |
+| roulette | ⏳ | 未试吃 |
+| D4 / D5 | ⏳ | 待 AI 交付（须丰富动效） |
 
 ## 接下来（按优先级）
 
-### 你（Archie）
+### Archie
 
-1. **试吃 D3** [`midcentury.html`](../design-demos/midcentury.html) → 填 [`DEMO-TASTING-NOTES.md`](DEMO-TASTING-NOTES.md)
-2. 等 D4/D5 交付后继续试吃 → **定混搭**（从各版「偷」元件，非整页复制）
-3. 选定后通知 AI → 迁入 `src/styles` + 组件
+1. **试吃 roulette**（可选）→ 补 DEMO-TASTING-NOTES
+2. **拍板** sessions §9：P1 范围 + 聚类页是否先于思维模型助手
+3. 一起填 **§6 站点功能盘点表**（基于 §5 三条旅程）
 
-### AI / 协作
+### AI
 
-1. 交付 D4 `turley.html`、D5 `tufte.html` v0（D1/D2 parity）
-2. 改页面时同步 `SITE-MANUAL.md`；改协作规则**先改宪章**
-3. `design-demos/index.html` 八版对比表（待做）
+1. **交付 D4、D5** v0（动效样例要多，供试吃）
+2. 试吃齐后 → 更新合成决策表 → 混搭清单 → 迁 `src/`
+3. `design-demos/index.html` 八版对比（待做）
 
 ### 可延后
 
-- ep86–93 补 `posts.ts`、字幕校对、ep095 AI 摘要
-- Logo 字体续探
+- ep86–93 `posts.ts`、字幕校对、Logo、豆包思维模型清单（提供后专拆）
 
 ## 待你决定
 
-- [ ] **整站 demo 混搭**（**主阻塞**）→ 见 DEMO-TASTING-NOTES
-- [ ] 头像 illustration → photo（可暂缓）
-- [ ] Logo 字体（搁置）
+- [ ] **整站混搭**（主阻塞）→ DEMO-TASTING-NOTES 合成表
+- [ ] **P1** 是否只做旅程 B/C + A 的筛选阅读（助手 **P3**）
+- [ ] **P2** 聚类页先于站内助手？
+- [ ] Logo / 头像（可暂缓）
 
 ## 最近决策
 
-- 2026-06-30 17:14:09：收工更新 STATUS + sessions/2026-06-30；Preview 用侧边预览 + 工作区 hide
-- 2026-06-30 15:11:50：**宪章**为协作方法论完整源；禁止 AI 删压复杂任务节
-- 2026-06-30 15:24:38：宪章增补 §五–§八（落盘、收工、知识库 IA、mdc 等）
-- 2026-06-30 14:37:56：对话归档规则；DOC-FRONTMATTER；guidelines 可能过时
-- 2026-06-26 23:59:59：DOC-LIFECYCLE；SITE-MANUAL；知识库 wiki/content 延后
+- 2026-07-02 18:16:45：试吃 benchmark/D1/D2/designer 落盘；旅程 A/B/C 定稿；DOC-FRONTMATTER Preview 规则更正
+- 2026-07-01：COMPLEX-TASK-GATE；站点功能盘点计划（不叫 IA 矩阵）
+- 2026-06-30：协作宪章；YAML 规范；对话语料规则
+- 2026-06-26：知识库 wiki/content **延后**；SITE-MANUAL；单数据源 md
 
-## 今日摘要（2026-06-30）
+## 今日摘要（2026-07-02）
 
-- **主线交付**：协作宪章 + YAML 规范 + 对话语料 #011 + Preview 修复
-- **建站未推进**：demo 试吃仍阻塞；下一步 D3 试吃 → D4/D5 交付 → 混搭 → 迁 `src/`
+- **试吃**：6 版笔记完成；benchmark = 视觉锚点
+- **盘点**：三条用户旅程写入 sessions；产品畅想 §9（思维模型/clusters）仅规划
+- **协作**：Skill YAML ≠ 项目 doc YAML（机制不同）；复述门控已落盘

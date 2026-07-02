@@ -4,7 +4,7 @@ title: 网站说明书
 status: active
 canonical: docs/SITE-MANUAL.md
 authority: 网站现状与线框
-revised_at: "2026-06-30 15:30:00"
+revised_at: "2026-06-30 18:23:09"
 timezone: Asia/Shanghai
 ---
 
@@ -12,7 +12,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 15:06:15 | YAML 去 okf 嵌套 |
+| 2026-06-30 18:23:09 | 恢复 `---` YAML frontmatter |
 | 2026-06-26 23:59:59 | 初版：六页 ASCII 线框 |
 
 # 网站说明书（给人看 · 活文档）

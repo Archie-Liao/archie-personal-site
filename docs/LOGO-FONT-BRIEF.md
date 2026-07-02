@@ -3,7 +3,7 @@ doc_type: project_doc
 title: Logo 中文字标需求
 status: shelved
 canonical: docs/LOGO-FONT-BRIEF.md
-revised_at: "2026-06-30 15:30:00"
+revised_at: "2026-06-30 18:23:09"
 timezone: Asia/Shanghai
 shelved_reason: 多轮 v3–v7 未锁定；先推进整站视觉
 resume_when: 整站 demo 混搭锁定后；或 Archie 明确要求续做 Logo
@@ -14,7 +14,7 @@ latest_demo: design-demos/logo-fonts/compare-v7-final.html
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 15:06:15 | YAML 去 okf |
+| 2026-06-30 18:23:09 | 恢复 `---` YAML frontmatter |
 | 2026-06-25 18:00:00 | 搁置决定 |
 
 # Logo 中文字标需求（确认版）
