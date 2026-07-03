@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>廖智强 Archie · D4 Turley v0 r2</title>
+<!--
+  ============================================================================
+  D4 · Bloomberg Businessweek (Turley) — v0 r2（纸底优先 · 纠错版）
+  ----------------------------------------------------------------------------
+  上一版错误：整页 #FF3D00 洪泛 + 3–4px 纯黑框 → 像警示/恐怖站，违反：
+    · DEMO-TASTING Must（暖纸、可读、文气）与 Never（粗黑框、大面积色块）
+    · _spec B 层（纸底为主）与 C 层注释「ground 仍可为暖纸，色块作 contrast」
+    · 合成决策「整页色块勿学 D3/D1 pick 大面积」
+
+  本版配色逻辑（纸占 ~85% 视口）：
+    · 纸底 #F6F0E2 / #EFE7D8 — 与 benchmark 同族
+    · 主 accent #CC785C 赤陶 — 链接、kicker、左条 hover（B 层）
+    · Turley  punch #D4562A — 仅 Hero 一条色带 + 期数 badge 底（≤15% 面积）
+    · 信号黄 #E8C547 — 仅 issue 小标，不用整卡铺黄
+    · 墨 #191919 正文；分隔 = hairline rgba(25,25,25,.12)，禁止 3px 黑框
+
+  C 层破例（有节制）：
+    · Hero folio 超大 Playfair + 局部色带（非整屏橙）
+    · Condensed grotesque 仅用于 eyebrow / 表头，不作 200px 霓虹标题
+    · 动效 slam 保留但落在纸面元素上
+
+  BorrowableParts:
+    - hero-folio 纸面巨型期号 + 局部 punch 色带
+    - stat-band folio 排印（对齐 benchmark 精致度）
+    - index-row 左条 color-wipe hover（细条，非整行饱和）
+    - chalkboard 纸底 + 左赤陶条（非黑底）
+    - mindmap 节点 focus scale
+    - tooltip 点我点我～
+  ============================================================================
+-->
+<style>
+  @import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Barlow+Condensed:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Serif+SC:wght@500;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --paper:     #F6F0E2;
+    --paper-2:   #EFE7D8;
+    --paper-3:   #E8DFCF;
+    --ink:       #191919;
+    --ink-2:     #534B40;
+    --ink-3:     #6E6557;
+    --warm:      #CC785C;
+    --warm-d:    #B5612F;
+    --punch:     #D4562A;
+    --signal:    #E8C547;
+    --rule:      rgba(25, 25, 25, 0.12);
+    --rule-soft: rgba(25, 25, 25, 0.07);
+
+    --serif-en:  'Playfair Display', Georgia, serif;
+    --serif:     'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+    --serif-sc:  'Noto Serif SC', 'Songti SC', serif;
+    --display:   'Barlow Condensed', 'Inter', sans-serif;
+    --sans:      'Inter', 'Noto Sans SC', sans-serif;
+
+    --grain: 0.05;
+    --motion: 1;
+    --punch-mode: 0.85;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9990;
+    opacity: var(--grain);
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .view { display: none; }
+  .view.is-active { display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    :root { --motion: 0; }
+  }
+
+  .v-badge {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10002;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    opacity: 0.88;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-d);
+  }
+
+  .folio {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--warm-d);
+  }
+
+  .hr { height: 1px; background: var(--rule); border: 0; margin: 0; }
+
+  /* ---- Nav：纸面 sticky，非整页黑 ---- */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .issue-badge {
+    min-width: 40px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: var(--signal);
+    color: var(--ink);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.15s ease;
+  }
+
+  .issue-badge:hover { transform: scale(1.04); }
+
+  .brand .name-zh {
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.04em;
+  }
+
+  .brand .name-en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  nav.links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+  }
+
+  nav.links a:hover { color: var(--warm); }
+
+  .nav-cta {
+    position: relative;
+    color: var(--warm-d) !important;
+    font-weight: 600;
+  }
+
+  .nav-cta .tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 6px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .nav-cta:hover .tip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ---- Hero：纸面 spread + 局部 punch 色带 ---- */
+  .hero-spread {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-spread::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: min(42%, 480px);
+    height: 8px;
+    background: color-mix(in srgb, var(--punch) calc(var(--punch-mode) * 100%), var(--warm));
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px 40px;
+  }
+
+  .hero-copy h1 {
+    font-family: var(--serif-sc);
+    font-weight: 900;
+    font-size: clamp(28px, 3.2vw, 38px);
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    margin: 12px 0 10px;
+  }
+
+  .hero-copy .tagline-en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-3);
+    margin: 0;
+  }
+
+  .hero-folio {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(96px, 14vw, 168px);
+    line-height: 0.85;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.03em;
+    transform: translateY(12px);
+    opacity: 0;
+  }
+
+  body.is-ready .hero-folio {
+    animation: folio-slam calc(0.32s * var(--motion)) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes folio-slam {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ---- Stat band：benchmark 级 folio ---- */
+  .stat-band {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+
+  .stat-cell {
+    padding: 20px 24px;
+    border-right: 1px solid var(--rule);
+    min-height: 96px;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+
+  .stat-big {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-big .day-num { color: var(--warm-d); }
+
+  .stat-sub {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+
+  /* ---- Feature 三卡：纸面 + 一条 accent ---- */
+  .feature-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .feature-card {
+    padding: 24px 22px 28px;
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+    min-height: 148px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.2s;
+  }
+
+  .feature-card:last-child { border-right: none; }
+
+  .feature-card:hover { background: var(--paper-2); }
+
+  .feature-card.is-pick {
+    background: var(--paper);
+    border-left: 4px solid var(--warm);
+    padding-left: 18px;
+  }
+
+  .feature-card .kicker {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warm-d);
+    margin-bottom: 10px;
+  }
+
+  .feature-card h3 {
+    font-family: var(--serif-sc);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* ---- Index ---- */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 40px 0 16px;
+    gap: 16px;
+  }
+
+  .section-head h2 {
+    font-family: var(--serif-sc);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .section-head .sub {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .table-index {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    margin-bottom: 48px;
+  }
+
+  .index-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--sans);
+    font-size: 14px;
+    position: relative;
+    transition: padding-left 0.2s ease, background 0.2s ease;
+  }
+
+  .index-row:last-child { border-bottom: none; }
+
+  .index-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 0;
+    background: var(--warm);
+    transition: width 0.2s ease;
+  }
+
+  .index-row:hover,
+  .index-row.is-hot {
+    background: var(--paper-2);
+    padding-left: 22px;
+  }
+
+  .index-row:hover::before,
+  .index-row.is-hot::before { width: 3px; }
+
+  .index-row > * { position: relative; z-index: 1; }
+
+  .index-row .day {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--warm-d);
+  }
+
+  .index-row .title { font-weight: 500; color: var(--ink); }
+
+  .index-row .meta {
+    font-size: 12px;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  /* ---- List ---- */
+  .list-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: calc(100vh - 100px);
+  }
+
+  .list-sidebar {
+    background: var(--paper-3);
+    padding: 28px 20px;
+    border-right: 1px solid var(--rule);
+  }
+
+  .list-sidebar h2 {
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 16px;
+  }
+
+  .tag-filter button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 0;
+    cursor: pointer;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .tag-filter button.is-active,
+  .tag-filter button:hover {
+    color: var(--warm-d);
+    font-weight: 600;
+  }
+
+  .list-main { padding: 32px 28px 48px; }
+
+  .list-preview {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+
+  .list-preview .vol {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-d);
+  }
+
+  .list-preview h2 {
+    font-family: var(--serif-sc);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 10px 0 8px;
+    line-height: 1.3;
+  }
+
+  .list-day {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+  }
+
+  .list-day.is-active {
+    background: color-mix(in srgb, var(--warm) 8%, transparent);
+    margin: 0 -8px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .list-day.is-hidden { display: none; }
+
+  .list-day .d-num {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--warm-d);
+  }
+
+  /* ---- Detail ---- */
+  .detail-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 28px 64px;
+  }
+
+  .detail-hero {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .detail-hero h1 {
+    font-family: var(--serif-sc);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 900;
+    line-height: 1.28;
+    margin: 10px 0;
+  }
+
+  .chalkboard {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--warm);
+    padding: 22px 24px;
+    margin-bottom: 32px;
+  }
+
+  .chalkboard .label {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warm-d);
+    margin-bottom: 10px;
+  }
+
+  .chalkboard p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .mindmap {
+    position: relative;
+    height: 260px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    margin-bottom: 32px;
+  }
+
+  .mm-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 8px 12px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s, border-color 0.12s;
+  }
+
+  .mm-node.is-focus {
+    background: var(--paper);
+    border-color: var(--warm);
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 4px 16px rgba(25, 25, 25, 0.08);
+  }
+
+  .detail-block { margin-bottom: 28px; }
+
+  .detail-block h3 {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 14px;
+  }
+
+  .subtitle p {
+    margin: 0 0 14px;
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  footer.site-footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-3);
+    background: var(--paper-2);
+  }
+
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  footer a {
+    color: var(--warm-d);
+    font-weight: 600;
+  }
+
+  footer a:hover { text-decoration: underline; }
+
+  #tweaks-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10001;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #tweaks-panel {
+    display: none;
+    position: fixed;
+    bottom: 56px;
+    right: 20px;
+    z-index: 10001;
+    width: 268px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 16px;
+    font-family: var(--sans);
+    font-size: 12px;
+    box-shadow: 0 8px 32px rgba(25, 25, 25, 0.1);
+  }
+
+  #tweaks-panel.is-open { display: block; }
+
+  #tweaks-panel label {
+    display: block;
+    margin: 12px 0 4px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  #tweaks-panel select {
+    width: 100%;
+    padding: 7px 8px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    font-family: var(--sans);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-folio { justify-self: start; font-size: 88px; }
+    .stat-band { grid-template-columns: 1fr; }
+    .stat-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .feature-row { grid-template-columns: 1fr; }
+    .feature-card { border-right: none; border-bottom: 1px solid var(--rule); }
+    .list-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="v-badge">D4 · v0 r2</div>
+
+<header class="nav" data-component="site-header">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#" data-goto="home">
+      <span class="issue-badge">102</span>
+      <span>
+        <div class="name-zh">廖智强</div>
+        <div class="name-en">Archie</div>
+      </span>
+    </a>
+    <nav class="links" data-component="primary-nav">
+      <a href="#">知识图谱</a>
+      <a href="#" class="nav-cta">点我点我<span class="tip">点我点我～</span></a>
+      <a href="#">反馈</a>
+      <a href="#">关于我</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME -->
+<div class="view view-home is-active">
+  <section class="hero-spread wrap" data-component="alert-hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">Issue 102 · Video Diary</div>
+        <h1>记录就是生命的延续</h1>
+        <p class="tagline-en">Recording is the continuation of life</p>
+      </div>
+      <p class="hero-folio" aria-hidden="true">102</p>
+    </div>
+  </section>
+
+  <section class="stat-band" data-component="status-band">
+    <div class="stat-cell">
+      <div class="stat-label">Beijing</div>
+      <div class="stat-big" id="bj-time">--:--:--</div>
+      <div class="stat-sub" id="bj-date">--</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Video Diary</div>
+      <div class="stat-big">Day <span class="day-num">102</span></div>
+      <div class="stat-sub">Since 2026.03.14</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Archive</div>
+      <div class="stat-big" style="font-size:28px">14 Issues</div>
+      <div class="stat-sub">浏览日历 · v1 补全</div>
+    </div>
+  </section>
+
+  <section class="feature-row wrap" style="padding:0;max-width:1180px;margin:0 auto" data-component="featured-section">
+    <a class="feature-card" href="#" data-goto="list" data-select-day="99">
+      <span class="kicker">Latest · Day 99</span>
+      <h3>成长会自动消解很多难题</h3>
+    </a>
+    <a class="feature-card is-pick" href="#" data-goto="detail">
+      <span class="kicker">Pick · Day 94</span>
+      <h3>一个比喻讲透 AI 与人的关系</h3>
+    </a>
+    <a class="feature-card" href="#" data-goto="list" data-select-day="96">
+      <span class="kicker">Hot · Day 96</span>
+      <h3>信息爆炸！别怕错过优质内容</h3>
+    </a>
+  </section>
+
+  <div class="wrap">
+    <div class="section-head">
+      <h2>往期索引</h2>
+      <span class="sub">14 期 · 左条 hover</span>
+    </div>
+    <div class="table-index" id="table-index" data-component="archive-timeline"></div>
+  </div>
+</div>
+
+<!-- LIST -->
+<div class="view view-list">
+  <div class="list-layout">
+    <aside class="list-sidebar">
+      <h2>筛选</h2>
+      <div class="tag-filter" id="tag-filter">
+        <button type="button" data-tag="" class="is-active">全部</button>
+        <button type="button" data-tag="AI">AI</button>
+        <button type="button" data-tag="认知">认知</button>
+        <button type="button" data-tag="方法">方法</button>
+        <button type="button" data-tag="原创">原创</button>
+      </div>
+    </aside>
+    <div class="list-main">
+      <div class="list-preview" id="list-preview">
+        <div class="vol" id="list-vol">VOL.2026.06.05 · DAY 99</div>
+        <h2 id="list-title">成长会自动消解很多难题</h2>
+        <p id="list-tags" style="font-size:13px;color:var(--ink-3);margin:0"></p>
+        <p id="list-lead" style="margin-top:16px;font-size:16px;line-height:1.6"></p>
+      </div>
+      <div id="list-rows"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL Day 94 -->
+<div class="view view-detail">
+  <div class="detail-wrap">
+    <div class="detail-hero">
+      <div class="eyebrow">Feature · Day 94</div>
+      <h1>一个比喻讲透 AI 与人的关系</h1>
+      <p style="font-size:14px;color:var(--ink-3);margin:0">2026-05-31 · AI · 认知 · 观点</p>
+    </div>
+    <div class="chalkboard" data-component="blackboard">
+      <div class="label">敲黑板</div>
+      <p>罗振宇提出：AI 与人是「内嵌」——像猎犬与人共同狩猎，不能在家甩手指令就指望猎物归来。手机与人同理：彼此塑造、难以分离；工具越强，越要想清楚「望向哪里」。</p>
+    </div>
+    <div class="detail-block">
+      <h3>思维导图</h3>
+      <div class="mindmap" data-component="mindmap">
+        <button type="button" class="mm-node is-focus" style="left:50%;top:20%">AI 与人</button>
+        <button type="button" class="mm-node" style="left:24%;top:55%">内嵌关系</button>
+        <button type="button" class="mm-node" style="left:76%;top:55%">猎犬隐喻</button>
+        <button type="button" class="mm-node" style="left:50%;top:84%">望向哪里</button>
+      </div>
+    </div>
+    <div class="detail-block">
+      <h3>视频</h3>
+      <p style="font-size:14px;color:var(--ink-3)">B 站外链占位 · v1 补封面</p>
+    </div>
+    <div class="detail-block subtitle">
+      <h3>字幕摘录</h3>
+      <p>AI 不是坐在家里等结果的遥控器，而是与你并肩走进现场的搭档。</p>
+      <p>工具越强，你越需要提前想清楚：究竟要望向哪里。</p>
+      <p>内嵌意味着互相塑造——用久了，你会变成更适合这套工具的人。</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" data-component="site-footer">
+  <div class="footer-inner">
+    <span>廖智强 Archie · D4 Turley v0 r2</span>
+    <span>
+      <a href="https://space.bilibili.com/24473971" target="_blank" rel="noopener">B站</a> ·
+      <a href="https://github.com/Archie-Liao" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank" rel="noopener">小红书</a>
+    </span>
+  </div>
+</footer>
+
+<button type="button" id="tweaks-fab" aria-expanded="false" aria-controls="tweaks-panel">Tweaks</button>
+<div id="tweaks-panel" role="dialog" aria-label="设计参数">
+  <strong>Tweaks · D4 r2</strong>
+  <p style="margin:8px 0 0;font-size:11px;color:var(--ink-3);line-height:1.5">默认纸底优先。Turley 强度仅 Tweaks 预览，勿当 production 默认。</p>
+  <label for="tw-view">视图</label>
+  <select id="tw-view">
+    <option value="home">Home</option>
+    <option value="list">List</option>
+    <option value="detail">Detail</option>
+  </select>
+  <label for="tw-punch">Turley 色带强度</label>
+  <select id="tw-punch">
+    <option value="0.85">默认（克制）</option>
+    <option value="1">稍强</option>
+    <option value="0">关（纯 benchmark 气质）</option>
+  </select>
+  <label for="tw-motion">动效</label>
+  <select id="tw-motion">
+    <option value="1">folio slam</option>
+    <option value="0">关</option>
+  </select>
+  <label for="tw-grain">纸纹</label>
+  <select id="tw-grain">
+    <option value="0.05">淡</option>
+    <option value="0.1">中</option>
+    <option value="0">关</option>
+  </select>
+</div>
+
+<script>
+(function () {
+  var POSTS = [
+    { id: '99', title: '成长会自动消解很多难题', date: '2026-06-05', tags: '人生 · 认知 · 原创', lead: '成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。' },
+    { id: '98', title: '学会用筷子，却发现没菜可夹', date: '2026-06-04', tags: 'AI · 方法 · 原创', lead: '会用 AI 工具不等于有场景可练——如同学会用筷子，却发现桌上没菜可夹。' },
+    { id: '97', title: '手机被忽视，AI正在重蹈覆辙', date: '2026-06-03', tags: 'AI · 社会 · 观点', lead: '智能手机早期也曾被低估；AI 产品化正在重复「技术很强、体验很弱」的老路。' },
+    { id: '96', title: '信息爆炸！别怕错过优质内容', date: '2026-06-02', tags: '认知 · 方法 · 原创', lead: '信息过载时代，接受「必然错过」比强迫全读更理性。' },
+    { id: '95', title: '西西弗少儿区，原来我看错了', date: '2026-06-01', tags: '随想 · 记录 · 原创', lead: '先入为主的判断需要被真实体验修正。' },
+    { id: '94', title: '一个比喻讲透AI与人的关系', date: '2026-05-31', tags: 'AI · 认知 · 观点', lead: 'AI 与人是「内嵌」关系：猎犬与人、手机与人。' },
+    { id: '93', title: '踩了两个坑，总结出两大洞见', date: '2026-05-30', tags: '复盘 · 方法 · 原创', lead: '两次踩坑后的两条可复用洞见。' },
+    { id: '92', title: '津巴多心理学，高效记忆两大妙招', date: '2026-05-29', tags: '认知 · 方法 · 书籍', lead: '间隔重复与主动提取。' },
+    { id: '91', title: 'AI学知识套路居然和人类一样', date: '2026-05-28', tags: 'AI · 认知 · 原创', lead: 'AI 学知识的套路与人类惊人相似。' },
+    { id: '90', title: '读书是攒经验，并非一朝挖出黄金', date: '2026-05-27', tags: '认知 · 方法 · 原创', lead: '读书是攒经验，复利在认知上同样成立。' },
+    { id: '89', title: '十周年新品！得到大脑优缺点盘点', date: '2026-05-26', tags: 'AI · 商业 · 观点', lead: '梳理 AI 知识服务的边界。' },
+    { id: '88', title: '想练好表达？一定要多和真人交流', date: '2026-05-25', tags: '自媒体 · 方法 · 原创', lead: 'AI 对练补不了现场反馈。' },
+    { id: '87', title: 'LPL对决！涅槃组以下克上战胜登峰组', date: '2026-05-24', tags: '随想 · 记录', lead: '弱势阵容也能靠协作赢下强敌。' },
+    { id: '86', title: '困住创作的三条枷锁，看完豁然开朗', date: '2026-05-23', tags: '自媒体 · 方法 · 原创', lead: '完美主义、比较焦虑、缺反馈闭环。' }
+  ];
+
+  var activeTag = '';
+
+  function renderIndex() {
+    var root = document.getElementById('table-index');
+    if (!root) return;
+    root.innerHTML = POSTS.map(function (p) {
+      return '<a class="index-row' + (p.id === '94' ? ' is-hot' : '') + '" href="#" data-goto="list" data-select-day="' + p.id + '">' +
+        '<span class="day">' + p.id + '</span>' +
+        '<span class="title">' + p.title + '</span>' +
+        '<span class="meta">' + p.date + '</span></a>';
+    }).join('');
+  }
+
+  function renderListRows() {
+    var root = document.getElementById('list-rows');
+    if (!root) return;
+    root.innerHTML = POSTS.map(function (p) {
+      return '<div class="list-day" data-id="' + p.id + '" data-tags="' + p.tags + '">' +
+        '<div class="d-num">' + p.id + '</div>' +
+        '<div><strong>' + p.title + '</strong><br><span style="font-size:12px;color:var(--ink-3)">' + p.date + '</span></div></div>';
+    }).join('');
+    root.querySelectorAll('.list-day').forEach(function (row) {
+      row.addEventListener('click', function () { selectDay(row.dataset.id); });
+    });
+  }
+
+  function getPost(id) {
+    for (var i = 0; i < POSTS.length; i++) if (POSTS[i].id === String(id)) return POSTS[i];
+    return POSTS[0];
+  }
+
+  function selectDay(id) {
+    var p = getPost(id);
+    document.querySelectorAll('.list-day').forEach(function (r) {
+      r.classList.toggle('is-active', r.dataset.id === String(id));
+    });
+    document.getElementById('list-vol').textContent = 'VOL.' + p.date.replace(/-/g, '.') + ' · DAY ' + p.id;
+    document.getElementById('list-title').textContent = p.title;
+    document.getElementById('list-tags').textContent = p.tags;
+    document.getElementById('list-lead').textContent = p.lead;
+  }
+
+  function applyTagFilter() {
+    document.querySelectorAll('.list-day').forEach(function (row) {
+      var p = getPost(row.dataset.id);
+      var show = !activeTag || p.tags.indexOf(activeTag) !== -1;
+      row.classList.toggle('is-hidden', !show);
+    });
+  }
+
+  function initClock() {
+    var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    var elT = document.getElementById('bj-time');
+    var elD = document.getElementById('bj-date');
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var now = new Date();
+      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      var bj = new Date(utc + 8 * 3600000);
+      elT.textContent = pad(bj.getHours()) + ':' + pad(bj.getMinutes()) + ':' + pad(bj.getSeconds());
+      elD.textContent = bj.getFullYear() + '年' + (bj.getMonth() + 1) + '月' + bj.getDate() + '日 · ' + WEEK[bj.getDay()];
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  function bindMindmap() {
+    document.querySelectorAll('.mm-node').forEach(function (node) {
+      node.addEventListener('click', function () {
+        document.querySelectorAll('.mm-node').forEach(function (n) {
+          n.classList.toggle('is-focus', n === node);
+        });
+      });
+    });
+  }
+
+  function setView(v, day) {
+    document.querySelectorAll('.view').forEach(function (el) {
+      el.classList.toggle('is-active', el.classList.contains('view-' + v));
+    });
+    var sel = document.getElementById('tw-view');
+    if (sel) sel.value = v;
+    if (v === 'list') selectDay(day || '99');
+    window.scrollTo(0, 0);
+  }
+
+  renderIndex();
+  renderListRows();
+  initClock();
+  bindMindmap();
+  selectDay('99');
+
+  requestAnimationFrame(function () {
+    document.body.classList.add('is-ready');
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      setView(el.getAttribute('data-goto'), el.getAttribute('data-select-day'));
+    });
+  });
+
+  document.getElementById('tag-filter').querySelectorAll('button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeTag = btn.getAttribute('data-tag') || '';
+      document.getElementById('tag-filter').querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+      applyTagFilter();
+    });
+  });
+
+  document.getElementById('tw-view').addEventListener('change', function (e) {
+    setView(e.target.value);
+  });
+  document.getElementById('tw-punch').addEventListener('change', function (e) {
+    document.documentElement.style.setProperty('--punch-mode', e.target.value);
+  });
+  document.getElementById('tw-motion').addEventListener('change', function (e) {
+    document.documentElement.style.setProperty('--motion', e.target.value);
+    document.body.classList.toggle('is-ready', e.target.value !== '0');
+  });
+  document.getElementById('tw-grain').addEventListener('change', function (e) {
+    document.documentElement.style.setProperty('--grain', e.target.value);
+  });
+
+  var fab = document.getElementById('tweaks-fab');
+  var panel = document.getElementById('tweaks-panel');
+  fab.addEventListener('click', function () {
+    var open = panel.classList.toggle('is-open');
+    fab.setAttribute('aria-expanded', open);
+  });
+})();
+</script>
+</body>
+</html>

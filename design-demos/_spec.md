@@ -2,7 +2,8 @@
 
 > **适用**：`design-demos/` 下全部 HTML 探索稿（旧三版 A/B/C + 新五版 D1–D5）。  
 > **目标**：优质**案例库**——内容一致、视觉学校各异，供试吃混搭；**不是**五版里必须挑一个整页照搬。  
-> **试吃笔记**：见 [docs/DEMO-TASTING-NOTES.md](../docs/DEMO-TASTING-NOTES.md)（每版记「喜欢 / 不要 / 可偷元件」）。
+> **试吃笔记**：见 [docs/DEMO-TASTING-NOTES.md](../docs/DEMO-TASTING-NOTES.md)（每版记「喜欢 / 不要 / 可偷元件」）。  
+> **写代码门控**：见 [docs/DEMO-BUILD-GATE.md](../docs/DEMO-BUILD-GATE.md) — **① web-design-engineer SKILL → ② DEMO-TASTING → ③ 其余**。
 
 ---
 
@@ -222,6 +223,7 @@
 
 **交付前自检（A 层必过）**
 
+- [ ] 已按 [DEMO-BUILD-GATE.md](../docs/DEMO-BUILD-GATE.md) 完成读档 + Checkpoint 1 **已写入 sessions**  
 - [ ] fonts.loli.net · 本地图 · 真 14 期内容 · 三视图可切换  
 - [ ] 导航「点我点我」+ tooltip  
 - [ ] 无紫渐变 / emoji 图标 / display 用 Inter  

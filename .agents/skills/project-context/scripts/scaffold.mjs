@@ -3,6 +3,7 @@
  *
  * Usage (from repo root):
  *   node .agents/skills/project-context/scripts/scaffold.mjs
+ *   node .agents/skills/project-context/scripts/scaffold.mjs --with-governance
  *   node .agents/skills/project-context/scripts/scaffold.mjs --dry-run
  *   node .agents/skills/project-context/scripts/scaffold.mjs --force
  *   node .agents/skills/project-context/scripts/scaffold.mjs --root /path/to/project
@@ -14,14 +15,21 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = path.join(__dirname, "..");
 const REFS = path.join(SKILL_ROOT, "references");
-const MARKER = "<!-- project-context scaffold v1 -->";
+const MARKER = "<!-- project-context scaffold v2 -->";
 
-const FILES = [
+const CORE_FILES = [
   { src: "AGENTS.template.md", dest: "AGENTS.md" },
   { src: "STATUS.template.md", dest: "docs/STATUS.md" },
   { src: "session-TEMPLATE.md", dest: "docs/sessions/_TEMPLATE.md" },
   { src: "gotchas.template.mdc", dest: ".cursor/rules/project-gotchas.mdc" },
   { src: "conventions.template.mdc", dest: ".cursor/rules/project-conventions.mdc" },
+];
+
+const GOVERNANCE_FILES = [
+  { src: "collaboration-charter.template.md", dest: "docs/AI-COLLABORATION-CHARTER.md" },
+  { src: "complex-task-gate.template.md", dest: "docs/COMPLEX-TASK-GATE.md" },
+  { src: "multi-source-exec-plan.template.md", dest: "docs/MULTI-SOURCE-EXEC-PLAN.md" },
+  { src: "doc-lifecycle.template.md", dest: "docs/DOC-LIFECYCLE.md" },
 ];
 
 const DIRS = ["docs", "docs/sessions", ".cursor/rules", "guidelines"];
@@ -37,18 +45,20 @@ Thumbs.db
 `;
 
 function parseArgs(argv) {
-  const opts = { dryRun: false, force: false, root: null };
+  const opts = { dryRun: false, force: false, withGovernance: false, root: null };
   for (let i = 2; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === "--dry-run") opts.dryRun = true;
     else if (arg === "--force") opts.force = true;
+    else if (arg === "--with-governance") opts.withGovernance = true;
     else if (arg === "--root") opts.root = argv[++i];
     else if (arg === "-h" || arg === "--help") {
-      console.log(`Usage: node scaffold.mjs [--dry-run] [--force] [--root PATH]
+      console.log(`Usage: node scaffold.mjs [options]
 
-  --dry-run   Print actions without writing
-  --force     Overwrite files that still contain the scaffold marker
-  --root      Target project root (default: walk up from cwd)
+  --dry-run           Print actions without writing
+  --force             Overwrite files that still contain the scaffold marker
+  --with-governance   Also scaffold charter, COMPLEX-TASK-GATE, MULTI-SOURCE, DOC-LIFECYCLE
+  --root PATH         Target project root (default: walk up from cwd)
 `);
       process.exit(0);
     } else {
@@ -84,7 +94,16 @@ function applyPlaceholders(content, projectRoot) {
   return content
     .replaceAll("{{PROJECT_NAME}}", name)
     .replaceAll("{{YYYY-MM-DD}}", today)
-    .replaceAll("{{OWNER}}", "maintainer");
+    .replaceAll("{{OWNER}}", "maintainer")
+    .replaceAll("{{TIMEZONE}}", "Asia/Shanghai")
+    .replaceAll("{EXPLORE_DIR}", "design-demos")
+    .replaceAll("{APP_DIR}", "src")
+    .replaceAll("{{PRODUCT_MANUAL_DOC}}", "docs/PRODUCT-MANUAL.md")
+    .replaceAll("{{DOMAIN_SKILL_PATH}}", ".agents/skills/example/SKILL.md")
+    .replaceAll("{{DOMAIN_CONSTRAINT_DOC}}", "docs/DOMAIN-CONSTRAINTS.md")
+    .replaceAll("{{SKILL_EXAMPLE}}", ".agents/skills/example/SKILL.md")
+    .replaceAll("{{TOPIC_DOC_EXAMPLE}}", "docs/DOMAIN-CONSTRAINTS.md")
+    .replaceAll("{{MANUAL_DOC}}", "docs/PRODUCT-MANUAL.md");
 }
 
 function injectMarker(content, isMdc) {
@@ -132,9 +151,11 @@ function writeFile(destPath, content, { dryRun, force, existing }) {
 function main() {
   const opts = parseArgs(process.argv);
   const projectRoot = opts.root ? path.resolve(opts.root) : findProjectRoot(process.cwd());
+  const files = opts.withGovernance ? [...CORE_FILES, ...GOVERNANCE_FILES] : CORE_FILES;
 
   console.log(`Project root: ${projectRoot}`);
   console.log(`Templates: ${REFS}`);
+  if (opts.withGovernance) console.log("Including governance docs (charter, gates, lifecycle)\n");
   if (opts.dryRun) console.log("(dry-run mode)\n");
 
   for (const d of DIRS) {
@@ -143,7 +164,7 @@ function main() {
 
   const stats = { create: 0, overwrite: 0, skip: 0, skipCustom: 0 };
 
-  for (const { src, dest } of FILES) {
+  for (const { src, dest } of files) {
     const destPath = path.join(projectRoot, dest);
     const isMdc = dest.endsWith(".mdc");
     const existing = fs.existsSync(destPath) ? fs.readFileSync(destPath, "utf8") : null;
@@ -183,6 +204,9 @@ function main() {
     `\nDone: ${stats.create} created, ${stats.overwrite} overwritten, ${stats.skip} skipped, ${stats.skipCustom} skipped (customized).`
   );
   console.log("Next: fill placeholders in AGENTS.md / gotchas / STATUS, then git commit.");
+  if (!opts.withGovernance) {
+    console.log("Tip: run with --with-governance to add charter + COMPLEX-TASK-GATE + MULTI-SOURCE + DOC-LIFECYCLE stubs.");
+  }
 }
 
 main();

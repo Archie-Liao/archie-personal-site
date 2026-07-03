@@ -1,6 +1,24 @@
 # AGENTS.md — AI 项目入口
 
-> **新 AI 会话必须先读** [docs/STATUS.md](docs/STATUS.md)（进度）+ [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md)（网站现状）+ **[docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md)**（协作根本规则 · **禁止删改缩写**），再按需查阅本文。
+> **新会话**：`STATUS` + `SITE-MANUAL` + 按需 `@AI-COLLABORATION-CHARTER`（协作细则）。**不必**每句 `@` 全文；改规则/复杂任务时再读宪章。
+
+## 规则写在哪（每会话可见 · 增删规则前先读）
+
+> **自动进 AI 上下文的只有**：**本文件** + `.cursor/rules/*.mdc`（`alwaysApply`）。宪章、`docs/` 专题 **不会**自动全文注入 → 新规则须在此登记 + gotchas 一行。
+
+| 写什么 | 写哪 | 示例 |
+|--------|------|------|
+| 每会话硬约束（≤15 条） | `.cursor/rules/project-gotchas.mdc` | 多源计划、对话 verbatim、先读 STATUS |
+| **全局可复用**协作规则 | `docs/AI-COLLABORATION-CHARTER.md`（文首「本文件定位」） | §1 复杂任务、§1.8 多源计划、§2 对话归档 |
+| **本项目**细则（路径、案例、起点表） | `docs/` 专题 + **本表索引** | `MULTI-SOURCE-EXEC-PLAN.md`、`DEMO-TASTING-NOTES.md` |
+| 网站线框 / 现状 | `docs/SITE-MANUAL.md` | 路由、页面布局 |
+| 进度 / 决策 | `docs/STATUS.md` | 下一步、最近决策 |
+| 专题步骤 | `docs/主题-*.md` | `SUBTITLE-FORMAT.md` |
+| 域约束 | 域权威 doc | `design-demos/_spec.md` |
+
+**新增 Archie 主动要求的规则**：① 通用句 → 宪章 → ② 本项目表/案例 → 专题 doc → ③ **更新本节或 gotchas** → ④ STATUS 一行。
+
+---
 
 ## 项目是什么
 
@@ -165,11 +183,14 @@ cd design-demos && python -m http.server 8765
 3. **推荐 + 假设** — 写明依赖哪些未验证假设。
 4. **时机判断** — 若涉及分期：现在做 / 视觉锁定后做 / 内容管道前做，并给一句理由。
 
-### 上下文注入优先级
+## 上下文注入（本仓库）
 
-> **完整版 → [AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §四**
+| 每会话自动注入 | 不会自动全文注入 |
+|----------------|------------------|
+| `AGENTS.md`（含上表） | `docs/AI-COLLABORATION-CHARTER.md` → 改规则/复杂任务时 Read 或 `@` |
+| `.cursor/rules/*.mdc`（`alwaysApply`） | 其他 `docs/` → gotchas 点名或 `@` |
 
-见 [.cursor/rules/project-conventions.mdc](.cursor/rules/project-conventions.mdc)（P0 gotchas+AGENTS → P1 STATUS+SITE-MANUAL+宪章 → P2 专题 doc → P3 guidelines）
+**不必**每条消息 `@` 宪章；**增删规则、复杂任务、对话归档**时必须读到对应章节。
 
 ## 规划与文档分工
 
@@ -196,16 +217,19 @@ cd design-demos && python -m http.server 8765
 
 | 文件 | 用途 |
 |------|------|
-| [docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) | **协作根本规则（宪章）· Archie 优先备份** |
+| [docs/AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) | **全局协作规则**（§0.4 写法 · §1.8 多源计划等；**不含**本项目路径表） |
 | [docs/STATUS.md](docs/STATUS.md) | 进度、阻塞、最近决策 |
 | [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md) | 给人看的网站说明书 + ASCII 线框 |
 | [docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md) | YAML 文首 + 修订记录规范 |
 | [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | demo 试吃与混搭 |
+| [docs/DEMO-BUILD-GATE.md](docs/DEMO-BUILD-GATE.md) | demo：**① SKILL → ② 试吃 → ③ 其余** |
+| [docs/MULTI-SOURCE-EXEC-PLAN.md](docs/MULTI-SOURCE-EXEC-PLAN.md) | 多源计划 **本项目细则**（demo 优先级 · D4 案例 · 完整模板） |
 | [docs/SUBTITLE-FORMAT.md](docs/SUBTITLE-FORMAT.md) | 字幕排版 |
 | [docs/LOGO-FONT-BRIEF.md](docs/LOGO-FONT-BRIEF.md) | Logo（搁置） |
 | [docs/sessions/](docs/sessions/) | 当日长文 |
 | [guidelines/](guidelines/) | 原始需求（可能过时） |
 | [design-demos/_spec.md](design-demos/_spec.md) | demo 共同约束 |
+| [.agents/skills/project-context/](.agents/skills/project-context/README.md) | **通用项目治理 Skill**（bootstrap / 收工 / 复杂任务 / 多源计划；复制到其他仓库） |
 
 ## 修订记录（AGENTS）
 

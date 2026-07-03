@@ -1,8 +1,8 @@
 {
   "name": "project-context",
-  "version": "1.0.0",
-  "category": "Workflow / Documentation",
-  "description": "Cross-session project context via AGENTS.md, docs/STATUS.md, five-layer docs, and Git sync. Bootstrap new repos, end-of-day wrap-up, and new-chat handoff.",
+  "version": "2.0.0",
+  "category": "Workflow / Documentation / Governance",
+  "description": "Cross-session project governance: five-layer docs, collaboration charter, complex-task gate, multi-source exec plans, STATUS/sessions rituals, bootstrap scaffold. Copy .agents/skills/project-context/ to reuse in other repos.",
   "homepage": "",
   "compat": [
     "cursor",

@@ -7,7 +7,11 @@ alwaysApply: true
 
 - 新任务前先读 `docs/STATUS.md` 和 `AGENTS.md`；详细计划在 `docs/sessions/`
 - 子任务不新建 `.cursor/plans/`；长方案写 sessions
+- 复杂任务首条须 `## 复述需求` → 见 `docs/COMPLEX-TASK-GATE.md`
+- 多源任务（≥2 权威文件）动手前须 `## 执行计划` → 见宪章 §1.8、`docs/MULTI-SOURCE-EXEC-PLAN.md`
 - {{DEV_RUN_REMINDER}}  # 例如：根 index.html 须 npm run dev，双击会空白
+- 探索改 `{EXPLORE_DIR}/`；功能实现改 `{APP_DIR}/`
 - 勿提交 `node_modules/`、`dist/`、`.env`
 - {{TOPIC_RULE_INDEX}}  # 例如：处理 X 前先读 `docs/X-FORMAT.md`
 - 不要擅自修改 `guidelines/` 除非用户明确要求
+- 新增协作规则须同步 AGENTS「规则写在哪」+ 本文件一行索引

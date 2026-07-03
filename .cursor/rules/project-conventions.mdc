@@ -71,3 +71,4 @@ alwaysApply: true
 - 协作入口：`docs/AI-COLLABORATION-CHARTER.md`、`docs/STATUS.md`、`docs/SITE-MANUAL.md`、`AGENTS.md`
 - 文档 YAML 文首：`docs/DOC-FRONTMATTER.md`
 - Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`
+- 多源执行计划：宪章 §1.8（通用）· 本项目细则 → [`docs/MULTI-SOURCE-EXEC-PLAN.md`](../docs/MULTI-SOURCE-EXEC-PLAN.md)
