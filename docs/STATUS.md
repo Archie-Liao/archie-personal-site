@@ -104,6 +104,7 @@ timezone: Asia/Shanghai
 
 ## 待你决定
 
+- [ ] **待 push**（2026-07-03 commit `555e0f7` · 网络连不上 GitHub，本地终端需代理后 `git push`）
 - [ ] **整站混搭**（主阻塞）→ 试吃 D4/D5 后定 DEMO-TASTING 合成表
 - [x] **P1** 只做旅程 B/C + A 的筛选/阅读，**不上助手**
 - [x] **P2** 聚类页先于思维模型助手
