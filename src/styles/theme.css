@@ -6,11 +6,23 @@
   --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
   /* 中文优先的衬线（标题/引文） */
   --font-serif: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
-  /* Logo 中文：刀隶体（爨宝子碑气质，小样 A） */
-  --font-logo: 'Alimama DaoLiTi', 'Noto Serif SC', serif;
+  /* Logo 字标（2026-07-08 锁定 · compare F/Z） */
+  --font-logo: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+  --font-logo-script: 'Italianno', cursive;
+  --font-logo-folio: 'Playfair Display', Georgia, serif;
+  --font-logo-en: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  /* stamp A+期数：深胡桃褐 · 金指纹上可读，非纯黑/白 */
+  --logo-stamp-ink: #4A2E1C;
   /* 正文：英文 Inter，中文思源黑体 */
   --font-body: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+
+  /* MIX-MATCH: benchmark 纸底 + D4 punch + D5 数据色（仅图表） */
+  --punch: #D4562A;
+  --data-red: #A6300E;
+  --data-slate: #3E4A5C;
+  --snap: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Light vintage theme — 暖纸奶油底 + 墨绿/赭石点睛，强调可读层级 */
   --background: #F6F0E2;
@@ -146,6 +158,27 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* MIX-MATCH: 暖色滚动条（D4 试吃） */
+  html {
+    scrollbar-color: color-mix(in srgb, var(--primary) 45%, var(--secondary)) var(--background);
+    scrollbar-width: thin;
+  }
+  html::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  html::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  html::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--primary) 40%, var(--muted-foreground));
+    border-radius: 999px;
+    border: 2px solid var(--background);
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
   }
 
   /**

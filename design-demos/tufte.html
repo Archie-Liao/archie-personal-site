@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>廖智强 Archie · D5 Tufte Data-Ink · v1</title>
+<!--
+  D5 · Tufte 数据墨水 × 暖纸（v1 · _spec 内容 parity）
+  与 benchmark：主栏+边注 · ink-first · 非双栏 Hero
+  C 层：正文 15px（Tufte lean-in 与可读性折中）；色仅编码数据
+
+  BorrowableParts: 内联 sparkline · 边注 margin-note · small multiples · 图版 chart-band
+
+  v1 r1：14 期 · List 预览侧栏 · Trending · Detail 动态 · 导图拖拽 · 默认 16px
+-->
+<style>
+  @import url('https://fonts.loli.net/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Playfair+Display:ital,wght@0,600;0,700;0,900&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+
+  :root {
+    --paper: #FBFAF6;
+    --paper-2: #F3F0E8;
+    --ink: #1B1B1A;
+    --ink-2: #4A433C;
+    --ink-3: #736A5E;
+    --data-red: #A6300E;
+    --data-slate: #3E4A5C;
+    --rule: #D8D2C2;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --serif-sc: 'Noto Serif SC', serif;
+    --serif-display: 'Playfair Display', Georgia, serif;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --margin-w: 280px;
+    --body-size: 16px;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: var(--body-size); line-height: 1.72;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  a { color: inherit; text-decoration: none; }
+
+  .v0-badge {
+    position: fixed; top: 10px; left: 10px; z-index: 200;
+    font: 600 10px var(--sans); letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--ink); color: var(--paper); padding: 6px 11px;
+  }
+
+  header.nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.95); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand .zh { font-family: var(--serif-sc); font-weight: 600; font-size: 20px; letter-spacing: 0.1em; }
+  .brand .en { font-family: var(--serif-display); font-style: italic; font-size: 18px; color: var(--ink-2); }
+  nav.links { display: flex; gap: 28px; font-family: var(--sans); font-size: 13px; font-weight: 500; }
+  .nav-link { color: var(--ink-2); position: relative; padding: 6px 0; }
+  .nav-link--graph::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 0;
+    background: var(--data-slate); transition: width 0.2s var(--ease);
+  }
+  .nav-link--graph:hover::after { width: 100%; }
+  .nav-link--diary { color: var(--data-red); }
+  .nav-link--diary .tip {
+    position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--paper); font-size: 11px; padding: 5px 10px;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s;
+  }
+  .nav-link--diary:hover .tip { opacity: 1; }
+
+  .view { display: none; }
+  body[data-view="home"] .view-home,
+  body[data-view="list"] .view-list,
+  body[data-view="detail"] .view-detail { display: block; }
+
+  /* Hero band — 饱满首屏 */
+  .hero-band {
+    display: grid; grid-template-columns: 140px 1fr var(--margin-w);
+    gap: 24px 40px; align-items: end;
+    padding: 36px 0 28px; border-bottom: 2px solid var(--ink);
+  }
+  .hero-folio {
+    font-family: var(--serif-display); font-weight: 900; font-size: clamp(80px, 12vw, 120px);
+    line-height: 0.82; color: var(--data-red); letter-spacing: -0.04em;
+  }
+  .hero-main h1 {
+    margin: 0 0 10px; font-family: var(--serif-sc); font-weight: 600;
+    font-size: clamp(32px, 4.5vw, 44px); line-height: 1.2; letter-spacing: 0.04em;
+  }
+  .hero-main .tagline {
+    font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-2); margin: 0 0 16px;
+  }
+  .hero-main .lede { font-size: calc(var(--body-size) + 1px); max-width: 38em; margin: 0; color: var(--ink-2); }
+  .hero-margin {
+    font-size: 12px; line-height: 1.6; color: var(--ink-2);
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+  .hero-margin strong {
+    display: block; font-family: var(--sans); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--data-red); margin-bottom: 6px;
+  }
+
+  /* Full-bleed chart */
+  .chart-band {
+    margin: 0 calc(-1 * (50vw - 50%)); width: 100vw;
+    padding: 20px 32px; background: var(--paper-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .chart-band-inner { max-width: 1240px; margin: 0 auto; }
+  .chart-band h2 {
+    margin: 0 0 12px; font-family: var(--sans); font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); font-weight: 600;
+  }
+  .chart-band svg { width: 100%; height: 120px; display: block; }
+  .chart-area { fill: rgba(166, 48, 14, 0.12); }
+  .chart-line { fill: none; stroke: var(--data-red); stroke-width: 2; }
+  .chart-line-2 { stroke: var(--data-slate); stroke-width: 1.5; opacity: 0.7; }
+  .chart-label {
+    font-family: var(--sans); font-size: 10px; fill: var(--ink-3);
+  }
+
+  .tufte-grid {
+    display: grid; grid-template-columns: 1fr var(--margin-w);
+    gap: 32px 48px; padding: 32px 0 48px;
+  }
+  .tufte-margin { font-size: calc(var(--body-size) - 1px); line-height: 1.65; color: var(--ink-2); }
+  .margin-note {
+    padding: 0 0 18px 16px; border-left: 1px solid var(--rule); margin-bottom: 14px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .margin-note.is-in { opacity: 1; transform: none; }
+  .margin-note .mn-num {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--data-red); display: block; margin-bottom: 6px; font-weight: 600;
+  }
+
+  .spark-path {
+    fill: none; stroke: var(--data-red); stroke-width: 1.8;
+    stroke-dasharray: 140; stroke-dashoffset: 140;
+    animation: sparkDraw 0.9s var(--ease) forwards;
+  }
+  @keyframes sparkDraw { to { stroke-dashoffset: 0; } }
+
+  .data-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--rule); margin: 28px 0 32px;
+    font-family: var(--sans); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .data-cell { padding: 16px 18px; border-right: 1px solid var(--rule); }
+  .data-cell:last-child { border-right: 0; }
+  .data-cell .val {
+    display: block; font-family: var(--serif-display); font-size: 32px;
+    font-weight: 700; color: var(--data-red); margin-top: 6px; letter-spacing: 0; text-transform: none;
+  }
+
+  .multiples {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    margin: 28px 0 32px;
+  }
+  .multiple {
+    border: 1px solid var(--rule); padding: 20px; cursor: pointer;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), border-color 0.12s;
+  }
+  .multiple:hover { border-color: var(--ink); }
+  .multiple.is-in { opacity: 1; transform: none; }
+  .multiple .mlabel {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; font-weight: 600;
+  }
+  .multiple .mday {
+    font-family: var(--serif-display); font-size: 36px; font-weight: 700; color: var(--data-slate); line-height: 1;
+  }
+  .multiple .mtitle {
+    font-family: var(--serif-sc); font-size: 16px; font-weight: 600;
+    margin: 10px 0 12px; line-height: 1.4;
+  }
+  .multiple svg { width: 100%; height: 44px; }
+  .bar-red { fill: var(--data-red); opacity: 0.88; }
+  .bar-slate { fill: var(--data-slate); opacity: 0.45; }
+
+  .section-label {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px; font-weight: 600;
+  }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: var(--body-size); }
+  .data-table th {
+    text-align: left; font-family: var(--sans); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
+    padding: 10px 8px; border-bottom: 2px solid var(--ink); font-weight: 600;
+  }
+  .data-table td { padding: 12px 8px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+  .data-table tbody tr { cursor: pointer; transition: background 0.08s; }
+  .data-table tbody tr:hover { background: rgba(166, 48, 14, 0.04); }
+  .col-day {
+    font-family: var(--serif-display); font-weight: 700; font-size: 20px;
+    color: var(--data-slate); width: 52px;
+  }
+  .col-title { position: relative; font-family: var(--serif-sc); font-weight: 500; vertical-align: top; padding-top: 14px; padding-bottom: 14px; }
+  .col-title-main { display: block; font-weight: 600; font-size: calc(var(--body-size) + 1px); line-height: 1.35; color: var(--ink); }
+  .col-dek {
+    display: block; margin-top: 6px; font-family: var(--serif); font-size: var(--body-size);
+    line-height: 1.55; color: var(--ink-2); max-width: 36em;
+  }
+  .col-focus {
+    font-family: var(--sans); font-size: 11px; letter-spacing: 0.06em;
+    color: var(--data-slate); width: 100px; vertical-align: top; padding-top: 16px;
+  }
+  .ink-line {
+    position: absolute; left: 0; bottom: 4px; height: 1px; width: 0;
+    background: var(--data-red); transition: width 0.14s var(--ease);
+  }
+  tr:hover .ink-line { width: 100%; }
+  .col-tags { font-family: var(--sans); font-size: 11px; color: var(--ink-3); width: 120px; }
+  .col-spark { width: 80px; }
+  .col-date { font-family: var(--sans); font-size: 12px; color: var(--ink-3); text-align: right; width: 64px; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 32px 0 16px; }
+  .btn {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 12px 20px;
+    border: 1px solid var(--ink); background: transparent; cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+
+  .list-head {
+    padding: 36px 0 20px; border-bottom: 2px solid var(--ink);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .list-head h1 { margin: 0; font-family: var(--serif-sc); font-weight: 600; font-size: 32px; }
+  .list-head .count { font-family: var(--sans); font-size: 13px; color: var(--ink-3); }
+
+  .list-split {
+    display: grid; grid-template-columns: 1fr min(380px, 40%);
+    gap: 32px 40px; align-items: start; padding-bottom: 48px;
+  }
+  .list-preview {
+    border-left: 1px solid var(--rule); padding-left: 28px;
+    position: sticky; top: 76px;
+  }
+  .lp-vol {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--data-red); font-weight: 600; margin: 0 0 10px;
+  }
+  .lp-title {
+    margin: 0 0 8px; font-family: var(--serif-sc); font-weight: 600;
+    font-size: calc(var(--body-size) + 12px); line-height: 1.35;
+  }
+  .lp-tags { font-family: var(--sans); font-size: 12px; color: var(--ink-3); margin: 0 0 14px; }
+  .lp-lead { font-size: calc(var(--body-size) + 1px); line-height: 1.75; color: var(--ink-2); margin: 0 0 20px; }
+  .lp-snippet {
+    border-left: 3px solid var(--data-red); padding: 16px 20px; background: var(--paper-2); margin-bottom: 20px;
+  }
+  .lp-snippet h3 {
+    margin: 0 0 8px; font-family: var(--sans); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 600;
+  }
+  .lp-snippet p { margin: 0; font-size: calc(var(--body-size) + 1px); line-height: 1.7; color: var(--ink-2); }
+  .data-table tbody tr.is-active { background: rgba(166, 48, 14, 0.07); }
+
+  .hot-band { margin: 32px 0 40px; }
+  .hot-rank {
+    list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); background: var(--paper);
+  }
+  .hot-rank li {
+    display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center;
+    padding: 14px 18px; border-bottom: 1px solid var(--rule); cursor: pointer;
+    font-size: calc(var(--body-size) + 1px); transition: background 0.08s;
+  }
+  .hot-rank li:last-child { border-bottom: 0; }
+  .hot-rank li:hover { background: rgba(166, 48, 14, 0.04); }
+  .hot-rank .rank {
+    font-family: var(--serif-display); font-weight: 900; font-size: 28px;
+    color: var(--data-red); line-height: 1;
+  }
+  .hot-rank .h-d { display: block; font-size: 11px; color: var(--ink-3); margin-top: 4px; font-family: var(--sans); }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 0; }
+  .fchip {
+    font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 8px 14px; border: 1px solid var(--rule);
+    background: transparent; cursor: pointer; color: var(--ink-2);
+  }
+  .fchip.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* Detail */
+  .detail-hero {
+    display: grid; grid-template-columns: 88px 1fr; gap: 24px 32px;
+    align-items: end; padding: 36px 0 28px; border-bottom: 2px solid var(--ink);
+  }
+  .detail-hero .d-folio {
+    font-family: var(--serif-display); font-weight: 900; font-size: 72px;
+    line-height: 0.85; color: var(--data-red);
+  }
+  .detail-over {
+    font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--data-red); font-weight: 600;
+  }
+  .detail-title {
+    font-family: var(--serif-sc); font-weight: 600; font-size: clamp(28px, 3.5vw, 36px);
+    margin: 8px 0 6px; line-height: 1.3;
+  }
+  .detail-tags { font-family: var(--sans); font-size: 12px; color: var(--ink-3); }
+
+  .detail-grid {
+    display: grid; grid-template-columns: 1fr var(--margin-w);
+    gap: 32px 48px; padding-bottom: 48px;
+  }
+  .detail-block { margin: 32px 0 0; padding-top: 24px; border-top: 1px solid var(--rule); }
+  .detail-block h2 {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 16px; font-weight: 600;
+  }
+  .blackboard {
+    border-left: 3px solid var(--data-red); padding: 20px 24px; background: var(--paper-2);
+  }
+  .blackboard .label {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 12px;
+  }
+  .blackboard ul { margin: 0; padding-left: 1.2em; font-size: calc(var(--body-size) + 1px); line-height: 1.75; color: var(--ink-2); }
+
+  .mindmap {
+    position: relative; min-height: 340px; border: 1px solid var(--rule); padding: 24px; background: var(--paper);
+  }
+  .mindmap .mm-layer { position: relative; width: 100%; height: 300px; touch-action: none; }
+  .mindmap svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .mm-edge { fill: none; stroke-linecap: round; }
+  .mm-edge.is-strong { stroke: var(--data-red); stroke-width: 2.5; }
+  .mm-edge.is-medium { stroke: var(--data-slate); stroke-width: 1.6; }
+  .mm-edge.is-weak { stroke: var(--rule); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .mm-node {
+    position: absolute; display: flex; flex-direction: column; gap: 4px;
+    min-width: 100px; max-width: 136px; padding: 10px 12px;
+    border: 1px solid var(--rule); background: var(--paper);
+    transform: translate(-50%, -50%); text-align: center;
+    cursor: grab; font: inherit; color: inherit;
+  }
+  .mm-node.is-lit { box-shadow: 0 0 0 2px var(--data-red); }
+  .mm-kicker {
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .mm-title { font-family: var(--serif-sc); font-size: 13px; font-weight: 600; line-height: 1.35; }
+  .mm-node.is-core { border-color: var(--data-red); background: rgba(166,48,14,0.06); }
+  .mm-node.is-core .mm-title { font-size: 15px; color: var(--data-red); }
+  .mm-node.is-primary { border-color: var(--data-slate); background: var(--paper-2); }
+  .mm-node.is-secondary { border-style: dashed; }
+  .mm-cap { font-size: 11px; color: var(--ink-3); margin-top: 10px; font-family: var(--sans); }
+
+  .video-frame {
+    display: block; position: relative; aspect-ratio: 16/9;
+    overflow: hidden; border: 1px solid var(--rule);
+  }
+  .video-frame img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transition: transform 0.2s; }
+  .video-frame:hover img { transform: scale(1.02); }
+  .video-frame .play-badge {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(27,27,26,0.4); color: var(--paper);
+    font-family: var(--sans); font-weight: 600; font-size: 13px; letter-spacing: 0.12em;
+    text-transform: uppercase; opacity: 0; transition: opacity 0.15s;
+  }
+  .video-frame:hover .play-badge { opacity: 1; }
+
+  .subtitle-excerpt p {
+    margin: 0 0 1.1em; font-size: calc(var(--body-size) + 1px); line-height: 1.8; color: var(--ink-2);
+  }
+  .subtitle-excerpt p:last-child { margin-bottom: 0; }
+
+  .site-footer {
+    border-top: 2px solid var(--ink); background: var(--paper-2); margin-top: 24px;
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr 120px; gap: 36px;
+    padding: 40px 32px 28px; max-width: 1240px; margin: 0 auto;
+  }
+  .foot-brand .zh { font-family: var(--serif-sc); font-weight: 600; font-size: 22px; }
+  .foot-brand .en { font-family: var(--serif-display); font-style: italic; font-size: 16px; color: var(--ink-2); margin-left: 8px; }
+  .foot-brand p { font-size: 13px; color: var(--ink-2); line-height: 1.65; margin: 12px 0 0; max-width: 280px; }
+  .foot-col h4 {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 12px; font-weight: 600;
+  }
+  .foot-col a { display: block; font-size: 14px; color: var(--ink-2); padding: 4px 0; }
+  .foot-col a:hover { color: var(--data-red); }
+  .foot-plate img { width: 100%; mix-blend-mode: multiply; border: 1px solid var(--rule); }
+  .foot-plate .cap { font-family: var(--serif); font-style: italic; font-size: 10px; color: var(--ink-3); margin-top: 6px; text-align: center; }
+  .foot-end {
+    border-top: 1px solid var(--rule); padding: 14px 32px 28px;
+    max-width: 1240px; margin: 0 auto; font-size: 11px; color: var(--ink-3);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  #tweaks-fab {
+    position: fixed; bottom: 20px; right: 20px; z-index: 200;
+    padding: 10px 16px; background: var(--ink); color: var(--paper); border: 0;
+    font-family: var(--sans); font-size: 11px; cursor: pointer;
+  }
+  #tweaks-panel {
+    position: fixed; bottom: 60px; right: 20px; z-index: 200; width: 280px;
+    display: none; background: var(--ink); color: var(--paper); padding: 16px; font-size: 13px;
+  }
+  #tweaks-panel.is-open { display: block; }
+  #tweaks-panel label { display: block; margin-top: 10px; font-size: 10px; opacity: 0.85; }
+  #tweaks-panel select, #tweaks-panel input { width: 100%; margin-top: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .margin-note, .multiple { opacity: 1; transform: none; }
+    .spark-path { stroke-dashoffset: 0; }
+  }
+  @media (max-width: 900px) {
+    .hero-band, .tufte-grid, .detail-grid, .foot-grid, .list-split { grid-template-columns: 1fr; }
+    .list-preview { border-left: 0; padding-left: 0; position: static; border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 8px; }
+    .hero-margin { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 16px; }
+    .multiples { grid-template-columns: 1fr; }
+    .data-strip { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body data-view="home" id="top">
+
+<div class="v0-badge">D5 Tufte · v1 parity</div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="zh">廖智强</span><span class="en">Archie</span></a>
+    <nav class="links" aria-label="主导航">
+      <a class="nav-link nav-link--graph" href="#">知识图谱</a>
+      <a class="nav-link nav-link--diary" href="#" data-goto="list">点我点我<span class="tip">点我点我～</span></a>
+      <a class="nav-link nav-link--feedback" href="#">反馈</a>
+      <a class="nav-link nav-link--about" href="#">关于我</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME -->
+<div class="view view-home">
+  <div class="wrap hero-band">
+    <span class="hero-folio">102</span>
+    <div class="hero-main">
+      <h1>廖智强 · 视频日记</h1>
+      <p class="tagline">记录就是生命的延续 · Recording is the continuation of life</p>
+      <p class="lede">十四期日记构成一条可度量的时间序列——下方图带为发布密度示意，色仅编码数据，不作装饰。</p>
+    </div>
+    <aside class="hero-margin">
+      <strong>Margin note</strong>
+      Tufte 学校：边注与主文同屏；folio「102」为 Day 计数，与 benchmark 逻辑一致但排式不同。
+    </aside>
+  </div>
+
+  <div class="chart-band">
+    <div class="chart-band-inner">
+      <h2>Fig. 1 — Issue density · Day 86–99</h2>
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none" aria-hidden="true">
+        <path class="chart-area" d="M0,80 L57,75 L114,70 L171,68 L228,55 L285,50 L342,48 L399,45 L456,42 L513,38 L570,35 L627,30 L684,25 L741,20 L800,15 L800,100 L0,100 Z"/>
+        <path class="chart-line spark-path" d="M0,80 L57,75 L114,70 L171,68 L228,55 L285,50 L342,48 L399,45 L456,42 L513,38 L570,35 L627,30 L684,25 L741,20 L800,15"/>
+        <path class="chart-line-2" d="M0,90 L800,88" fill="none"/>
+        <text class="chart-label" x="4" y="12">86</text>
+        <text class="chart-label" x="760" y="12">99</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="wrap tufte-grid">
+    <main>
+      <div class="data-strip">
+        <div class="data-cell">Beijing<span class="val" id="bj-time">--:--</span></div>
+        <div class="data-cell">Day count<span class="val">102</span></div>
+        <div class="data-cell">Issues<span class="val">14</span></div>
+        <div class="data-cell">AI share<span class="val" style="font-size:22px">36%</span></div>
+      </div>
+
+      <p class="section-label">Featured · small multiples</p>
+      <div class="multiples" id="multiples">
+        <article class="multiple" data-goto="detail" data-select-day="99" tabindex="0">
+          <div class="mlabel">Latest · Day 99</div>
+          <div class="mday">99</div>
+          <div class="mtitle">成长会自动消解很多难题</div>
+          <svg viewBox="0 0 100 44"><rect class="bar-red" x="0" y="10" width="100" height="24"/><rect class="bar-slate" x="0" y="36" width="70" height="5"/></svg>
+        </article>
+        <article class="multiple" data-goto="detail" data-select-day="94" tabindex="0">
+          <div class="mlabel">Featured · Day 94</div>
+          <div class="mday">94</div>
+          <div class="mtitle">一个比喻讲透 AI 与人的关系</div>
+          <svg viewBox="0 0 100 44"><rect class="bar-slate" x="0" y="14" width="90" height="20"/><rect class="bar-red" x="0" y="36" width="98" height="5"/></svg>
+        </article>
+        <article class="multiple" data-goto="detail" data-select-day="96" tabindex="0">
+          <div class="mlabel">Popular · Day 96</div>
+          <div class="mday">96</div>
+          <div class="mtitle">信息爆炸！别怕错过优质内容</div>
+          <svg viewBox="0 0 100 44"><rect class="bar-red" x="0" y="8" width="82" height="22"/><rect class="bar-slate" x="0" y="34" width="55" height="6"/></svg>
+        </article>
+      </div>
+
+      <div class="hot-band">
+        <p class="section-label">Trending · ranked hot list</p>
+        <ol class="hot-rank" id="hot-rank">
+          <li data-goto="detail" data-select-day="99"><span class="rank">1</span><span>成长会自动消解很多难题<span class="h-d">Day 99 · 2026-06-05</span></span></li>
+          <li data-goto="detail" data-select-day="94"><span class="rank">2</span><span>一个比喻讲透 AI 与人的关系<span class="h-d">Day 94 · 2026-05-31</span></span></li>
+          <li data-goto="detail" data-select-day="96"><span class="rank">3</span><span>信息爆炸！别怕错过优质内容<span class="h-d">Day 96 · 2026-06-02</span></span></li>
+        </ol>
+      </div>
+
+      <p class="section-label">Chronological index · 14 issues</p>
+      <table class="data-table" id="home-table">
+        <thead><tr><th>Day</th><th>Title · excerpt</th><th>Focus</th><th>Trend</th><th>Date</th></tr></thead>
+        <tbody id="home-tbody"></tbody>
+      </table>
+      <div class="btn-row">
+        <button type="button" class="btn" data-goto="list">完整索引 →</button>
+        <button type="button" class="btn" data-goto="detail" data-select-day="94">Day 94 详情</button>
+      </div>
+    </main>
+    <aside class="tufte-margin">
+      <div class="margin-note" data-reveal><span class="mn-num">Note 1</span>Day 自 2026-03-14 起算；表内 sparkline 为示意趋势，非真实 analytics。</div>
+      <div class="margin-note" data-reveal><span class="mn-num">Note 2</span><em>Small multiples</em> 三格同形异数——Latest / Featured / Popular 横向可读。</div>
+      <div class="margin-note" data-reveal><span class="mn-num">Fig. 2</span>
+        <img src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="" style="width:100%;mix-blend-mode:multiply;margin-top:8px;border:1px solid var(--rule)" />
+        <em style="display:block;margin-top:6px;font-size:11px">Plate — 边注图版</em>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- LIST -->
+<div class="view view-list">
+  <div class="wrap">
+    <header class="list-head">
+      <h1>Diary index</h1>
+      <span class="count">14 entries · 全量</span>
+    </header>
+    <div class="list-split">
+      <div class="list-split-main">
+        <div class="filter-row" role="toolbar" id="filter-row"></div>
+        <table class="data-table">
+          <thead><tr><th>Day</th><th>Title · excerpt</th><th>Focus</th><th>Trend</th><th>Date</th></tr></thead>
+          <tbody id="list-tbody"></tbody>
+        </table>
+      </div>
+      <aside class="list-preview" id="list-preview">
+        <p class="lp-vol" id="lp-vol">VOL.2026.06.05 · DAY 99</p>
+        <h2 class="lp-title" id="lp-title">成长会自动消解很多难题</h2>
+        <p class="lp-tags" id="lp-tags">人生 · 认知 · 原创</p>
+        <p class="lp-lead" id="lp-lead">成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。</p>
+        <div class="lp-snippet">
+          <h3>敲黑板 · 预览</h3>
+          <p id="lp-snippet">成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。</p>
+        </div>
+        <button type="button" class="btn" id="lp-read">阅读完整详情 →</button>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div class="view view-detail">
+  <div class="wrap">
+    <header class="detail-hero">
+      <span class="d-folio" id="detail-folio">94</span>
+      <div>
+        <p class="detail-over" id="detail-over">Day 94 · 2026-05-31</p>
+        <h1 class="detail-title" id="detail-title">一个比喻讲透 AI 与人的关系</h1>
+        <p class="detail-tags" id="detail-tags">AI · 认知 · 观点</p>
+      </div>
+    </header>
+  </div>
+  <div class="wrap detail-grid">
+    <main>
+      <section class="detail-block" style="border-top:0;padding-top:0;margin-top:0">
+        <h2>敲黑板</h2>
+        <div class="blackboard">
+          <div class="label">本期精简重点</div>
+          <ul id="detail-blackboard"></ul>
+        </div>
+      </section>
+      <section class="detail-block">
+        <h2>思维导图</h2>
+        <div class="mindmap" aria-label="思维导图">
+          <div class="mm-layer">
+            <svg viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true">
+              <line class="mm-edge is-strong" x1="300" y1="150" x2="138" y2="75"/>
+              <line class="mm-edge is-strong" x1="300" y1="150" x2="462" y2="75"/>
+              <line class="mm-edge is-medium" x1="300" y1="150" x2="120" y2="225"/>
+              <line class="mm-edge is-weak" x1="300" y1="150" x2="480" y2="225"/>
+            </svg>
+            <button type="button" class="mm-node is-core" style="left:50%;top:50%"><span class="mm-kicker">中心</span><span class="mm-title">AI 与人的关系</span></button>
+            <button type="button" class="mm-node is-primary" style="left:23%;top:25%"><span class="mm-kicker">隐喻</span><span class="mm-title">猎犬与人狩猎</span></button>
+            <button type="button" class="mm-node is-primary" style="left:77%;top:25%"><span class="mm-kicker">延伸</span><span class="mm-title">手机内嵌</span></button>
+            <button type="button" class="mm-node is-secondary" style="left:20%;top:75%"><span class="mm-kicker">原则</span><span class="mm-title">内嵌而非替代</span></button>
+            <button type="button" class="mm-node is-secondary" style="left:80%;top:75%"><span class="mm-kicker">校验</span><span class="mm-title">真实场景</span></button>
+          </div>
+        </div>
+        <p class="mm-cap">点击高亮 · 拖拽节点排布</p>
+      </section>
+      <section class="detail-block">
+        <h2>视频</h2>
+        <a class="video-frame" href="https://space.bilibili.com/24473971" target="_blank" rel="noopener noreferrer">
+          <img src="assets/img/vintage_moth_lithograph_Butterflies_and_moths__Plate_XX.jpg" alt="视频封面" />
+          <span class="play-badge">在 B 站观看 ↗</span>
+        </a>
+      </section>
+      <section class="detail-block">
+        <h2>字幕摘录</h2>
+        <div class="subtitle-excerpt" id="detail-subtitles"></div>
+      </section>
+      <div class="btn-row">
+        <button type="button" class="btn" data-goto="list">← Index</button>
+        <button type="button" class="btn" data-goto="home">Home</button>
+      </div>
+    </main>
+    <aside class="tufte-margin">
+      <div class="margin-note is-in"><span class="mn-num">Side-note</span>边注承载补充，读者视线不离开主栏。</div>
+      <div class="margin-note is-in"><span class="mn-num">Tags</span><span style="color:var(--data-red)">AI</span> · <span style="color:var(--data-slate)">认知</span> · 观点</div>
+    </aside>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="zh">廖智强</span><span class="en">Archie</span>
+      <p>视频日记 + 优质内容归档。数据墨水排式，暖纸 ground。</p>
+    </div>
+    <div class="foot-col">
+      <h4>Site</h4>
+      <a href="#" data-goto="home">Home</a>
+      <a href="#" data-goto="list">Diary index</a>
+      <a href="#" data-goto="detail" data-select-day="94">Day 94</a>
+    </div>
+    <div class="foot-col">
+      <h4>Elsewhere</h4>
+      <a href="https://space.bilibili.com/24473971" target="_blank" rel="noopener">Bilibili</a>
+      <a href="https://github.com/Archie-Liao" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank" rel="noopener">小红书</a>
+    </div>
+    <div class="foot-plate">
+      <img src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="" />
+      <p class="cap">Plate · colophon</p>
+    </div>
+  </div>
+  <div class="foot-end">
+    <span>D5 Tufte · 14 期全量 · v1 parity</span>
+    <a href="#top">回到顶部 ↑</a>
+  </div>
+</footer>
+
+<button type="button" id="tweaks-fab">Tweaks</button>
+<div id="tweaks-panel" role="dialog">
+  <strong style="font-family:var(--sans);font-size:11px;letter-spacing:0.1em">TWEAKS</strong>
+  <label for="view-select">视图</label>
+  <select id="view-select"><option value="home">Home</option><option value="list">List</option><option value="detail">Detail</option></select>
+  <label for="margin-range">边注栏宽度</label>
+  <input type="range" id="margin-range" min="220" max="340" step="20" value="280" />
+  <label for="body-range">正文字号 <span id="body-size-val">16px</span></label>
+  <input type="range" id="body-range" min="14" max="18" step="1" value="16" />
+</div>
+
+<script>
+(function () {
+  var EPISODES = [
+    { day: 99, title: '成长会自动消解很多难题', dateShort: '06-05', dateFull: '2026-06-05', month: '2026-06', tags: '人生 认知 原创', tagsDisplay: '人生 · 认知 · 原创', focus: '成长', dek: '难题会被时间与人格的重力悄悄消解。', lead: '成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。', snippet: '成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。' },
+    { day: 98, title: '学会用筷子，却发现没菜可夹', dateShort: '06-04', dateFull: '2026-06-04', month: '2026-06', tags: 'AI 方法 原创', tagsDisplay: 'AI · 方法 · 原创', focus: 'AI 落地', dek: '工具学会了，场景还没跟上——普及期的错位感。', lead: '会用 AI 工具不等于有场景可练——如同学会用筷子，却发现桌上没菜可夹。', snippet: '工具先行、场景滞后：AI 能力需要真实任务与反馈闭环才能长出来。' },
+    { day: 97, title: '手机被忽视，AI正在重蹈覆辙', dateShort: '06-03', dateFull: '2026-06-03', month: '2026-06', tags: 'AI 社会 观点', tagsDisplay: 'AI · 社会 · 观点', focus: '技术周期', dek: '先被高估，再被忽视，最后才进入日常。', lead: '智能手机早期也曾被低估；AI 产品化正在重复「技术很强、体验很弱」的老路。', snippet: '历史不会简单重复，但会押着相似的韵脚——忽视用户场景的产品很难走远。' },
+    { day: 96, title: '信息爆炸！别怕错过优质内容', dateShort: '06-02', dateFull: '2026-06-02', month: '2026-06', tags: '认知 方法 原创', tagsDisplay: '认知 · 方法 · 原创', focus: '信息筛选', dek: 'FOMO 是算法的产品——筛选比追更更重要。', lead: '信息过载时代，接受「必然错过」比强迫全读更理性——用筛选机制代替焦虑。', snippet: '建立个人过滤器：主题订阅 + 定期复盘，比 FOMO 更可持续。' },
+    { day: 95, title: '西西弗少儿区，原来我看错了', dateShort: '06-01', dateFull: '2026-06-01', month: '2026-06', tags: '随想 记录 原创', tagsDisplay: '随想 · 记录 · 原创', focus: '认知更新', dek: '真实体验能修正先入为主的判断。', lead: '对西西弗少儿区的再认识：先入为主的判断需要被真实体验修正。', snippet: '逛书店也是一次认知更新——别用旧标签替新事实。' },
+    { day: 94, title: '一个比喻讲透AI与人的关系', dateShort: '05-31', dateFull: '2026-05-31', month: '2026-05', tags: 'AI 认知 观点', tagsDisplay: 'AI · 认知 · 观点', focus: '人机关系', dek: '比喻是入口，关系才是正文——人定方向，AI 放大。', lead: 'AI 与人是「内嵌」关系：猎犬与人、手机与人——不是简单替代，也不能甩手协作。', snippet: 'AI 像望远镜：放大信息与算力，但不能替代你的价值判断与方向感。' },
+    { day: 93, title: '踩了两个坑，总结出两大洞见', dateShort: '05-30', dateFull: '2026-05-30', month: '2026-05', tags: '复盘 方法 原创', tagsDisplay: '复盘 · 方法 · 原创', focus: '复盘', dek: '小步试错，及时复盘，洞见才会沉淀。', lead: '两次踩坑后的两条可复用洞见：先验证假设，再放大投入。', snippet: '小步试错 + 及时复盘，比一次押注大而全更省时间。' },
+    { day: 92, title: '津巴多心理学，高效记忆两大妙招', dateShort: '05-29', dateFull: '2026-05-29', month: '2026-05', tags: '认知 方法 书籍', tagsDisplay: '认知 · 方法 · 书籍', focus: '记忆', dek: '间隔重复与主动提取，才算进入长期记忆。', lead: '从津巴多心理学提炼两条记忆策略：间隔重复与主动提取。', snippet: '记笔记不是终点——能复述、能应用，才算进入长期记忆。' },
+    { day: 91, title: 'AI学知识套路居然和人类一样', dateShort: '05-28', dateFull: '2026-05-28', month: '2026-05', tags: 'AI 认知 原创', tagsDisplay: 'AI · 认知 · 原创', focus: '学习路径', dek: '理解 AI 学知识，也优化自己的路径。', lead: 'AI 学知识的套路与人类惊人相似：示例、反馈、迁移，本质都是统计+经验。', snippet: '理解 AI 的学习方式，反过来能优化人类自己的学习路径。' },
+    { day: 90, title: '读书是攒经验，并非一朝挖出黄金', dateShort: '05-27', dateFull: '2026-05-27', month: '2026-05', tags: '认知 方法 原创', tagsDisplay: '认知 · 方法 · 原创', focus: '阅读', dek: '认知复利成立——别指望一夕挖出黄金。', lead: '读书是攒经验，不是指望一次挖出黄金——复利在认知上同样成立。', snippet: '把阅读变成行动清单，比囤积划线更有价值。' },
+    { day: 89, title: '十周年新品！得到大脑优缺点盘点', dateShort: '05-26', dateFull: '2026-05-26', month: '2026-05', tags: 'AI 商业 观点', tagsDisplay: 'AI · 商业 · 观点', focus: '产品评', dek: '为谁、在什么场景、解决什么决策。', lead: '得到大脑十周年：梳理产品优缺点，看 AI 知识服务的边界在哪里。', snippet: '工具再强，也要回答「为谁、在什么场景、解决什么决策」。' },
+    { day: 88, title: '想练好表达？一定要多和真人交流', dateShort: '05-25', dateFull: '2026-05-25', month: '2026-05', tags: '自媒体 方法 原创', tagsDisplay: '自媒体 · 方法 · 原创', focus: '表达', dek: '听众反应才是校准仪表盘，AI 补不了现场。', lead: '练好表达要多和真人交流——AI 对练补不了现场反馈与情绪张力。', snippet: '表达是双向的：听众的反应，才是校准语气和结构的仪表盘。' },
+    { day: 87, title: 'LPL对决！涅槃组以下克上战胜登峰组', dateShort: '05-24', dateFull: '2026-05-24', month: '2026-05', tags: '随想 记录', tagsDisplay: '随想 · 记录', focus: '竞技', dek: '体系与心态有时比资源更重要。', lead: 'LPL 涅槃组逆袭的随想：弱势阵容也能靠协作与节奏赢下强敌。', snippet: '竞技与创作一样——体系与心态，有时比资源更重要。' },
+    { day: 86, title: '困住创作的三条枷锁，看完豁然开朗', dateShort: '05-23', dateFull: '2026-05-23', month: '2026-05', tags: '自媒体 方法 原创', tagsDisplay: '自媒体 · 方法 · 原创', focus: '创作', dek: '完美主义与缺反馈闭环——先发布再迭代。', lead: '困住自媒体创作的三条枷锁：完美主义、比较焦虑、缺反馈闭环。', snippet: '先发布再迭代；用真实数据而不是想象观众来改内容。' }
+  ];
+
+  var DETAIL_94_BB = [
+    '罗振宇提出：AI 与人是「内嵌」——像猎犬与人共同狩猎，不能在家甩手指令就指望猎物归来。',
+    '手机与人同理：彼此塑造、难以分离；工具越强，越要想清楚「望向哪里」。'
+  ];
+  var DETAIL_94_SUBS = [
+    '今天我看罗振宇，提出了一个新的概念，就是在 AI 时代，AI 与人的关系到底是什么——AI 既不是简单地替代人类，也不是和人类进行一种简单的合作，他提出了一个新的概念，叫做人与 AI 互相的内嵌。',
+    '比如在远古时代的狩猎时期，一个人如果会驯化猎犬，那么他的能力就一定比那些没有猎犬的人更强。人跟猎犬必须要同时在场——如果离了谁，单独一个都没办法完成这一场狩猎。',
+    '不要指望给一个指令，然后让 AI 就完成了所有的任务。另外内嵌的例子就是手机跟人的关系：现在的人肯定没有办法离开手机，而人也在不断改变手机、创造手机、增进它的功能。'
+  ];
+
+  var selectedDay = 99;
+
+  function getEp(day) {
+    var n = Number(day);
+    for (var i = 0; i < EPISODES.length; i++) {
+      if (EPISODES[i].day === n) return EPISODES[i];
+    }
+    return EPISODES[0];
+  }
+
+  function sparkSvg(i) {
+    var stroke = i % 2 ? '#A6300E' : '#3E4A5C';
+    return '<svg width="56" height="16"><path d="M0,' + (10 + (i % 3)) + ' L56,' + (4 + (i % 5)) + '" fill="none" stroke="' + stroke + '" stroke-width="1.3"/></svg>';
+  }
+
+  function rowHtml(ep, i) {
+    return '<tr data-day="' + ep.day + '" data-tags="' + ep.tags + '">' +
+      '<td class="col-day">' + ep.day + '</td>' +
+      '<td class="col-title"><span class="col-title-main">' + ep.title + '</span><span class="col-dek">' + ep.dek + '</span><span class="ink-line"></span></td>' +
+      '<td class="col-focus">' + ep.focus + '</td>' +
+      '<td class="col-spark">' + sparkSvg(i) + '</td>' +
+      '<td class="col-date">' + ep.dateShort + '</td></tr>';
+  }
+
+  document.getElementById('home-tbody').innerHTML = EPISODES.map(rowHtml).join('');
+  document.getElementById('list-tbody').innerHTML = EPISODES.map(rowHtml).join('');
+
+  function selectListRow(day) {
+    selectedDay = Number(day);
+    var p = getEp(day);
+    document.querySelectorAll('#list-tbody tr').forEach(function (row) {
+      row.classList.toggle('is-active', Number(row.dataset.day) === p.day);
+    });
+    var vol = document.getElementById('lp-vol');
+    var title = document.getElementById('lp-title');
+    var tags = document.getElementById('lp-tags');
+    var lead = document.getElementById('lp-lead');
+    var snippet = document.getElementById('lp-snippet');
+    if (vol) vol.textContent = 'VOL.' + p.dateFull.replace(/-/g, '.') + ' · DAY ' + p.day;
+    if (title) title.textContent = p.title;
+    if (tags) tags.textContent = p.tagsDisplay;
+    if (lead) lead.textContent = p.lead;
+    if (snippet) snippet.textContent = p.snippet;
+  }
+
+  function updateDetailContent(ep) {
+    var folio = document.getElementById('detail-folio');
+    var over = document.getElementById('detail-over');
+    var titleEl = document.getElementById('detail-title');
+    var tagsEl = document.getElementById('detail-tags');
+    var bb = document.getElementById('detail-blackboard');
+    var subs = document.getElementById('detail-subtitles');
+    if (folio) folio.textContent = ep.day;
+    if (over) over.textContent = 'Day ' + ep.day + ' · ' + ep.dateFull;
+    if (titleEl) titleEl.textContent = ep.title;
+    if (tagsEl) tagsEl.textContent = ep.tagsDisplay;
+    if (bb) {
+      var items = ep.day === 94 ? DETAIL_94_BB : [ep.snippet, ep.lead];
+      bb.innerHTML = items.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    }
+    if (subs) {
+      if (ep.day === 94) {
+        subs.innerHTML = DETAIL_94_SUBS.map(function (t) { return '<p>' + t + '</p>'; }).join('');
+      } else {
+        subs.innerHTML = '<p>「' + ep.lead + '」</p><p><em>完整字幕见 B 站原视频 · demo 摘录</em></p>';
+      }
+    }
+  }
+
+  function openDetail(day) {
+    updateDetailContent(getEp(day));
+    setView('detail');
+  }
+
+  function initMindmap() {
+    var layer = document.querySelector('.mindmap .mm-layer');
+    if (!layer) return;
+    var drag = null;
+    var moved = false;
+    layer.querySelectorAll('.mm-node').forEach(function (node) {
+      node.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0) return;
+        drag = node;
+        moved = false;
+        node.setPointerCapture(e.pointerId);
+        layer.querySelectorAll('.mm-node').forEach(function (n) { n.classList.remove('is-lit'); });
+        node.classList.add('is-lit');
+      });
+      node.addEventListener('pointermove', function (e) {
+        if (drag !== node) return;
+        moved = true;
+        var r = layer.getBoundingClientRect();
+        var nx = ((e.clientX - r.left) / r.width) * 100;
+        var ny = ((e.clientY - r.top) / r.height) * 100;
+        node.style.left = Math.min(92, Math.max(8, nx)) + '%';
+        node.style.top = Math.min(88, Math.max(12, ny)) + '%';
+      });
+      node.addEventListener('pointerup', function () { drag = null; });
+      node.addEventListener('click', function (e) {
+        if (moved) { e.stopPropagation(); return; }
+        layer.querySelectorAll('.mm-node').forEach(function (n) { n.classList.remove('is-lit'); });
+        node.classList.add('is-lit');
+      });
+    });
+  }
+
+  selectListRow(99);
+  initMindmap();
+  updateDetailContent(getEp(94));
+
+  document.querySelectorAll('#home-tbody tr').forEach(function (row) {
+    row.addEventListener('click', function () { openDetail(row.dataset.day); });
+  });
+  document.querySelectorAll('#list-tbody tr').forEach(function (row) {
+    row.addEventListener('click', function () { selectListRow(row.dataset.day); });
+  });
+
+  var filters = ['all', 'AI', '认知', '方法', '原创'];
+  var filterRow = document.getElementById('filter-row');
+  filters.forEach(function (f) {
+    var n = f === 'all' ? 14 : EPISODES.filter(function (e) { return e.tags.indexOf(f) >= 0; }).length;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fchip' + (f === 'all' ? ' is-on' : '');
+    btn.dataset.filter = f;
+    btn.textContent = (f === 'all' ? '全部' : f) + ' ' + n;
+    filterRow.appendChild(btn);
+  });
+
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  function tick() {
+    var el = document.getElementById('bj-time');
+    if (!el) return;
+    var now = new Date();
+    var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    var t = new Date(utc + 8 * 3600000);
+    el.textContent = pad(t.getHours()) + ':' + pad(t.getMinutes());
+  }
+  tick(); setInterval(tick, 1000);
+
+  function setView(v, selectDay) {
+    document.body.setAttribute('data-view', v);
+    document.getElementById('view-select').value = v;
+    window.scrollTo(0, 0);
+    if (v === 'list' && selectDay != null) selectListRow(selectDay);
+    if (v === 'detail' && selectDay != null) updateDetailContent(getEp(selectDay));
+    observeReveal();
+  }
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      var day = el.getAttribute('data-select-day');
+      setView(el.getAttribute('data-goto'), day);
+    });
+  });
+  document.getElementById('view-select').addEventListener('change', function (e) { setView(e.target.value); });
+
+  document.getElementById('tweaks-fab').addEventListener('click', function () {
+    document.getElementById('tweaks-panel').classList.toggle('is-open');
+  });
+  document.getElementById('margin-range').addEventListener('input', function (e) {
+    document.documentElement.style.setProperty('--margin-w', e.target.value + 'px');
+  });
+  document.getElementById('body-range').addEventListener('input', function (e) {
+    var px = e.target.value + 'px';
+    document.documentElement.style.setProperty('--body-size', px);
+    var lab = document.getElementById('body-size-val');
+    if (lab) lab.textContent = px;
+  });
+
+  document.getElementById('lp-read').addEventListener('click', function () {
+    openDetail(selectedDay);
+  });
+
+  filterRow.addEventListener('click', function (e) {
+    var chip = e.target.closest('.fchip');
+    if (!chip) return;
+    filterRow.querySelectorAll('.fchip').forEach(function (c) { c.classList.remove('is-on'); });
+    chip.classList.add('is-on');
+    var f = chip.dataset.filter;
+    document.querySelectorAll('#list-tbody tr').forEach(function (row) {
+      row.style.display = (f === 'all' || (row.dataset.tags || '').indexOf(f) >= 0) ? '' : 'none';
+    });
+  });
+
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function observeReveal() {
+    if (reduced) {
+      document.querySelectorAll('.margin-note, .multiple').forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.margin-note[data-reveal], .multiple').forEach(function (el, i) {
+      el.style.transitionDelay = (i * 70) + 'ms';
+      io.observe(el);
+    });
+  }
+  observeReveal();
+})();
+</script>
+</body>
+</html>

@@ -35,7 +35,7 @@ export function HeroIllustration() {
   }
 
   return (
-    <figure className="relative w-full max-w-md mx-auto m-0">
+    <figure className="relative w-full max-w-md mx-auto m-0 hero-cutout">
       <div
         style={{
           border: "1px solid var(--border)",
@@ -44,11 +44,11 @@ export function HeroIllustration() {
           boxShadow: "0 18px 40px -28px rgba(25,25,25,0.25)",
         }}
       >
-        <div style={{ border: "1px solid var(--border)", padding: 10 }}>
+        <div style={{ border: "1px solid var(--border)", padding: 10, overflow: "hidden" }}>
           <img
             src={PLATE_SRC}
             alt="Pieris wollastoni 粉蝶 · 复古博物手工版画"
-            className="w-full h-auto"
+            className="w-full h-auto hero-cutout__img"
             style={{ display: "block", mixBlendMode: "multiply" }}
           />
         </div>
@@ -63,6 +63,11 @@ export function HeroIllustration() {
         </span>
         <span style={{ letterSpacing: "0.14em", fontSize: "0.75rem", whiteSpace: "nowrap" }}>PL. 01</span>
       </figcaption>
+      <style>{`
+        .hero-cutout__img {
+          clip-path: polygon(8% 0, 100% 4%, 92% 100%, 0 96%);
+        }
+      `}</style>
     </figure>
   );
 }

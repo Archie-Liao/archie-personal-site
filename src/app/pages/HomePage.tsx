@@ -1,11 +1,14 @@
-import { Link } from "react-router";
+import { SiteLink } from "../components/SiteLink";
+import { SiteAnchor } from "../components/SiteAnchor";
 import { siteConfig } from "../site.config";
 import { getDiaryDayCount } from "../utils/dayCount";
 import { getLatestPost, getTopPostsByViews, getFeaturedPosts, getRecentPosts } from "../data/posts";
 import { HeroIllustration } from "../components/HeroIllustration";
-import { BeijingClock } from "../components/BeijingClock";
-import { MiniCalendar } from "../components/MiniCalendar";
-import { SiteLogo } from "../components/SiteLogo";
+import { DailyPunch } from "../components/DailyPunch";
+import { PublishDensityChart } from "../components/PublishDensityChart";
+import { StatBand } from "../components/StatBand";
+import { HomeHeroTitle } from "../components/HomeHeroTitle";
+import { AuthorNote } from "../components/AuthorNote";
 
 export function HomePage() {
   const dayCount = getDiaryDayCount(siteConfig.dayOneDate);
@@ -16,17 +19,17 @@ export function HomePage() {
 
   return (
     <div className="home-page">
-      {/* Hero — 出版物双栏 */}
-      <section className="home-hero wrap">
+      <DailyPunch />
+
+      {/* A1-1 Hero — benchmark 双栏 + D4 cutout */}
+      <section className="home-hero wrap" aria-label="Hero">
         <div className="home-hero__grid">
           <div className="home-hero__left">
             <div className="home-hero__eyebrow">
               <span className="home-hero__bar" />
               <span className="home-eyebrow">卷首 · Vol. {dayCount}</span>
             </div>
-            <h1 className="m-0 p-0">
-              <SiteLogo variant="hero-xl" />
-            </h1>
+            <HomeHeroTitle />
             <p className="home-tagline-zh">{siteConfig.tagline}</p>
             <p className="home-tagline-en">{siteConfig.taglineEn}</p>
             <p className="home-intro">
@@ -35,51 +38,28 @@ export function HomePage() {
               一部不会完结的生命之书：每一条日记是一页，每一次成长是一章。
             </p>
             <div className="home-hero__cta">
-              <Link to="/posts" className="home-link-arrow">
+              <SiteLink to="/posts" className="home-link-arrow">
                 读最新一期 →
-              </Link>
-              <Link to="/about" className="home-link-quiet">
+              </SiteLink>
+              <SiteLink to="/about" className="home-link-quiet">
                 关于我 →
-              </Link>
+              </SiteLink>
             </div>
           </div>
-          <HeroIllustration />
-        </div>
-      </section>
-
-      {/* 第二屏窄条 */}
-      <section className="home-band">
-        <div className="wrap home-band__inner">
-          <BeijingClock />
-          <div className="home-day-center">
-            <span className="home-band__lab">视频日记</span>
-            <span className="home-day-num">
-              第 <em>{dayCount}</em> 天
-            </span>
-            <span className="home-band__sub">Daily Since 2026.03.14</span>
+          <div className="home-hero__right home-hero__cutout">
+            <HeroIllustration />
           </div>
-          <MiniCalendar />
         </div>
       </section>
 
-      {/* 卷首语 */}
-      <section className="home-note wrap">
-        <span className="home-eyebrow home-note__eyebrow">卷首语 · A Note from the Author</span>
-        <p className="home-note__text">
-          <span className="home-drop">你</span>
-          {siteConfig.about.intro}
-        </p>
-        <div className="home-note__sign">
-          <span className="home-note__line" />
-          <span>
-            <strong>{siteConfig.name}</strong> · 二〇二六
-          </span>
-          <span className="home-note__line" />
-        </div>
-      </section>
+      <StatBand />
 
-      {/* 精选三卡 — 出版物网格 */}
-      <section className="home-selected wrap">
+      <div className="wrap">
+        <AuthorNote />
+      </div>
+
+      {/* A1-7 精选三卡 */}
+      <section className="home-selected wrap" aria-label="精选入口">
         <div className="home-section-head">
           <h2>精选入口</h2>
           <span className="home-section-sub">Selected Entries</span>
@@ -91,15 +71,15 @@ export function HomePage() {
               <span className="home-folio">{String(latest.episode ?? "").padStart(3, "0")}</span>
             </div>
             <h3>
-              <Link to={`/post/${latest.id}`}>{latest.title}</Link>
+              <SiteLink to={`/post/${latest.id}`}>{latest.title}</SiteLink>
             </h3>
             <p className="home-card__meta">
               Day {latest.episode} · {latest.date}
             </p>
             <p className="home-card__tags">{latest.tags.join(" · ")}</p>
-            <Link to={`/post/${latest.id}`} className="home-card__more">
+            <SiteLink to={`/post/${latest.id}`} className="home-card__more">
               阅读这一期 →
-            </Link>
+            </SiteLink>
           </article>
 
           <article className="home-card">
@@ -108,15 +88,15 @@ export function HomePage() {
               <span className="home-folio">{String(featured.episode ?? "").padStart(3, "0")}</span>
             </div>
             <h3>
-              <Link to={`/post/${featured.id}`}>{featured.title}</Link>
+              <SiteLink to={`/post/${featured.id}`}>{featured.title}</SiteLink>
             </h3>
             <p className="home-card__meta">
               Day {featured.episode} · {featured.date}
             </p>
             <p className="home-card__tags">{featured.tags.join(" · ")}</p>
-            <Link to={`/post/${featured.id}`} className="home-card__more">
+            <SiteLink to={`/post/${featured.id}`} className="home-card__more">
               阅读这一期 →
-            </Link>
+            </SiteLink>
           </article>
 
           <article className="home-card">
@@ -124,10 +104,10 @@ export function HomePage() {
             <ul className="home-hot-list">
               {topThree.map((p, i) => (
                 <li key={p.id}>
-                  <Link to={`/post/${p.id}`}>
+                  <SiteLink to={`/post/${p.id}`}>
                     <span className="home-hot-n">{i + 1}</span>
                     {p.title}
-                  </Link>
+                  </SiteLink>
                 </li>
               ))}
             </ul>
@@ -135,21 +115,23 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 往期时间线 */}
-      <section className="home-timeline wrap">
+      <PublishDensityChart />
+
+      {/* A1-8 往期时间线 */}
+      <section className="home-timeline wrap" aria-label="往期时间线">
         <div className="home-section-head">
           <h2>往期时间线</h2>
-          <Link to="/posts" className="home-section-sub" style={{ textDecoration: "none" }}>
+          <SiteLink to="/posts" className="home-section-sub" style={{ textDecoration: "none" }}>
             全部日记 →
-          </Link>
+          </SiteLink>
         </div>
         <div className="home-timeline__list">
           {recent.map((p) => (
-            <Link key={p.id} to={`/post/${p.id}`} className="home-t-row">
+            <SiteLink key={p.id} to={`/post/${p.id}`} className="home-t-row">
               <span className="home-t-day">Day {p.episode}</span>
               <span className="home-t-title">{p.title}</span>
               <span className="home-t-date">{p.date}</span>
-            </Link>
+            </SiteLink>
           ))}
         </div>
       </section>
@@ -167,19 +149,23 @@ export function HomePage() {
           <a href={siteConfig.links.xiaohongshu} target="_blank" rel="noopener noreferrer">
             小红书
           </a>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            顶部
-          </a>
+          <SiteAnchor href="#top">顶部</SiteAnchor>
         </div>
       </section>
 
       <style>{`
+        .home-hero__right { position: relative; }
+        .home-hero__cutout {
+          display: flex; align-items: center; justify-content: center;
+          padding: 1rem 0;
+        }
+        .home-hero__cutout .hero-cutout {
+          transform: rotate(2.5deg);
+          transition: transform 0.25s var(--snap, ease);
+        }
+        .home-hero__cutout:hover .hero-cutout {
+          transform: rotate(1deg) translateY(-4px);
+        }
         .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.75rem; }
         .home-eyebrow {
           font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.26em;
@@ -193,6 +179,33 @@ export function HomePage() {
         @media (max-width: 900px) { .home-hero__grid { grid-template-columns: 1fr; } }
         .home-hero__eyebrow { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.5rem; }
         .home-hero__bar { width: 2.5rem; height: 2px; background: var(--primary); }
+        .home-hero-display { margin: 0; line-height: 1; }
+        .home-hero-display__zh {
+          display: block;
+          font-family: var(--font-serif);
+          font-weight: 700;
+          font-size: clamp(2.125rem, 5.8vw, 3.5rem);
+          letter-spacing: 0.05em;
+          color: var(--foreground);
+          line-height: 1.05;
+        }
+        .home-hero-display__en {
+          display: block;
+          margin-top: 0.35rem;
+          margin-left: 0.06em;
+          font-family: var(--font-display);
+          font-style: italic;
+          font-weight: 600;
+          font-size: clamp(1.75rem, 4.8vw, 2.875rem);
+          letter-spacing: 0.01em;
+          color: var(--foreground);
+          line-height: 1.08;
+        }
+        .home-hero-display__dot {
+          color: var(--primary);
+          font-style: normal;
+          margin-left: 0.02em;
+        }
         .home-tagline-zh {
           margin: 1.75rem 0 0; font-family: var(--font-serif); font-size: 1.25rem;
           letter-spacing: 0.06em; line-height: 1.6;
@@ -212,36 +225,6 @@ export function HomePage() {
           text-decoration: none; color: var(--foreground);
         }
         .home-link-quiet { font-size: 0.9rem; color: var(--muted-foreground); text-decoration: none; }
-        .home-band {
-          background: var(--secondary); border-top: 1px solid var(--border);
-          border-bottom: 1px solid var(--border);
-        }
-        .home-band__inner {
-          display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem;
-          align-items: center; padding: 1.25rem 0;
-        }
-        @media (max-width: 768px) { .home-band__inner { grid-template-columns: 1fr; text-align: center; } }
-        .home-band__lab { font-size: 0.6875rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted-foreground); }
-        .home-day-center { text-align: center; padding: 0 2rem; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
-        .home-day-num { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 1.125rem; letter-spacing: 0.08em; margin-top: 0.25rem; }
-        .home-day-num em { font-family: var(--font-display); font-style: italic; color: var(--primary-deep, var(--terracotta)); font-size: 1.375rem; }
-        .home-band__sub { display: block; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-foreground); margin-top: 0.25rem; }
-        .home-note { padding: 4.5rem 0 5rem; text-align: center; }
-        .home-note__eyebrow { display: block; margin-bottom: 1.5rem; }
-        .home-note__text {
-          max-width: 45rem; margin: 0 auto; font-family: var(--font-serif); font-weight: 500;
-          font-size: 1.2rem; line-height: 1.92; letter-spacing: 0.02em; text-align: justify;
-        }
-        .home-drop {
-          float: left; font-family: var(--font-serif); font-weight: 700; color: var(--primary);
-          font-size: 4.25rem; line-height: 0.78; padding: 0.35rem 0.875rem 0 0;
-        }
-        .home-note__sign {
-          margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.875rem;
-          font-family: var(--font-display); font-style: italic; color: var(--muted-foreground);
-        }
-        .home-note__sign strong { font-style: normal; font-family: var(--font-serif); color: var(--foreground); }
-        .home-note__line { width: 1.75rem; height: 1px; background: var(--border); }
         .home-section-head {
           display: flex; align-items: baseline; justify-content: space-between;
           margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);

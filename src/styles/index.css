@@ -1,6 +1,10 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+@import './post-margin.css';
+@import './post-page.css';
+@import './post-detail.css';
+@import './posts-list.css';
 
 /* —— 全局纸感基底 —— */
 html {
@@ -36,19 +40,24 @@ a {
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+  background: color-mix(in srgb, var(--primary) 40%, var(--muted-foreground));
   border-radius: 999px;
-  border: 3px solid var(--background);
+  border: 2px solid var(--background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--foreground) 30%, transparent);
+  background: var(--primary);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--primary) 45%, var(--secondary)) var(--background);
 }
 
 /* —— 复古分隔线（叶饰居中） —— */
@@ -95,98 +104,174 @@ a {
   transition: transform 0.15s ease;
 }
 
-/* —— Site logo wordmark（字体设计字标） —— */
+/* —— Phase A 页面壳（与 Layout 顶栏 max-w-6xl / 72rem 对齐） —— */
+.page-shell {
+  display: flex;
+  flex-direction: column;
+}
+.page-shell__inner {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.graph-p2-note {
+  margin: 0;
+  padding-top: 0.25rem;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+}
+
+/* —— Site logo · A117 stamp + 叠排字标 —— */
 .site-logo {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 0.85rem;
   color: var(--foreground);
 }
 
-.site-logo__mark {
+.site-logo__issue {
   flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  color: var(--primary);
+  align-self: center;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  width: 3.25rem;
+  height: 4.5rem;
+  padding: 0;
+  font-size: 1.625rem;
+  line-height: 1;
+  background: transparent;
+  transition: transform 0.14s var(--snap, ease);
+}
+
+.site-logo__issue-fingerprint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.site-logo__issue-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.04em;
+  color: var(--logo-stamp-ink);
+  line-height: 1;
+  text-shadow:
+    0 0 1px rgba(255, 252, 245, 0.85),
+    0 1px 2px rgba(20, 12, 6, 0.45),
+    0 0 8px color-mix(in srgb, var(--background) 88%, transparent);
+}
+
+.site-logo__issue-a {
+  font-family: var(--font-logo-script);
+  font-weight: 400;
+  font-size: 1.45em;
+  line-height: 0.9;
+  transform: translateY(0.06em);
+}
+
+.site-logo__issue-day {
+  font-family: var(--font-logo-folio);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 0.78em;
+  letter-spacing: -0.03em;
 }
 
 .site-logo__text {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.1;
+  align-self: center;
 }
 
 .site-logo__zh {
   font-family: var(--font-logo);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: #4A4238;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding-inline: 0.05em;
+  color: var(--foreground);
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  margin-inline: auto;
 }
 
 .site-logo__en {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: var(--ink-green, var(--muted-foreground));
+  font-family: var(--font-logo-en);
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.14em;
+  padding-inline: 0.1em;
+  padding-right: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted-foreground) 82%, var(--foreground));
+  display: block;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  margin-inline: auto;
+  margin-top: 0.15rem;
 }
 
-/* nav：横排，· 分隔 */
+.site-logo--nav .site-logo__text,
+.site-logo--footer .site-logo__text {
+  text-align: center;
+}
+
+.brand-link:hover .site-logo__issue {
+  transform: scale(1.04) rotate(-1deg);
+}
+
+.site-logo--nav .site-logo__issue {
+  font-size: 1.75rem;
+  width: 3.5rem;
+  height: 4.875rem;
+}
 .site-logo--nav .site-logo__zh {
-  font-size: 1.0625rem;
+  font-size: 1.375rem;
 }
 .site-logo--nav .site-logo__en {
-  font-size: 0.8125rem;
-}
-.site-logo--nav .site-logo__en::before {
-  content: '·';
-  margin-right: 8px;
-  font-style: normal;
-  color: var(--muted-foreground);
-  opacity: 0.6;
+  font-size: 1rem;
 }
 
-/* hero：竖排堆叠（中英文字体设计区分，参考图1） */
-.site-logo--hero,
-.site-logo--hero-xl {
-  align-items: flex-start;
+.site-logo--footer .site-logo__issue {
+  font-size: 1.25rem;
+  width: 2.75rem;
+  height: 3.75rem;
 }
-.site-logo--hero .site-logo__text,
-.site-logo--hero-xl .site-logo__text {
-  flex-direction: column;
+.site-logo--footer .site-logo__zh {
+  font-size: 1rem;
+}
+.site-logo--footer .site-logo__en {
+  font-size: 0.6875rem;
+}
+
+.site-logo--hero {
   align-items: flex-start;
-  gap: 4px;
+  gap: 0.85rem;
+}
+.site-logo--hero .site-logo__text {
+  gap: 0.35rem;
 }
 
 .site-logo--hero .site-logo__zh {
-  font-family: var(--font-logo);
-  font-weight: 400;
   font-size: 2rem;
-  letter-spacing: 0.03em;
-  color: #4A4238;
+  letter-spacing: 0.06em;
 }
 .site-logo--hero .site-logo__en {
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-}
-
-/* hero-xl：出版物字标 — 中文刀隶 + 英文 Playfair 斜体 */
-.site-logo--hero-xl .site-logo__zh {
-  font-family: var(--font-logo);
-  font-weight: 400;
-  font-size: clamp(3.25rem, 8.5vw, 5.5rem);
-  letter-spacing: 0.02em;
-  line-height: 1;
-  color: #4A4238;
-}
-.site-logo--hero-xl .site-logo__en {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
-  letter-spacing: 0.005em;
-  line-height: 1.05;
-  color: var(--foreground);
-  background: none;
-  -webkit-text-fill-color: currentColor;
+  font-size: 1rem;
 }

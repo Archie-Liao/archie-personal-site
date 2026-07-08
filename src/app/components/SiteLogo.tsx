@@ -1,43 +1,29 @@
 import { siteConfig } from "../site.config";
+import { getDiaryDayCount } from "../utils/dayCount";
+import { LogoStampFingerprint } from "./LogoStampFingerprint";
 
 interface SiteLogoProps {
-  /** nav 顶栏 | hero 中号 | hero-xl 首页大标题 */
-  variant?: "nav" | "hero" | "hero-xl";
+  /** nav 顶栏 | footer 页脚 | hero 中号（备用） */
+  variant?: "nav" | "footer" | "hero";
 }
 
 /**
- * 站点字标 — 中文阿里妈妈刀隶体（小样 A）+ 英文 Playfair 斜体；
- * nav 保留小叶饰印记。
+ * 站点字标 — D4 期数 stamp（A117）+ 中英叠排；期数见 getDiaryDayCount
  */
 export function SiteLogo({ variant = "nav" }: SiteLogoProps) {
-  // Hero 区让字体本身成为主角（参考图1：纯字标，无图形干扰）；nav 保留小印记
-  const showMark = variant === "nav";
+  const dayCount = getDiaryDayCount(siteConfig.dayOneDate);
+  const showIssue = variant === "nav" || variant === "footer";
 
   return (
     <span className={`site-logo site-logo--${variant}`} aria-label={siteConfig.name}>
-      {showMark && (
-        <svg
-          className="site-logo__mark"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden
-        >
-          <path
-            d="M12 3 C7 8 7 16 12 21 C17 16 17 8 12 3 Z"
-            stroke="currentColor"
-            strokeWidth="1.1"
-            strokeLinejoin="round"
-          />
-          <path d="M12 5.5 V18.5" stroke="currentColor" strokeWidth="0.9" opacity="0.75" />
-          <path
-            d="M12 9 L9.4 10.8 M12 12 L9 14 M12 9 L14.6 10.8 M12 12 L15 14"
-            stroke="currentColor"
-            strokeWidth="0.7"
-            opacity="0.55"
-            strokeLinecap="round"
-          />
-        </svg>
+      {showIssue && (
+        <span className="site-logo__issue" aria-hidden="true">
+          <LogoStampFingerprint />
+          <span className="site-logo__issue-label">
+            <span className="site-logo__issue-a">A</span>
+            <span className="site-logo__issue-day">{dayCount}</span>
+          </span>
+        </span>
       )}
 
       <span className="site-logo__text">

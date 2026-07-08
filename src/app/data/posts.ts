@@ -88,6 +88,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-19",
     coverUrl: videoCover("ep098"),
     bvid: "BV1GJ411x7h7",
+    tags: ["AI", "方法", "认知", "原创"],
     views: 96,
     aiSummary: {
       overview:
@@ -117,6 +118,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-18",
     coverUrl: videoCover("ep097"),
     bvid: "BV1GJ411x7h7",
+    tags: ["AI", "商业", "观点", "原创"],
     views: 84,
     aiSummary: {
       overview: "对比智能手机早期「功能堆砌、体验割裂」的阶段，讨论当前 AI 产品是否正在重复同样的路径，以及个人使用者如何保持清醒。",
@@ -138,6 +140,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-17",
     coverUrl: videoCover("ep096"),
     bvid: "BV1GJ411x7h7",
+    tags: ["认知", "方法", "原创"],
     views: 72,
     aiSummary: {
       overview: "在 AI 资讯与内容过载环境下，建立个人过滤系统：从 FOMO 转向「可检索的沉淀」，与本站的定位直接相关。",
@@ -187,7 +190,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-15",
     coverUrl: "",
     sourceUrl: "https://aihot.virxact.com/all",
-    sourceName: "AI HOT",
+    sourceName: "AIHOT",
     tags: ["AI", "商业", "文章"],
     views: 54,
     featured: true,
@@ -217,7 +220,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-14",
     coverUrl: "",
     sourceUrl: "https://aihot.virxact.com/all",
-    sourceName: "AI HOT",
+    sourceName: "AIHOT",
     tags: ["AI", "方法", "文章"],
     views: 48,
     aiSummary: {
@@ -239,6 +242,7 @@ export const posts: ContentItem[] = [
     date: "2025-06-13",
     coverUrl: videoCover("ep094"),
     bvid: "BV1GJ411x7h7",
+    tags: ["AI", "认知", "观点", "原创"],
     views: 41,
     aiSummary: {
       overview: "用「镜子 / 杠杆 / 协作者」三个比喻拆解 AI 与人的关系，帮助粉丝建立不神化、不贬低的日常使用心态。",
@@ -275,22 +279,43 @@ export function getRecentPosts(limit = 14): ContentItem[] {
 }
 
 /** 标签共现 + 标题词重叠 → 图谱连边权重 */
+function postPairWeight(a: ContentItem, b: ContentItem): number {
+  const tagOverlap = (a.tags ?? []).filter((t) => (b.tags ?? []).includes(t)).length;
+  const tagScore = tagOverlap / Math.max((a.tags ?? []).length, (b.tags ?? []).length, 1);
+  const wordsA = new Set(a.title.split(/\s+/));
+  const wordsB = new Set(b.title.split(/\s+/));
+  let wordOverlap = 0;
+  wordsA.forEach((w) => {
+    if (wordsB.has(w)) wordOverlap++;
+  });
+  const wordScore = wordOverlap / Math.max(wordsA.size, wordsB.size, 1);
+  return tagScore * 0.7 + wordScore * 0.3;
+}
+
+/** 与当前篇共现权重最高的一篇（用于详情边注） */
+export function getRelatedPost(postId: string, threshold = 0.15): ContentItem | undefined {
+  const current = getPostById(postId);
+  if (!current) return undefined;
+
+  let best: { post: ContentItem; weight: number } | undefined;
+  for (const other of posts) {
+    if (other.id === postId) continue;
+    const weight = postPairWeight(current, other);
+    if (weight >= threshold && (!best || weight > best.weight)) {
+      best = { post: other, weight };
+    }
+  }
+  return best?.post;
+}
+
+/** 标签共现 + 标题词重叠 → 图谱连边权重 */
 export function getGraphEdges(threshold = 0.15): { source: string; target: string; weight: number }[] {
   const edges: { source: string; target: string; weight: number }[] = [];
   for (let i = 0; i < posts.length; i++) {
     for (let j = i + 1; j < posts.length; j++) {
       const a = posts[i];
       const b = posts[j];
-      const tagOverlap = a.tags.filter((t) => b.tags.includes(t)).length;
-      const tagScore = tagOverlap / Math.max(a.tags.length, b.tags.length, 1);
-      const wordsA = new Set(a.title.split(/\s+/));
-      const wordsB = new Set(b.title.split(/\s+/));
-      let wordOverlap = 0;
-      wordsA.forEach((w) => {
-        if (wordsB.has(w)) wordOverlap++;
-      });
-      const wordScore = wordOverlap / Math.max(wordsA.size, wordsB.size, 1);
-      const weight = tagScore * 0.7 + wordScore * 0.3;
+      const weight = postPairWeight(a, b);
       if (weight >= threshold) {
         edges.push({ source: a.id, target: b.id, weight });
       }

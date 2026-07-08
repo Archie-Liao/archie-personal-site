@@ -5,7 +5,7 @@
    - Noto Sans SC → 中文正文（思源黑体）
    - JetBrains Mono → 小标签 / 时间戳 / 期号
    生产环境如需更稳，可改为自托管 woff2（huasheng.ai 即自托管）。*/
-@import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.loli.net/css2?family=Barlow+Condensed:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600;1,700;1,900&family=Cinzel+Decorative:wght@400;700&family=Italianno&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* Logo 中文：阿里妈妈刀隶体（本地自托管，SIL 免费商用） */
 @font-face {

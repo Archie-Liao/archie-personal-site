@@ -4,7 +4,7 @@ title: 多源任务执行计划 · 本项目细则
 status: active
 canonical: docs/MULTI-SOURCE-EXEC-PLAN.md
 implements: docs/AI-COLLABORATION-CHARTER.md §1.8
-revised_at: "2026-07-03 14:45:00"
+revised_at: "2026-07-07 09:35:00"
 timezone: Asia/Shanghai
 ---
 
@@ -24,7 +24,7 @@ timezone: Asia/Shanghai
 | Skill + 项目 doc | demo：`web-design-engineer/SKILL.md` + `DEMO-TASTING-NOTES.md` |
 | ≥2 份权威 doc | 迁 `src/`：`SITE-MANUAL` + `STATUS` + `DEMO-TASTING` |
 | 用户拍板优先级 / C 层破例 | D4：Turley recipe vs 试吃 Never |
-| demo Checkpoint | 与 `docs/sessions/` Checkpoint 1 合并落盘 |
+| demo Checkpoint | 与 `docs/sessions/` Checkpoint 1 **五块执行包**合并落盘 |
 
 ---
 
@@ -32,13 +32,16 @@ timezone: Asia/Shanghai
 
 | 场景 | 位置 |
 |------|------|
-| 默认 | 当次回复 `## 执行计划` |
-| demo / 跨会话 | `docs/sessions/YYYY-MM-DD.md` |
-| 与技能 Checkpoint 1 合并 | sessions 专节 + HTML 头注释一致 |
+| 默认 | 当次回复 `## 执行计划`（摘要） |
+| demo / 跨会话 | **`docs/sessions/YYYY-MM-DD.md` 专节**（权威执行包） |
+| demo Checkpoint 1 | **[DEMO-BUILD-GATE.md §3 五块](DEMO-BUILD-GATE.md)**：块 1 用本节 §3 模板 + 块 2–5 见 GATE |
+| 编码时 | **只认 sessions 当版 Checkpoint 1**；分散 doc 不再现场重拼 |
+
+> 对话里的 `## 执行计划` 是摘要；**Git 里 sessions 五块不全 = 未做计划**（D4 教训）。
 
 ---
 
-## 3. 完整模板
+## 3. 完整模板（块 1 · 非 demo 或 demo 的优先级表部分）
 
 ```markdown
 ## 执行计划 · [任务一句话]
@@ -113,6 +116,7 @@ gotchas → 宪章 → 专题 doc → `STATUS`
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-07 09:35:00 | §2 demo 执行包 → GATE §3 五块；sessions 为权威落盘 |
 | 2026-07-03 14:45:00 | 恢复为项目细则 doc；通用规则仅留宪章 §1.8 |
 | 2026-07-03 14:35:00 | 误并入宪章（已纠正） |
 | 2026-07-03 14:30:00 | 初版 |

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nav Logo · 繁简对比 · A·Day stamp</title>
+<!--
+  顶栏 Logo 小样 · A117 stamp + 廖智强 + Archie
+  设计意图：中文「简/正/朴实」 vs 英文+数字「繁/装饰/花体」
+  本地 fonts/ · 花体/Playfair 走 fonts.loli.net（需网络）
+-->
+<link rel="stylesheet" href="fonts/sypxzs/result.css" />
+<link rel="stylesheet" href="fonts/lxgw-neo-zhi-song/result.css" />
+<style>
+  @import url('https://fonts.loli.net/css2?family=Barlow+Condensed:wght@700;900&family=Noto+Sans+SC:wght@500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Great+Vibes&family=Pinyon+Script&family=Sacramento&family=Cinzel+Decorative:wght@400;700&family=Italianno&display=swap');
+
+  @font-face {
+    font-family: 'Noto Serif SC';
+    src: url('fonts/NotoSerifSC-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Huiwen-mincho';
+    src: url('fonts/Huiwenmincho-improved.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  :root {
+    --paper: #F6F0E2;
+    --ink: #2A2622;
+    --muted: #6E655A;
+    --punch: #D4562A;
+    --paper-on-punch: #F6F0E2;
+    --border: rgba(42, 38, 34, 0.12);
+    --serif-sc: 'Noto Serif SC', 'Songti SC', serif;
+    --sans: 'Noto Sans SC', system-ui, sans-serif;
+    --display-han: 'Source Han Serif CN for Display', var(--serif-sc);
+    --neo-song: 'LXGW Neo ZhiSong', var(--serif-sc);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.65;
+    padding: 28px 24px 56px;
+  }
+
+  a.back {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  a.back:hover { color: var(--punch); }
+
+  h1 {
+    margin: 0 0 8px;
+    font-family: var(--serif-sc);
+    font-size: 22px;
+    letter-spacing: 0.04em;
+  }
+
+  h2.section-title {
+    margin: 36px 0 10px;
+    font-family: var(--serif-sc);
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  .intro, .correction, .howto {
+    max-width: 760px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .intro { color: var(--muted); }
+  .correction {
+    padding: 12px 14px;
+    background: rgba(212, 86, 42, 0.08);
+    border: 1px solid rgba(212, 86, 42, 0.35);
+    border-left: 3px solid var(--punch);
+  }
+  .correction strong { color: var(--ink); }
+  .howto {
+    padding: 12px 14px;
+    background: #FFF8EE;
+    border: 1px solid rgba(154, 123, 63, 0.35);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    background: #FBF7EE;
+    overflow: hidden;
+  }
+
+  .card-head {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+  }
+  .card-head p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .card-head .tag {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 1px 7px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tag--rec { border-color: var(--punch); color: var(--punch); }
+  .tag--warn { border-color: #B43C28; color: #B43C28; }
+
+  .nav-mock {
+    display: flex;
+    align-items: center;
+    min-height: 72px;
+    padding: 10px 16px;
+    background: color-mix(in srgb, var(--paper) 92%, white);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo__issue {
+    flex-shrink: 0;
+    align-self: center;
+    line-height: 1;
+    color: var(--paper-on-punch);
+    background: var(--punch);
+    padding: 4px 8px 2px;
+  }
+
+  .logo__text {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .logo__zh {
+    display: block;
+    text-align: center;
+    letter-spacing: 0.1em;
+    padding-inline: 0.05em;
+    line-height: 1.1;
+    font-size: 18px;
+    font-family: var(--serif-sc);
+    font-weight: 700;
+    white-space: nowrap;
+    margin-inline: auto;
+  }
+
+  .logo__en {
+    display: block;
+    text-align: center;
+    line-height: 1;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-inline: auto;
+    margin-top: 3px;
+  }
+
+  /* —— 装饰轴：stamp + en 同一套花体/展示体 —— */
+  .f-folio .logo__issue,
+  .f-folio .logo__en {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  .f-folio .logo__issue { font-size: 24px; }
+  .f-folio .logo__en { font-size: 17px; color: color-mix(in srgb, var(--muted) 70%, var(--ink)); }
+
+  .f-great .logo__issue,
+  .f-great .logo__en {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+  .f-great .logo__issue { font-size: 34px; padding: 0 10px 2px; }
+  .f-great .logo__en { font-size: 26px; color: color-mix(in srgb, var(--muted) 55%, var(--ink)); }
+
+  .f-pinyon .logo__issue,
+  .f-pinyon .logo__en {
+    font-family: 'Pinyon Script', cursive;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+  .f-pinyon .logo__issue { font-size: 32px; padding: 2px 10px 0; }
+  .f-pinyon .logo__en { font-size: 24px; }
+
+  .f-sacramento .logo__issue,
+  .f-sacramento .logo__en {
+    font-family: 'Sacramento', cursive;
+    font-weight: 400;
+    text-transform: none;
+  }
+  .f-sacramento .logo__issue { font-size: 30px; padding: 2px 10px 0; }
+  .f-sacramento .logo__en { font-size: 22px; }
+
+  .f-cinzel .logo__issue,
+  .f-cinzel .logo__en {
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+  .f-cinzel .logo__issue { font-size: 20px; padding: 6px 8px 4px; }
+  .f-cinzel .logo__en { font-size: 14px; letter-spacing: 0.12em; }
+
+  .f-italianno .logo__issue,
+  .f-italianno .logo__en {
+    font-family: 'Italianno', cursive;
+    font-weight: 400;
+    text-transform: none;
+  }
+  .f-italianno .logo__issue { font-size: 36px; padding: 0 10px 2px; }
+  .f-italianno .logo__en { font-size: 28px; }
+
+  .f-cond .logo__issue,
+  .f-cond .logo__en {
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .f-cond .logo__issue { font-size: 26px; letter-spacing: -0.02em; text-transform: none; }
+  .f-cond .logo__en { font-size: 13px; }
+
+  /* —— 中文轴（装饰固定 Great Vibes） —— */
+  .zh-b .logo__zh { font-family: var(--display-han); font-weight: 400; letter-spacing: 0.06em; }
+  .zh-c .logo__zh { font-family: var(--sans); font-weight: 600; letter-spacing: 0.08em; }
+  .zh-d .logo__zh { font-family: 'Huiwen-mincho', var(--serif-sc); font-weight: normal; letter-spacing: 0.05em; }
+  .zh-e .logo__zh { font-family: var(--neo-song); font-weight: 400; letter-spacing: 0.04em; }
+
+  .card-foot {
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← logo-fonts 索引</a>
+<h1>顶栏 Logo · 繁简对比 · A117</h1>
+
+<div class="correction">
+  <strong>上一版小样错在哪：</strong>把「英文/数字要装饰感」理解成了 Playfair 斜体 / Barlow Condensed（可读、偏杂志），
+  <strong>没有</strong>做你要的「花体级繁简对比」——中文正、英文/数字繁，哪怕略难认也要有明显张力。
+  本页分两步选：<strong>先选装饰轴 F1–F6</strong>，再选中文轴 Z1–Z5。
+</div>
+
+<p class="intro">
+  与线上 <code>SiteLogo</code> 同构（stamp + 叠排）。中文在上、英文在下，两行<strong>共用中线</strong>居中。
+  stamp 与 Archie 用<strong>同一套装饰字体</strong>，数字和字母一起「繁」。
+</p>
+
+<div class="howto">
+  <strong>怎么打开？</strong>
+  <code>cd design-demos && python -m http.server 8765</code> →
+  <a href="http://127.0.0.1:8765/logo-fonts/compare-nav-stamp.html" target="_blank" rel="noopener noreferrer">127.0.0.1:8765/logo-fonts/compare-nav-stamp.html</a>
+  · 花体字体需联网（loli）· 若三卡英文看起来一样 → 开代理后刷新
+</div>
+
+<h2 class="section-title">① 先选 · 英文 + 数字装饰（中文暂固定 Noto Serif 700）</h2>
+<p class="intro">回复 <strong>F1 / F2 …</strong>。F6 是现站 Condensed 对照（偏「简」，不是目标方向）。</p>
+
+<div class="grid">
+  <article class="card f-folio">
+    <div class="card-head">
+      <h3>F1 · Playfair 900 斜体 folio</h3>
+      <p>benchmark 大数字路线 · 装饰中等 · 仍可读</p>
+      <span class="tag">轻度装饰</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">若觉得还不够「花」，往 F2–F5 看</div>
+  </article>
+
+  <article class="card f-great">
+    <div class="card-head">
+      <h3>F2 · Great Vibes 花体</h3>
+      <p>强连笔 · 数字字母都难一眼认 · 繁简反差大</p>
+      <span class="tag tag--rec">强装饰 · 推荐试</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">最接近「哪怕认不出字母也要繁」</div>
+  </article>
+
+  <article class="card f-pinyon">
+    <div class="card-head">
+      <h3>F3 · Pinyon Script</h3>
+      <p>细线 Spencerian 花体 · 比 F2 更古典</p>
+      <span class="tag">强装饰</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">刊头感 · 笔画细</div>
+  </article>
+
+  <article class="card f-sacramento">
+    <div class="card-head">
+      <h3>F4 · Sacramento</h3>
+      <p>单线手写 · 比 F2 略收敛仍很装饰</p>
+      <span class="tag">强装饰</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">手写感 · 顶栏尺寸下仍清晰一点</div>
+  </article>
+
+  <article class="card f-cinzel">
+    <div class="card-head">
+      <h3>F5 · Cinzel Decorative</h3>
+      <p>罗马展示体 · 繁在笔画结构不是连笔</p>
+      <span class="tag">结构装饰</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">不像花体但明显「繁」· 偏碑刻/罗马</div>
+  </article>
+
+  <article class="card f-italianno">
+    <div class="card-head">
+      <h3>F5b · Italianno</h3>
+      <p>极细连笔 · 最「认不出字」的一档</p>
+      <span class="tag">极强装饰</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">小字号可能糊 · 看顶栏实际尺寸</div>
+  </article>
+
+  <article class="card f-cond">
+    <div class="card-head">
+      <h3>F6 · Barlow Condensed（现站对照）</h3>
+      <p>杂志报头 · 非花体 · 反面教材</p>
+      <span class="tag tag--warn">太简 · 非目标</span>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">现 src 方向 · 缺繁简对比</div>
+  </article>
+</div>
+
+<h2 class="section-title">② 再选 · 中文朴实（装饰暂固定 F2 Great Vibes）</h2>
+<p class="intro">定好 F 后再回复 <strong>Z1 / Z2 …</strong>。若 F 不是 F2，告诉我组合如「F3 + Z2」。</p>
+
+<div class="grid">
+  <article class="card f-great">
+    <div class="card-head">
+      <h3>Z1 · Noto Serif SC 700</h3>
+      <p>出版物宋 · 最中正</p>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">默认推荐中文</div>
+  </article>
+
+  <article class="card f-great zh-b">
+    <div class="card-head">
+      <h3>Z2 · 屏显臻宋</h3>
+      <p>Source Han Serif Display · 更 Logo 级</p>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">比 Z1 更刊头</div>
+  </article>
+
+  <article class="card f-great zh-c">
+    <div class="card-head">
+      <h3>Z3 · Noto Sans 黑体</h3>
+      <p>最朴实 · 反差最大</p>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">黑体 × 花体 · 繁简最极端</div>
+  </article>
+
+  <article class="card f-great zh-d">
+    <div class="card-head">
+      <h3>Z4 · 汇文明朝</h3>
+      <p>铅字/活字 · 略古</p>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">中文也带一点文气 · 仍比英文简</div>
+  </article>
+
+  <article class="card f-great zh-e">
+    <div class="card-head">
+      <h3>Z5 · Neo ZhiSong</h3>
+      <p>现代宋 · 利落</p>
+    </div>
+    <div class="nav-mock">
+      <a class="logo" href="#">
+        <span class="logo__issue">A117</span>
+        <span class="logo__text">
+          <span class="logo__zh">廖智强</span>
+          <span class="logo__en">Archie</span>
+        </span>
+      </a>
+    </div>
+    <div class="card-foot">年轻 VI 感</div>
+  </article>
+</div>
+
+</body>
+</html>

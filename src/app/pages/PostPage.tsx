@@ -1,8 +1,12 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
+import { SiteLink } from "../components/SiteLink";
 import { getPostById } from "../data/posts";
 import { VideoPlayer } from "../components/VideoPlayer";
-import { KnowledgeCard } from "../components/KnowledgeCard";
 import { SubtitleViewer } from "../components/SubtitleViewer";
+import { PostDetailGutter, PostMarginColumn } from "../components/PostMarginColumn";
+import { PostMindmap } from "../components/PostMindmap";
+import { PostSectionTitle } from "../components/PostSectionTitle";
+import { getPostPlatformLabel } from "../utils/postPlatform";
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -12,140 +16,138 @@ export function PostPage() {
     return (
       <div className="max-w-3xl mx-auto px-6 py-24 text-center">
         <p style={{ color: "var(--muted-foreground)" }}>找不到这篇内容</p>
-        <Link to="/posts" className="mt-4 inline-block text-sm" style={{ color: "var(--primary)" }}>
+        <SiteLink to="/posts" className="mt-4 inline-block text-sm" style={{ color: "var(--primary)" }}>
           ← 返回列表
-        </Link>
+        </SiteLink>
       </div>
     );
   }
 
+  const tags = post.tags ?? [];
+  const hasAux = post.knowledgeCards.length > 0;
+  const typeLabel =
+    post.type === "video" ? "视频日记" : post.type === "link" ? "外链收藏" : "笔记";
+  const heroOver =
+    post.episode != null ? `Day ${post.episode} · ${post.date}` : `${typeLabel} · ${post.date}`;
+  const platformLabel = getPostPlatformLabel(post);
+
   return (
-    <article className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-10">
-      <Link to="/posts" className="text-sm" style={{ color: "var(--muted-foreground)", textDecoration: "none" }}>
-        ← 返回日记列表
-      </Link>
+    <div className="post-page">
+      <div className="post-shell">
+        <article className="post-main">
+          <SiteLink to="/posts" className="post-back">
+            ← 返回日记列表
+          </SiteLink>
 
-      <header className="flex flex-col gap-4 border-b pb-8" style={{ borderColor: "var(--border)" }}>
-        <div className="flex flex-wrap items-center gap-3">
-          {post.episode != null && (
-            <span className="ep-badge">EP.{String(post.episode).padStart(3, "0")}</span>
+          <header className="post-hero post-hero--spread">
+            <div className="post-hero__spread">
+              {post.episode != null ? (
+                <span className="post-hero__folio" aria-hidden="true">
+                  {post.episode}
+                </span>
+              ) : platformLabel ? (
+                <span className="post-hero__folio post-hero__folio--platform" aria-label={`来自 ${platformLabel}`}>
+                  <span className="post-hero__folio-from">来自</span>
+                  <span className="post-hero__folio-platform">{platformLabel}</span>
+                </span>
+              ) : null}
+              <div className="post-hero__text">
+                <span className="post-hero__over">{heroOver}</span>
+                <h1 className="post-hero__title">{post.title}</h1>
+                <p className="post-hero__tagline">{tags.join(" · ")}</p>
+              </div>
+            </div>
+          </header>
+
+          <section className="post-section post-section--summary">
+            <PostSectionTitle>AI 总结</PostSectionTitle>
+
+            <div className="post-summary">
+              <p className="post-summary__lead">{post.aiSummary.overview}</p>
+
+              {post.aiSummary.keyPoints.length > 0 && (
+                <ol className="post-summary__points">
+                  {post.aiSummary.keyPoints.map((point, i) => (
+                    <li key={i}>
+                      <span className="post-summary__num" aria-hidden>
+                        {i + 1}
+                      </span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+
+              {hasAux && (
+                <>
+                  <hr className="post-summary__rule" />
+                  <div className="post-summary__aux">
+                    <div className="post-summary__keywords" aria-label="关键词">
+                      <span className="post-summary__label">关键词</span>
+                      <div className="post-summary__keywords-row">
+                        {post.knowledgeCards.map((card) => (
+                          <span key={card.id} className="post-summary__kw" title={card.front}>
+                            {card.front.split(/[\s·]/)[0]}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="post-summary__checks" aria-label="可落地检查">
+                      <span className="post-summary__label">可落地检查</span>
+                      <ul className="post-summary__check-list">
+                        {post.knowledgeCards.map((card) => (
+                          <li key={card.id} className="post-summary__check-item">
+                            <strong className="post-summary__check-kw">{card.front}</strong>
+                            <span className="post-summary__check-rule">{toCheckRule(card.back)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <blockquote className="post-summary__quote">「{post.aiSummary.quote}」</blockquote>
+            </div>
+          </section>
+
+          <section className="post-section">
+            <PostSectionTitle>思维导图</PostSectionTitle>
+            <PostMindmap post={post} />
+          </section>
+
+          <section className="post-section">
+            <PostSectionTitle>{post.bvid ? "视频" : "原文"}</PostSectionTitle>
+            {post.bvid ? (
+              <VideoPlayer post={post} />
+            ) : post.sourceUrl ? (
+              <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="post-link-card">
+                <span className="post-link-card__label">{post.sourceName ?? "阅读原文"}</span>
+                <p className="post-link-card__url">{post.sourceUrl}</p>
+              </a>
+            ) : null}
+          </section>
+
+          {post.subtitlePath && (
+            <section className="post-section">
+              <PostSectionTitle>完整字幕</PostSectionTitle>
+              <SubtitleViewer path={post.subtitlePath} />
+            </section>
           )}
-          <span className="text-xs" style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-mono)" }}>
-            {post.date}
-          </span>
-          <span className="text-xs px-2 py-0.5 rounded border" style={{ borderColor: "var(--border)", color: "var(--muted-foreground)" }}>
-            {post.type === "video" ? "视频日记" : post.type === "link" ? "外链收藏" : "笔记"}
-          </span>
-        </div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.5rem, 4vw, 2.25rem)", lineHeight: 1.3 }}>
-          {post.title}
-        </h1>
-        <div className="flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <span key={tag} className="tag">{tag}</span>
-          ))}
-        </div>
-      </header>
+        </article>
 
-      {/* AI 总结 */}
-      <section className="flex flex-col gap-4">
-        <SectionTitle>AI 总结</SectionTitle>
-        <div className="p-6 rounded-xl border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-          <p className="text-base leading-relaxed" style={{ color: "var(--foreground)" }}>
-            {post.aiSummary.overview}
-          </p>
-        </div>
-        {post.aiSummary.keyPoints.length > 0 && (
-          <ul className="flex flex-col gap-3">
-            {post.aiSummary.keyPoints.map((point, i) => (
-              <li key={i} className="flex gap-3 text-sm leading-relaxed">
-                <span className="num-badge">{i + 1}</span>
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-        <blockquote
-          className="px-6 py-4 rounded-xl border-l-[3px] italic"
-          style={{ borderLeftColor: "var(--primary)", background: "var(--accent)", border: "1px solid var(--border)", borderLeft: "3px solid var(--primary)" }}
-        >
-          <p style={{ fontFamily: "var(--font-display)", color: "var(--foreground)" }}>
-            「{post.aiSummary.quote}」
-          </p>
-        </blockquote>
-      </section>
-
-      {/* 知识卡片 */}
-      {post.knowledgeCards.length > 0 && (
-        <section className="flex flex-col gap-4">
-          <SectionTitle>知识卡片</SectionTitle>
-          <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-            点击卡片展开详细解释 · 共 {post.knowledgeCards.length} 张
-          </p>
-          <div className="grid gap-3">
-            {post.knowledgeCards.map((card) => (
-              <KnowledgeCard key={card.id} card={card} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 视频 / 外链 */}
-      <section className="flex flex-col gap-4">
-        <SectionTitle>{post.bvid ? "视频" : "原文"}</SectionTitle>
-        {post.bvid ? (
-          <VideoPlayer post={post} />
-        ) : post.sourceUrl ? (
-          <a
-            href={post.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-6 rounded-xl border block transition-colors hover:border-primary"
-            style={{ background: "var(--card)", borderColor: "var(--border)", textDecoration: "none", color: "inherit" }}
-          >
-            <span className="text-xs" style={{ color: "var(--muted-foreground)" }}>{post.sourceName ?? "阅读原文"}</span>
-            <p className="mt-2 text-sm" style={{ color: "var(--primary)" }}>{post.sourceUrl}</p>
-          </a>
-        ) : null}
-      </section>
-
-      {/* 字幕 */}
-      {post.subtitlePath && (
-        <section className="flex flex-col gap-4">
-          <SectionTitle>完整字幕</SectionTitle>
-          <SubtitleViewer path={post.subtitlePath} />
-        </section>
-      )}
-
-      <style>{`
-        .ep-badge {
-          padding: 2px 8px; border-radius: 4px; font-size: 12px;
-          background: var(--primary); color: var(--primary-foreground);
-          font-family: var(--font-mono);
-        }
-        .tag {
-          padding: 2px 10px; border-radius: 999px; font-size: 12px;
-          border: 1px solid var(--border); color: var(--muted-foreground);
-        }
-        .num-badge {
-          width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 11px; background: var(--primary); color: var(--primary-foreground);
-          font-family: var(--font-mono);
-        }
-      `}</style>
-    </article>
+        <aside className="post-detail-aside" aria-label="边注">
+          <PostDetailGutter />
+          <PostMarginColumn key={post.id} post={post} />
+        </aside>
+      </div>
+    </div>
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2
-      className="flex items-center gap-3"
-      style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", color: "var(--foreground)" }}
-    >
-      <span className="w-1 h-6 rounded-full" style={{ background: "var(--primary)" }} />
-      {children}
-    </h2>
-  );
+function toCheckRule(back: string): string {
+  const first = back.split(/[。！？.!?]/)[0]?.trim();
+  if (!first) return back;
+  return first.endsWith("。") || first.endsWith(".") ? first : `${first}。`;
 }

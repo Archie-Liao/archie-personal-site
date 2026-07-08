@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { openSitePath } from "../utils/openSitePath";
 import { siteConfig } from "../site.config";
 import { posts, getGraphEdges } from "../data/posts";
 
@@ -14,7 +14,6 @@ interface Node {
 }
 
 export function GraphPage() {
-  const navigate = useNavigate();
   const svgRef = useRef<SVGSVGElement>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -115,8 +114,9 @@ export function GraphPage() {
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12 flex flex-col gap-6">
-      <header>
+    <div className="page-shell">
+      <div className="page-shell__inner flex flex-col gap-6">
+        <header>
         <h1 style={{ fontFamily: "var(--font-display)", fontSize: "2rem" }}>知识图谱</h1>
         <p className="text-sm mt-2" style={{ color: "var(--muted-foreground)" }}>
           {siteConfig.graphIntro}
@@ -197,7 +197,7 @@ export function GraphPage() {
                   style={{ cursor: "pointer" }}
                   onMouseEnter={() => setHovered(n.id)}
                   onMouseLeave={() => setHovered(null)}
-                  onClick={() => navigate(`/post/${n.id}`)}
+                  onClick={() => openSitePath(`/post/${n.id}`)}
                   onMouseDown={(e) => {
                     e.stopPropagation();
                     dragRef.current = { id: n.id, ox: 0, oy: 0 };
@@ -223,6 +223,11 @@ export function GraphPage() {
       <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
         滚轮缩放 · 拖动画布平移 · 拖动节点 · 点击节点进入详情
       </p>
+
+      <p className="text-xs graph-p2-note" style={{ color: "var(--muted-foreground)" }}>
+        规划：同页切换「按标签 / 按文内链接」浏览（content md 上线后）
+      </p>
+      </div>
     </div>
   );
 }

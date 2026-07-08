@@ -1,0 +1,467 @@
+/* A3-4 · 视频装饰框 — 版画式 mat · 无倾斜 */
+
+.video-plate {
+  max-width: min(28rem, 92%);
+  margin: 0;
+}
+
+.video-plate__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.video-plate__mat {
+  position: relative;
+  padding: 14px 16px 18px;
+  background: color-mix(in srgb, var(--card) 94%, var(--secondary));
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--background) 65%, transparent),
+    0 10px 28px -22px rgba(25, 25, 25, 0.28);
+}
+
+.video-plate__mat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--punch, var(--primary)) 18%,
+    var(--punch, var(--primary)) 82%,
+    transparent
+  );
+  opacity: 0.72;
+}
+
+.video-plate__corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.video-plate__corner::before,
+.video-plate__corner::after {
+  content: "";
+  position: absolute;
+  background: color-mix(in srgb, var(--foreground) 42%, var(--border));
+}
+
+.video-plate__corner--tl {
+  top: 7px;
+  left: 10px;
+}
+.video-plate__corner--tl::before {
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 1px;
+}
+.video-plate__corner--tl::after {
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 10px;
+}
+
+.video-plate__corner--tr {
+  top: 7px;
+  right: 10px;
+}
+.video-plate__corner--tr::before {
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 1px;
+}
+.video-plate__corner--tr::after {
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 10px;
+}
+
+.video-plate__corner--bl {
+  bottom: 7px;
+  left: 10px;
+}
+.video-plate__corner--bl::before {
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 1px;
+}
+.video-plate__corner--bl::after {
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 10px;
+}
+
+.video-plate__corner--br {
+  bottom: 7px;
+  right: 10px;
+}
+.video-plate__corner--br::before {
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 1px;
+}
+.video-plate__corner--br::after {
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  height: 10px;
+}
+
+.video-plate__inner {
+  position: relative;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--border) 88%, var(--foreground));
+  background: var(--background);
+}
+
+.video-plate__folio {
+  position: absolute;
+  top: -0.55rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 2px 8px;
+  font-family: var(--font-body);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--punch, var(--primary-deep, var(--terracotta)));
+  background: var(--background);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, var(--punch, var(--primary)));
+}
+
+.video-plate__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--secondary) 40%, var(--card));
+}
+
+.video-plate__media > img,
+.video-plate__media > div {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.video-plate__link:hover .video-plate__media > img,
+.video-plate__link:hover .video-plate__media > div,
+.video-plate__link:focus-visible .video-plate__media > img,
+.video-plate__link:focus-visible .video-plate__media > div {
+  transform: scale(1.015);
+}
+
+.video-plate__play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(25, 25, 25, 0.04);
+  transition: background 0.25s ease;
+}
+
+.video-plate__link:hover .video-plate__play,
+.video-plate__link:focus-visible .video-plate__play {
+  background: rgba(25, 25, 25, 0.1);
+}
+
+.video-plate__play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(246, 240, 226, 0.94);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(25, 25, 25, 0.1);
+  transition: transform 0.22s ease;
+}
+
+.video-plate__link:hover .video-plate__play-btn,
+.video-plate__link:focus-visible .video-plate__play-btn {
+  transform: scale(1.04);
+}
+
+.video-plate__cap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+.video-plate__cap-label {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.video-plate__cap-label strong {
+  font-style: normal;
+  color: var(--foreground);
+}
+
+.video-plate__cap-cta {
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+/* A3-5 · D1 平排 + 段前符号 / 概括词 */
+
+.subtitle-excerpt {
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+}
+
+.subtitle-para {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.85rem;
+  align-items: start;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.05vw, 1.0625rem);
+  line-height: 1.78;
+  color: color-mix(in srgb, var(--foreground) 86%, var(--muted-foreground));
+  text-wrap: pretty;
+}
+
+.subtitle-para--theme {
+  grid-template-columns: minmax(5.5rem, auto) 1fr;
+}
+
+.subtitle-para__kicker {
+  padding-top: 0.12em;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--punch, var(--primary-deep, var(--terracotta)));
+  white-space: nowrap;
+  opacity: 0.92;
+}
+
+.subtitle-para__mark {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-top: 0.72em;
+  border: 1px solid color-mix(in srgb, var(--border) 55%, var(--punch, var(--primary)) 45%);
+  background: var(--background);
+  transform: rotate(45deg);
+  opacity: 0.7;
+}
+
+.subtitle-para__text {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .video-plate {
+    max-width: 100%;
+  }
+
+  .subtitle-para--theme {
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+
+  .subtitle-para__kicker {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-plate__media > img,
+  .video-plate__media > div,
+  .video-plate__play,
+  .video-plate__play-btn {
+    transition: none;
+  }
+}
+
+/* A3-3 · D4 思维导图 — 细线框 · 可点/可拖 */
+
+.post-mindmap {
+  position: relative;
+  min-height: 20rem;
+  padding: 1.35rem 1.25rem 1.15rem;
+  background: color-mix(in srgb, var(--card) 88%, var(--background));
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--background) 55%, transparent);
+}
+
+.post-mindmap__layer {
+  position: relative;
+  width: 100%;
+  height: 18.75rem;
+  touch-action: none;
+}
+
+.post-mindmap__layer svg,
+.post-mindmap__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.post-mindmap__edge {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease;
+}
+
+.post-mindmap__edge--strong {
+  stroke: var(--punch, var(--primary));
+  stroke-width: 2.2;
+}
+
+.post-mindmap__edge--weak {
+  stroke: color-mix(in srgb, var(--muted-foreground) 55%, var(--border));
+  stroke-width: 1.5;
+  stroke-dasharray: 7 6;
+}
+
+.post-mindmap__edge.is-lit {
+  stroke-width: 2.6;
+  stroke-opacity: 1;
+}
+
+.post-mindmap__edge.is-dim {
+  stroke-opacity: 0.35;
+}
+
+.post-mindmap__node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 6rem;
+  max-width: 8.125rem;
+  padding: 0.62rem 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.12s var(--snap, ease),
+    box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.post-mindmap__node:hover {
+  transform: translate(-50%, -50%) scale(1.03);
+  box-shadow: 0 4px 16px rgba(212, 86, 42, 0.12);
+}
+
+.post-mindmap__node.is-lit {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 6px 20px rgba(212, 86, 42, 0.18);
+  border-color: var(--punch, var(--primary));
+}
+
+.post-mindmap__kicker {
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.post-mindmap__title {
+  font-family: var(--font-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.post-mindmap__keyword {
+  font-family: var(--font-serif);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.post-mindmap__node--core {
+  border-color: color-mix(in srgb, var(--punch, var(--primary)) 55%, var(--border));
+  background: color-mix(in srgb, var(--punch, var(--primary)) 6%, var(--card));
+  min-width: 7.5rem;
+}
+
+.post-mindmap__node--core .post-mindmap__keyword {
+  font-size: 1rem;
+  color: var(--punch, var(--primary-deep, var(--terracotta)));
+}
+
+.post-mindmap__node--primary,
+.post-mindmap__node--keyword,
+.post-mindmap__node--concept {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  background: color-mix(in srgb, var(--secondary) 45%, var(--card));
+}
+
+.post-mindmap__node--secondary,
+.post-mindmap__node--point {
+  border-style: dashed;
+}
+
+.post-mindmap__node--secondary .post-mindmap__keyword,
+.post-mindmap__node--point .post-mindmap__keyword {
+  font-size: 0.8125rem;
+  color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
+}
+
+.post-mindmap__hint {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-mindmap__node {
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .post-mindmap__node:hover,
+  .post-mindmap__node.is-lit {
+    transform: translate(-50%, -50%);
+  }
+}

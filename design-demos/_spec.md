@@ -223,7 +223,7 @@
 
 **交付前自检（A 层必过）**
 
-- [ ] 已按 [DEMO-BUILD-GATE.md](../docs/DEMO-BUILD-GATE.md) 完成读档 + Checkpoint 1 **已写入 sessions**  
+- [ ] 已按 [DEMO-BUILD-GATE.md](../docs/DEMO-BUILD-GATE.md) **§3 五块**落盘 sessions + Archie Checkpoint 1  
 - [ ] fonts.loli.net · 本地图 · 真 14 期内容 · 三视图可切换  
 - [ ] 导航「点我点我」+ tooltip  
 - [ ] 无紫渐变 / emoji 图标 / display 用 Inter  

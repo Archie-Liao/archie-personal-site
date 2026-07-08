@@ -7,6 +7,8 @@
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-07 11:45:00 | Archie 试吃 **D4 turley + D5 tufte** 落盘；合成决策表追加 D4/D5 元件 |
+| 2026-07-07 10:45:00 | D4/D5 v1 parity 交付；试吃节预留；下一对话填 turley/tufte |
 | 2026-07-02 18:28:38 | 恢复 Never / 合成决策被 AI 整行替换删掉的内容；两节改为**只增不改** |
 | 2026-07-02 18:16:45 | 试吃 benchmark/D1/D2/D3/designer；合成决策初稿（后遭误删部分表述） |
 
@@ -22,6 +24,8 @@
 - **Never**：**又粗又黑的边框线 / 分割线**（如 D3 的 3–4px `#ink` 框 — 太莽，production 用细 rule 或色块分隔）
 - **Never**：**照猫画虎只换色调**
 - **Never**：**压抑黑底长文块**（D2 blackboard）
+- **Must**：**production 动效菜单 ≥3 种**（D5 试吃：现版过少；D4 导航/spread-row 等可作候选）
+- **Never**：**详情页视频块大图撑满屏**（D4 试吃 — 须控比例或加装饰框，勿寡淡单图）
 
 ---
 
@@ -117,21 +121,57 @@
 
 ## turley.html（D4 · Businessweek 粗野）
 
-- **整站印象**：
-- **喜欢**：
-- **不要**：
-- **可偷元件**：
-- **动效**：
-- **备注**：
+> **版本**：v1 parity（2026-07-07）· 14 期 · 精选三卡 · List 左月右预览 · Detail 动态 · 导图可拖  
+> **试吃**：2026-07-07 Archie 完成
 
-## tufte.html（D5 · 时间线叙事）
-
-- **整站印象**：
+- **整站印象（1 句）**：整体良好，清新活跃；**D4 ≈ benchmark 的现代版**，benchmark 更复古——可当元件库 + 现代动效参考，非整页照搬。
 - **喜欢**：
+  - **`punch-slice` 斜切色带** — 视觉 punch 好；production 文案改「每日金句/梗/名言」位（见备注）
+  - **`detail-spread`（Detail Hero）** — 数字与标题 **错位对比**，有设计感且信息可读
+  - **导航 `brand` + 分链动效** — LOGO hover / click 反馈合适
 - **不要**：
-- **可偷元件**：
-- **动效**：
+  - **`mega-folio`「102」叠压 Hero 标题** — 层叠关系乱；改 **半透明 folio / 标题叠上层 / 改标题色字体** 与 folio 搭配
+  - **`status-band`** — 左右内边距不足，时钟+Day+月历 **挤在一起**，逼仄
+  - **Detail 视频块** — 预览图 **过大撑屏**；单图寡淡 → 缩小占比或 **首页 `cutout` 式装饰框**；整块需重新规划（非仅一张图）
+  - **Detail 字幕摘录** — 平铺段落太淡 → 段前 **概括词 / 装饰符号**，加强层次
+  - **滚动条** — 深灰与暖纸气质不符 → 改 **近纸色/赤陶系** 自定义 scrollbar
+- **可偷元件**（≥3）：
+  - **`cutout-wrap`** — 版画 **不规则倾斜** 切图，打破规整版面、更活泼
+  - **`spread-row` hover 色条** — 已有橙/黄；production 可按 **点击量** 编码红/黄/蓝（或热/温/冷）
+  - **`punch-slice` 色带结构** — 内容位换 Archie 金句池随机句
+  - **`detail-spread` 数字×标题排式** — Detail / List 标题区
+  - **导航分链动效菜单** — graph slam / diary pop / feedback snap 等
+- **动效**：丰富，整体喜欢；导航 LOGO、spread-row hover、reveal 等 **production 可复用**（D5 侧偏少，以 D4 补动效菜单）
 - **备注**：
+  - **`punch-slice` 现文案**（「杂志式索引 · 不是 benchmark 双栏 D4」）= **给试吃看的 meta 标签**，说明布局差异，**不是**上线文案
+  - **金句位 P1 方案**：静态站 **不做** 访客端实时爬热点；推荐 **`quotes.json` + 刷新随机** 或 **build 脚本定期写入**；自动搜梗需 API/后端 → **P2+** 或本地 cron
+  - 混搭建议：**D4 结构 + D1 Warhol 网点** 可能更好
+  - **`mega-folio` 层叠**、**status-band 间距**、**视频/字幕块** — 迁 `src/` 前按上列改
+
+## tufte.html（D5 · Tufte 数据墨水）
+
+> **版本**：v1 parity（2026-07-07）· 边注栏 · sparkline · List 表+预览 · Trending 热榜 · 默认 16px  
+> **试吃**：2026-07-07 Archie 完成
+
+- **整站印象（1 句）**：偏 **学术/专业**，图表与线条让人严肃可信；**不当整站唯一方向**，但 **数据可视化 + 边注栏** 强烈想偷到部分页面（含详情）。
+- **喜欢**：
+  - **`chart-band`（FIG. 1 ISSUE DENSITY）** — 折线/密度示意直观；production 目标类似 **GitHub 贡献热力格**（附图）— 图像读信息，非纯数字
+  - **`hero-margin` / `tufte-margin` 边注栏** — 开拓思路：可放站务说明，也可 **穷查理式** 名人轶事 / 哲学 / 历史拓展
+  - **`data-strip` + `data-cell`** — 分列大数字（BEIJING / DAY / ISSUES / AI SHARE）打破长文枯燥；可参考附图 **Key Metrics** 大 serif 数字 + 上标单位
+  - **表内 `col-spark`（TREND 列）** — 倾斜线段表 trend，可延伸到相似指标
+- **不要**：
+  - **Detail 页整体** — 相对 Home **平淡缺亮点** → 须 **(1) 本期相关可视化** + **(2) 装饰性图版/边注**，或两者结合（D4 detail-spread 错位可混搭）
+- **可偷元件**（≥3）：
+  - **边注组件** — `hero-margin` + `tufte-margin`（主栏同屏补充 / 拓展阅读）
+  - **`data-strip` / `data-cell`** — 首页或 About 关键指标带
+  - **`chart-band` + sparkline** — 期数/主题密度；远期 **热力格**（GitHub 式）
+  - **表格式索引 + `col-spark`** — List / 归档页 trend 列
+  - **small multiples + hot-rank** — 精选/热榜区（Home 子块）
+- **动效**：**过少**，几乎无可参考；**正式版须 ≥3 种**（sparkline draw / 边注 reveal 等可加强，或从 D4 借导航与 row hover）
+- **备注**：
+  - **`chart-band` 现数据** = demo **示意**（Day 86–99 密度），**非**真实点击 analytics；上线需 build 读统计或静态 mock
+  - 边注内容 IA：**站务 note** vs **主题拓展摘录** 分页/分栏策略待 §6 盘点
+  - 与 benchmark：**folio 102 逻辑同、排式不同**；色 **ink-first** 不作赤陶装饰 — 混搭时 data-red 仅编码含义
 
 ---
 
@@ -141,11 +181,11 @@
 
 | 维度 | 从哪版偷 | 具体元件 / 约束 |
 |------|----------|-----------------|
-| Color | benchmark（淡黄+红赭）+ D1 网点纹理 | 整页色块勿学 D3/D1 pick 大面积 |
-| Type | benchmark（Playfair folio + Archie. dot） | Day/时钟 band 对齐 benchmark |
-| Layout | benchmark 卷首语 + 精选 folio | D3 期数 kicker；D1 hero 色块 |
-| Motion | D2 tl-row；D3 index-row hover；D1/D2 mindmap 待加强 | 后续 demo 必须可试吃动效；D4/D5 必须丰富动效菜单 |
-| Texture | D1 Warhol 网点 + benchmark 纸感 | 淡、不抢眼 |
-| UX | benchmark cap 图注；D1 字幕平排；D2 双栏列表思路 | 少字块（总结/导图）要精致排版；不要 D2 黑底 blackboard |
+| Color | benchmark（淡黄+红赭）+ D1 网点纹理 | 整页色块勿学 D3/D1 pick 大面积；D4 **punch-slice 局部** punch 可用；D5 红/slate **仅数据编码** |
+| Type | benchmark（Playfair folio + Archie. dot） | Day/时钟 band 对齐 benchmark；D4 **detail-spread 数字×标题错位**；D5 **data-cell 大数字列**（Key Metrics 式） |
+| Layout | benchmark 卷首语 + 精选 folio | D3 期数 kicker；D1 hero 色块；D4 **punch-slice band + cutout 倾斜图**；D5 **主栏+边注**（穷查理式拓展） |
+| Motion | D2 tl-row；D3 index-row hover；D1/D2 mindmap 待加强 | D4 **导航分链 + spread-row hover**；D5 demo 动效不足 → **production ≥3**（借 D4 或加强 sparkline/边注 reveal） |
+| Texture | D1 Warhol 网点 + benchmark 纸感 | 淡、不抢眼；**D4+D1 Warhol 混搭**（Archie 试吃建议） |
+| UX | benchmark cap 图注；D1 字幕平排；D2 双栏列表思路 | 少字块精致排版；勿 D2 黑底；D4 **字幕段前标签/符号**、**视频块控比+装饰**、**status-band 加 breathing room**、**暖色 scrollbar**；D5 **Detail 可视化+边注**、**GitHub 式 issue 密度图**；spread-row **点击量色条** |
 
 **定稿后**：更新 [STATUS.md](STATUS.md) → 再迁 `src/`。

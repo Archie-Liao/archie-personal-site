@@ -1,0 +1,375 @@
+/* A3 · 详情页排版 — 字号阶梯 + AI 总结阅读动线 */
+
+.post-page {
+  max-width: 92rem;
+  margin: 0 auto;
+  padding: 2rem clamp(1.25rem, 2.5vw, 2.25rem) 4rem;
+}
+
+.post-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 2rem;
+  row-gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .post-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+.post-main {
+  --post-text-section: clamp(1.375rem, 1.8vw, 1.5625rem);
+  --post-text-lead: clamp(1.0625rem, 1.25vw, 1.1875rem);
+  --post-text-body: clamp(1rem, 1.05vw, 1.0625rem);
+  --post-text-small: clamp(0.9375rem, 1vw, 1rem);
+  --post-text-label: 0.8125rem;
+
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  font-size: var(--post-text-body);
+  line-height: 1.65;
+}
+
+.post-back {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: var(--post-text-small);
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+
+.post-back:hover {
+  color: var(--primary);
+}
+
+.post-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-section--summary {
+  gap: 1.6rem;
+}
+
+/* —— 区块标题 L2 —— */
+.post-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.15rem;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-section);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--foreground);
+}
+
+/* —— Hero —— */
+.post-hero {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2rem;
+}
+
+.post-hero--spread {
+  border-bottom: 2px solid color-mix(in srgb, var(--foreground) 75%, var(--border));
+  padding: 0.5rem 0 2.75rem;
+}
+
+.post-hero__spread {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 6.75rem) minmax(0, 1fr);
+  gap: 2rem 2.75rem;
+  align-items: end;
+}
+
+.post-hero__spread:has(.post-hero__folio--platform) {
+  grid-template-columns: minmax(6.5rem, 9.5rem) minmax(0, 1fr);
+}
+
+/* 无期数时仍占第二列，避免标题掉进窄栏 */
+.post-hero__folio {
+  grid-column: 1;
+}
+
+.post-hero__text {
+  grid-column: 2;
+}
+
+@media (max-width: 540px) {
+  .post-hero__spread {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .post-hero__folio,
+  .post-hero__text {
+    grid-column: 1;
+  }
+
+  .post-hero__folio {
+    line-height: 1;
+  }
+}
+
+.post-hero__folio {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4.5rem, 10vw, 6.75rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--punch, var(--primary));
+}
+
+.post-hero__folio--platform {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-family: var(--font-cond, var(--font-display));
+  font-weight: 800;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  line-height: 1.12;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--punch, var(--primary));
+}
+
+.post-hero__folio-from {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.post-hero__folio-platform {
+  display: block;
+  max-width: 8.5rem;
+  word-break: break-word;
+}
+
+.post-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  max-width: min(42em, 100%);
+  padding-bottom: 0.15rem;
+}
+
+.post-hero__over {
+  display: block;
+  margin: 0;
+  font-family: var(--font-cond, var(--font-display));
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--punch, var(--primary));
+}
+
+.post-hero__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: clamp(1.875rem, 3.6vw, 2.625rem);
+  line-height: 1.42;
+  letter-spacing: 0.02em;
+}
+
+.post-hero__tagline {
+  margin: 0;
+  padding-top: 0.15rem;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.post-section-title__bar {
+  flex-shrink: 0;
+  width: 4px;
+  height: 1.35em;
+  border-radius: 2px;
+  background: var(--punch, var(--primary));
+}
+
+/* —— AI 总结 · 单面板阅读动线 —— */
+.post-summary {
+  padding: 1.5rem 1.65rem 1.65rem;
+  background: color-mix(in srgb, var(--card) 92%, var(--background));
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 0.625rem);
+  box-shadow: inset 3px 0 0 var(--punch, var(--primary));
+}
+
+.post-summary__lead {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-lead);
+  font-weight: 600;
+  line-height: 1.78;
+  color: var(--foreground);
+}
+
+.post-summary__points {
+  list-style: none;
+  margin: 1.35rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.post-summary__points li {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-body);
+  line-height: 1.68;
+  color: color-mix(in srgb, var(--foreground) 92%, var(--muted-foreground));
+}
+
+.post-summary__num {
+  flex-shrink: 0;
+  width: 1.625rem;
+  height: 1.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.12em;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--punch, var(--primary)) 8%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--punch, var(--primary)) 26%, var(--border));
+  color: color-mix(in srgb, var(--punch, var(--primary-deep, var(--primary))) 78%, var(--foreground));
+}
+
+.post-summary__rule {
+  margin: 1.5rem 0 1.25rem;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.post-summary__aux {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.post-summary__label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: var(--post-text-label);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.post-summary__keywords-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.post-summary__kw {
+  display: inline-block;
+  padding: 0.32rem 0.7rem;
+  font-family: var(--font-cond, var(--font-display));
+  font-size: var(--post-text-small);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--punch, var(--primary-deep, var(--primary)));
+  background: color-mix(in srgb, var(--punch, var(--primary)) 7%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--punch, var(--primary)) 32%, var(--border));
+  border-radius: 2px;
+}
+
+.post-summary__check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.post-summary__check-item {
+  padding-left: 0.85rem;
+  border-left: 2px solid color-mix(in srgb, var(--punch, var(--primary)) 45%, var(--border));
+}
+
+.post-summary__check-kw {
+  display: block;
+  margin-bottom: 0.28rem;
+  font-family: var(--font-display);
+  font-size: var(--post-text-small);
+  font-weight: 600;
+  color: var(--foreground);
+  letter-spacing: 0.02em;
+}
+
+.post-summary__check-rule {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-body);
+  line-height: 1.62;
+  color: var(--muted-foreground);
+}
+
+.post-summary__quote {
+  margin: 1.5rem 0 0;
+  padding: 1.15rem 0 0;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--foreground) 88%, var(--muted-foreground));
+}
+
+/* —— 外链卡片 —— */
+.post-link-card {
+  display: block;
+  padding: 1.5rem 1.65rem;
+  border-radius: var(--radius, 0.625rem);
+  background: var(--card);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-link-card:hover {
+  border-color: var(--primary);
+}
+
+.post-link-card__label {
+  font-size: var(--post-text-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.post-link-card__url {
+  margin: 0.55rem 0 0;
+  font-size: var(--post-text-small);
+  color: var(--primary);
+  word-break: break-all;
+}

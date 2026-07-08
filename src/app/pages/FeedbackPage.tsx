@@ -35,7 +35,9 @@ export function FeedbackPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-6 py-12 flex flex-col gap-8">
+    <div className="page-shell">
+      <div className="page-shell__inner flex flex-col gap-8">
+        <div className="max-w-xl mx-auto w-full flex flex-col gap-8">
       <header className="flex flex-col gap-3">
         <span className="text-xs" style={{ color: "var(--primary)", fontFamily: "var(--font-mono)" }}>
           反馈
@@ -104,6 +106,8 @@ export function FeedbackPage() {
           {sent ? "已收到，谢谢！" : "发送反馈"}
         </button>
       </form>
+        </div>
+      </div>
     </div>
   );
 }

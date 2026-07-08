@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
@@ -11,14 +12,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/posts" element={<PostsListPage />} />
-          <Route path="/post/:id" element={<PostPage />} />
-          <Route path="/graph" element={<GraphPage />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
+        <Suspense fallback={<div className="p-12 text-center text-sm" style={{ color: "var(--muted-foreground)" }}>加载中…</div>}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/posts" element={<PostsListPage />} />
+            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="/graph" element={<GraphPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </Suspense>
       </Layout>
     </BrowserRouter>
   );

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { classifySubtitleParagraph } from "../utils/subtitleParaMeta";
 
 interface SubtitleViewerProps {
   /** public/ 下 TXT 路径，如 /subtitles/ep099.txt */
   path: string;
 }
 
-/** 完整字幕：纯文本段落，无时间轴 */
+/** 完整字幕：D1 平排 + 主题/语义段概括词 + 正文菱形符号 */
 export function SubtitleViewer({ path }: SubtitleViewerProps) {
   const [text, setText] = useState<string | null>(null);
   const [error, setError] = useState(false);
@@ -51,15 +52,27 @@ export function SubtitleViewer({ path }: SubtitleViewerProps) {
   const paragraphs = text.split(/\n\s*\n/).filter(Boolean);
 
   return (
-    <div
-      className="rounded-xl border px-6 py-5 flex flex-col gap-4"
-      style={{ borderColor: "var(--border)", background: "var(--card)" }}
-    >
-      {paragraphs.map((para, i) => (
-        <p key={i} className="text-sm leading-relaxed m-0" style={{ color: "var(--foreground)" }}>
-          {para.replace(/\n/g, "")}
-        </p>
-      ))}
+    <div className="subtitle-excerpt">
+      {paragraphs.map((para, i) => {
+        const meta = classifySubtitleParagraph(para);
+        const body = para.replace(/\n/g, "");
+
+        if (meta.kind === "theme" && meta.label) {
+          return (
+            <p key={i} className="subtitle-para subtitle-para--theme">
+              <span className="subtitle-para__kicker">{meta.label}</span>
+              <span className="subtitle-para__text">{body}</span>
+            </p>
+          );
+        }
+
+        return (
+          <p key={i} className="subtitle-para">
+            <span className="subtitle-para__mark" aria-hidden />
+            <span className="subtitle-para__text">{body}</span>
+          </p>
+        );
+      })}
     </div>
   );
 }

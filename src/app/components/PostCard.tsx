@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { SiteLink } from "./SiteLink";
 import type { ContentItem } from "../data/posts";
 import { trackClick } from "../utils/analytics";
 import { CoverImage } from "./CoverArt";
@@ -11,10 +11,11 @@ interface PostCardProps {
 
 export function PostCard({ post, featured = false, compact = false }: PostCardProps) {
   const typeLabel = post.type === "video" ? "视频" : post.type === "link" ? "收藏" : "笔记";
+  const tags = post.tags ?? [];
 
   if (compact) {
     return (
-      <Link
+      <SiteLink
         to={`/post/${post.id}`}
         onClick={() => trackClick()}
         className="flex items-start gap-4 py-4 border-b group"
@@ -35,17 +36,17 @@ export function PostCard({ post, featured = false, compact = false }: PostCardPr
             {post.aiSummary.overview}
           </p>
           <div className="flex flex-wrap gap-1.5 mt-2">
-            {post.tags.slice(0, 3).map((tag) => (
+            {tags.slice(0, 3).map((tag) => (
               <span key={tag} className="tag-pill">{tag}</span>
             ))}
           </div>
         </div>
-      </Link>
+      </SiteLink>
     );
   }
 
   return (
-    <Link
+    <SiteLink
       to={`/post/${post.id}`}
       onClick={() => trackClick()}
       className="group flex flex-col rounded-xl overflow-hidden border transition-all hover:-translate-y-0.5"
@@ -79,7 +80,7 @@ export function PostCard({ post, featured = false, compact = false }: PostCardPr
           {post.aiSummary.overview}
         </p>
         <div className="flex flex-wrap gap-1.5 pt-2">
-          {post.tags.slice(0, 4).map((tag) => (
+          {tags.slice(0, 4).map((tag) => (
             <span key={tag} className="tag-pill">{tag}</span>
           ))}
         </div>

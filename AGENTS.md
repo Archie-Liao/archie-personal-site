@@ -84,7 +84,7 @@ cd design-demos && python -m http.server 8765
 
 - 站点定位：知识存储 / 检索，非炫技 portfolio
 - 纸色 / accent 参考范围：见 STATUS 与试吃笔记（**非**锁定某一 demo）
-- Day 1：`2026-03-14`（`site.config.ts`）
+- Day 1：`2026-02-27`（`site.config.ts`）
 - 反馈：localStorage，无后端
 - 单数据源 md（规划）；访客**只读**，无网页改仓库
 - Git：不上传 `node_modules/`、`dist/`
@@ -106,6 +106,57 @@ cd design-demos && python -m http.server 8765
 6. 收工：STATUS → 必要时 SITE-MANUAL → sessions → commit
 7. 不提交 `node_modules`、`.env`、`dist/`
 
+## P1 迁 `src/` 执行逻辑（改站必读 · 防跑偏）
+
+> **施工图** = [MIX-MATCH-LIST.md](docs/MIX-MATCH-LIST.md) · **活进度** = [STATUS.md](docs/STATUS.md) · **线框** = [SITE-MANUAL.md](docs/SITE-MANUAL.md)
+
+### 文档谁管什么
+
+| 文档 | 角色 |
+|------|------|
+| [sessions/2026-07-01.md §6](docs/sessions/2026-07-01.md) | **功能拍板** — 六页要什么块、P1/P2/P3 分期 |
+| [DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | **视觉底线** — Must/Never + 各 demo 试吃结论 |
+| **MIX-MATCH-LIST.md** | **P1 执行方案** — 功能块 × 偷哪个 demo × §6 A/B/C 顺序 × §8 验收 |
+| **STATUS.md** | **现在第几步** — 主线 ①–⑥、最近决策 |
+| **SITE-MANUAL.md** | **站现状线框** — 改 `src/` 布局后必须同步 |
+| **sessions/YYYY-MM-DD** | 当天叙事收工；**施工清单仍以 MIX-MATCH §8 为准** |
+
+MIX-MATCH 由 §6 拍板 + 试吃笔记**编译而成**；执行时继续参照二者，不是每次从零写方案。
+
+### 三阶段顺序（MIX-MATCH §6.1）
+
+| 阶段 | 做什么 | 验收 |
+|------|--------|------|
+| **A · 骨架** | 六页分区、栅格、占位 | 对照 SITE-MANUAL 能一眼看出块 |
+| **B · 视觉** | 按 demo 填皮（色、字、气质） | 对照 `design-demos/` + 试吃笔记 |
+| **C · 功能动效** | 搜索、筛选、hover 等 | MIX-MATCH §8 逐项 |
+
+**原则**：A 未收工不在 C 上堆新功能（§6.5 已复盘「零碎先行」偏离）。**现状**：A ✅ 收工 · **B 进行中**（见 MIX-MATCH §8.9）。
+
+### 动手改一块时的步骤
+
+1. 读 **STATUS** — 确认在 P1 主线、当前 A/B/C
+2. 查 **MIX-MATCH §8.x** — 块标签（如 A1-5）、对照 demo
+3. 过 **DEMO-TASTING Must/Never** — 不整页抄 demo、不违反底线
+4. 过 **sessions §6 分期** — P1 不做助手/聚类/wikilink 等 P2+ 项
+5. 改 **`src/`**（功能）或 **`design-demos/`**（仅探索）；**production 改 `src/`**
+6. 收工：**SITE-MANUAL**（动布局）→ **STATUS** + MIX-MATCH §8.9（B 进度）→ 必要时 sessions
+
+### 跑偏信号（Archie 可用来查 AI）
+
+- 先做搜索/动效/token，大块布局/视觉未定
+- 整页像某一个 demo，而非 benchmark 气质 + 混搭元件
+- 做了 §6 未列的功能或 P2 项而 STATUS 仍在 P1
+- 改了页面但 **SITE-MANUAL 未同步**
+
+### 代码与 demo
+
+| 路径 | 用途 |
+|------|------|
+| `src/app/pages/` | **线上站** |
+| `design-demos/*.html` | **对照偷元件**，不是线上站 |
+| `src/app/data/posts.ts` | P1 mock；规划 `content/` build 读 md |
+
 ## 文档文首 YAML 与修订记录
 
 > 细则：[docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md)（**无 `okf:` 前缀**；Preview **刻意显示** YAML 供人读）
@@ -119,6 +170,7 @@ cd design-demos && python -m http.server 8765
 > **完整版 → [AI-COLLABORATION-CHARTER.md](docs/AI-COLLABORATION-CHARTER.md) §三** · 细则 [DOC-LIFECYCLE.md](docs/DOC-LIFECYCLE.md)
 
 - **默认不删**旧文件；改 YAML `status` + 修订记录 + 更新权威源
+- **对话中新需求/修改意见** → **即时同步**权威 doc（宪章 **§3.8**）；与改代码同步或先于改代码，**禁止**只改代码等收工
 - 权威源分散：网站 → SITE-MANUAL · 进度 → STATUS · 专题 → `docs/主题-*.md`
 - 冲突优先级：`src/` → SITE-MANUAL → STATUS → 专题 → guidelines
 
@@ -221,8 +273,9 @@ cd design-demos && python -m http.server 8765
 | [docs/STATUS.md](docs/STATUS.md) | 进度、阻塞、最近决策 |
 | [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md) | 给人看的网站说明书 + ASCII 线框 |
 | [docs/DOC-FRONTMATTER.md](docs/DOC-FRONTMATTER.md) | YAML 文首 + 修订记录规范 |
-| [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | demo 试吃与混搭 |
-| [docs/DEMO-BUILD-GATE.md](docs/DEMO-BUILD-GATE.md) | demo：**① SKILL → ② 试吃 → ③ 其余** |
+| [docs/MIX-MATCH-LIST.md](docs/MIX-MATCH-LIST.md) | P1 视觉混搭施工图（§6 拍板后） |
+| [docs/DEMO-TASTING-NOTES.md](docs/DEMO-TASTING-NOTES.md) | demo 试吃与合成决策 |
+| [docs/DEMO-BUILD-GATE.md](docs/DEMO-BUILD-GATE.md) | demo：**① SKILL → ② 试吃 → ③ 其余**；Checkpoint 1 = **§3 五块执行包** |
 | [docs/MULTI-SOURCE-EXEC-PLAN.md](docs/MULTI-SOURCE-EXEC-PLAN.md) | 多源计划 **本项目细则**（demo 优先级 · D4 案例 · 完整模板） |
 | [docs/SUBTITLE-FORMAT.md](docs/SUBTITLE-FORMAT.md) | 字幕排版 |
 | [docs/LOGO-FONT-BRIEF.md](docs/LOGO-FONT-BRIEF.md) | Logo（搁置） |
@@ -235,6 +288,7 @@ cd design-demos && python -m http.server 8765
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-06-30 15:11:50 | 新建 **AI-COLLABORATION-CHARTER.md** 完整宪章；AGENTS 链宪章、禁止再删复杂任务节 |
+| 2026-07-08 16:06:30 | 宪章 **§3.8** 对话新需求即时同步 doc · gotchas 索引 |
+| 2026-07-08 09:13:00 | **P1 迁 src 执行逻辑** 写入 AGENTS；gotchas 索引 |
 | 2026-06-30 15:06:15 | 恢复复杂任务全文；对话 #轮次倒序 |
 | 2026-06-26 23:59:59 | SITE-MANUAL 入口；复杂任务/判断；对话触发词 |

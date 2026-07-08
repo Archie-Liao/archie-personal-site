@@ -3,1068 +3,1252 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>廖智强 Archie · D4 Turley v0 r2</title>
+<title>廖智强 Archie · D4 Turley Editorial · v1</title>
 <!--
-  ============================================================================
-  D4 · Bloomberg Businessweek (Turley) — v0 r2（纸底优先 · 纠错版）
-  ----------------------------------------------------------------------------
-  上一版错误：整页 #FF3D00 洪泛 + 3–4px 纯黑框 → 像警示/恐怖站，违反：
-    · DEMO-TASTING Must（暖纸、可读、文气）与 Never（粗黑框、大面积色块）
-    · _spec B 层（纸底为主）与 C 层注释「ground 仍可为暖纸，色块作 contrast」
-    · 合成决策「整页色块勿学 D3/D1 pick 大面积」
-
-  本版配色逻辑（纸占 ~85% 视口）：
-    · 纸底 #F6F0E2 / #EFE7D8 — 与 benchmark 同族
-    · 主 accent #CC785C 赤陶 — 链接、kicker、左条 hover（B 层）
-    · Turley  punch #D4562A — 仅 Hero 一条色带 + 期数 badge 底（≤15% 面积）
-    · 信号黄 #E8C547 — 仅 issue 小标，不用整卡铺黄
-    · 墨 #191919 正文；分隔 = hairline rgba(25,25,25,.12)，禁止 3px 黑框
-
-  C 层破例（有节制）：
-    · Hero folio 超大 Playfair + 局部色带（非整屏橙）
-    · Condensed grotesque 仅用于 eyebrow / 表头，不作 200px 霓虹标题
-    · 动效 slam 保留但落在纸面元素上
+  D4 · Turley 编辑暴力 × 暖纸 ground（v1 · _spec 内容 parity）
+  读档：SKILL → DEMO-TASTING → _spec §案例库/三视图/差异化
+  与 benchmark 差异：非 Hero 双栏+三等分卡；用 spread 封面、表格式索引、Condensed 报头字；
+  folio 破栅、斜切 punch 色带、杂志 colophon 页脚。ground 仍暖纸 ≥85%。
 
   BorrowableParts:
-    - hero-folio 纸面巨型期号 + 局部 punch 色带
-    - stat-band folio 排印（对齐 benchmark 精致度）
-    - index-row 左条 color-wipe hover（细条，非整行饱和）
-    - chalkboard 纸底 + 左赤陶条（非黑底）
-    - mindmap 节点 focus scale
-    - tooltip 点我点我～
-  ============================================================================
+  - 导航/页脚各链独立动效菜单（试吃用）
+  - List 杂志索引：Lead spread + 行式 folio 索引；横向 chip 筛选
+  - 页脚 colophon 四栏 + issue 色带
+
+  v1：Home+List+Detail 全块 parity（14 期 · 精选 · List 预览 · Detail 动态 · 导图拖拽）
 -->
 <style>
-  @import url('https://fonts.loli.net/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,900;1,500;1,600&family=Barlow+Condensed:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Serif+SC:wght@500;600;700;900&family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.loli.net/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Noto+Serif+SC:wght@500;600;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap');
 
   :root {
-    --paper:     #F6F0E2;
-    --paper-2:   #EFE7D8;
-    --paper-3:   #E8DFCF;
-    --ink:       #191919;
-    --ink-2:     #534B40;
-    --ink-3:     #6E6557;
-    --warm:      #CC785C;
-    --warm-d:    #B5612F;
-    --punch:     #D4562A;
-    --signal:    #E8C547;
-    --rule:      rgba(25, 25, 25, 0.12);
-    --rule-soft: rgba(25, 25, 25, 0.07);
-
-    --serif-en:  'Playfair Display', Georgia, serif;
-    --serif:     'Source Serif 4', 'Noto Serif SC', Georgia, serif;
-    --serif-sc:  'Noto Serif SC', 'Songti SC', serif;
-    --display:   'Barlow Condensed', 'Inter', sans-serif;
-    --sans:      'Inter', 'Noto Sans SC', sans-serif;
-
-    --grain: 0.05;
-    --motion: 1;
-    --punch-mode: 0.85;
+    --paper: #F3EDE3;
+    --paper-2: #E9E0D2;
+    --ink: #141414;
+    --ink-2: #4A433C;
+    --ink-3: #736A5E;
+    --accent: #CC785C;
+    --punch: #D4562A;
+    --signal: #D4A82A;
+    --rule: rgba(20, 20, 20, 0.12);
+    --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --serif-en: 'Playfair Display', Georgia, serif;
+    --serif-sc: 'Noto Serif SC', serif;
+    --sans: 'Inter', 'Noto Sans SC', sans-serif;
+    --snap: cubic-bezier(0.22, 1, 0.36, 1);
+    --punch-strength: 1;
   }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-
   body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--serif);
-    font-size: 17px;
-    line-height: 1.62;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.65;
   }
-
   body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9990;
-    opacity: var(--grain);
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    opacity: 0.06; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-
-  .view { display: none; }
-  .view.is-active { display: block; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
   a { color: inherit; text-decoration: none; }
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-    :root { --motion: 0; }
+  .v0-badge {
+    position: fixed; top: 10px; left: 10px; z-index: 200;
+    font: 700 10px var(--cond); letter-spacing: 0.2em; text-transform: uppercase;
+    background: var(--punch); color: var(--paper); padding: 6px 10px;
   }
 
-  .v-badge {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 10002;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 6px 10px;
-    opacity: 0.88;
-  }
-
-  .wrap {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
-
-  .eyebrow {
-    font-family: var(--display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--warm-d);
-  }
-
-  .folio {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 600;
-    color: var(--warm-d);
-  }
-
-  .hr { height: 1px; background: var(--rule); border: 0; margin: 0; }
-
-  /* ---- Nav：纸面 sticky，非整页黑 ---- */
+  /* ---- Nav + per-link motion ---- */
   header.nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(243, 237, 227, 0.92); backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--rule);
   }
-
-  .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
-  }
-
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
   .brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display: flex; align-items: center; gap: 10px;
+    transition: transform 0.14s var(--snap);
+  }
+  .brand:hover { transform: translateY(-2px) rotate(-0.6deg); }
+  .brand:active { transform: scale(0.97) translateY(0); transition-duration: 0.06s; }
+  .brand-mark {
+    font-family: var(--cond); font-weight: 900; font-size: 28px; line-height: 1;
+    color: var(--paper); background: var(--punch);
+    padding: 4px 8px 2px; letter-spacing: -0.02em;
+    animation: logoSlam 0.28s var(--snap) 0.1s both;
+  }
+  @keyframes logoSlam {
+    from { opacity: 0; transform: scale(1.4) translateY(-8px); }
+    to { opacity: 1; transform: none; }
+  }
+  .brand-text .zh { font-family: var(--serif-sc); font-weight: 700; font-size: 18px; letter-spacing: 0.1em; }
+  .brand-text .en { font-family: var(--cond); font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+
+  nav.links { display: flex; gap: 22px; align-items: center; }
+  .nav-link {
+    font-family: var(--cond); font-size: 14px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2);
+    padding: 6px 2px; position: relative; display: inline-block;
+  }
+  /* 知识图谱：底线 slam */
+  .nav-link--graph::after {
+    content: ""; position: absolute; left: 0; bottom: 2px; height: 2px; width: 0;
+    background: var(--accent); transition: width 0.12s var(--snap);
+  }
+  .nav-link--graph:hover::after { width: 100%; }
+  .nav-link--graph:hover { color: var(--ink); }
+  /* 点我点我：上下弹 + tip */
+  .nav-link--diary { color: var(--punch); }
+  .nav-link--diary:hover { animation: diaryPop 0.35s var(--snap); }
+  @keyframes diaryPop {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-4px); }
+    70% { transform: translateY(1px); }
+  }
+  .nav-link--diary .tip {
+    position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) scale(0.9);
+    background: var(--ink); color: var(--paper); font-size: 10px; letter-spacing: 0.1em;
+    padding: 4px 8px; white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 0.12s, transform 0.12s var(--snap);
+  }
+  .nav-link--diary:hover .tip { opacity: 1; transform: translateX(-50%) scale(1); }
+  /* 反馈：背景块 snap */
+  .nav-link--feedback { z-index: 1; }
+  .nav-link--feedback::before {
+    content: ""; position: absolute; inset: -4px -8px; background: var(--signal);
+    opacity: 0; transform: scaleX(0); transform-origin: left; z-index: -1;
+    transition: transform 0.14s var(--snap), opacity 0.14s;
+  }
+  .nav-link--feedback:hover::before { opacity: 0.35; transform: scaleX(1); }
+  .nav-link--feedback:hover { color: var(--ink); }
+  /* 关于我：字距展开 */
+  .nav-link--about { transition: letter-spacing 0.2s var(--snap), color 0.15s; }
+  .nav-link--about:hover { letter-spacing: 0.22em; color: var(--accent); }
+
+  /* ---- Views ---- */
+  .view { display: none; }
+  body[data-view="home"] .view-home,
+  body[data-view="list"] .view-list,
+  body[data-view="detail"] .view-detail { display: block; }
+
+  /* ---- HOME: editorial spread (≠ benchmark 双栏) ---- */
+  .spread-hero {
+    padding: 32px 0 0; overflow: hidden;
+  }
+  .spread-grid {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 0; align-items: end; min-height: 480px;
+  }
+  .spread-left { position: relative; padding-bottom: 24px; }
+  .mega-folio {
+    font-family: var(--serif-en); font-weight: 900; font-size: clamp(100px, 18vw, 200px);
+    line-height: 0.78; letter-spacing: -0.05em; color: var(--accent);
+    margin: 0 0 -20px -0.06em; opacity: 0;
+    animation: folioSlam 0.24s var(--snap) 0.2s forwards;
+  }
+  @keyframes folioSlam {
+    from { opacity: 0; transform: translateX(-24px) scale(1.05); }
+    to { opacity: 0.92; transform: none; }
+  }
+  .spread-kicker {
+    font-family: var(--cond); font-weight: 800; font-size: 13px;
+    letter-spacing: 0.35em; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 12px;
+  }
+  .spread-title {
+    font-family: var(--cond); font-weight: 900; font-size: clamp(42px, 7vw, 72px);
+    line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase;
+    margin: 0; max-width: 11ch;
+  }
+  .spread-title .zh-block {
+    display: block; font-family: var(--serif-sc); font-weight: 700;
+    font-size: 0.55em; letter-spacing: 0.08em; text-transform: none;
+    margin-top: 12px; color: var(--ink);
+  }
+  .spread-dek {
+    margin-top: 20px; max-width: 380px; font-size: 15px; color: var(--ink-2);
+  }
+  .spread-dek em { font-family: var(--serif-en); font-style: italic; color: var(--ink-3); display: block; margin-top: 6px; font-size: 14px; }
+
+  .spread-right { position: relative; align-self: stretch; }
+  .cutout-wrap {
+    position: absolute; right: -12px; bottom: 48px; width: 88%;
+    transform: rotate(2.5deg);
+  }
+  .cutout-wrap img {
+    width: 100%; display: block; mix-blend-mode: multiply;
+    clip-path: polygon(8% 0, 100% 4%, 92% 100%, 0 96%);
+  }
+  .cutout-cap {
+    font-family: var(--serif-en); font-style: italic; font-size: 11px;
+    color: var(--ink-3); margin-top: 8px; text-align: right;
   }
 
-  .issue-badge {
-    min-width: 40px;
-    height: 34px;
-    display: grid;
-    place-items: center;
-    background: var(--signal);
-    color: var(--ink);
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 16px;
-    transition: transform 0.15s ease;
+  .punch-slice {
+    margin-top: 28px; margin-left: calc(-1 * (50vw - 50%)); margin-right: calc(-1 * (50vw - 50%));
+    width: 100vw; max-height: calc(96px * var(--punch-strength));
+    background: linear-gradient(95deg, var(--punch) 0%, #e85a32 55%, var(--signal) 100%);
+    color: var(--paper); padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+  }
+  .punch-slice .lab {
+    font-family: var(--cond); font-weight: 800; font-size: 11px; letter-spacing: 0.28em;
+  }
+  .punch-slice .msg {
+    font-family: var(--serif-sc); font-weight: 600; font-size: clamp(16px, 2.5vw, 22px);
+  }
+  .punch-slice .n {
+    font-family: var(--serif-en); font-weight: 900; font-size: 48px; line-height: 1;
   }
 
-  .issue-badge:hover { transform: scale(1.04); }
+  /* Status band + mini cal（parity press v1） */
+  .status-band {
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+    margin: 40px 0 40px; background: var(--paper-2);
+  }
+  .status-band-inner {
+    display: grid; grid-template-columns: 1fr auto 200px; gap: 24px; align-items: center;
+    padding: 18px 0;
+  }
+  .clock-block .lab {
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .clock-block .val {
+    font-family: var(--serif-en); font-size: 28px; font-weight: 700; color: var(--punch); margin-top: 4px;
+  }
+  .clock-block .date { font-family: var(--sans); font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+  .day-center { text-align: center; }
+  .day-center .lab {
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .day-center .n {
+    font-family: var(--serif-en); font-weight: 900; font-size: 48px; color: var(--accent); line-height: 1; margin: 6px 0;
+  }
+  .day-center .since { font-family: var(--sans); font-size: 11px; color: var(--ink-3); }
+  .cal-mini .cal-head {
+    display: flex; justify-content: space-between; margin-bottom: 6px;
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .cal-mini .cal-head .m { font-weight: 800; color: var(--ink-2); }
+  .cal-mini table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 10px; text-align: center; }
+  .cal-mini th { font-weight: 600; color: var(--ink-3); padding: 2px 0 4px; }
+  .cal-mini td { padding: 2px 0; color: var(--ink-2); }
+  .cal-mini td.today span {
+    display: inline-block; min-width: 18px; line-height: 18px;
+    background: var(--punch); color: var(--paper); border-radius: 50%; font-weight: 700;
+  }
+  .cal-mini td.mute { opacity: 0.35; }
+  .cal-mini td.has-post { font-weight: 700; color: var(--accent); }
 
-  .brand .name-zh {
-    font-family: var(--serif-sc);
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: 0.04em;
+  /* Editorial rows — 14 期 archive */
+  .spread-rows { margin-bottom: 48px; max-height: 520px; overflow-y: auto; padding-right: 8px; }
+  .spread-row {
+    display: grid; grid-template-columns: 64px 8px 1fr auto;
+    gap: 16px; align-items: start; padding: 18px 0;
+    border-bottom: 1px solid var(--rule); cursor: pointer;
+    transition: transform 0.1s var(--snap), padding-left 0.1s var(--snap), background 0.08s;
+  }
+  .spread-row:hover { transform: translateX(8px); padding-left: 6px; background: rgba(212,86,42,0.04); }
+  .spread-row .folio {
+    font-family: var(--serif-en); font-weight: 900; font-size: 32px; color: var(--accent); line-height: 1;
+  }
+  .spread-row .stripe {
+    width: 8px; height: 48px; background: var(--punch);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.14s var(--snap);
+  }
+  .spread-row:nth-child(2) .stripe { background: var(--signal); }
+  .spread-row:nth-child(3) .stripe { background: var(--accent); }
+  .spread-row:hover .stripe { transform: scaleY(1); }
+  .spread-row h3 {
+    margin: 0; font-family: var(--serif-sc); font-weight: 600; font-size: 20px; line-height: 1.35;
+  }
+  .spread-row .row-dek {
+    display: block; margin-top: 6px; font-size: 13px; line-height: 1.45; color: var(--ink-3);
+    font-family: var(--sans); max-width: 42em;
+  }
+  .spread-row .meta { font-size: 12px; color: var(--ink-3); text-align: right; padding-top: 4px; white-space: nowrap; }
+
+  /* Featured · 三入口（parity _spec） */
+  .feat-section { margin: 0 0 44px; }
+  .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feat-card {
+    border: 1px solid var(--ink); padding: 22px 24px; cursor: pointer; background: var(--paper);
+    transition: transform 0.1s var(--snap), background 0.1s;
+  }
+  .feat-card:hover { transform: translateY(-3px); background: var(--paper-2); }
+  .feat-card .k {
+    font-family: var(--cond); font-size: 11px; font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px;
+  }
+  .feat-card .k .folio { font-family: var(--serif-en); font-style: italic; color: var(--accent); }
+  .feat-card h3 { margin: 0 0 10px; font-family: var(--serif-sc); font-size: 18px; line-height: 1.35; }
+  .feat-card .meta { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
+  .feat-card .more { font-family: var(--cond); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--punch); }
+  .feat-card.is-pick { border-left: 4px solid var(--punch); }
+  .feat-hot ul { list-style: none; margin: 0; padding: 0; }
+  .feat-hot li {
+    display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--rule); font-size: 14px; cursor: pointer;
+  }
+  .feat-hot li:last-child { border-bottom: 0; }
+  .feat-hot .rank { font-family: var(--serif-en); font-weight: 900; font-size: 22px; color: var(--accent); }
+  .feat-hot .h-d { display: block; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+
+  /* List · 左栏月份 + 右栏预览（parity press） */
+  .list-shell { padding-bottom: 48px; }
+  .list-2col { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+  .list-aside-kicker {
+    font-family: var(--cond); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--punch); margin: 0 0 16px;
+  }
+  .list-month-group { margin-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  .list-month {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border: 0; background: transparent; cursor: pointer;
+    font-family: var(--cond); font-size: 13px; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .list-month-body { padding-bottom: 8px; }
+  .list-month-group.is-collapsed .list-month-body { display: none; }
+  .list-day {
+    display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 10px 8px;
+    cursor: pointer; border-left: 3px solid transparent; transition: background 0.08s, border-color 0.08s;
+  }
+  .list-day:hover { background: rgba(212,86,42,0.05); }
+  .list-day.is-active { border-left-color: var(--punch); background: rgba(212,86,42,0.08); }
+  .list-day .d-num { font-family: var(--serif-en); font-weight: 900; font-size: 24px; color: var(--accent); line-height: 1; }
+  .list-day .d-sub { font-size: 10px; color: var(--ink-3); }
+  .list-day .d-title { font-family: var(--serif-sc); font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .list-day .d-meta { font-size: 10px; color: var(--ink-3); margin-top: 2px; }
+  .list-preview-main { border-left: 1px solid var(--ink); padding-left: 32px; min-height: 420px; }
+  .list-vol {
+    font-family: var(--cond); font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--punch); margin: 0 0 12px;
+  }
+  .list-main-title { margin: 0 0 8px; font-family: var(--serif-sc); font-size: 28px; line-height: 1.3; }
+  .list-main-tags { font-family: var(--cond); font-size: 12px; letter-spacing: 0.08em; color: var(--ink-3); margin: 0 0 16px; }
+  .list-main-lead { font-size: 16px; line-height: 1.7; color: var(--ink-2); margin: 0 0 24px; max-width: 36em; }
+  .list-snippet-card {
+    border-left: 4px solid var(--punch); padding: 18px 22px; background: var(--paper-2); margin-bottom: 24px;
+  }
+  .list-snippet-card h3 {
+    margin: 0 0 10px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .list-snippet-card p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink-2); }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 32px 0 56px; }
+  .btn {
+    font-family: var(--cond); font-weight: 700; font-size: 13px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 12px 20px; border: 1px solid var(--ink); background: transparent;
+    cursor: pointer; color: var(--ink);
+  }
+  .btn--slam:hover { animation: btnSlam 0.2s var(--snap); background: var(--ink); color: var(--paper); }
+  @keyframes btnSlam { 50% { transform: scale(0.96); } }
+  .btn--slide { overflow: hidden; position: relative; z-index: 0; }
+  .btn--slide::before {
+    content: ""; position: absolute; inset: 0; background: var(--punch);
+    transform: translateX(-101%); transition: transform 0.16s var(--snap); z-index: -1;
+  }
+  .btn--slide:hover { color: var(--paper); border-color: var(--punch); }
+  .btn--slide:hover::before { transform: translateX(0); }
+  .btn--wiggle:hover { animation: wiggle 0.4s ease; border-color: var(--signal); }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
   }
 
-  .brand .name-en {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--ink-3);
+  /* ---- LIST: magazine index (lead + row index, ≠ spreadsheet table) ---- */
+  .list-mast {
+    padding: 28px 0 0; border-bottom: 2px solid var(--ink);
   }
-
-  nav.links {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--ink-2);
+  .list-mast-inner {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    padding-bottom: 14px; flex-wrap: wrap;
   }
-
-  nav.links a:hover { color: var(--warm); }
-
-  .nav-cta {
-    position: relative;
-    color: var(--warm-d) !important;
-    font-weight: 600;
+  .list-mast-kicker {
+    font-family: var(--cond); font-weight: 800; font-size: 11px;
+    letter-spacing: 0.32em; text-transform: uppercase; color: var(--punch); margin: 0 0 8px;
   }
-
-  .nav-cta .tip {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) translateY(4px);
-    background: var(--ink);
-    color: var(--paper);
-    padding: 6px 10px;
-    font-size: 11px;
-    white-space: nowrap;
-    border-radius: 2px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.15s, transform 0.15s;
-  }
-
-  .nav-cta:hover .tip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ---- Hero：纸面 spread + 局部 punch 色带 ---- */
-  .hero-spread {
-    padding: 48px 0 40px;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-spread::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: min(42%, 480px);
-    height: 8px;
-    background: color-mix(in srgb, var(--punch) calc(var(--punch-mode) * 100%), var(--warm));
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 24px 40px;
-  }
-
-  .hero-copy h1 {
-    font-family: var(--serif-sc);
-    font-weight: 900;
-    font-size: clamp(28px, 3.2vw, 38px);
-    line-height: 1.25;
-    letter-spacing: 0.02em;
-    margin: 12px 0 10px;
-  }
-
-  .hero-copy .tagline-en {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 15px;
-    color: var(--ink-3);
-    margin: 0;
-  }
-
-  .hero-folio {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 900;
-    font-size: clamp(96px, 14vw, 168px);
-    line-height: 0.85;
-    color: var(--ink);
-    margin: 0;
-    letter-spacing: -0.03em;
-    transform: translateY(12px);
-    opacity: 0;
-  }
-
-  body.is-ready .hero-folio {
-    animation: folio-slam calc(0.32s * var(--motion)) cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  @keyframes folio-slam {
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  /* ---- Stat band：benchmark 级 folio ---- */
-  .stat-band {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr 1fr;
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper-2);
-  }
-
-  .stat-cell {
-    padding: 20px 24px;
-    border-right: 1px solid var(--rule);
-    min-height: 96px;
-  }
-
-  .stat-cell:last-child { border-right: none; }
-
-  .stat-label {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+  .list-mast h1 {
+    margin: 0; font-family: var(--cond); font-weight: 900;
+    font-size: clamp(44px, 9vw, 80px); line-height: 0.88; letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 6px;
+  }
+  .list-mast-meta {
+    text-align: right; font-family: var(--cond); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .list-mast-meta .n {
+    display: block; font-family: var(--serif-en); font-style: italic;
+    font-size: 42px; font-weight: 700; color: var(--accent); letter-spacing: 0; line-height: 1;
+    margin-bottom: 4px;
   }
 
-  .stat-big {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 700;
-    font-size: clamp(32px, 4vw, 44px);
-    line-height: 1;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
+  .list-toolbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--rule); flex-wrap: wrap;
   }
-
-  .stat-big .day-num { color: var(--warm-d); }
-
-  .stat-sub {
-    font-family: var(--sans);
-    font-size: 12px;
-    color: var(--ink-3);
-    margin-top: 6px;
+  .list-toolbar .hint {
+    font-size: 12px; color: var(--ink-3); font-family: var(--cond);
+    letter-spacing: 0.08em; text-transform: uppercase;
   }
-
-  /* ---- Feature 三卡：纸面 + 一条 accent ---- */
-  .feature-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-bottom: 1px solid var(--rule);
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-chip {
+    font-family: var(--cond); font-weight: 700; font-size: 12px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 8px 14px; border: 1px solid var(--rule); background: transparent;
+    color: var(--ink-2); cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s, transform 0.1s var(--snap);
   }
-
-  .feature-card {
-    padding: 24px 22px 28px;
-    border-right: 1px solid var(--rule);
-    background: var(--paper);
-    min-height: 148px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: background 0.2s;
+  .filter-chip:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+  .filter-chip.is-on {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
   }
+  .filter-chip .chip-n { opacity: 0.65; font-weight: 600; margin-left: 4px; }
 
-  .feature-card:last-child { border-right: none; }
-
-  .feature-card:hover { background: var(--paper-2); }
-
-  .feature-card.is-pick {
-    background: var(--paper);
-    border-left: 4px solid var(--warm);
-    padding-left: 18px;
+  /* Lead spread — 视觉焦点 */
+  .list-lead {
+    display: grid; grid-template-columns: minmax(100px, 140px) 1fr auto;
+    gap: 20px 28px; align-items: end;
+    padding: 36px 0 32px; margin-bottom: 8px;
+    border-bottom: 3px solid var(--ink);
+    cursor: pointer; text-align: left; width: 100%;
+    background: transparent; border-top: 0; border-left: 0; border-right: 0;
+    color: inherit; font: inherit;
+    transition: padding-left 0.12s var(--snap);
   }
-
-  .feature-card .kicker {
-    font-family: var(--display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--warm-d);
-    margin-bottom: 10px;
+  .list-lead:hover { padding-left: 8px; }
+  .list-lead:focus-visible { outline: 2px solid var(--punch); outline-offset: 4px; }
+  .list-lead .lead-folio {
+    font-family: var(--serif-en); font-weight: 900;
+    font-size: clamp(72px, 12vw, 108px); line-height: 0.82;
+    color: var(--punch); letter-spacing: -0.04em;
   }
-
-  .feature-card h3 {
-    font-family: var(--serif-sc);
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.4;
-    margin: 0;
+  .list-lead .lead-body { min-width: 0; }
+  .list-lead .lead-eyebrow {
+    font-family: var(--cond); font-weight: 800; font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px;
   }
-
-  /* ---- Index ---- */
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin: 40px 0 16px;
-    gap: 16px;
+  .list-lead .lead-title {
+    margin: 0 0 12px; font-family: var(--serif-sc); font-weight: 700;
+    font-size: clamp(26px, 4vw, 36px); line-height: 1.25; color: var(--ink);
   }
-
-  .section-head h2 {
-    font-family: var(--serif-sc);
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0;
+  .list-lead .lead-dek {
+    margin: 0 0 14px; font-size: 15px; line-height: 1.65; color: var(--ink-2); max-width: 52ch;
   }
-
-  .section-head .sub {
-    font-family: var(--sans);
-    font-size: 12px;
-    color: var(--ink-3);
+  .list-lead .lead-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
   }
-
-  .table-index {
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    margin-bottom: 48px;
+  .list-lead .lead-tag {
+    font-family: var(--cond); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 10px; background: var(--paper-2); color: var(--ink-2);
   }
+  .list-lead .lead-cta {
+    align-self: center; font-family: var(--cond); font-weight: 800;
+    font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 14px 18px; border: 2px solid var(--ink); white-space: nowrap;
+    transition: background 0.12s, color 0.12s;
+  }
+  .list-lead:hover .lead-cta { background: var(--punch); border-color: var(--punch); color: var(--paper); }
+
+  .list-index-head {
+    display: grid; grid-template-columns: 72px 6px 1fr 88px;
+    gap: 20px; padding: 12px 0 8px;
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-3);
+    border-bottom: 1px solid var(--ink);
+  }
+  .list-index-head span:nth-child(3) { padding-left: 0; }
 
   .index-row {
-    display: grid;
-    grid-template-columns: 64px 1fr auto;
-    gap: 16px;
-    align-items: center;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--rule-soft);
-    font-family: var(--sans);
-    font-size: 14px;
-    position: relative;
-    transition: padding-left 0.2s ease, background 0.2s ease;
+    display: grid; grid-template-columns: 72px 6px 1fr 88px;
+    gap: 20px; align-items: start;
+    padding: 16px 0; border-bottom: 1px solid var(--rule);
+    cursor: pointer; width: 100%; text-align: left;
+    background: transparent; border-top: 0; border-left: 0; border-right: 0;
+    color: inherit; font: inherit;
+    transition: transform 0.1s var(--snap), padding-left 0.1s var(--snap), background 0.08s;
   }
-
-  .index-row:last-child { border-bottom: none; }
-
-  .index-row::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 8px;
-    bottom: 8px;
-    width: 0;
-    background: var(--warm);
-    transition: width 0.2s ease;
+  .index-row:hover, .index-row.is-active {
+    transform: translateX(6px); padding-left: 4px;
+    background: rgba(212, 86, 42, 0.05);
   }
-
-  .index-row:hover,
-  .index-row.is-hot {
-    background: var(--paper-2);
-    padding-left: 22px;
+  .index-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .index-row.is-hidden { display: none; }
+  .index-row .idx-folio {
+    font-family: var(--serif-en); font-weight: 900; font-size: 36px;
+    line-height: 1; color: var(--accent);
+    transition: color 0.1s, transform 0.12s var(--snap);
   }
-
-  .index-row:hover::before,
-  .index-row.is-hot::before { width: 3px; }
-
-  .index-row > * { position: relative; z-index: 1; }
-
-  .index-row .day {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 20px;
-    color: var(--warm-d);
+  .index-row:hover .idx-folio, .index-row.is-active .idx-folio {
+    color: var(--punch); transform: scale(1.04);
   }
-
-  .index-row .title { font-weight: 500; color: var(--ink); }
-
-  .index-row .meta {
-    font-size: 12px;
+  .index-row .idx-stripe {
+    width: 6px; height: 40px; align-self: center;
+    background: var(--punch); transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.12s var(--snap);
+  }
+  .index-row:nth-child(3n+2) .idx-stripe { background: var(--signal); }
+  .index-row:nth-child(3n) .idx-stripe { background: var(--accent); }
+  .index-row:hover .idx-stripe, .index-row.is-active .idx-stripe { transform: scaleY(1); }
+  .index-row .idx-main { min-width: 0; }
+  .index-row .idx-title {
+    display: block; font-family: var(--serif-sc); font-weight: 600;
+    font-size: 18px; line-height: 1.35; color: var(--ink);
+  }
+  .index-row .idx-dek {
+    display: block; margin-top: 5px; font-family: var(--sans); font-size: 13px;
+    line-height: 1.45; color: var(--ink-3);
+  }
+  .index-row .idx-tags {
+    display: block; margin-top: 6px;
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .index-row .idx-date {
+    font-family: var(--cond); font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; color: var(--ink-2); text-align: right;
+  }
+  .list-empty {
+    display: none; padding: 48px 0; text-align: center;
+    font-family: var(--cond); letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--ink-3);
-    text-align: right;
+  }
+  .list-empty.is-show { display: block; }
+
+  .list-foot-note {
+    padding: 20px 0 48px; font-size: 12px; color: var(--ink-3);
+    font-family: var(--cond); letter-spacing: 0.1em; text-transform: uppercase;
   }
 
-  /* ---- List ---- */
-  .list-layout {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    min-height: calc(100vh - 100px);
+  /* ---- DETAIL (full blocks · parity press v1) ---- */
+  .detail-spread {
+    display: grid; grid-template-columns: 100px 1fr; gap: 28px 32px;
+    align-items: end; padding: 40px 0 32px; border-bottom: 3px solid var(--ink);
+  }
+  .detail-spread .d-folio {
+    font-family: var(--serif-en); font-weight: 900; font-size: clamp(72px, 10vw, 108px);
+    line-height: 0.82; color: var(--punch); letter-spacing: -0.04em;
+  }
+  .detail-spread .d-meta .over {
+    font-family: var(--cond); font-weight: 800; font-size: 12px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--punch);
+  }
+  .detail-spread .d-meta h1 {
+    margin: 10px 0 8px; font-family: var(--serif-sc); font-weight: 700;
+    font-size: clamp(28px, 4vw, 38px); line-height: 1.25; text-transform: none;
+    max-width: none;
+  }
+  .detail-spread .d-tags {
+    font-family: var(--cond); font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .detail-back {
+    font-family: var(--cond); font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-2); margin-bottom: 16px; display: inline-block;
+  }
+  .detail-back:hover { color: var(--punch); }
+
+  .detail-block { padding: 36px 0; border-bottom: 1px solid var(--rule); }
+  .detail-block h2 {
+    font-family: var(--cond); font-size: 11px; letter-spacing: 0.24em;
+    text-transform: uppercase; margin: 0 0 16px; color: var(--ink-3);
   }
 
-  .list-sidebar {
-    background: var(--paper-3);
-    padding: 28px 20px;
-    border-right: 1px solid var(--rule);
+  .blackboard {
+    background: var(--paper-2); border-left: 4px solid var(--punch);
+    padding: 24px 28px; position: relative;
   }
-
-  .list-sidebar h2 {
-    font-family: var(--display);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin: 0 0 16px;
+  .blackboard .label {
+    font-family: var(--cond); font-weight: 800; font-size: 12px;
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 12px;
   }
-
-  .tag-filter button {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 8px 0;
-    cursor: pointer;
-    color: var(--ink-2);
-    border-bottom: 1px solid var(--rule-soft);
-  }
-
-  .tag-filter button.is-active,
-  .tag-filter button:hover {
-    color: var(--warm-d);
-    font-weight: 600;
-  }
-
-  .list-main { padding: 32px 28px 48px; }
-
-  .list-preview {
-    background: var(--paper-2);
-    border: 1px solid var(--rule);
-    padding: 28px;
-    margin-bottom: 28px;
-  }
-
-  .list-preview .vol {
-    font-family: var(--display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--warm-d);
-  }
-
-  .list-preview h2 {
-    font-family: var(--serif-sc);
-    font-size: 26px;
-    font-weight: 700;
-    margin: 10px 0 8px;
-    line-height: 1.3;
-  }
-
-  .list-day {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--rule-soft);
-    cursor: pointer;
-  }
-
-  .list-day.is-active {
-    background: color-mix(in srgb, var(--warm) 8%, transparent);
-    margin: 0 -8px;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-  .list-day.is-hidden { display: none; }
-
-  .list-day .d-num {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--warm-d);
-  }
-
-  /* ---- Detail ---- */
-  .detail-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 40px 28px 64px;
-  }
-
-  .detail-hero {
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-  }
-
-  .detail-hero h1 {
-    font-family: var(--serif-sc);
-    font-size: clamp(26px, 3vw, 34px);
-    font-weight: 900;
-    line-height: 1.28;
-    margin: 10px 0;
-  }
-
-  .chalkboard {
-    background: var(--paper-2);
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--warm);
-    padding: 22px 24px;
-    margin-bottom: 32px;
-  }
-
-  .chalkboard .label {
-    font-family: var(--display);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--warm-d);
-    margin-bottom: 10px;
-  }
-
-  .chalkboard p {
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.65;
+  .blackboard ul {
+    margin: 0; padding-left: 1.2em; font-size: 16px; line-height: 1.75; color: var(--ink-2);
   }
 
   .mindmap {
-    position: relative;
-    height: 260px;
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    margin-bottom: 32px;
+    position: relative; min-height: 320px; background: var(--paper);
+    border: 1px solid var(--rule); padding: 24px;
   }
-
+  .mindmap .mm-layer { position: relative; width: 100%; height: 300px; touch-action: none; }
+  .mindmap svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .mm-edge { fill: none; stroke-linecap: round; }
+  .mm-edge.is-strong { stroke: var(--punch); stroke-width: 2.5; }
+  .mm-edge.is-medium { stroke: var(--accent); stroke-width: 1.6; }
+  .mm-edge.is-weak { stroke: var(--rule); stroke-width: 1.2; stroke-dasharray: 5 4; }
   .mm-node {
-    position: absolute;
-    transform: translate(-50%, -50%);
+    position: absolute; display: flex; flex-direction: column; gap: 4px;
+    min-width: 96px; max-width: 130px; padding: 10px 12px;
+    border: 1px solid var(--rule); background: var(--paper);
+    transform: translate(-50%, -50%); text-align: center;
+    color: inherit; font: inherit;
+  }
+  .mm-kicker {
+    font-family: var(--cond); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .mm-title { font-family: var(--serif-sc); font-size: 13px; font-weight: 600; line-height: 1.35; }
+  .mm-node.is-core { border-color: var(--punch); background: rgba(212,86,42,0.06); min-width: 120px; }
+  .mm-node.is-core .mm-title { font-size: 15px; color: var(--punch); }
+  .mm-node.is-primary { border-color: var(--accent); background: var(--paper-2); }
+  .mm-node.is-secondary { border-style: dashed; }
+  .mm-node.is-secondary .mm-title { font-size: 12px; color: var(--ink-2); }
+  .mm-node { cursor: pointer; transition: transform 0.12s var(--snap), box-shadow 0.12s; }
+  .mm-node:hover { transform: translate(-50%, -50%) scale(1.03); box-shadow: 0 4px 16px rgba(212,86,42,0.15); }
+  .mm-node.is-lit { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 6px 20px rgba(212,86,42,0.22); border-color: var(--punch); }
+  .mindmap-hint { font-size: 11px; color: var(--ink-3); margin-top: 10px; font-family: var(--cond); letter-spacing: 0.06em; }
+
+  .video-frame {
+    display: block; position: relative; aspect-ratio: 16/9;
+    overflow: hidden; border: 1px solid var(--rule); background: var(--paper-2);
+  }
+  .video-frame img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transition: transform 0.2s var(--snap); }
+  .video-frame:hover img { transform: scale(1.02); }
+  .video-frame .play-badge {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(20,20,20,0.35); color: var(--paper);
+    font-family: var(--cond); font-weight: 800; font-size: 14px; letter-spacing: 0.14em;
+    text-transform: uppercase; opacity: 0; transition: opacity 0.15s;
+  }
+  .video-frame:hover .play-badge { opacity: 1; }
+
+  .subtitle-excerpt {
+    border-top: 1px solid var(--rule); padding-top: 20px;
+  }
+  .subtitle-excerpt p {
+    margin: 0 0 1.1em; font-size: 16px; line-height: 1.8; color: var(--ink-2);
+  }
+  .subtitle-excerpt p:last-child { margin-bottom: 0; }
+
+  /* ---- Footer colophon (shared) ---- */
+  .site-footer {
+    margin-top: 64px; border-top: 3px solid var(--ink);
     background: var(--paper-2);
-    border: 1px solid var(--rule);
-    padding: 8px 12px;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.12s ease, background 0.12s, border-color 0.12s;
   }
-
-  .mm-node.is-focus {
-    background: var(--paper);
-    border-color: var(--warm);
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 4px 16px rgba(25, 25, 25, 0.08);
+  .foot-issue-bar {
+    background: var(--ink); color: var(--paper);
+    font-family: var(--cond); font-weight: 800; font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    padding: 10px 24px; display: flex; justify-content: space-between;
   }
-
-  .detail-block { margin-bottom: 28px; }
-
-  .detail-block h3 {
-    font-family: var(--display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin: 0 0 14px;
+  .foot-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr 140px;
+    gap: 40px; padding: 48px 24px 36px; max-width: 1240px; margin: 0 auto;
   }
-
-  .subtitle p {
-    margin: 0 0 14px;
-    font-size: 16px;
-    line-height: 1.68;
+  .foot-brand .zh { font-family: var(--serif-sc); font-weight: 700; font-size: 26px; letter-spacing: 0.1em; }
+  .foot-brand .en {
+    font-family: var(--cond); font-size: 18px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-2); margin-left: 8px;
   }
-
-  footer.site-footer {
-    border-top: 1px solid var(--rule);
-    padding: 28px;
-    font-family: var(--sans);
-    font-size: 13px;
-    color: var(--ink-3);
-    background: var(--paper-2);
+  .foot-brand .tagline {
+    margin-top: 14px; font-size: 13px; color: var(--ink-2); line-height: 1.7; max-width: 280px;
   }
-
-  .footer-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+  .foot-brand .tagline em { font-family: var(--serif-en); font-style: italic; display: block; font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+  .foot-col h4 {
+    font-family: var(--cond); font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px;
   }
-
-  footer a {
-    color: var(--warm-d);
-    font-weight: 600;
+  .foot-col a {
+    display: block; font-size: 14px; color: var(--ink-2); padding: 5px 0;
+    transition: color 0.12s, transform 0.12s var(--snap), letter-spacing 0.12s;
   }
+  .foot-col a.foot-a-bili:hover { color: #00a1d6; transform: translateX(6px); }
+  .foot-col a.foot-a-git:hover { color: var(--ink); letter-spacing: 0.06em; }
+  .foot-col a.foot-a-xhs:hover { color: var(--punch); transform: skewX(-4deg); }
+  .foot-col a.foot-a-top:hover { color: var(--signal); transform: translateY(-3px); }
+  .foot-plate img { width: 100%; mix-blend-mode: multiply; border: 1px solid var(--rule); }
+  .foot-plate .cap {
+    font-family: var(--serif-en); font-style: italic; font-size: 10px;
+    color: var(--ink-3); margin-top: 8px; line-height: 1.4; text-align: center;
+  }
+  .foot-end {
+    border-top: 1px solid var(--rule); padding: 16px 24px 32px;
+    max-width: 1240px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px;
+    font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em;
+  }
+  .foot-end .school { font-family: var(--cond); letter-spacing: 0.14em; text-transform: uppercase; }
 
-  footer a:hover { text-decoration: underline; }
-
+  /* ---- Tweaks ---- */
   #tweaks-fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10001;
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    padding: 10px 14px;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
+    position: fixed; bottom: 20px; right: 20px; z-index: 200;
+    padding: 10px 16px; background: var(--ink); color: var(--paper); border: 0;
+    font-family: var(--cond); font-size: 12px; letter-spacing: 0.12em; cursor: pointer;
+    transition: transform 0.15s var(--snap);
   }
-
+  #tweaks-fab:hover { transform: rotate(-3deg) scale(1.04); }
   #tweaks-panel {
-    display: none;
-    position: fixed;
-    bottom: 56px;
-    right: 20px;
-    z-index: 10001;
-    width: 268px;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    padding: 16px;
-    font-family: var(--sans);
-    font-size: 12px;
-    box-shadow: 0 8px 32px rgba(25, 25, 25, 0.1);
+    position: fixed; bottom: 64px; right: 20px; z-index: 200; width: 280px;
+    display: none; background: var(--ink); color: var(--paper); padding: 16px; font-size: 13px;
   }
-
   #tweaks-panel.is-open { display: block; }
+  #tweaks-panel label { display: block; margin-top: 10px; font-size: 11px; opacity: 0.75; }
+  #tweaks-panel select, #tweaks-panel input[type=range] { width: 100%; margin-top: 4px; }
 
-  #tweaks-panel label {
-    display: block;
-    margin: 12px 0 4px;
-    font-weight: 600;
-    color: var(--ink-2);
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.4s var(--snap), transform 0.4s var(--snap); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
   }
-
-  #tweaks-panel select {
-    width: 100%;
-    padding: 7px 8px;
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    font-family: var(--sans);
-    font-size: 12px;
-  }
-
   @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-folio { justify-self: start; font-size: 88px; }
-    .stat-band { grid-template-columns: 1fr; }
-    .stat-cell { border-right: none; border-bottom: 1px solid var(--rule); }
-    .feature-row { grid-template-columns: 1fr; }
-    .feature-card { border-right: none; border-bottom: 1px solid var(--rule); }
-    .list-layout { grid-template-columns: 1fr; }
+    .spread-grid, .foot-grid, .feat-grid { grid-template-columns: 1fr; }
+    .list-2col { grid-template-columns: 1fr; }
+    .list-preview-main { border-left: 0; padding-left: 0; border-top: 1px solid var(--ink); padding-top: 24px; }
+    .status-band-inner { grid-template-columns: 1fr; }
+    .status-strip { grid-template-columns: 1fr 1fr; }
+    .cutout-wrap { position: relative; width: 100%; right: auto; bottom: auto; margin-top: 24px; }
   }
 </style>
 </head>
-<body>
-<div class="v-badge">D4 · v0 r2</div>
+<body data-view="home" id="top">
 
-<header class="nav" data-component="site-header">
+<div class="v0-badge">D4 Turley · v1 parity</div>
+
+<header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#" data-goto="home">
-      <span class="issue-badge">102</span>
-      <span>
-        <div class="name-zh">廖智强</div>
-        <div class="name-en">Archie</div>
+    <a class="brand" href="#top" aria-label="首页">
+      <span class="brand-mark">A·102</span>
+      <span class="brand-text">
+        <span class="zh">廖智强</span>
+        <span class="en">Archie</span>
       </span>
     </a>
-    <nav class="links" data-component="primary-nav">
-      <a href="#">知识图谱</a>
-      <a href="#" class="nav-cta">点我点我<span class="tip">点我点我～</span></a>
-      <a href="#">反馈</a>
-      <a href="#">关于我</a>
+    <nav class="links" aria-label="主导航">
+      <a class="nav-link nav-link--graph" href="#">知识图谱</a>
+      <a class="nav-link nav-link--diary" href="#" data-goto="list">点我点我<span class="tip">点我点我～</span></a>
+      <a class="nav-link nav-link--feedback" href="#">反馈</a>
+      <a class="nav-link nav-link--about" href="#">关于我</a>
     </nav>
   </div>
 </header>
 
-<!-- HOME -->
-<div class="view view-home is-active">
-  <section class="hero-spread wrap" data-component="alert-hero">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <div class="eyebrow">Issue 102 · Video Diary</div>
-        <h1>记录就是生命的延续</h1>
-        <p class="tagline-en">Recording is the continuation of life</p>
+<!-- ===== HOME ===== -->
+<div class="view view-home">
+  <section class="spread-hero wrap">
+    <div class="spread-grid">
+      <div class="spread-left">
+        <p class="spread-kicker">Businessweek · Field Index · Vol. 102</p>
+        <p class="mega-folio" aria-hidden="true">102</p>
+        <h1 class="spread-title">
+          Archie
+          <span class="zh-block">廖智强 · 视频日记</span>
+        </h1>
+        <p class="spread-dek">
+          记录就是生命的延续
+          <em>Recording is the continuation of life</em>
+        </p>
       </div>
-      <p class="hero-folio" aria-hidden="true">102</p>
+      <div class="spread-right">
+        <div class="cutout-wrap">
+          <img src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="版画切图" />
+          <p class="cutout-cap">Fig. 1 — cutout on spread</p>
+        </div>
+      </div>
     </div>
-  </section>
-
-  <section class="stat-band" data-component="status-band">
-    <div class="stat-cell">
-      <div class="stat-label">Beijing</div>
-      <div class="stat-big" id="bj-time">--:--:--</div>
-      <div class="stat-sub" id="bj-date">--</div>
+    <div class="punch-slice">
+      <span class="lab">Cover Story</span>
+      <span class="msg">杂志式索引 · 不是 benchmark 双栏</span>
+      <span class="n">D4</span>
     </div>
-    <div class="stat-cell">
-      <div class="stat-label">Video Diary</div>
-      <div class="stat-big">Day <span class="day-num">102</span></div>
-      <div class="stat-sub">Since 2026.03.14</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-label">Archive</div>
-      <div class="stat-big" style="font-size:28px">14 Issues</div>
-      <div class="stat-sub">浏览日历 · v1 补全</div>
-    </div>
-  </section>
-
-  <section class="feature-row wrap" style="padding:0;max-width:1180px;margin:0 auto" data-component="featured-section">
-    <a class="feature-card" href="#" data-goto="list" data-select-day="99">
-      <span class="kicker">Latest · Day 99</span>
-      <h3>成长会自动消解很多难题</h3>
-    </a>
-    <a class="feature-card is-pick" href="#" data-goto="detail">
-      <span class="kicker">Pick · Day 94</span>
-      <h3>一个比喻讲透 AI 与人的关系</h3>
-    </a>
-    <a class="feature-card" href="#" data-goto="list" data-select-day="96">
-      <span class="kicker">Hot · Day 96</span>
-      <h3>信息爆炸！别怕错过优质内容</h3>
-    </a>
   </section>
 
   <div class="wrap">
-    <div class="section-head">
-      <h2>往期索引</h2>
-      <span class="sub">14 期 · 左条 hover</span>
+    <div class="status-band reveal">
+      <div class="status-band-inner">
+        <div class="clock-block">
+          <div class="lab">Beijing</div>
+          <div class="val val--time" id="bj-time">--:--</div>
+          <div class="date" id="bj-date">2026-07-07</div>
+        </div>
+        <div class="day-center">
+          <div class="lab">Video diary</div>
+          <div class="n">102</div>
+          <div class="since">Since 2026-03-14 · 14 issues</div>
+        </div>
+        <div class="cal-mini">
+          <div class="cal-head"><span class="m">July 2026</span><span>本月</span></div>
+          <table>
+            <thead><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr></thead>
+            <tbody>
+              <tr><td class="mute">29</td><td class="mute">30</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+              <tr><td class="has-post">6</td><td class="today"><span>7</span></td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+              <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+              <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+              <tr><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td class="mute">1</td><td class="mute">2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="table-index" id="table-index" data-component="archive-timeline"></div>
+
+    <section class="feat-section reveal">
+      <div class="section-head" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px">
+        <h2 style="margin:0;font-family:var(--cond);font-size:28px;letter-spacing:0.06em;text-transform:uppercase">精选入口</h2>
+        <span style="font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--ink-3)">Selected · Folio</span>
+      </div>
+      <div class="feat-grid">
+        <article class="feat-card" tabindex="0" data-goto="list" data-select-day="99">
+          <div class="k">最新一期 <span class="folio">099</span></div>
+          <h3>成长会自动消解很多难题</h3>
+          <div class="meta">Day 99 · 2026-06-05 · 人生 · 认知</div>
+          <span class="more">阅读这一期 →</span>
+        </article>
+        <article class="feat-card is-pick" tabindex="0" data-goto="detail" data-select-day="94">
+          <div class="k">编辑精选 <span class="folio">094</span></div>
+          <h3>一个比喻讲透 AI 与人的关系</h3>
+          <div class="meta">Day 94 · 2026-05-31 · AI · 认知</div>
+          <span class="more">阅读这一期 →</span>
+        </article>
+        <article class="feat-card feat-hot">
+          <div class="k">本周热门 · Trending</div>
+          <ul>
+            <li data-goto="detail" data-select-day="99"><span class="rank">1</span><span>成长会自动消解很多难题<span class="h-d">Day 99 · 2026-06-05</span></span></li>
+            <li data-goto="detail" data-select-day="94"><span class="rank">2</span><span>一个比喻讲透 AI 与人的关系<span class="h-d">Day 94 · 2026-05-31</span></span></li>
+            <li data-goto="detail" data-select-day="96"><span class="rank">3</span><span>信息爆炸！别怕错过优质内容<span class="h-d">Day 96 · 2026-06-02</span></span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <div class="section-head reveal" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
+      <h2 style="margin:0;font-family:var(--cond);font-size:28px;letter-spacing:0.06em;text-transform:uppercase">Archive · 14 Issues</h2>
+      <span style="font-size:12px;color:var(--ink-3)">点击行进入 Detail</span>
+    </div>
+    <div class="spread-rows reveal" id="home-spread-rows" role="list"></div>
+
+    <div class="btn-row reveal">
+      <button type="button" class="btn btn--slam" data-goto="list">进入列表 →</button>
+      <button type="button" class="btn btn--slide" data-goto="detail" data-select-day="94">试读 Day 94</button>
+      <button type="button" class="btn btn--wiggle" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">页脚 colophon</button>
+    </div>
   </div>
 </div>
 
-<!-- LIST -->
+<!-- ===== LIST ===== -->
 <div class="view view-list">
-  <div class="list-layout">
-    <aside class="list-sidebar">
-      <h2>筛选</h2>
-      <div class="tag-filter" id="tag-filter">
-        <button type="button" data-tag="" class="is-active">全部</button>
-        <button type="button" data-tag="AI">AI</button>
-        <button type="button" data-tag="认知">认知</button>
-        <button type="button" data-tag="方法">方法</button>
-        <button type="button" data-tag="原创">原创</button>
+  <header class="list-mast wrap">
+    <p class="list-mast-kicker">Field Index · Diary Archive</p>
+    <div class="list-mast-inner">
+      <h1>All Issues</h1>
+      <div class="list-mast-meta">
+        <span class="n">14</span>
+        <span>entries · 全量</span>
       </div>
-    </aside>
-    <div class="list-main">
-      <div class="list-preview" id="list-preview">
-        <div class="vol" id="list-vol">VOL.2026.06.05 · DAY 99</div>
-        <h2 id="list-title">成长会自动消解很多难题</h2>
-        <p id="list-tags" style="font-size:13px;color:var(--ink-3);margin:0"></p>
-        <p id="list-lead" style="margin-top:16px;font-size:16px;line-height:1.6"></p>
-      </div>
-      <div id="list-rows"></div>
+    </div>
+  </header>
+
+  <div class="wrap list-shell">
+    <div class="list-2col reveal">
+      <aside class="list-aside">
+        <p class="list-aside-kicker">点我点我 · 按月份</p>
+        <div id="list-months-root"></div>
+      </aside>
+      <main class="list-preview-main">
+        <p class="list-vol" id="list-vol">VOL.2026.06.05 · DAY 99</p>
+        <h2 class="list-main-title" id="list-main-title">成长会自动消解很多难题</h2>
+        <p class="list-main-tags" id="list-main-tags">人生 · 认知 · 原创</p>
+        <p class="list-main-lead" id="list-main-lead">成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。</p>
+        <div class="list-snippet-card">
+          <h3>敲黑板 · 预览</h3>
+          <p id="list-snippet">成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。</p>
+        </div>
+        <button type="button" class="btn btn--slide" id="list-read-detail">阅读完整详情 →</button>
+      </main>
     </div>
   </div>
 </div>
 
-<!-- DETAIL Day 94 -->
+<!-- ===== DETAIL ===== -->
 <div class="view view-detail">
-  <div class="detail-wrap">
-    <div class="detail-hero">
-      <div class="eyebrow">Feature · Day 94</div>
-      <h1>一个比喻讲透 AI 与人的关系</h1>
-      <p style="font-size:14px;color:var(--ink-3);margin:0">2026-05-31 · AI · 认知 · 观点</p>
-    </div>
-    <div class="chalkboard" data-component="blackboard">
-      <div class="label">敲黑板</div>
-      <p>罗振宇提出：AI 与人是「内嵌」——像猎犬与人共同狩猎，不能在家甩手指令就指望猎物归来。手机与人同理：彼此塑造、难以分离；工具越强，越要想清楚「望向哪里」。</p>
-    </div>
-    <div class="detail-block">
-      <h3>思维导图</h3>
-      <div class="mindmap" data-component="mindmap">
-        <button type="button" class="mm-node is-focus" style="left:50%;top:20%">AI 与人</button>
-        <button type="button" class="mm-node" style="left:24%;top:55%">内嵌关系</button>
-        <button type="button" class="mm-node" style="left:76%;top:55%">猎犬隐喻</button>
-        <button type="button" class="mm-node" style="left:50%;top:84%">望向哪里</button>
+  <div class="wrap">
+    <a class="detail-back reveal" href="#" data-goto="list">← 返回索引</a>
+    <header class="detail-spread reveal" id="detail-hero">
+      <span class="d-folio" id="detail-folio">94</span>
+      <div class="d-meta">
+        <span class="over" id="detail-over">Day 94 · 2026-05-31</span>
+        <h1 id="detail-title">一个比喻讲透 AI 与人的关系</h1>
+        <p class="d-tags" id="detail-tags">AI · 认知 · 观点</p>
       </div>
-    </div>
-    <div class="detail-block">
-      <h3>视频</h3>
-      <p style="font-size:14px;color:var(--ink-3)">B 站外链占位 · v1 补封面</p>
-    </div>
-    <div class="detail-block subtitle">
-      <h3>字幕摘录</h3>
-      <p>AI 不是坐在家里等结果的遥控器，而是与你并肩走进现场的搭档。</p>
-      <p>工具越强，你越需要提前想清楚：究竟要望向哪里。</p>
-      <p>内嵌意味着互相塑造——用久了，你会变成更适合这套工具的人。</p>
-    </div>
+    </header>
+
+    <section class="detail-block reveal">
+      <h2>敲黑板</h2>
+      <div class="blackboard">
+        <div class="label">本期精简重点</div>
+        <ul id="detail-blackboard"></ul>
+      </div>
+    </section>
+
+    <section class="detail-block reveal">
+      <h2>思维导图</h2>
+      <div class="mindmap" aria-label="思维导图">
+        <div class="mm-layer">
+          <svg viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true">
+            <line class="mm-edge is-strong" x1="300" y1="150" x2="138" y2="75" />
+            <line class="mm-edge is-strong" x1="300" y1="150" x2="462" y2="75" />
+            <line class="mm-edge is-medium" x1="300" y1="150" x2="120" y2="225" />
+            <line class="mm-edge is-weak" x1="300" y1="150" x2="480" y2="225" />
+          </svg>
+          <button type="button" class="mm-node is-core" style="left:50%;top:50%">
+            <span class="mm-kicker">中心议题</span>
+            <span class="mm-title">AI 与人的关系</span>
+          </button>
+          <button type="button" class="mm-node is-primary" style="left:23%;top:25%">
+            <span class="mm-kicker">核心隐喻</span>
+            <span class="mm-title">猎犬与人狩猎</span>
+          </button>
+          <button type="button" class="mm-node is-primary" style="left:77%;top:25%">
+            <span class="mm-kicker">类比延伸</span>
+            <span class="mm-title">手机内嵌</span>
+          </button>
+          <button type="button" class="mm-node is-secondary" style="left:20%;top:75%">
+            <span class="mm-kicker">协作原则</span>
+            <span class="mm-title">内嵌而非替代</span>
+          </button>
+          <button type="button" class="mm-node is-secondary" style="left:80%;top:75%">
+            <span class="mm-kicker">落地校验</span>
+            <span class="mm-title">真实场景校验</span>
+          </button>
+        </div>
+      </div>
+      <p class="mindmap-hint">点击高亮 · 拖拽节点排布</p>
+    </section>
+
+    <section class="detail-block reveal">
+      <h2>视频</h2>
+      <a class="video-frame" href="https://space.bilibili.com/24473971" target="_blank" rel="noopener noreferrer">
+        <img src="assets/img/vintage_moth_lithograph_Butterflies_and_moths__Plate_XX.jpg" alt="视频封面 · 天蛾博物版画" />
+        <span class="play-badge">在 B 站观看 ↗</span>
+      </a>
+    </section>
+
+    <section class="detail-block reveal">
+      <h2>字幕摘录</h2>
+      <div class="subtitle-excerpt" id="detail-subtitles"></div>
+    </section>
+
+    <p class="reveal">
+      <button type="button" class="btn btn--slide" data-goto="list">← List</button>
+      <button type="button" class="btn btn--slam" data-goto="home" style="margin-left:8px">Home</button>
+    </p>
   </div>
 </div>
 
-<footer class="site-footer" data-component="site-footer">
-  <div class="footer-inner">
-    <span>廖智强 Archie · D4 Turley v0 r2</span>
-    <span>
-      <a href="https://space.bilibili.com/24473971" target="_blank" rel="noopener">B站</a> ·
-      <a href="https://github.com/Archie-Liao" target="_blank" rel="noopener">GitHub</a> ·
-      <a href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank" rel="noopener">小红书</a>
-    </span>
+<!-- ===== Footer (all views) ===== -->
+<footer class="site-footer">
+  <div class="foot-issue-bar">
+    <span>Archie Field Journal · Iss. 102</span>
+    <span>D4 Turley Editorial</span>
+  </div>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="zh">廖智强</span><span class="en">Archie</span>
+      <p class="tagline">
+        视频日记 + 优质内容归档。像杂志一样翻阅时间。
+        <em>Colophon · design-demos turley.html</em>
+      </p>
+    </div>
+    <div class="foot-col">
+      <h4>Site</h4>
+      <a href="#" data-goto="home">Home spread</a>
+      <a href="#" data-goto="list">Diary index</a>
+      <a href="#" data-goto="detail" data-select-day="94">Day 94 sample</a>
+      <a href="#">知识图谱</a>
+    </div>
+    <div class="foot-col">
+      <h4>Elsewhere</h4>
+      <a class="foot-a-bili" href="https://space.bilibili.com/24473971" target="_blank" rel="noopener">Bilibili</a>
+      <a class="foot-a-git" href="https://github.com/Archie-Liao" target="_blank" rel="noopener">GitHub</a>
+      <a class="foot-a-xhs" href="https://www.xiaohongshu.com/user/profile/5aa2acff11be10279b762ae0" target="_blank" rel="noopener">小红书</a>
+      <a class="foot-a-top" href="#top">回到顶部 ↑</a>
+    </div>
+    <div class="foot-plate">
+      <img src="assets/img/vintage_butterfly_engraving_The_butterflies_of_the_east.jpg" alt="" />
+      <p class="cap">Plate III<br/>colophon</p>
+    </div>
+  </div>
+  <div class="foot-end">
+    <span class="school">Turley spread · ground 暖纸 · 动效分链试吃</span>
+    <span>© 廖智强 · v1 parity</span>
   </div>
 </footer>
 
 <button type="button" id="tweaks-fab" aria-expanded="false" aria-controls="tweaks-panel">Tweaks</button>
-<div id="tweaks-panel" role="dialog" aria-label="设计参数">
-  <strong>Tweaks · D4 r2</strong>
-  <p style="margin:8px 0 0;font-size:11px;color:var(--ink-3);line-height:1.5">默认纸底优先。Turley 强度仅 Tweaks 预览，勿当 production 默认。</p>
-  <label for="tw-view">视图</label>
-  <select id="tw-view">
+<div id="tweaks-panel" role="dialog">
+  <h3 style="margin:0 0 8px;font-family:var(--cond);letter-spacing:0.1em">TWEAKS</h3>
+  <label for="view-select">视图（_spec 必过）</label>
+  <select id="view-select">
     <option value="home">Home</option>
     <option value="list">List</option>
     <option value="detail">Detail</option>
   </select>
-  <label for="tw-punch">Turley 色带强度</label>
-  <select id="tw-punch">
-    <option value="0.85">默认（克制）</option>
-    <option value="1">稍强</option>
-    <option value="0">关（纯 benchmark 气质）</option>
-  </select>
-  <label for="tw-motion">动效</label>
-  <select id="tw-motion">
-    <option value="1">folio slam</option>
-    <option value="0">关</option>
-  </select>
-  <label for="tw-grain">纸纹</label>
-  <select id="tw-grain">
-    <option value="0.05">淡</option>
-    <option value="0.1">中</option>
-    <option value="0">关</option>
-  </select>
+  <label for="punch-range">Punch 色带强度</label>
+  <input type="range" id="punch-range" min="0.6" max="1.2" step="0.1" value="1" />
 </div>
 
 <script>
 (function () {
-  var POSTS = [
-    { id: '99', title: '成长会自动消解很多难题', date: '2026-06-05', tags: '人生 · 认知 · 原创', lead: '成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。' },
-    { id: '98', title: '学会用筷子，却发现没菜可夹', date: '2026-06-04', tags: 'AI · 方法 · 原创', lead: '会用 AI 工具不等于有场景可练——如同学会用筷子，却发现桌上没菜可夹。' },
-    { id: '97', title: '手机被忽视，AI正在重蹈覆辙', date: '2026-06-03', tags: 'AI · 社会 · 观点', lead: '智能手机早期也曾被低估；AI 产品化正在重复「技术很强、体验很弱」的老路。' },
-    { id: '96', title: '信息爆炸！别怕错过优质内容', date: '2026-06-02', tags: '认知 · 方法 · 原创', lead: '信息过载时代，接受「必然错过」比强迫全读更理性。' },
-    { id: '95', title: '西西弗少儿区，原来我看错了', date: '2026-06-01', tags: '随想 · 记录 · 原创', lead: '先入为主的判断需要被真实体验修正。' },
-    { id: '94', title: '一个比喻讲透AI与人的关系', date: '2026-05-31', tags: 'AI · 认知 · 观点', lead: 'AI 与人是「内嵌」关系：猎犬与人、手机与人。' },
-    { id: '93', title: '踩了两个坑，总结出两大洞见', date: '2026-05-30', tags: '复盘 · 方法 · 原创', lead: '两次踩坑后的两条可复用洞见。' },
-    { id: '92', title: '津巴多心理学，高效记忆两大妙招', date: '2026-05-29', tags: '认知 · 方法 · 书籍', lead: '间隔重复与主动提取。' },
-    { id: '91', title: 'AI学知识套路居然和人类一样', date: '2026-05-28', tags: 'AI · 认知 · 原创', lead: 'AI 学知识的套路与人类惊人相似。' },
-    { id: '90', title: '读书是攒经验，并非一朝挖出黄金', date: '2026-05-27', tags: '认知 · 方法 · 原创', lead: '读书是攒经验，复利在认知上同样成立。' },
-    { id: '89', title: '十周年新品！得到大脑优缺点盘点', date: '2026-05-26', tags: 'AI · 商业 · 观点', lead: '梳理 AI 知识服务的边界。' },
-    { id: '88', title: '想练好表达？一定要多和真人交流', date: '2026-05-25', tags: '自媒体 · 方法 · 原创', lead: 'AI 对练补不了现场反馈。' },
-    { id: '87', title: 'LPL对决！涅槃组以下克上战胜登峰组', date: '2026-05-24', tags: '随想 · 记录', lead: '弱势阵容也能靠协作赢下强敌。' },
-    { id: '86', title: '困住创作的三条枷锁，看完豁然开朗', date: '2026-05-23', tags: '自媒体 · 方法 · 原创', lead: '完美主义、比较焦虑、缺反馈闭环。' }
+  const EPISODES = [
+    { day: 99, title: '成长会自动消解很多难题', dateShort: '06-05', dateFull: '2026-06-05', month: '2026-06', tags: '人生 认知 原创', tagsDisplay: '人生 · 认知 · 原创', dek: '当问题还在眼前时，成长往往像背景音；回头才发现，很多难题已被时间与人格的重力悄悄消解。', lead: '成长会改变你对「难题」的定义——许多困扰并非被正面攻克，而是随着视野升级自然消解。', snippet: '成长本身会改变问题定义——很多「难题」并非被解决，而是随着视野升级自然消解。' },
+    { day: 98, title: '学会用筷子，却发现没菜可夹', dateShort: '06-04', dateFull: '2026-06-04', month: '2026-06', tags: 'AI 方法 原创', tagsDisplay: 'AI · 方法 · 原创', dek: '工具学会了，场景还没跟上——AI 普及期的典型错位感。', lead: '会用 AI 工具不等于有场景可练——如同学会用筷子，却发现桌上没菜可夹。', snippet: '工具先行、场景滞后：AI 能力需要真实任务与反馈闭环才能长出来。' },
+    { day: 97, title: '手机被忽视，AI正在重蹈覆辙', dateShort: '06-03', dateFull: '2026-06-03', month: '2026-06', tags: 'AI 社会 观点', tagsDisplay: 'AI · 社会 · 观点', dek: '新技术重复旧路径：先被高估，再被忽视，最后才进入日常。', lead: '智能手机早期也曾被低估；AI 产品化正在重复「技术很强、体验很弱」的老路。', snippet: '历史不会简单重复，但会押着相似的韵脚——忽视用户场景的产品很难走远。' },
+    { day: 96, title: '信息爆炸！别怕错过优质内容', dateShort: '06-02', dateFull: '2026-06-02', month: '2026-06', tags: '认知 方法 原创', tagsDisplay: '认知 · 方法 · 原创', dek: 'FOMO 是算法的产品，不是读者的义务——筛选比追更更重要。', lead: '信息过载时代，接受「必然错过」比强迫全读更理性——用筛选机制代替焦虑。', snippet: '建立个人过滤器：主题订阅 + 定期复盘，比 FOMO 更可持续。' },
+    { day: 95, title: '西西弗少儿区，原来我看错了', dateShort: '06-01', dateFull: '2026-06-01', month: '2026-06', tags: '随想 记录 原创', tagsDisplay: '随想 · 记录 · 原创', dek: '先入为主的判断需要被真实体验修正——逛书店也是一次认知更新。', lead: '对西西弗少儿区的再认识：先入为主的判断需要被真实体验修正。', snippet: '逛书店也是一次认知更新——别用旧标签替新事实。' },
+    { day: 94, title: '一个比喻讲透 AI 与人的关系', dateShort: '05-31', dateFull: '2026-05-31', month: '2026-05', tags: 'AI 认知 观点', tagsDisplay: 'AI · 认知 · 观点', dek: '比喻只是入口，关系才是正文——人负责方向，AI 负责放大。', lead: 'AI 与人是「内嵌」关系：猎犬与人、手机与人——不是简单替代，也不能甩手协作。', snippet: 'AI 像望远镜：放大信息与算力，但不能替代你的价值判断与方向感。' },
+    { day: 93, title: '踩了两个坑，总结出两大洞见', dateShort: '05-30', dateFull: '2026-05-30', month: '2026-05', tags: '复盘 方法 原创', tagsDisplay: '复盘 · 方法 · 原创', dek: '两次踩坑后的两条可复用洞见——小步试错，及时复盘。', lead: '两次踩坑后的两条可复用洞见：先验证假设，再放大投入。', snippet: '小步试错 + 及时复盘，比一次押注大而全更省时间。' },
+    { day: 92, title: '津巴多心理学，高效记忆两大妙招', dateShort: '05-29', dateFull: '2026-05-29', month: '2026-05', tags: '认知 方法 书籍', tagsDisplay: '认知 · 方法 · 书籍', dek: '间隔重复与主动提取——能复述、能应用，才算进入长期记忆。', lead: '从津巴多心理学提炼两条记忆策略：间隔重复与主动提取。', snippet: '记笔记不是终点——能复述、能应用，才算进入长期记忆。' },
+    { day: 91, title: 'AI学知识套路居然和人类一样', dateShort: '05-28', dateFull: '2026-05-28', month: '2026-05', tags: 'AI 认知 原创', tagsDisplay: 'AI · 认知 · 原创', dek: 'AI 学知识的套路与人类惊人相似——理解机器，也优化自己的路径。', lead: 'AI 学知识的套路与人类惊人相似：示例、反馈、迁移，本质都是统计+经验。', snippet: '理解 AI 的学习方式，反过来能优化人类自己的学习路径。' },
+    { day: 90, title: '读书是攒经验，并非一朝挖出黄金', dateShort: '05-27', dateFull: '2026-05-27', month: '2026-05', tags: '认知 方法 原创', tagsDisplay: '认知 · 方法 · 原创', dek: '读书是攒经验，复利在认知上同样成立——别指望一夕挖出黄金。', lead: '读书是攒经验，不是指望一次挖出黄金——复利在认知上同样成立。', snippet: '把阅读变成行动清单，比囤积划线更有价值。' },
+    { day: 89, title: '十周年新品！得到大脑优缺点盘点', dateShort: '05-26', dateFull: '2026-05-26', month: '2026-05', tags: 'AI 商业 观点', tagsDisplay: 'AI · 商业 · 观点', dek: '梳理 AI 知识服务的边界——为谁、在什么场景、解决什么决策。', lead: '得到大脑十周年：梳理产品优缺点，看 AI 知识服务的边界在哪里。', snippet: '工具再强，也要回答「为谁、在什么场景、解决什么决策」。' },
+    { day: 88, title: '想练好表达？一定要多和真人交流', dateShort: '05-25', dateFull: '2026-05-25', month: '2026-05', tags: '自媒体 方法 原创', tagsDisplay: '自媒体 · 方法 · 原创', dek: 'AI 对练补不了现场反馈——听众的反应才是校准仪表盘。', lead: '练好表达要多和真人交流——AI 对练补不了现场反馈与情绪张力。', snippet: '表达是双向的：听众的反应，才是校准语气和结构的仪表盘。' },
+    { day: 87, title: 'LPL对决！涅槃组以下克上战胜登峰组', dateShort: '05-24', dateFull: '2026-05-24', month: '2026-05', tags: '随想 记录', tagsDisplay: '随想 · 记录', dek: '弱势阵容也能靠协作赢下强敌——体系与心态有时比资源更重要。', lead: 'LPL 涅槃组逆袭的随想：弱势阵容也能靠协作与节奏赢下强敌。', snippet: '竞技与创作一样——体系与心态，有时比资源更重要。' },
+    { day: 86, title: '困住创作的三条枷锁，看完豁然开朗', dateShort: '05-23', dateFull: '2026-05-23', month: '2026-05', tags: '自媒体 方法 原创', tagsDisplay: '自媒体 · 方法 · 原创', dek: '完美主义、比较焦虑、缺反馈闭环——三条枷锁，先发布再迭代。', lead: '困住自媒体创作的三条枷锁：完美主义、比较焦虑、缺反馈闭环。', snippet: '先发布再迭代；用真实数据而不是想象观众来改内容。' }
   ];
 
-  var activeTag = '';
+  const DETAIL_94_BB = [
+    '罗振宇提出：AI 与人是「内嵌」——像猎犬与人共同狩猎，不能在家甩手指令就指望猎物归来。',
+    '手机与人同理：彼此塑造、难以分离；工具越强，越要想清楚「望向哪里」。'
+  ];
+  const DETAIL_94_SUBS = [
+    '今天我看罗振宇，提出了一个新的概念，就是在 AI 时代，AI 与人的关系到底是什么——AI 既不是简单地替代人类，也不是和人类进行一种简单的合作，他提出了一个新的概念，叫做人与 AI 互相的内嵌。',
+    '比如在远古时代的狩猎时期，一个人如果会驯化猎犬，那么他的能力就一定比那些没有猎犬的人更强。人跟猎犬必须要同时在场——如果离了谁，单独一个都没办法完成这一场狩猎。',
+    '不要指望给一个指令，然后让 AI 就完成了所有的任务。另外内嵌的例子就是手机跟人的关系：现在的人肯定没有办法离开手机，而人也在不断改变手机、创造手机、增进它的功能。'
+  ];
 
-  function renderIndex() {
-    var root = document.getElementById('table-index');
+  let selectedDay = 99;
+
+  function getEp(day) {
+    const n = Number(day);
+    return EPISODES.find((e) => e.day === n) || EPISODES[0];
+  }
+
+  function tagLabel(tags) {
+    return tags.split(/\s+/).slice(0, 2).join(' · ');
+  }
+
+  function renderHomeSpread() {
+    const box = document.getElementById('home-spread-rows');
+    if (!box) return;
+    box.innerHTML = EPISODES.map((ep) =>
+      '<article class="spread-row" role="listitem" tabindex="0" data-day="' + ep.day + '">' +
+      '<span class="folio">' + ep.day + '</span><span class="stripe"></span>' +
+      '<span><h3>' + ep.title + '</h3><span class="row-dek">' + ep.dek + '</span></span>' +
+      '<span class="meta">' + ep.dateShort + '</span></article>'
+    ).join('');
+    box.querySelectorAll('.spread-row').forEach((row) => {
+      row.addEventListener('click', () => openDetail(row.dataset.day));
+      row.addEventListener('keydown', (e) => { if (e.key === 'Enter') openDetail(row.dataset.day); });
+    });
+  }
+
+  function renderListMonths() {
+    const root = document.getElementById('list-months-root');
     if (!root) return;
-    root.innerHTML = POSTS.map(function (p) {
-      return '<a class="index-row' + (p.id === '94' ? ' is-hot' : '') + '" href="#" data-goto="list" data-select-day="' + p.id + '">' +
-        '<span class="day">' + p.id + '</span>' +
-        '<span class="title">' + p.title + '</span>' +
-        '<span class="meta">' + p.date + '</span></a>';
+    const months = [
+      { key: '2026-06', label: '2026 年 6 月' },
+      { key: '2026-05', label: '2026 年 5 月' }
+    ];
+    root.innerHTML = months.map((m) => {
+      const items = EPISODES.filter((p) => p.month === m.key);
+      const rows = items.map((p) =>
+        '<div class="list-day" data-day="' + p.day + '" tabindex="0">' +
+        '<div><div class="d-num">' + p.day + '</div><div class="d-sub">' + p.dateShort + '</div></div>' +
+        '<div><div class="d-title">' + p.title + '</div><div class="d-meta">Day ' + p.day + '</div></div></div>'
+      ).join('');
+      return '<div class="list-month-group">' +
+        '<button type="button" class="list-month" aria-expanded="true">' +
+        '<span>' + m.label + '</span><span>▾</span></button>' +
+        '<div class="list-month-body">' + rows + '</div></div>';
     }).join('');
-  }
-
-  function renderListRows() {
-    var root = document.getElementById('list-rows');
-    if (!root) return;
-    root.innerHTML = POSTS.map(function (p) {
-      return '<div class="list-day" data-id="' + p.id + '" data-tags="' + p.tags + '">' +
-        '<div class="d-num">' + p.id + '</div>' +
-        '<div><strong>' + p.title + '</strong><br><span style="font-size:12px;color:var(--ink-3)">' + p.date + '</span></div></div>';
-    }).join('');
-    root.querySelectorAll('.list-day').forEach(function (row) {
-      row.addEventListener('click', function () { selectDay(row.dataset.id); });
+    root.querySelectorAll('.list-month').forEach((btn) => {
+      btn.addEventListener('click', () => btn.closest('.list-month-group').classList.toggle('is-collapsed'));
     });
-  }
-
-  function getPost(id) {
-    for (var i = 0; i < POSTS.length; i++) if (POSTS[i].id === String(id)) return POSTS[i];
-    return POSTS[0];
-  }
-
-  function selectDay(id) {
-    var p = getPost(id);
-    document.querySelectorAll('.list-day').forEach(function (r) {
-      r.classList.toggle('is-active', r.dataset.id === String(id));
+    root.querySelectorAll('.list-day').forEach((row) => {
+      row.addEventListener('click', () => selectListDay(row.dataset.day));
+      row.addEventListener('keydown', (e) => { if (e.key === 'Enter') selectListDay(row.dataset.day); });
     });
-    document.getElementById('list-vol').textContent = 'VOL.' + p.date.replace(/-/g, '.') + ' · DAY ' + p.id;
-    document.getElementById('list-title').textContent = p.title;
-    document.getElementById('list-tags').textContent = p.tags;
-    document.getElementById('list-lead').textContent = p.lead;
+    selectListDay(selectedDay);
   }
 
-  function applyTagFilter() {
-    document.querySelectorAll('.list-day').forEach(function (row) {
-      var p = getPost(row.dataset.id);
-      var show = !activeTag || p.tags.indexOf(activeTag) !== -1;
-      row.classList.toggle('is-hidden', !show);
+  function selectListDay(day) {
+    selectedDay = Number(day);
+    const p = getEp(day);
+    document.querySelectorAll('.list-day').forEach((r) => {
+      r.classList.toggle('is-active', Number(r.dataset.day) === p.day);
     });
+    const vol = document.getElementById('list-vol');
+    const title = document.getElementById('list-main-title');
+    const tags = document.getElementById('list-main-tags');
+    const lead = document.getElementById('list-main-lead');
+    const snippet = document.getElementById('list-snippet');
+    if (vol) vol.textContent = 'VOL.' + p.dateFull.replace(/-/g, '.') + ' · DAY ' + p.day;
+    if (title) title.textContent = p.title;
+    if (tags) tags.textContent = p.tagsDisplay;
+    if (lead) lead.textContent = p.lead;
+    if (snippet) snippet.textContent = p.snippet;
   }
 
-  function initClock() {
-    var WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-    var elT = document.getElementById('bj-time');
-    var elD = document.getElementById('bj-date');
-    function pad(n) { return (n < 10 ? '0' : '') + n; }
-    function tick() {
-      var now = new Date();
-      var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      var bj = new Date(utc + 8 * 3600000);
-      elT.textContent = pad(bj.getHours()) + ':' + pad(bj.getMinutes()) + ':' + pad(bj.getSeconds());
-      elD.textContent = bj.getFullYear() + '年' + (bj.getMonth() + 1) + '月' + bj.getDate() + '日 · ' + WEEK[bj.getDay()];
+  function updateDetailContent(ep) {
+    const folio = document.getElementById('detail-folio');
+    const over = document.getElementById('detail-over');
+    const titleEl = document.getElementById('detail-title');
+    const tagsEl = document.getElementById('detail-tags');
+    const bb = document.getElementById('detail-blackboard');
+    const subs = document.getElementById('detail-subtitles');
+    if (folio) folio.textContent = ep.day;
+    if (over) over.textContent = 'Day ' + ep.day + ' · ' + ep.dateFull;
+    if (titleEl) titleEl.textContent = ep.title;
+    if (tagsEl) tagsEl.textContent = ep.tagsDisplay;
+    if (bb) {
+      const items = ep.day === 94 ? DETAIL_94_BB : [ep.snippet, ep.lead];
+      bb.innerHTML = items.map((t) => '<li>' + t + '</li>').join('');
     }
-    tick();
-    setInterval(tick, 1000);
+    if (subs) {
+      if (ep.day === 94) {
+        subs.innerHTML = DETAIL_94_SUBS.map((t) => '<p>' + t + '</p>').join('');
+      } else {
+        subs.innerHTML = '<p>「' + ep.lead + '」</p><p><em>完整字幕见 B 站原视频 · demo 摘录</em></p>';
+      }
+    }
   }
 
-  function bindMindmap() {
-    document.querySelectorAll('.mm-node').forEach(function (node) {
-      node.addEventListener('click', function () {
-        document.querySelectorAll('.mm-node').forEach(function (n) {
-          n.classList.toggle('is-focus', n === node);
-        });
+  function openDetail(day) {
+    updateDetailContent(getEp(day));
+    setView('detail');
+  }
+
+  function initMindmap() {
+    const layer = document.querySelector('.mindmap .mm-layer');
+    if (!layer) return;
+    let drag = null;
+    let moved = false;
+    layer.querySelectorAll('.mm-node').forEach((node) => {
+      node.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        drag = node;
+        moved = false;
+        node.setPointerCapture(e.pointerId);
+        layer.querySelectorAll('.mm-node').forEach((n) => n.classList.remove('is-lit'));
+        node.classList.add('is-lit');
+      });
+      node.addEventListener('pointermove', (e) => {
+        if (drag !== node) return;
+        moved = true;
+        const r = layer.getBoundingClientRect();
+        const nx = ((e.clientX - r.left) / r.width) * 100;
+        const ny = ((e.clientY - r.top) / r.height) * 100;
+        node.style.left = Math.min(92, Math.max(8, nx)) + '%';
+        node.style.top = Math.min(88, Math.max(12, ny)) + '%';
+      });
+      node.addEventListener('pointerup', () => { drag = null; });
+      node.addEventListener('click', (e) => {
+        if (moved) { e.stopPropagation(); return; }
+        layer.querySelectorAll('.mm-node').forEach((n) => n.classList.remove('is-lit'));
+        node.classList.add('is-lit');
       });
     });
   }
 
-  function setView(v, day) {
-    document.querySelectorAll('.view').forEach(function (el) {
-      el.classList.toggle('is-active', el.classList.contains('view-' + v));
-    });
-    var sel = document.getElementById('tw-view');
-    if (sel) sel.value = v;
-    if (v === 'list') selectDay(day || '99');
+  renderHomeSpread();
+  renderListMonths();
+  initMindmap();
+  updateDetailContent(getEp(94));
+
+  const pad = (n) => String(n).padStart(2, '0');
+  function tick() {
+    const el = document.getElementById('bj-time');
+    if (!el) return;
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const t = new Date(utc + 8 * 3600000);
+    el.textContent = pad(t.getHours()) + ':' + pad(t.getMinutes());
+    const dateEl = document.getElementById('bj-date');
+    if (dateEl) dateEl.textContent = t.getFullYear() + '-' + pad(t.getMonth() + 1) + '-' + pad(t.getDate());
+  }
+  tick(); setInterval(tick, 1000);
+
+  const body = document.body;
+  const viewSelect = document.getElementById('view-select');
+  const punchRange = document.getElementById('punch-range');
+
+  function setView(v, selectDay) {
+    body.setAttribute('data-view', v);
+    if (viewSelect) viewSelect.value = v;
     window.scrollTo(0, 0);
+    if (v === 'list' && selectDay != null) selectListDay(selectDay);
+    if (v === 'detail' && selectDay != null) updateDetailContent(getEp(selectDay));
+    document.querySelectorAll('.reveal').forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('is-in');
+    });
   }
 
-  renderIndex();
-  renderListRows();
-  initClock();
-  bindMindmap();
-  selectDay('99');
-
-  requestAnimationFrame(function () {
-    document.body.classList.add('is-ready');
-  });
-
-  document.querySelectorAll('[data-goto]').forEach(function (el) {
-    el.addEventListener('click', function (e) {
+  document.querySelectorAll('[data-goto]').forEach((el) => {
+    el.addEventListener('click', (e) => {
       e.preventDefault();
-      setView(el.getAttribute('data-goto'), el.getAttribute('data-select-day'));
+      const day = el.getAttribute('data-select-day');
+      setView(el.getAttribute('data-goto'), day);
+    });
+    el.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const day = el.getAttribute('data-select-day');
+      setView(el.getAttribute('data-goto'), day);
+    });
+  });
+  if (viewSelect) viewSelect.addEventListener('change', (e) => setView(e.target.value));
+
+  if (punchRange) {
+    punchRange.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--punch-strength', e.target.value);
+    });
+  }
+
+  const fab = document.getElementById('tweaks-fab');
+  const panel = document.getElementById('tweaks-panel');
+  fab.addEventListener('click', () => {
+    const o = panel.classList.toggle('is-open');
+    fab.setAttribute('aria-expanded', o);
+  });
+
+  const listRead = document.getElementById('list-read-detail');
+  if (listRead) {
+    listRead.addEventListener('click', () => openDetail(selectedDay));
+  }
+
+  document.querySelectorAll('.feat-card[data-goto]').forEach((card) => {
+    card.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const day = card.getAttribute('data-select-day');
+      setView(card.getAttribute('data-goto'), day);
     });
   });
 
-  document.getElementById('tag-filter').querySelectorAll('button').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      activeTag = btn.getAttribute('data-tag') || '';
-      document.getElementById('tag-filter').querySelectorAll('button').forEach(function (b) {
-        b.classList.toggle('is-active', b === btn);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en, i) => {
+        if (en.isIntersecting) {
+          en.target.style.transitionDelay = (i % 6) * 50 + 'ms';
+          en.target.classList.add('is-in');
+          io.unobserve(en.target);
+        }
       });
-      applyTagFilter();
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    document.querySelectorAll('.reveal').forEach((el) => {
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add('is-in');
     });
-  });
-
-  document.getElementById('tw-view').addEventListener('change', function (e) {
-    setView(e.target.value);
-  });
-  document.getElementById('tw-punch').addEventListener('change', function (e) {
-    document.documentElement.style.setProperty('--punch-mode', e.target.value);
-  });
-  document.getElementById('tw-motion').addEventListener('change', function (e) {
-    document.documentElement.style.setProperty('--motion', e.target.value);
-    document.body.classList.toggle('is-ready', e.target.value !== '0');
-  });
-  document.getElementById('tw-grain').addEventListener('change', function (e) {
-    document.documentElement.style.setProperty('--grain', e.target.value);
-  });
-
-  var fab = document.getElementById('tweaks-fab');
-  var panel = document.getElementById('tweaks-panel');
-  fab.addEventListener('click', function () {
-    var open = panel.classList.toggle('is-open');
-    fab.setAttribute('aria-expanded', open);
-  });
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-in'));
+  }
 })();
 </script>
 </body>
