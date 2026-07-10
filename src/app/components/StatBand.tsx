@@ -46,7 +46,7 @@ export function StatBand() {
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding: clamp(1.65rem, 3.5vw, 2.15rem) clamp(1rem, 2.5vw, 1.75rem);
+          padding: clamp(1rem, 2vw, 1.35rem) clamp(1rem, 2.5vw, 1.75rem);
           border-right: 1px solid var(--border);
         }
         .stat-band__cell:last-child {
@@ -62,14 +62,14 @@ export function StatBand() {
           letter-spacing: 0.2em;
           text-transform: uppercase;
           color: var(--muted-foreground);
-          margin-bottom: 0.65rem;
+          margin-bottom: 0.4rem;
         }
         .stat-band__val {
           margin: 0;
           font-family: var(--font-display);
           font-style: italic;
           font-weight: 700;
-          font-size: clamp(2rem, 4.5vw, 3.25rem);
+          font-size: clamp(1.75rem, 4vw, 2.75rem);
           line-height: 1;
           letter-spacing: 0.02em;
           color: var(--foreground);
@@ -80,7 +80,7 @@ export function StatBand() {
           color: var(--primary-deep, var(--primary));
         }
         .stat-band__sub {
-          margin-top: 0.55rem;
+          margin-top: 0.35rem;
           font-family: var(--font-body);
           font-size: 0.6875rem;
           letter-spacing: 0.12em;

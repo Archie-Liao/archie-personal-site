@@ -109,10 +109,10 @@ export function MiniCalendar({ variant = "default" }: { variant?: "default" | "s
           .stat-band__cell--cal {
             align-items: center;
             justify-content: center;
-            padding: clamp(1.25rem, 3vw, 1.75rem) clamp(0.75rem, 2vw, 1.25rem);
+            padding: clamp(0.65rem, 1.5vw, 0.95rem) clamp(0.5rem, 1.5vw, 1rem);
           }
           .stat-cal--band {
-            width: min(100%, 13.625rem);
+            width: min(100%, 16rem);
             margin: 0 auto;
           }
           .stat-cal--band .stat-cal__head {
@@ -120,6 +120,7 @@ export function MiniCalendar({ variant = "default" }: { variant?: "default" | "s
             align-items: baseline;
             justify-content: space-between;
             margin-bottom: 0.45rem;
+            padding: 0 0.15rem;
           }
           .stat-cal--band .stat-cal__m {
             font-family: var(--font-display);
@@ -129,20 +130,28 @@ export function MiniCalendar({ variant = "default" }: { variant?: "default" | "s
           }
           .stat-cal--band .stat-cal__lab {
             font-size: 0.625rem;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--muted-foreground);
           }
+          .stat-cal__table--band {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 0.35rem 0.38rem;
+          }
           .stat-cal__table--band th {
-            font-size: 0.625rem;
+            font-size: 0.6875rem;
             font-weight: 500;
+            letter-spacing: 0.06em;
             color: var(--muted-foreground);
-            padding: 2px 0;
+            padding: 0 0 0.15rem;
           }
           .stat-cal__table--band td {
-            font-size: 0.6875rem;
+            font-size: 0.8125rem;
+            line-height: 1.45;
             text-align: center;
-            padding: 3px 0;
+            padding: 0.15rem 0;
             color: color-mix(in srgb, var(--foreground) 72%, var(--muted-foreground));
           }
           .stat-cal__table--band .stat-cal__today {
@@ -153,8 +162,9 @@ export function MiniCalendar({ variant = "default" }: { variant?: "default" | "s
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 1.125rem;
-            height: 1.125rem;
+            width: 1.375rem;
+            height: 1.375rem;
+            font-size: 0.75rem;
             background: var(--primary);
             border-radius: 50%;
           }

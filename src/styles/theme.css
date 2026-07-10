@@ -19,30 +19,44 @@
   --font-cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 
   /* MIX-MATCH: benchmark 纸底 + D4 punch + D5 数据色（仅图表） */
+  /* 焦赭点缀 · 顶栏「日记」/ 金句竖线（勿大面积铺底） */
   --punch: #D4562A;
+  /* 数据红 · 仅图表 */
   --data-red: #A6300E;
+  /* 数据灰蓝 · 仅图表 */
   --data-slate: #3E4A5C;
   --snap: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Light vintage theme — 暖纸奶油底 + 墨绿/赭石点睛，强调可读层级 */
+  /* ── L1 颜料罐（中文名见 docs/COLOR-TOKEN-MAP.md）── */
+
+  /* 奶油纸底 · 整页背景 */
   --background: #F6F0E2;
+  /* 墨字 · 正文与标题 */
   --foreground: #2A2622;
+  /* 浅卡片底 */
   --card: #FBF7EE;
   --card-foreground: #2A2622;
   --popover: #FBF7EE;
   --popover-foreground: #2A2622;
+  /* 陶土橙（链接）· 链接 / 按钮 / 图谱节点 */
   --primary: #CC785C;
   --primary-foreground: #F6F0E2;
+  /* 深陶土 · hover / 金句暗部 */
   --primary-deep: #B5612F;
+  /* 浅米色面 */
   --secondary: #ECE4D3;
   --secondary-foreground: #4A443C;
   --muted: #ECE4D3;
+  /* 弱化灰字 */
   --muted-foreground: #6E655A;
+  /* 暖点缀面 */
   --accent: #E7DEC9;
   --accent-foreground: #3C5A4A;
   /* 点睛色：赭石/陶土（极少量）与描金（分隔/细节） */
   --terracotta: #CC785C;
+  /* 墨绿 */
   --ink-green: #3C5A4A;
+  /* 描金 */
   --gold: #9A7B3F;
   --destructive: #A84A3C;
   --destructive-foreground: #FBF7EE;

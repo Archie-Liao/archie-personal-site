@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-09 16:55:00"
+revised_at: "2026-07-10 17:05:00"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,8 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-10 17:05:00 | **配色对照** — `COLOR-TOKEN-MAP.md` + 小样站点表 · 金句降明度提纯度 |
+| 2026-07-10 16:04:16 | **`/graph` 先这样** — Obsidian 式全屏力导图 · 知识按钮弹层 · 调参导出 · Archie **全站视觉扫** 进行中 |
 | 2026-07-09 16:55:00 | **`link-fugu` 加长验收页**（~3 屏）· 列表/图谱方案 **并入 MIX-MATCH §8.7/§8.11**（sessions 仅留 delta） |
 | 2026-07-09 10:47:27 | **阶段 C 先这样** — Logo 合掌 stamp · 发布密度改 **posts 真数据** · 列表/Graph/About polish · A3-3 补验 |
 | 2026-07-09 10:10:03 | **C 续** — Logo stamp **新指纹背景图** · **`quotes.json` 金句池**（punch 数据源） |
@@ -73,7 +75,7 @@ timezone: Asia/Shanghai
 # 项目状态
 
 > **新 AI 会话请先读本文 + [AGENTS.md](../AGENTS.md) + [SITE-MANUAL.md](SITE-MANUAL.md) + [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md)**  
-> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-08.md](sessions/2026-07-08.md) · [2026-07-07.md](sessions/2026-07-07.md) · [2026-07-03.md](sessions/2026-07-03.md)
+> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-10.md](sessions/2026-07-10.md) · [2026-07-08.md](sessions/2026-07-08.md) · [2026-07-07.md](sessions/2026-07-07.md)
 
 ## 主任务（仅 1 条）
 
@@ -86,8 +88,8 @@ timezone: Asia/Shanghai
 ② ~~你试吃 D4/D5 → 填 DEMO-TASTING-NOTES~~ ✅ 2026-07-07
 ③ ~~填 sessions/2026-07-01 §6~~ ✅ 2026-07-07 拍板
 ④ ~~混搭清单~~ ✅ Archie 2026-07-07 确认
-⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅ 主块收工** · ~~**C polish**~~ **✅ 先这样**（Graph 双 Tab → P2）
-⑥ P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters 聚类页 → P3 助手+思维模型
+⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅** · ~~C polish~~ **✅** · **`/graph` Obsidian 交互** **✅ 先这样** → **Archie 全站视觉扫** · Graph 双 Tab **P2**
+⑥ P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters → P3 助手
 ```
 
 | 阶段 | 权威文档 | AI 何时读 |
@@ -115,9 +117,9 @@ timezone: Asia/Shanghai
 | 日记 `/posts` A2-C | **先这样** | 左栏 **期数/平台名** · 预览 VOL · 预览相关篇链 · §8.7 |
 | 详情 `/post/:id` A3 | **先这样** | A3-2 **先这样** · 无期数 Hero **平台名** · 边注 Note5 相关篇 · §8.8 |
 | 顶栏 A4 | **先这样** | §8.10 |
-| graph/about/feedback A5 | **先这样** | §8.11 |
+| graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
-| 知识图谱 `/graph` | 已有 | 标签共现；双 Tab **P2** |
+| 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
 | **产品畅想** | **P1 已锁 / P2 已锁** | 助手 **P3**；聚类 **P2b** 先于助手 → sessions §9 |
 | 知识库 | 部分 | `dialogues/` 2026-07-07 迁 src 会话 · `wiki/` `content/` 延后 |
 | Logo | **v1 暂定 ✅** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) — Archie 不再纠结；后续主动再开 |
@@ -140,21 +142,20 @@ timezone: Asia/Shanghai
 
 ### Archie
 
-1. **全站验收** — 见下方清单 · Logo stamp · punch · 列表 · 详情导图
-2. **Logo** — stamp 背景已换合掌图；字色暖白叠黑底
-3. **P2** — Graph 双 Tab · content/md · ep86–93
+1. **全站视觉扫（当前）** — 六页逐路由看 · 记下要改的视觉效果 · 见下方清单
+2. **按需改 P1 polish** — 扫完集中提修改点（仍属 P1，非 P2）
+3. **P2** — Graph 双 Tab · content/md · ep86–93（**全站 P1 先这样后再开**）
 
 ### AI（建议顺序）
 
 | 序 | 块 | 状态 |
 |----|-----|------|
-| 1 | B 主块 A2/A3 | **✅ 先这样** |
-| 2 | C — sk-tag · scrollbar · 平台名 · 访客文案 | **✅** |
-| 3 | C — 首页 folio · 预览相关篇 · quotes · Logo · polish | **✅ 先这样** |
-| 4 | A3-3 导图 | **✅ 补验** |
-| 5 | Graph 双 Tab | **P2** |
+| 1–4 | B / C / A3-3 | **✅ 先这样** |
+| 5 | `/graph` Obsidian 交互 | **✅ 先这样**（2026-07-10） |
+| 6 | Archie 全站视觉反馈 → 零星 polish | **进行中** |
+| 7 | Graph 双 Tab | **P2** |
 
-> 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 从 **C 续** 或口头指定块。
+> 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 继续 **全站视觉扫** 或指定路由。
 
 ### 可延后（P2+）
 
@@ -170,7 +171,7 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
-- 2026-07-09 10:47:27：**阶段 C 先这样** — Logo **合掌线刻 stamp**（contain 保主体）· 发布密度 **posts 真数据** · 访客文案 polish · A3-3 补验
+- 2026-07-10 16:04:16：**`/graph` 先这样** — 全屏画布无页脚 · 左上「知识」横弹层 · ⋯ 外观/力度/复制调参 · 节点点击旁卡 · 默认 **2.2×** 几何居中 · 下一步 **Archie 全站视觉扫**
 - 2026-07-09 10:10:03：**C 续** — Logo stamp 换图 · **`quotes.json`** punch 金句池
 - 2026-07-09 09:17:09：**C 续** — 首页精选卡/时间线无期数显示 **平台名**（`HomeCardFolio`）；列表预览 **同标签相关篇** 替代 graph 链
 - 2026-07-08 18:32:51：**收工** — 无期数条目 **平台名**（`postPlatform.ts`）详情 Hero + 列表左栏/预览；外链 Hero **grid 列修复**；边注 Note5 → **同标签相关篇**（非 `/graph`）；A3-2 **先这样**
@@ -192,6 +193,24 @@ timezone: Asia/Shanghai
 - 2026-06-30：协作宪章；YAML 规范；对话语料规则
 - 2026-06-26：知识库 wiki/content **延后**；SITE-MANUAL；单数据源 md
 
+## 今日摘要（2026-07-10）
+
+- **`/graph` 收工**：Obsidian 式交互多轮迭代 → Archie **先这样**
+- **下一步**：全站六页视觉扫 · 集中记修改点 · P2 仍延后
+
+### 全站视觉扫清单（Archie）
+
+| 路由 | 看什么 |
+|------|--------|
+| `/` | Logo stamp · punch · 精选卡/时间线 · chart 三卡 · stat-band |
+| `/posts` | 左栏索引 · 右预览 · tag 球 · 相关篇链 |
+| `/post/link-fugu` | 长文 Hero · 边注 · 滚动 |
+| `/post/ep099` | 思维导图 · 知识卡片 · 视频/字幕 |
+| `/graph` | 知识按钮 · 力导图缩放/拖节点 · 点击旁卡 · ⋯ 设置 |
+| `/about` | metrics 全宽带 · 九宫格 · 联系区 |
+| `/feedback` | 表单窄列 · 提交反馈 |
+| 全站 | 顶栏动效 · 暖色 scrollbar · 新标签策略 |
+
 ## 今日摘要（2026-07-09）
 
 - **C 收工**：Logo 合掌 stamp · quotes.json · 首页平台名 · 列表/Graph/About polish · 发布密度真数据 · A3-3 补验
@@ -205,7 +224,7 @@ timezone: Asia/Shanghai
 | `/posts` | 左栏 **AIHOT** · 预览 **同标签相关篇** · 底栏「日记索引」 |
 | `/post/link-fugu` | Hero **来自 AIHOT** · 标题不挤竖条 |
 | `/post/ep099` | 思维导图 **拖节点/点击高亮** · 无「待补」节点 |
-| `/graph` | 力导图可用 · 底部 P2 说明一句 |
+| `/graph` | 全屏力导图 · **知识** 横弹层 · 点节点旁卡 · ⋯ 调参 · 无页脚 |
 | `/about` | Day1 日期与 `site.config` 一致 |
 | 全站 | 无 sk-tag · 暖色 scrollbar |
 

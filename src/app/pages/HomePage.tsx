@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { SiteLink } from "../components/SiteLink";
 import { SiteAnchor } from "../components/SiteAnchor";
 import { siteConfig } from "../site.config";
@@ -7,7 +8,10 @@ import { HeroIllustration } from "../components/HeroIllustration";
 import { DailyPunch } from "../components/DailyPunch";
 import { PublishDensityChart } from "../components/PublishDensityChart";
 import { StatBand } from "../components/StatBand";
+import { HomeHeroByline } from "../components/HomeHeroByline";
 import { HomeHeroTitle } from "../components/HomeHeroTitle";
+import { HeroTitleBackdrop } from "../components/HeroTitleBackdrop";
+import { buildHeroTitleBackdrop } from "../utils/heroTitleBackdrop";
 import { AuthorNote } from "../components/AuthorNote";
 import { HomeCardFolio } from "../components/HomeCardFolio";
 import { formatHomeCardMeta, formatHomeTimelineLabel } from "../utils/postPlatform";
@@ -18,6 +22,7 @@ export function HomePage() {
   const featured = getFeaturedPosts().find((p) => p.id !== latest.id) ?? latest;
   const topThree = getTopPostsByViews(3);
   const recent = getRecentPosts(8);
+  const heroBackdrop = useMemo(() => buildHeroTitleBackdrop(), []);
 
   return (
     <div className="home-page">
@@ -31,7 +36,10 @@ export function HomePage() {
               <span className="home-hero__bar" />
               <span className="home-eyebrow">卷首 · Vol. {dayCount}</span>
             </div>
-            <HomeHeroTitle />
+            <div className="home-hero__title-wrap">
+              <HeroTitleBackdrop blocks={heroBackdrop.blocks} roughSeed={heroBackdrop.roughSeed} />
+              <HomeHeroTitle />
+            </div>
             <p className="home-tagline-zh">{siteConfig.tagline}</p>
             <p className="home-tagline-en">{siteConfig.taglineEn}</p>
             <p className="home-intro">
@@ -47,6 +55,7 @@ export function HomePage() {
                 关于我 →
               </SiteLink>
             </div>
+            <HomeHeroByline dayCount={dayCount} />
           </div>
           <div className="home-hero__right home-hero__cutout">
             <HeroIllustration />
@@ -176,6 +185,18 @@ export function HomePage() {
         }
         @media (max-width: 900px) { .home-hero__grid { grid-template-columns: 1fr; } }
         .home-hero__eyebrow { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.5rem; }
+        .home-hero__title-wrap {
+          position: relative;
+          isolation: isolate;
+          display: inline-block;
+          max-width: 100%;
+          vertical-align: top;
+          overflow: visible;
+        }
+        .home-hero__title-wrap .home-hero-display {
+          position: relative;
+          z-index: 1;
+        }
         .home-hero__bar { width: 2.5rem; height: 2px; background: var(--primary); }
         .home-hero-display { margin: 0; line-height: 1; }
         .home-hero-display__zh {

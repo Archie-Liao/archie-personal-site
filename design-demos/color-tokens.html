@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P1 站点配色小样 · 当前 token</title>
+  <link rel="stylesheet" href="../src/styles/theme.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem clamp(1.25rem, 4vw, 2.5rem) 3rem;
+      font-family: var(--font-body);
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.55;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 1.85rem);
+      margin: 0 0 0.35rem;
+    }
+    .intro {
+      max-width: 42rem;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin: 0 0 1.75rem;
+    }
+    .intro code {
+      font-size: 0.8125rem;
+      background: color-mix(in srgb, var(--card) 80%, var(--accent));
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+    }
+    section { margin-bottom: 2rem; }
+    h2 {
+      font-family: var(--font-cond, var(--font-body));
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--primary-deep);
+      margin: 0 0 0.75rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+      gap: 0.65rem;
+    }
+    .swatch {
+      border: 1px solid var(--border);
+      background: var(--card);
+      overflow: hidden;
+    }
+    .swatch__chip {
+      height: 4.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .swatch__meta {
+      padding: 0.55rem 0.65rem 0.65rem;
+      font-size: 0.75rem;
+    }
+    .swatch__cn {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      line-height: 1.35;
+      color: var(--foreground);
+    }
+    .swatch__token {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--muted-foreground);
+      margin-top: 0.2rem;
+    }
+    .swatch__token-hint {
+      font-size: 0.625rem;
+      color: var(--muted-foreground);
+      margin-top: 0.1rem;
+    }
+    .swatch__hex {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      margin-top: 0.15rem;
+    }
+    .swatch__use {
+      margin-top: 0.35rem;
+      font-size: 0.6875rem;
+      color: var(--muted-foreground);
+      line-height: 1.45;
+    }
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .demo-punch {
+      flex: 1 1 100%;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(
+        95deg,
+        color-mix(in srgb, var(--secondary) 82%, var(--card)) 0%,
+        color-mix(in srgb, var(--accent) 72%, var(--secondary)) 38%,
+        color-mix(in srgb, var(--punch) 16%, var(--card)) 68%,
+        color-mix(in srgb, var(--primary) 14%, color-mix(in srgb, var(--accent) 60%, var(--card))) 100%
+      );
+      box-shadow: inset 4px 0 0 color-mix(in srgb, var(--punch) 38%, transparent);
+      clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+    }
+    .demo-punch__lab {
+      font-family: var(--font-cond);
+      font-size: 0.625rem;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--muted-foreground) 90%, var(--punch));
+    }
+    .demo-punch__quote {
+      margin: 0.45rem 0 0;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-align: center;
+      color: transparent;
+      background-image: linear-gradient(
+        112deg,
+        color-mix(in srgb, var(--primary-deep) 94%, var(--foreground)) 0%,
+        color-mix(in srgb, var(--punch) 92%, var(--foreground)) 16%,
+        color-mix(in srgb, var(--background) 22%, var(--primary-deep)) 34%,
+        color-mix(in srgb, var(--punch) 90%, var(--foreground)) 48%,
+        color-mix(in srgb, var(--background) 32%, var(--primary-deep)) 58%,
+        color-mix(in srgb, var(--primary-deep) 92%, var(--punch)) 72%,
+        color-mix(in srgb, var(--background) 22%, var(--primary-deep)) 86%,
+        color-mix(in srgb, var(--punch) 88%, var(--foreground)) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter:
+        drop-shadow(0 1px 0 color-mix(in srgb, var(--foreground) 48%, transparent))
+        drop-shadow(0 1px 2px color-mix(in srgb, var(--foreground) 32%, transparent));
+    }
+    .demo-pair {
+      flex: 1 1 14rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 0.8125rem;
+    }
+    .demo-pair__fg {
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .demo-chart {
+      display: flex;
+      height: 1.25rem;
+      border-radius: 0.25rem;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .demo-chart span { flex: 1; }
+    .constraint {
+      max-width: 42rem;
+      padding: 0.85rem 1rem;
+      font-size: 0.8125rem;
+      background: color-mix(in srgb, var(--accent) 45%, var(--card));
+      border: 1px solid var(--border);
+      color: var(--secondary-foreground);
+    }
+    .constraint ul { margin: 0.35rem 0 0; padding-left: 1.15rem; }
+    .sitemap {
+      max-width: 52rem;
+      font-size: 0.8125rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      overflow: hidden;
+    }
+    .sitemap table { width: 100%; border-collapse: collapse; }
+    .sitemap th,
+    .sitemap td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      text-align: left;
+    }
+    .sitemap th {
+      font-family: var(--font-cond);
+      font-size: 0.625rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary-deep);
+      background: color-mix(in srgb, var(--accent) 35%, var(--card));
+    }
+    .sitemap tr:last-child td { border-bottom: 0; }
+    .sitemap code { font-size: 0.75rem; }
+    .sitemap a { color: var(--primary); font-weight: 600; }
+    .workflow {
+      max-width: 42rem;
+      padding: 0.85rem 1rem;
+      font-size: 0.8125rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      line-height: 1.65;
+    }
+    .workflow ol { margin: 0.35rem 0 0; padding-left: 1.2rem; }
+    .dict-note {
+      max-width: 52rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      background: color-mix(in srgb, var(--accent) 40%, var(--card));
+      border: 1px solid var(--border);
+    }
+    .dict-note strong { color: var(--foreground); }
+    .guide {
+      max-width: 52rem;
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      color: var(--secondary-foreground);
+    }
+    .guide h3 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin: 1.25rem 0 0.5rem;
+    }
+    .guide h3:first-child { margin-top: 0; }
+    .guide p { margin: 0.35rem 0 0; }
+    .guide ul { margin: 0.35rem 0 0; padding-left: 1.2rem; }
+    .guide li { margin-top: 0.25rem; }
+    .guide .example {
+      margin-top: 0.5rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <h1>P1 站点配色小样</h1>
+  <p class="intro">
+    权威源：<code>src/styles/theme.css</code> · 本页色块直接读 CSS 变量。
+    <strong>站点对照与怎么改</strong> →
+    <a href="../docs/COLOR-TOKEN-MAP.md">docs/COLOR-TOKEN-MAP.md</a>
+    · 本地预览：<code>cd design-demos && python -m http.server 8765</code>
+  </p>
+
+  <section>
+    <h2>配色说明 · 查阅版</h2>
+    <div class="guide">
+      <h3>为什么 <code>--primary</code> 不是颜色名？</h3>
+      <p>
+        代码里的英文名是程序员写的<strong>用途标签</strong>，不是「这种颜色叫什么」。你只要认<strong>中文名 + 色块 + 网站上哪一块</strong>。
+      </p>
+
+      <div class="sitemap" style="margin-top:0.75rem">
+        <table>
+          <thead>
+            <tr><th>代码名</th><th>英文原意</th><th>实际颜色（中文）</th><th>网站上指什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--primary</code></td><td>主<strong>强调</strong>色</td><td><strong>陶土橙</strong></td><td>链接、按钮、时间线 Day、图谱节点</td></tr>
+            <tr><td><code>--foreground</code></td><td><strong>前景</strong>字色</td><td><strong>墨字</strong></td><td>正文、标题</td></tr>
+            <tr><td><code>--background</code></td><td><strong>背景</strong></td><td><strong>奶油纸底</strong></td><td>整页大底</td></tr>
+            <tr><td><code>--punch</code></td><td>编辑<strong>点缀</strong>色</td><td><strong>焦赭</strong></td><td>顶栏「日记」、金句竖线、大编号</td></tr>
+            <tr><td><code>--card</code></td><td><strong>卡片</strong>面</td><td>浅米卡片底</td><td>卡片、输入框</td></tr>
+            <tr><td><code>--accent</code></td><td><strong>辅助</strong>装饰面</td><td>暖点缀面</td><td>金句条、页脚（常为配方混合）</td></tr>
+            <tr><td><code>--secondary</code></td><td><strong>次要</strong>背景面</td><td>浅米色面</td><td>金句条渐变配方之一</td></tr>
+            <tr><td><code>--primary-deep</code></td><td>primary 加深</td><td>深陶土</td><td>链接 hover、金句暗部</td></tr>
+            <tr><td><code>--muted-foreground</code></td><td>弱化字色</td><td>弱化灰字</td><td>日期、说明</td></tr>
+            <tr><td><code>--ink-green</code></td><td>墨绿（少数真颜色名）</td><td>墨绿</td><td>标签</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>三层模型（L1 / L2 / L3）</h3>
+      <ul>
+        <li><strong>L1 · 颜料罐</strong>：<code>theme.css</code> 里一行 hex（如陶土橙 <code>#CC785C</code>）。改一行 → 全站凡是用这罐色的地方一起变。</li>
+        <li><strong>L2 · 调好的漆</strong>：组件里用 <code>color-mix</code> 把几罐 L1 按百分比混合。小样<strong>没有单独一块</strong>对应该色——例如金句条背景 = 浅米色 + 焦赭 16% + …</li>
+        <li><strong>L3 · 特效漆</strong>：某一块复杂渐变，如金句金属字 8 段渐变 → 只改 <code>DailyPunch.tsx</code>。</li>
+      </ul>
+      <p><strong>L1 和 L2 的区别：</strong>L1 是「一罐纯色」；L2 是「线上看到的很多实际颜色」，由多罐 L1 调出来。改链接橙 = 改 L1；只改金句条背景更橙、链接不动 = 改 L2 配方里的百分比。</p>
+
+      <h3>改色最短路径</h3>
+      <div class="example">
+        <p><strong>链接橙再淡一点</strong> → 打开 <code>src/styles/theme.css</code>，搜「陶土橙」或 <code>--primary</code>，改 <code>#CC785C</code> → <code>npm run dev</code> 刷新。</p>
+        <p style="margin-top:0.5rem"><strong>「日记」红再沉一点</strong> → 搜「焦赭」或 <code>--punch</code>，改 <code>#D4562A</code>。</p>
+        <p style="margin-top:0.5rem"><strong>金句字金属感</strong> → 不是改一罐色，改 <code>DailyPunch.tsx</code> 里渐变配方（L3）。</p>
+        <p style="margin-top:0.5rem"><strong>金句条背景更橙、链接别动</strong> → 改 <code>DailyPunch.tsx</code> 里 punch 混合比例（L2）。</p>
+      </div>
+      <p style="margin-top:0.75rem">完整路由对照、决策树 → <a href="../docs/COLOR-TOKEN-MAP.md">docs/COLOR-TOKEN-MAP.md</a></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>怎么调（三层模型 · 简表）</h2>
+    <div class="workflow">
+      <ol>
+        <li><strong>L1 Token</strong> = 颜料罐标签（<code>theme.css</code> 一行 hex）→ 改罐全站联动</li>
+        <li><strong>L2 配方</strong> = 几罐按 % 调好的漆（<code>color-mix</code>）→ 只影响那一块 UI</li>
+        <li><strong>L3 特例</strong> = 金句金属渐变等特效漆 → 见 <code>DailyPunch.tsx</code></li>
+      </ol>
+      流程：在下面找 token → 查「站点对照」表 → 改 hex → <code>npm run dev</code> 看线上；小样与本站读同一份 theme。
+    </div>
+  </section>
+
+  <section>
+    <h2>中文色名词典（先认这个，不用背英文）</h2>
+    <div class="dict-note">
+      <strong><code>--primary</code> 不是颜色单词。</strong>它是程序员写的<strong>用途标签</strong>（primary =「主强调色」，不是「主要的」）。
+      你只要认<strong>中文名 + 色块</strong>；改颜色时打开 <code>theme.css</code>，搜中文注释或下表「代码名」即可。
+    </div>
+    <div class="sitemap">
+      <table>
+        <thead>
+          <tr><th>你就记这个（中文）</th><th>代码里的名字</th><th>网站上是什么</th></tr>
+        </thead>
+        <tbody id="dict-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>【配色交付 · P1】色块一览</h2>
+    <div class="grid" id="core-swatches"></div>
+  </section>
+
+  <section>
+    <h2>扩展 token（改全站时会用到）</h2>
+    <div class="grid" id="extra-swatches"></div>
+  </section>
+
+  <section>
+    <h2>场景小样</h2>
+    <div class="demo-row">
+      <div class="demo-punch">
+        <div class="demo-punch__lab">Cover Story · DailyPunch 背景</div>
+        <p class="demo-punch__quote">「样例金句：金属赭石字 + 纸色高光（见 DailyPunch.tsx）」</p>
+      </div>
+      <div class="demo-pair" style="background: var(--background); color: var(--foreground);">
+        <div class="demo-pair__fg">纸底 + 墨字</div>
+        正文段落示例。链接用 <span style="color: var(--primary); font-weight: 600;">陶土橙（链接色）</span>。
+      </div>
+      <div class="demo-pair">
+        <div class="demo-pair__fg">卡片 card 上的标签</div>
+        <span style="display:inline-block;padding:0.15rem 0.5rem;font-size:0.75rem;font-weight:700;color:var(--accent-foreground);background:color-mix(in srgb,var(--accent) 55%, var(--card));border-radius:999px;">ink-green 标签</span>
+        <div class="demo-chart" aria-hidden="true">
+          <span style="background: var(--chart-1)"></span>
+          <span style="background: var(--chart-2)"></span>
+          <span style="background: var(--chart-3)"></span>
+          <span style="background: var(--chart-4)"></span>
+          <span style="background: var(--chart-5)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>站点对照（中文名 → 页面）</h2>
+    <div class="sitemap">
+      <table>
+        <thead>
+          <tr><th>中文色名</th><th>线上位置</th><th>路由</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>奶油纸底</td><td>页面大底</td><td>全站</td></tr>
+          <tr><td>墨字</td><td>正文、标题</td><td>全站</td></tr>
+          <tr><td>浅卡片底</td><td>卡片、图谱侧卡</td><td>首页 / 列表 / 图谱</td></tr>
+          <tr><td><strong>陶土橙（链接）</strong></td><td>链接、按钮、时间线 Day、图谱节点</td><td>全站</td></tr>
+          <tr><td><strong>焦赭点缀</strong></td><td>顶栏「日记」、金句条竖线、Day 编号</td><td>首页顶栏 + 金句条</td></tr>
+          <tr><td>深陶土</td><td>hover、金句金属暗部</td><td>金句 · 列表 kicker</td></tr>
+          <tr><td>浅米色 / 暖点缀面</td><td>金句条渐变底（配方混合）</td><td>金句条背景</td></tr>
+          <tr><td>墨绿</td><td>标签 pill</td><td>列表</td></tr>
+          <tr><td>图表五色</td><td>发布密度条</td><td>首页 · 关于</td></tr>
+          <tr><td>数据红</td><td>图谱高权重边</td><td>图谱</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="intro" style="margin-top:0.75rem;margin-bottom:0">
+      完整表 + 决策树 → <a href="../docs/COLOR-TOKEN-MAP.md">COLOR-TOKEN-MAP.md</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>硬约束（试吃笔记）</h2>
+    <div class="constraint">
+      <ul>
+        <li><strong>焦赭点缀</strong> 禁止大面积铺底（金句条背景混合 &lt; 30%）</li>
+        <li><strong>数据红 / 数据灰</strong> 仅图表与数据编码</li>
+        <li>金属字高光：纸色 + 深陶土 / 焦赭，避免纯银灰</li>
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    const DICT = [
+      ["奶油纸底", "--background", "整页背景、纸质感大底"],
+      ["墨字", "--foreground", "正文、大标题默认字色"],
+      ["浅卡片底", "--card", "卡片、输入框、弹层底"],
+      ["陶土橙（链接）", "--primary", "链接、主按钮、时间线 Day、图谱圆点"],
+      ["深陶土", "--primary-deep", "链接 hover、金句暗部、列表 VOL"],
+      ["焦赭点缀", "--punch", "顶栏「日记」、金句左竖线、大 Day 编号"],
+      ["浅米色面", "--secondary", "次要背景面（金句条配方之一）"],
+      ["暖点缀面", "--accent", "浅装饰底（金句条、页脚区配方）"],
+      ["弱化灰字", "--muted-foreground", "日期、说明、次要文字"],
+      ["墨绿", "--ink-green", "标签字色、图表第 1 色"],
+      ["描金", "--gold", "顶栏分隔、装饰高光"],
+      ["数据红", "--data-red", "仅图表 / 图谱强调边"],
+      ["数据灰蓝", "--data-slate", "仅图表弱对比"],
+    ];
+
+    const core = [
+      ["--background", "奶油纸底", "页面大背景"],
+      ["--foreground", "墨字", "正文、标题主色"],
+      ["--card", "浅卡片底", "卡片、输入底"],
+      ["--primary", "陶土橙（链接）", "链接、按钮、图谱节点"],
+      ["--punch", "焦赭点缀", "顶栏「日记」、金句条细边"],
+      ["--ink-green", "墨绿", "标签、图表 1"],
+      ["--gold", "描金", "金属高光、分隔"],
+      ["--data-red", "数据红", "图表强强调"],
+      ["--data-slate", "数据灰蓝", "图表弱强调"],
+    ];
+    const extra = [
+      ["--primary-deep", "深陶土", "hover、金句金属暗部"],
+      ["--primary-foreground", "按钮反白字", "主色按钮上的字"],
+      ["--secondary", "浅米色面", "金句条渐变"],
+      ["--accent", "暖点缀面", "金句条渐变、标签底"],
+      ["--muted-foreground", "弱化灰字", "说明、元数据"],
+      ["--logo-stamp-ink", "Logo 深褐", "顶栏字标"],
+      ["--chart-1", "图表色 1", "发布密度等"],
+      ["--chart-2", "图表色 2", "发布密度等"],
+      ["--chart-3", "图表色 3", "发布密度等"],
+      ["--chart-4", "图表色 4", "发布密度等"],
+      ["--chart-5", "图表色 5", "发布密度等"],
+      ["--border", "淡边框", "rgba 半透明"],
+    ];
+
+    const TOKEN_HINT = {
+      "--primary": "英文 primary = 主强调色，不是「主要的」",
+      "--foreground": "foreground = 前景字色",
+      "--background": "background = 背景",
+      "--punch": "punch = 编辑强调的点缀色",
+      "--card": "card = 卡片面",
+      "--accent": "accent = 辅助装饰面",
+      "--secondary": "secondary = 次要背景面",
+      "--muted-foreground": "muted = 弱化",
+      "--ink-green": "ink-green = 墨绿（这个名字倒是颜色）",
+      "--primary-deep": "primary 的加深版",
+      "--primary-foreground": "印在 primary 上的字色",
+    };
+
+    function hexFromVar(name) {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      if (!raw) return "—";
+      if (raw.startsWith("#")) return raw.toUpperCase();
+      const probe = document.createElement("span");
+      probe.style.color = `var(${name})`;
+      document.body.appendChild(probe);
+      const rgb = getComputedStyle(probe).color;
+      probe.remove();
+      const m = rgb.match(/[\d.]+/g);
+      if (!m) return raw;
+      const [r, g, b] = m.map((n) => Math.round(Number(n)));
+      return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+    }
+
+    function render(list, rootId) {
+      const root = document.getElementById(rootId);
+      root.innerHTML = list
+        .map(([token, cn, use]) => {
+          const hex = hexFromVar(token);
+          const hint = TOKEN_HINT[token] || "";
+          return `<article class="swatch">
+            <div class="swatch__chip" style="background: var(${token})"></div>
+            <div class="swatch__meta">
+              <div class="swatch__cn">${cn}</div>
+              <div class="swatch__hex">${hex}</div>
+              <div class="swatch__token">${token}</div>
+              ${hint ? `<div class="swatch__token-hint">${hint}</div>` : ""}
+              <div class="swatch__use">${use}</div>
+            </div>
+          </article>`;
+        })
+        .join("");
+    }
+
+    document.getElementById("dict-body").innerHTML = DICT.map(
+      ([cn, token, use]) => {
+        const hex = hexFromVar(token);
+        return `<tr><td><strong>${cn}</strong><br><span style="font-family:var(--font-mono);font-size:0.6875rem;color:var(--muted-foreground)">${hex}</span></td><td><code>${token}</code></td><td>${use}</td></tr>`;
+      }
+    ).join("");
+
+    render(core, "core-swatches");
+    render(extra, "extra-swatches");
+  </script>
+</body>
+</html>

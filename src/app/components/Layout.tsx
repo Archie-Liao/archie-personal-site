@@ -24,8 +24,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
     };
   }, [location.pathname]);
 
+  const isGraphPage = location.pathname === "/graph";
+
   return (
-    <div id="top" className="min-h-screen flex flex-col"
+    <div id="top" className={`min-h-screen flex flex-col${isGraphPage ? " layout--graph" : ""}`}
       style={{ fontFamily: "var(--font-body)", background: "var(--background)", color: "var(--foreground)" }}
     >
       <header
@@ -74,9 +76,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className={`flex-1${isGraphPage ? " layout__main--graph" : ""}`}>{children}</main>
 
-      <SiteFooter />
+      {!isGraphPage && <SiteFooter />}
 
       <style>{`
         .brand-link {

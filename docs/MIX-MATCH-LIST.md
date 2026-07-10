@@ -5,7 +5,7 @@ status: active
 canonical: docs/MIX-MATCH-LIST.md
 authority: §6 拍板后的 production 视觉施工图
 depends_on: docs/sessions/2026-07-01.md §6 · docs/DEMO-TASTING-NOTES.md
-revised_at: "2026-07-09 16:55:00"
+revised_at: "2026-07-10 16:04:16"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-10 16:04:16 | **§8.11** `/graph` Obsidian 式交互验收更新（全屏 · 知识弹层 · 旁卡） |
 | 2026-07-09 16:55:00 | **§8.7** 列表双栏滚动定稿（右栏页滚）· **§8.11** 图谱 G1–G3 验收并入 |
 | 2026-07-09 10:47:27 | **阶段 C 先这样** — §8.12 收工 · Logo 合掌 stamp |
 | 2026-07-08 17:57:13 | **阶段 C 启动** — §8.12 · 全站 sk-tag 清理 · scrollbar 统一 |
@@ -492,13 +493,15 @@ timezone: Asia/Shanghai
 
 | 页 | 标签 | 要点 |
 |----|------|------|
-| **`/graph`** | G1–G3 · A5-G2 虚线 Tab | **G1** hero + stats · **G2** Fig.2 mat 框 · **G3** folio pill 节点 + 悬停信息卡 · Tab **P2 占位** |
+| **`/graph`** | G-obsidian · P2 Tab | **全屏**点阵画布 · **知识**横弹层（说明+统计）· 圆节点+关键词 · **点击旁卡** · ⋯ 外观/力度/复制调参 · 无页脚 · Tab **P2** |
 | **`/about`** | A5-A · **A5-1** 全宽色带 · A5-A2 | 简介/九宫格 **72rem** · metrics **viewport 全宽** · 联系区 |
 | **`/feedback`** | A5-F | 外壳 **72rem** · 表单 **窄列居中** |
 
-**`/graph` 验收（2026-07-09）**：气质对齐首页 chart · 节点可点进详情 · **先这样** 或提修改点。
+**`/graph` 验收（2026-07-10 · Archie 先这样）**：默认 **2.2×** 几何居中 · 拖/缩放不滚页 · 点节点出旁卡 · 拖动不误跳空白页 · 气质对齐暖纸出版风。
 
-**怎么验**：三页内容与顶栏 **左右对齐（72rem）**；`/about` 人生阶段下 **深色全宽 metrics 带** 横跨屏幕；**不应出现** `A5-x` 开发标签。
+**`/graph` 验收（2026-07-09 · 已 supersede 布局）**：~~72rem 壳 + G1 hero 常驻~~ → 见上。
+
+**怎么验**：`/about` 内容与顶栏 **72rem 对齐**、metrics **全宽**；`/graph` **破例全宽**；**不应出现** `A5-x` 开发标签。
 
 ---
 
