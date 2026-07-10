@@ -63,7 +63,11 @@ export function PostPage() {
             <PostSectionTitle>AI 总结</PostSectionTitle>
 
             <div className="post-summary">
-              <p className="post-summary__lead">{post.aiSummary.overview}</p>
+              {post.aiSummary.overview.split(/\n\n+/).map((para, i) => (
+                <p key={i} className={i === 0 ? "post-summary__lead" : "post-summary__para"}>
+                  {para}
+                </p>
+              ))}
 
               {post.aiSummary.keyPoints.length > 0 && (
                 <ol className="post-summary__points">
@@ -128,6 +132,19 @@ export function PostPage() {
               </a>
             ) : null}
           </section>
+
+          {post.archiveNotes && post.archiveNotes.length > 0 && (
+            <section className="post-section post-section--archive">
+              <PostSectionTitle>归档摘抄</PostSectionTitle>
+              <div className="post-archive">
+                {post.archiveNotes.map((note, i) => (
+                  <p key={i} className="post-archive__para">
+                    {note}
+                  </p>
+                ))}
+              </div>
+            </section>
+          )}
 
           {post.subtitlePath && (
             <section className="post-section">

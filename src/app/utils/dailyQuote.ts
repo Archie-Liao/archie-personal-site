@@ -1,4 +1,4 @@
-import { posts } from "../data/posts";
+import quotesData from "../data/quotes.json";
 
 export interface DailyQuote {
   text: string;
@@ -6,19 +6,17 @@ export interface DailyQuote {
   postTitle: string;
 }
 
-const quotePool: DailyQuote[] = posts
-  .filter((p) => p.aiSummary.quote?.trim())
-  .map((p) => ({
-    text: p.aiSummary.quote.replace(/^「|」$/g, "").trim(),
-    postId: p.id,
-    postTitle: p.title,
-  }));
+const quotePool: DailyQuote[] = quotesData.filter((q) => q.text?.trim());
 
-/** 按日期稳定随机 — 同一天全站同一句（MIX-MATCH · D4 punch 金句池） */
+const FALLBACK: DailyQuote = {
+  text: "记录就是生命的延续",
+  postId: "",
+  postTitle: "Cover Story",
+};
+
+/** 按日期稳定随机 — 同一天全站同一句（MIX-MATCH · D4 punch · `quotes.json`） */
 export function getDailyQuote(referenceDate = new Date()): DailyQuote {
-  if (quotePool.length === 0) {
-    return { text: "记录就是生命的延续", postId: "", postTitle: "Cover Story" };
-  }
+  if (quotePool.length === 0) return FALLBACK;
   const seed =
     referenceDate.getFullYear() * 10000 +
     (referenceDate.getMonth() + 1) * 100 +

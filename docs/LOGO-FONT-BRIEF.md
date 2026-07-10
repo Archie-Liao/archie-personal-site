@@ -3,7 +3,7 @@ doc_type: project_doc
 title: Logo 字标需求（stamp + 中英叠排）
 status: active
 canonical: docs/LOGO-FONT-BRIEF.md
-revised_at: "2026-07-08 14:46:00"
+revised_at: "2026-07-09 10:53:00"
 timezone: Asia/Shanghai
 resume_when: Archie 主动要求再迭代 Logo
 latest_demo: design-demos/logo-fonts/compare-nav-stamp.html
@@ -14,6 +14,10 @@ depends_on: docs/DEMO-TASTING-NOTES.md · design-demos/turley.html brand-mark
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-09 10:59:00 | **修正** — 透明底 · 期数居中叠压 · 胡桃褐+赤陶 accent · 去黑底/角标 |
+| 2026-07-09 10:53:00 | stamp 换 **IMG_20260709** 线刻合掌 · 期数左下角 badge · contain 保主体 |
+| 2026-07-09 10:47:27 | **阶段 C 先这样** — §8.12 清单收工 · Logo 合掌 stamp |
+| 2026-07-09 10:10:03 | stamp 背景换 **指纹掌印 PNG**（`logo-stamp-issue-bg.png`） |
 | 2026-07-08 14:46:00 | stamp 字色→**#4A2E1C 深胡桃褐** · Logo **v1 暂定**（后续再迭代） |
 | 2026-07-08 14:40:00 | Archie→Barlow Condensed(F6) · stamp 暖铜褐 |
 | 2026-07-08 14:35:00 | **字体锁定** — A=Italianno · 期数=Playfair900斜 · 中文=Noto Serif700 |
@@ -74,8 +78,9 @@ depends_on: docs/DEMO-TASTING-NOTES.md · design-demos/turley.html brand-mark
 | 项 | 要求 |
 |----|------|
 | **格式** | `A117`，**不要** `A·117` 中间点 |
-| **背景** | PNG **透明底**（即梦导出）— 直接 `<img>` · **禁止** `mix-blend-mode` 去底 |
-| **资产** | 源：`design-demos/jimeng-2026-07-08-2112.png` · 线上：`public/images/logo-stamp-fingerprint-jimeng.png` |
+| **背景** | PNG **透明底**线刻 — `<img>` · `object-fit: contain` · **无**容器填色 |
+| **资产** | 源：`design-demos/IMG_20260709_105102.png` · 线上：`public/images/logo-stamp-issue-bg.png` |
+| **期数排版** | **居中**叠压在图上 · `A`=`--primary-deep` · 数字=`--logo-stamp-ink` `#4A2E1C` |
 
 ### 2.3 期数更新
 

@@ -9,6 +9,8 @@ import { PublishDensityChart } from "../components/PublishDensityChart";
 import { StatBand } from "../components/StatBand";
 import { HomeHeroTitle } from "../components/HomeHeroTitle";
 import { AuthorNote } from "../components/AuthorNote";
+import { HomeCardFolio } from "../components/HomeCardFolio";
+import { formatHomeCardMeta, formatHomeTimelineLabel } from "../utils/postPlatform";
 
 export function HomePage() {
   const dayCount = getDiaryDayCount(siteConfig.dayOneDate);
@@ -68,14 +70,12 @@ export function HomePage() {
           <article className="home-card">
             <div className="home-card__top">
               <span className="home-eyebrow">最新一期</span>
-              <span className="home-folio">{String(latest.episode ?? "").padStart(3, "0")}</span>
+              <HomeCardFolio post={latest} />
             </div>
             <h3>
               <SiteLink to={`/post/${latest.id}`}>{latest.title}</SiteLink>
             </h3>
-            <p className="home-card__meta">
-              Day {latest.episode} · {latest.date}
-            </p>
+            <p className="home-card__meta">{formatHomeCardMeta(latest)}</p>
             <p className="home-card__tags">{latest.tags.join(" · ")}</p>
             <SiteLink to={`/post/${latest.id}`} className="home-card__more">
               阅读这一期 →
@@ -85,14 +85,12 @@ export function HomePage() {
           <article className="home-card">
             <div className="home-card__top">
               <span className="home-eyebrow">编辑精选</span>
-              <span className="home-folio">{String(featured.episode ?? "").padStart(3, "0")}</span>
+              <HomeCardFolio post={featured} />
             </div>
             <h3>
               <SiteLink to={`/post/${featured.id}`}>{featured.title}</SiteLink>
             </h3>
-            <p className="home-card__meta">
-              Day {featured.episode} · {featured.date}
-            </p>
+            <p className="home-card__meta">{formatHomeCardMeta(featured)}</p>
             <p className="home-card__tags">{featured.tags.join(" · ")}</p>
             <SiteLink to={`/post/${featured.id}`} className="home-card__more">
               阅读这一期 →
@@ -128,7 +126,7 @@ export function HomePage() {
         <div className="home-timeline__list">
           {recent.map((p) => (
             <SiteLink key={p.id} to={`/post/${p.id}`} className="home-t-row">
-              <span className="home-t-day">Day {p.episode}</span>
+              <span className="home-t-day">{formatHomeTimelineLabel(p)}</span>
               <span className="home-t-title">{p.title}</span>
               <span className="home-t-date">{p.date}</span>
             </SiteLink>
@@ -241,6 +239,14 @@ export function HomePage() {
         @media (max-width: 900px) { .home-card { border-right: 0; border-bottom: 1px solid var(--border); } }
         .home-card__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
         .home-folio { font-family: var(--font-display); font-style: italic; font-size: 2.25rem; color: color-mix(in srgb, var(--primary) 22%, transparent); }
+        .home-folio--platform {
+          font-family: var(--font-cond, var(--font-display));
+          font-style: normal;
+          font-weight: 800;
+          font-size: 1.125rem;
+          letter-spacing: 0.04em;
+          color: color-mix(in srgb, var(--primary-deep, var(--terracotta)) 75%, transparent);
+        }
         .home-card h3 { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; line-height: 1.45; }
         .home-card h3 a { text-decoration: none; color: inherit; }
         .home-card h3 a:hover { color: var(--primary); }

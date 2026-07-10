@@ -222,6 +222,14 @@
   color: var(--foreground);
 }
 
+.post-summary__para {
+  margin: 1rem 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-body);
+  line-height: 1.72;
+  color: color-mix(in srgb, var(--foreground) 90%, var(--muted-foreground));
+}
+
 .post-summary__points {
   list-style: none;
   margin: 1.35rem 0 0;
@@ -372,4 +380,23 @@
   font-size: var(--post-text-small);
   color: var(--primary);
   word-break: break-all;
+}
+
+.post-archive {
+  padding: 1.35rem 1.5rem;
+  background: color-mix(in srgb, var(--card) 88%, var(--background));
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 0.625rem);
+}
+
+.post-archive__para {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-body);
+  line-height: 1.72;
+  color: color-mix(in srgb, var(--foreground) 88%, var(--muted-foreground));
+}
+
+.post-archive__para + .post-archive__para {
+  margin-top: 1.1rem;
 }

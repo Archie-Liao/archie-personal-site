@@ -30,5 +30,5 @@ export const siteConfig = {
   graphIntro: "文章之间的语义与标签关联可视化，点击节点进入详情。",
 
   /** A1-5 发布密度图：`mock` = 示意曲线 · `posts` = 按 posts 日期聚合（部署/content 后） */
-  publishDensitySource: "mock" as "mock" | "posts",
+  publishDensitySource: "posts" as "mock" | "posts",
 };

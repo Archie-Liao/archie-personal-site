@@ -1,4 +1,4 @@
-/* A2-C · /posts — 左栏索引 · 纸色 · 留白 · 层级字号 · 内滚 */
+/* A2-C · /posts — 左栏 ≥两屏内滚 · 右栏随页面主滚动条 */
 
 .posts-page {
   box-sizing: border-box;
@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: minmax(28rem, 32rem) minmax(0, 1fr);
   gap: clamp(1.35rem, 2.5vw, 2.25rem);
-  min-height: calc(200vh - 4.5rem);
+  min-height: calc(200vh - 5.25rem - 3.75rem);
   align-items: start;
 }
 
@@ -29,14 +29,15 @@
 
   .posts-d2__main {
     order: -1;
+    height: auto;
+    max-height: none;
     min-height: 28rem;
+    overflow: visible;
     border-radius: var(--radius, 0.625rem);
   }
 
   .posts-d2__sidebar {
-    position: static;
-    min-height: auto;
-    max-height: none;
+    height: auto;
   }
 
   .posts-d2__months {
@@ -50,9 +51,9 @@
   position: sticky;
   top: 1.15rem;
   align-self: start;
-  min-height: calc(200vh - 4.5rem);
-  height: calc(200vh - 4.5rem);
-  max-height: calc(200vh - 4.5rem);
+  /* 左栏整体 ≥ 两屏；仅月列表区内部滚动 */
+  height: calc(200vh - 5.25rem - 3.75rem);
+  min-height: calc(200vh - 5.25rem - 3.75rem);
   background: color-mix(in srgb, var(--card) 78%, var(--secondary));
   border: 1px solid var(--border);
   border-radius: var(--radius, 0.625rem);
@@ -315,10 +316,10 @@
 
 .posts-d2__main {
   min-width: 0;
-  min-height: calc(200vh - 4.5rem);
+  align-self: start;
+  min-height: calc(200vh - 5.25rem - 3.75rem);
   background: var(--background);
-  position: relative;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--border);
   border-radius: var(--radius, 0.625rem);
   box-shadow: 0 10px 36px -26px rgba(40, 32, 24, 0.1);

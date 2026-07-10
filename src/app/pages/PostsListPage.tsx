@@ -96,7 +96,7 @@ export function PostsListPage() {
       <div className="posts-d2-shell">
         <aside className="posts-d2__sidebar">
           <div className="posts-d2__sidebar-head">
-            <span className="posts-d2__eyebrow">点我点我～</span>
+            <span className="posts-d2__eyebrow">点我点我</span>
             <h1 className="posts-d2__title">全部日记</h1>
             <p className="posts-d2__intro">{siteConfig.postsListIntro}</p>
             {latest && (
@@ -167,7 +167,7 @@ export function PostsListPage() {
                           className="posts-d2__day"
                           data-active={selectedId === post.id}
                           style={{ borderLeft: heatBorder(post.views, maxViews) }}
-                          title={`mock 热度 · ${post.views ?? 0} views`}
+                          title={post.views != null ? `阅读量 ${post.views}` : undefined}
                           onClick={() => setSelectedId(post.id)}
                         >
                           <PostListMarker post={post} />
@@ -186,8 +186,8 @@ export function PostsListPage() {
           </div>
 
           <div className="posts-d2__sidebar-foot" aria-hidden>
-            <span>Field Index</span>
-            <span>{filtered.length} issues</span>
+            <span>日记索引</span>
+            <span>{filtered.length} 篇</span>
           </div>
         </aside>
 

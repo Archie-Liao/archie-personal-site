@@ -53,6 +53,27 @@ export function formatPostLatestLine(post: ContentItem): string {
   return `${marker.value} · ${post.date}`;
 }
 
+/** 首页精选卡右上角：期数三位 / 平台短名 */
+export function formatHomeCardFolio(post: ContentItem): { kind: "episode" | "platform"; text: string } {
+  const marker = getPostListMarker(post);
+  if (marker.kind === "episode") {
+    return { kind: "episode", text: marker.value.padStart(3, "0") };
+  }
+  return { kind: "platform", text: marker.value };
+}
+
+/** 首页精选卡 meta 行 */
+export function formatHomeCardMeta(post: ContentItem): string {
+  return formatPostLatestLine(post);
+}
+
+/** 首页时间线左列 */
+export function formatHomeTimelineLabel(post: ContentItem): string {
+  const marker = getPostListMarker(post);
+  if (marker.kind === "episode") return `Day ${marker.value}`;
+  return marker.value;
+}
+
 /**
  * 无期数条目 Hero 左侧平台名；有 episode 时返回 null（显示期数）。
  */

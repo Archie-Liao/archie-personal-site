@@ -96,7 +96,9 @@ export function buildMindmapModel(post: ContentItem): MindmapModel {
     slot += 1;
   }
 
-  for (const [i, point] of post.aiSummary.keyPoints.entries()) {
+  for (const [i, point] of post.aiSummary.keyPoints
+    .filter((p) => p.trim() && !/待补/.test(p))
+    .entries()) {
     if (slot >= SLOT_LAYOUT.length) break;
     const pos = SLOT_LAYOUT[slot];
     branches.push({

@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-08 18:32:51"
+revised_at: "2026-07-09 16:55:00"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,10 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-09 16:55:00 | **`link-fugu` 加长验收页**（~3 屏）· 列表/图谱方案 **并入 MIX-MATCH §8.7/§8.11**（sessions 仅留 delta） |
+| 2026-07-09 10:47:27 | **阶段 C 先这样** — Logo 合掌 stamp · 发布密度改 **posts 真数据** · 列表/Graph/About polish · A3-3 补验 |
+| 2026-07-09 10:10:03 | **C 续** — Logo stamp **新指纹背景图** · **`quotes.json` 金句池**（punch 数据源） |
+| 2026-07-09 09:17:09 | **C 续** — 首页精选卡/时间线 **无期数→平台名** · 列表预览去 graph 链 → **同标签相关篇** |
 | 2026-07-08 18:32:51 | **收工** — 无期数 **平台名**（详情+列表）· Hero grid 修复 · 边注 Note5 相关篇 · A3-2 **先这样** · **C 进行中** |
 | 2026-07-08 17:57:13 | **阶段 C 启动** — 全站 **sk-tag 清理** · 暖色 scrollbar 统一 · 访客文案降噪 |
 | 2026-07-08 17:53:36 | **A3-2 Archie 先这样**（编号改浅底 pill）· 下一步 **A3-3 验收** |
@@ -82,7 +86,7 @@ timezone: Asia/Shanghai
 ② ~~你试吃 D4/D5 → 填 DEMO-TASTING-NOTES~~ ✅ 2026-07-07
 ③ ~~填 sessions/2026-07-01 §6~~ ✅ 2026-07-07 拍板
 ④ ~~混搭清单~~ ✅ Archie 2026-07-07 确认
-⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅ 主块收工** · **C polish 进行中**（sk-tag ✅ · 平台名 ✅ · 明日续）
+⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅ 主块收工** · ~~**C polish**~~ **✅ 先这样**（Graph 双 Tab → P2）
 ⑥ P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters 聚类页 → P3 助手+思维模型
 ```
 
@@ -106,9 +110,9 @@ timezone: Asia/Shanghai
 | **站点功能盘点** | **完成 ✅** | §6 2026-07-07 拍板 |
 | **Demo 试吃** | **7/7 有效 ✅** | roulette 跳过 |
 | **P1 混搭清单** | **已确认 ✅** | 2026-07-07 · 迁 `src/` 进行中 |
-| 整站视觉混搭 | **C 进行中** | B 主块 **先这样** · sk-tag 已清 · A3-3 可后续补验 |
-| 首页 `/` A1 骨架 | **✅ 已定稿** | Archie 2026-07-07 确认 · MIX-MATCH §8.5 |
-| 日记 `/posts` A2-C | **先这样** | 左栏 **期数/平台名** · 预览 VOL · §8.7 |
+| 整站视觉混搭 | **C 先这样 ✅** | B 主块 **先这样** · C polish 收工 · Graph 双 Tab **P2** |
+| 首页 `/` A1 骨架 | **✅ 已定稿** | 精选卡/时间线 **无期数→平台名** · MIX-MATCH §8.5 |
+| 日记 `/posts` A2-C | **先这样** | 左栏 **期数/平台名** · 预览 VOL · 预览相关篇链 · §8.7 |
 | 详情 `/post/:id` A3 | **先这样** | A3-2 **先这样** · 无期数 Hero **平台名** · 边注 Note5 相关篇 · §8.8 |
 | 顶栏 A4 | **先这样** | §8.10 |
 | graph/about/feedback A5 | **先这样** | §8.11 |
@@ -134,20 +138,21 @@ timezone: Asia/Shanghai
 
 ## 接下来（按优先级）
 
-### Archie（明日续）
+### Archie
 
-1. **阶段 C** — 全站浏览 polish；可选补验 **A3-3 导图**（`/post/ep099`）
-2. 首页精选卡无期数时是否也显示 **平台名**（列表/详情已做）
-3. **Logo 先不动**
+1. **全站验收** — 见下方清单 · Logo stamp · punch · 列表 · 详情导图
+2. **Logo** — stamp 背景已换合掌图；字色暖白叠黑底
+3. **P2** — Graph 双 Tab · content/md · ep86–93
 
 ### AI（建议顺序）
 
 | 序 | 块 | 状态 |
 |----|-----|------|
 | 1 | B 主块 A2/A3 | **✅ 先这样** |
-| 2 | C — sk-tag · scrollbar · 平台名 · 访客文案 | **进行中** |
-| 3 | C 续 — quotes 金句池 · 首页 folio · Graph 双 Tab **P2** | 待开 |
-| 4 | A3-3 导图 | 填皮完成 · **可补验** |
+| 2 | C — sk-tag · scrollbar · 平台名 · 访客文案 | **✅** |
+| 3 | C — 首页 folio · 预览相关篇 · quotes · Logo · polish | **✅ 先这样** |
+| 4 | A3-3 导图 | **✅ 补验** |
+| 5 | Graph 双 Tab | **P2** |
 
 > 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 从 **C 续** 或口头指定块。
 
@@ -165,6 +170,9 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
+- 2026-07-09 10:47:27：**阶段 C 先这样** — Logo **合掌线刻 stamp**（contain 保主体）· 发布密度 **posts 真数据** · 访客文案 polish · A3-3 补验
+- 2026-07-09 10:10:03：**C 续** — Logo stamp 换图 · **`quotes.json`** punch 金句池
+- 2026-07-09 09:17:09：**C 续** — 首页精选卡/时间线无期数显示 **平台名**（`HomeCardFolio`）；列表预览 **同标签相关篇** 替代 graph 链
 - 2026-07-08 18:32:51：**收工** — 无期数条目 **平台名**（`postPlatform.ts`）详情 Hero + 列表左栏/预览；外链 Hero **grid 列修复**；边注 Note5 → **同标签相关篇**（非 `/graph`）；A3-2 **先这样**
 - 2026-07-08 17:57:13：**阶段 C 启动** — sk-tag 全清 · 暖色 scrollbar
 - 2026-07-08 17:53:36：**A3-2 Archie 先这样** — 单面板排版 · 编号浅底 pill
@@ -183,6 +191,23 @@ timezone: Asia/Shanghai
 - 2026-07-01：COMPLEX-TASK-GATE；站点功能盘点计划（不叫 IA 矩阵）
 - 2026-06-30：协作宪章；YAML 规范；对话语料规则
 - 2026-06-26：知识库 wiki/content **延后**；SITE-MANUAL；单数据源 md
+
+## 今日摘要（2026-07-09）
+
+- **C 收工**：Logo 合掌 stamp · quotes.json · 首页平台名 · 列表/Graph/About polish · 发布密度真数据 · A3-3 补验
+
+### C 验收清单（Archie 一次扫）
+
+| 路由 | 看什么 |
+|------|--------|
+| `/` 顶栏 | Logo stamp **合掌图完整** · `A133` 暖白可读 · punch 金句 |
+| `/` 首页 | 精选卡/时间线 **外链显示平台名** · chart **无「示意」badge** |
+| `/posts` | 左栏 **AIHOT** · 预览 **同标签相关篇** · 底栏「日记索引」 |
+| `/post/link-fugu` | Hero **来自 AIHOT** · 标题不挤竖条 |
+| `/post/ep099` | 思维导图 **拖节点/点击高亮** · 无「待补」节点 |
+| `/graph` | 力导图可用 · 底部 P2 说明一句 |
+| `/about` | Day1 日期与 `site.config` 一致 |
+| 全站 | 无 sk-tag · 暖色 scrollbar |
 
 ## 今日摘要（2026-07-08）
 

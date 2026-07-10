@@ -1,9 +1,9 @@
-/** stamp 背景 · 即梦指纹 PNG（透明底 · 不做 blend 去底） */
+/** stamp 背景 · 透明底线刻 PNG · 期数居中叠压 */
 export function LogoStampFingerprint() {
   return (
     <img
       className="site-logo__issue-fingerprint"
-      src="/images/logo-stamp-fingerprint-jimeng.png"
+      src="/images/logo-stamp-issue-bg.png"
       alt=""
       decoding="async"
       draggable={false}

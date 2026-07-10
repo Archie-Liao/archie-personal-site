@@ -173,7 +173,7 @@ export function PostMindmap({ post }: { post: ContentItem }) {
           </button>
         ))}
       </div>
-      <p className="post-mindmap__hint">实线 · 强相关关键词 · 虚线 · 延伸要点 · 拖节点曲线跟随</p>
+      <p className="post-mindmap__hint">点击高亮关联 · 拖动节点 · 实线强相关 · 虚线延伸要点</p>
     </div>
   );
 }

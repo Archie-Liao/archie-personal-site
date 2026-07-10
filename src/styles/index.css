@@ -5,6 +5,7 @@
 @import './post-page.css';
 @import './post-detail.css';
 @import './posts-list.css';
+@import './graph-page.css';
 
 /* —— 全局纸感基底 —— */
 html {
@@ -139,10 +140,10 @@ a {
   align-items: center;
   justify-content: center;
   overflow: visible;
-  width: 3.25rem;
-  height: 4.5rem;
+  width: 3.375rem;
+  height: 4.625rem;
   padding: 0;
-  font-size: 1.625rem;
+  font-size: 1.875rem;
   line-height: 1;
   background: transparent;
   transition: transform 0.14s var(--snap, ease);
@@ -156,7 +157,6 @@ a {
   object-fit: contain;
   object-position: center;
   pointer-events: none;
-  opacity: 1;
 }
 
 .site-logo__issue-label {
@@ -165,20 +165,21 @@ a {
   display: inline-flex;
   align-items: baseline;
   justify-content: center;
-  gap: 0.04em;
-  color: var(--logo-stamp-ink);
+  gap: 0.03em;
+  color: var(--primary, var(--terracotta));
   line-height: 1;
   text-shadow:
-    0 0 1px rgba(255, 252, 245, 0.85),
-    0 1px 2px rgba(20, 12, 6, 0.45),
-    0 0 8px color-mix(in srgb, var(--background) 88%, transparent);
+    0 0 2px rgba(246, 240, 226, 0.95),
+    0 1px 3px rgba(246, 240, 226, 0.85),
+    0 0 10px color-mix(in srgb, var(--background) 92%, transparent);
 }
 
 .site-logo__issue-a {
   font-family: var(--font-logo-script);
   font-weight: 400;
-  font-size: 1.45em;
+  font-size: 1.5em;
   line-height: 0.9;
+  color: inherit;
   transform: translateY(0.06em);
 }
 
@@ -186,8 +187,9 @@ a {
   font-family: var(--font-logo-folio);
   font-weight: 900;
   font-style: italic;
-  font-size: 0.78em;
+  font-size: 0.92em;
   letter-spacing: -0.03em;
+  color: inherit;
 }
 
 .site-logo__text {
@@ -237,9 +239,9 @@ a {
 }
 
 .site-logo--nav .site-logo__issue {
-  font-size: 1.75rem;
-  width: 3.5rem;
-  height: 4.875rem;
+  font-size: 2.125rem;
+  width: 3.625rem;
+  height: 5rem;
 }
 .site-logo--nav .site-logo__zh {
   font-size: 1.375rem;
@@ -249,9 +251,9 @@ a {
 }
 
 .site-logo--footer .site-logo__issue {
-  font-size: 1.25rem;
-  width: 2.75rem;
-  height: 3.75rem;
+  font-size: 1.5rem;
+  width: 3rem;
+  height: 4.125rem;
 }
 .site-logo--footer .site-logo__zh {
   font-size: 1rem;

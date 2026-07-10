@@ -15,11 +15,18 @@ const LIFE_STAGES = [
 ];
 
 const KEY_METRICS = [
-  { reel: "METRIC 01", title: "建站起点", foot: "Day1 · 2026.03.14" },
+  { reel: "METRIC 01", title: "建站起点", footKey: "dayOne" as const },
   { reel: "METRIC 02", title: "视频日记天数", foot: "Daily count" },
   { reel: "METRIC 03", title: "已发布期数", foot: "Issues archived" },
   { reel: "METRIC 04", title: "AI 内容占比", foot: "含 AI 标签的期数" },
 ] as const;
+
+function metricFoot(cell: (typeof KEY_METRICS)[number]): string {
+  if ("footKey" in cell && cell.footKey === "dayOne") {
+    return `Day1 · ${siteConfig.dayOneDate.replace(/-/g, ".")}`;
+  }
+  return cell.foot;
+}
 
 export function AboutPage() {
   const dayCount = getDiaryDayCount(siteConfig.dayOneDate);
@@ -87,7 +94,7 @@ export function AboutPage() {
                   <span className="metrics-reel__reel">{cell.reel}</span>
                   <span className="metrics-reel__value">{metricValues[i]}</span>
                   <span className="metrics-reel__title">{cell.title}</span>
-                  <span className="metrics-reel__foot">{cell.foot}</span>
+                  <span className="metrics-reel__foot">{metricFoot(cell)}</span>
                 </div>
               ))}
             </div>

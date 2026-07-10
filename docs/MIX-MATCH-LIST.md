@@ -5,7 +5,7 @@ status: active
 canonical: docs/MIX-MATCH-LIST.md
 authority: §6 拍板后的 production 视觉施工图
 depends_on: docs/sessions/2026-07-01.md §6 · docs/DEMO-TASTING-NOTES.md
-revised_at: "2026-07-08 18:32:51"
+revised_at: "2026-07-09 16:55:00"
 timezone: Asia/Shanghai
 ---
 
@@ -13,7 +13,8 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-07-08 18:32:51 | **收工** — 无期数 **平台名**（详情+列表）· Hero grid 修复 · 边注 Note5 相关篇 |
+| 2026-07-09 16:55:00 | **§8.7** 列表双栏滚动定稿（右栏页滚）· **§8.11** 图谱 G1–G3 验收并入 |
+| 2026-07-09 10:47:27 | **阶段 C 先这样** — §8.12 收工 · Logo 合掌 stamp |
 | 2026-07-08 17:57:13 | **阶段 C 启动** — §8.12 · 全站 sk-tag 清理 · scrollbar 统一 |
 | 2026-07-08 17:45:00 | **A3-2** 单面板排版 · 五级字号 · `post-page.css` · 详情去 sk-tag · **先这样** |
 | 2026-07-08 17:29:21 | **A3-3** 曲线接框·拖节点跟随 · 关键词结构 · 详情 **92rem** |
@@ -219,7 +220,7 @@ timezone: Asia/Shanghai
 |------|------|------|------|
 | **A 骨架** | §6.2 六页 layout | ✅ **收工** | A1 ✅ · A2-C/A3/A4/A5 先这样 |
 | **B 视觉** | §6.3 + §8.9 | ✅ **主块收工** | punch · Hero · 详情填皮 · **Archie 进 C** |
-| **C 功能动效** | §6.4 + §8.12 | 🔄 **进行中** | sk-tag ✅ · scrollbar ✅ · 其余见 §8.1–8.3 |
+| **C 功能动效** | §6.4 + §8.12 | **✅ 先这样** | Graph 双 Tab → **P2** |
 | — | 修列表崩溃 | ✅ | §8.4 |
 
 ---
@@ -359,13 +360,14 @@ timezone: Asia/Shanghai
 
 | 标签 | 区块 | 人话 | 对照 |
 |------|------|------|------|
-| **A2-1** | 左栏索引 | 纸色卡片 **28–32rem** · **sticky + 月列表内滚** · type/标签分层字号 | D2 · benchmark 纸 |
-| **A2-2** | 右栏预览 | 选中篇 VOL/标题/摘要/金句 · 读全文 · 链 `/graph` | D2 `list-main` |
+| **A2-1** | 左栏索引 | 纸色卡片 **28–32rem** · **整体 ≥ 两屏高** · 头/筛选固定 · **仅月列表内滚** · type/标签分层字号 | D2 · benchmark 纸 |
+| **A2-2** | 右栏预览 | 选中篇 VOL/标题/摘要/金句 · **阅读延展** · 读全文 · 同标签相关篇 | D2 `list-main` |
+| **A2-2 scroll** | 双栏滚动 | **右栏不用列内滚动条** · 随 **页面主滚动条** 上下 · 滚左栏月列表 ≠ 带动右栏 | 2026-07-09 修订 |
 | **A2-2 bg** | 预览区背景 | 莫兰迪 tag 球慢漂（`prefers-reduced-motion` 静止） | 方案 C · 小石潭记式气氛 |
 
-**怎么验**：**max-width 80rem 页内留白** · 左栏 **~22–26rem 卡片** + 右预览卡片 · 双栏 **gap** 分隔；点 Day → 右栏切换。窄屏右栏在上。
+**怎么验**：**max-width 80rem 页内留白** · 左栏 **~22–26rem 卡片** + 右预览卡片 · 双栏 **gap** 分隔；点 Day → 右栏切换。选中 **`link-fugu`** 等长条目 → 右栏应足够长、用页滚。窄屏右栏在上。
 
-**已推翻**：~~A2 turley 式右栏力导向迷你图~~（2026-07-07 16:49）。
+**已推翻**：~~A2 turley 式右栏力导向迷你图~~（2026-07-07 16:49）· ~~右栏 sticky + 列内 `overflow-y: auto`~~（2026-07-09 局促反馈）。
 
 ---
 
@@ -437,33 +439,30 @@ timezone: Asia/Shanghai
 
 ### 8.12 阶段 C · 功能与动效 polish（2026-07-08 起）
 
-> Archie：**进阶段 C**。B 主块已 **先这样**；C 收尾访客可见的开发标签与全站细节。
+> **2026-07-09**：C **先这样**收工。Graph 双 Tab 仍 **P2**。
 
 **C 已做**
 
 | 项 | 内容 |
 |----|------|
-| **sk-tag 清理** | Home A1-7/8 · About A5 · Graph · Feedback · 详情 · 删 `.sk-tag` CSS |
-| **暖色 scrollbar** | `index.css` 全站 + 内嵌滚动区统一赤陶 thumb |
-| **访客文案** | About/Graph 去施工口吻 |
-| **平台名** | `postPlatform.ts` — 无期数：详情 Hero 左栏 · 列表行/预览 VOL（AIHOT、bilibili、小红书…） |
-| **Hero grid** | 无期数标题固定第二列，修复竖条挤版 |
-| **边注 Note5** | 同标签 **相关篇** `/post/:id`（非顶栏图谱重复链） |
+| **sk-tag 清理** | Home · About · Graph · Feedback · 详情 |
+| **暖色 scrollbar** | 全站统一 |
+| **访客文案** | About/Graph · 列表去 mock/Field Index |
+| **平台名** | 详情 · 列表 · 首页 folio/时间线 |
+| **Hero grid** | 无期数标题列修复 |
+| **边注 / 预览** | 同标签相关篇（非 graph 重复链） |
+| **quotes.json** | punch 金句池 |
+| **Logo stamp** | 合掌线刻 · contain 保主体 |
+| **发布密度** | `publishDensitySource: posts` |
+| **A3-3** | 过滤待补 · focus-visible |
 
-**C 待做 / 已超前（保留）**
+**仍属 P2**
 
-| 项 | 状态 | 说明 |
-|----|------|------|
-| 顶栏搜索 + nav hover | ✅ 已有 | §8.2 |
-| `/posts` type + `?q=` | ✅ 已有 | §8.3 |
-| spread-row / timeline hover | ✅ 已有 | Home A1-8 |
-| A3-M scroll lag / reveal | ✅ 已有 | §8.8 |
-| Graph 双 Tab（文内链接） | ⏳ P2 | 仅一行规划说明 |
-| `quotes.json` 金句池 | ⏳ | punch 仍用 mock |
+| 项 | 说明 |
+|----|------|
+| Graph 双 Tab | 文内链接 · content md 后 |
 
-**怎么验**：`/post/link-fugu` Hero 不竖条 · 左 **来自 AIHOT**；`/posts` 外链行显示 **AIHOT**；全站无 `A1-x`/`A5-x` 开发标签。
-
-**明日续**：C polish · 可选 A3-3 补验 · 首页 folio 平台名（待 Archie）
+**怎么验**：`docs/STATUS.md` · 2026-07-09 **C 验收清单**
 
 ---
 
@@ -488,14 +487,16 @@ timezone: Asia/Shanghai
 
 > **命名澄清（防误会）**  
 > - **A5** = 阶段 A 的**施工标签**，指这三页的**骨架对齐**（72rem 壳），**不是动效名**，也不管图片/色块。  
-> - **`/graph` 路由** = **知识图谱页**（标签共现力导向图），与图片资源、chart 色块**无关**。  
+> - **`/graph` 路由** = **知识图谱页**（标签共现力导向图），**不是**正文里给词绑 URL（那是 **P2 `[[wikilink]]`**）。  
 > - 顶栏 **`nav-link--graph`** = 仅「知识图谱」链 hover 时**底边线 snap 展开**的 CSS 类名，只作用于那一个菜单项。
 
 | 页 | 标签 | 要点 |
 |----|------|------|
-| **`/graph`** | A5-G · A5-G2 虚线 Tab | 内容区 **72rem** · 力导向图实线 · Tab **P2 占位** |
+| **`/graph`** | G1–G3 · A5-G2 虚线 Tab | **G1** hero + stats · **G2** Fig.2 mat 框 · **G3** folio pill 节点 + 悬停信息卡 · Tab **P2 占位** |
 | **`/about`** | A5-A · **A5-1** 全宽色带 · A5-A2 | 简介/九宫格 **72rem** · metrics **viewport 全宽** · 联系区 |
 | **`/feedback`** | A5-F | 外壳 **72rem** · 表单 **窄列居中** |
+
+**`/graph` 验收（2026-07-09）**：气质对齐首页 chart · 节点可点进详情 · **先这样** 或提修改点。
 
 **怎么验**：三页内容与顶栏 **左右对齐（72rem）**；`/about` 人生阶段下 **深色全宽 metrics 带** 横跨屏幕；**不应出现** `A5-x` 开发标签。
 

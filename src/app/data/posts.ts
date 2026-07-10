@@ -26,6 +26,8 @@ export interface ContentItem {
     quote: string;
   };
   knowledgeCards: KnowledgeCard[];
+  /** 外链/笔记详情页延展段落（验收长页 · 摘抄自条目本身） */
+  archiveNotes?: string[];
   /** public/subtitles/{id}.txt — 纯文本字幕稿，无时间轴 */
   subtitlePath?: string;
 }
@@ -196,11 +198,20 @@ export const posts: ContentItem[] = [
     featured: true,
     aiSummary: {
       overview:
-        "Sakana AI 推出 Fugu / Fugu Ultra，通过单一 API 编排多智能体团队，基准表现对标 Claude Fable 5 与 Mythos。适合作为「外链收藏」类型的示例条目。",
+        "Sakana AI 推出 Fugu / Fugu Ultra，通过单一 API 编排多智能体团队，在若干公开基准上对标 Claude Fable 5 与 Mythos。产品叙事强调「测试时扩展」：不是堆更大的基座，而是在推理阶段动态调度专长 agent。\n\nFugu 把「规划—执行—复核—汇总」拆成可替换的角色槽位。开发者只需描述任务目标与约束，编排层负责选人、传上下文、合并中间结果。对个人站而言，这类外链收藏的价值在于：它把「多 agent 协作」从论文/demo 拉到了可计费 API 的形态。\n\n区域可用性与出口管制仍是现实约束：同一套编排能力在不同地区可能对应不同模型后端。归档时建议同时记下发布渠道（AIHOT 转述）与原始公告链接，避免日后只剩二手摘要。\n\n本条刻意写长，用于验收 `/posts` 右栏随页滚与 `/post/link-fugu` 详情页约三屏阅读动线；内容摘编自公开报道与 Sakana 产品页表述，非逐字翻译。",
       keyPoints: [
         "编排层可能是下一跳：不是更大基座，而是更聪明的测试时调度",
-        "多 agent 协作从实验室走向可调用 API",
-        "出口管制与区域可用性仍是现实约束",
+        "多 agent 协作从实验室走向可调用 API，定价按 token / 步数分层",
+        "Fugu Ultra 面向长链路任务：子 agent 可并行，主 orchestrator 负责冲突消解",
+        "出口管制与区域可用性仍是现实约束，部署前需核对模型后端清单",
+        "与 Claude Fable 5 的对标主要在「多步推理 + 工具调用」类基准，而非纯聊天",
+        "个人工作流可借鉴：把重复子任务（检索、表格、草拟）拆成固定角色模板",
+        "风险点：编排错误会放大——一步选错 agent，后续全链输出可能看似连贯实则偏题",
+        "可观测性：需要记录每步 agent 输入输出，否则 debug 成本高于单模型",
+        "与 GLM / 开源模型的关系：编排层可与 cheaper 模型组合，降低探索型任务成本",
+        "网站 P2 规划：若 content 管道就绪，可把此类外链升级为「摘要 + 原文摘录 + 我的批注」",
+        "验收提示：在列表页选中本篇，右栏应出现阅读延展；滚页面主滚动条，右栏随页下移",
+        "验收提示：点「读全文」进入本页，AI 总结 + 导图 + 归档摘抄应撑满约三屏",
       ],
       quote: "更智能的编排，可能比更大的模型更接近下一阶能力跃升。",
     },
@@ -211,6 +222,37 @@ export const posts: ContentItem[] = [
         back: "多个模型/角色按流程协作完成复杂任务。编排层负责分工、调度与汇总，而非单模型端到端完成。",
         tag: "AI",
       },
+      {
+        id: "kc-fugu-2",
+        front: "Test-Time Scaling",
+        back: "在推理阶段投入更多计算（多步、多 agent、投票）以换质量，与训练时 scaling 相对。Fugu 属于此路线的产品化尝试。",
+        tag: "AI",
+      },
+      {
+        id: "kc-fugu-3",
+        front: "Orchestrator Pattern",
+        back: "主控 agent 维护全局计划，子 agent 领取子任务并回报结构化结果。失败时可重试或换角，而非整段重生成。",
+        tag: "方法",
+      },
+      {
+        id: "kc-fugu-4",
+        front: "API 化协作",
+        back: "把 agent 团队封装成单一 endpoint，降低集成成本；代价是黑盒度上升，需要日志与 tracing 才能审计。",
+        tag: "商业",
+      },
+      {
+        id: "kc-fugu-5",
+        front: "区域后端",
+        back: "同一 SKU 在不同地区可能路由到不同模型供应商；合规与 latency 需在选型时一并考虑。",
+        tag: "商业",
+      },
+    ],
+    archiveNotes: [
+      "【背景】Sakana AI 以「小型高效模型 + 演化/组合」路线闻名；Fugu 系列则是其在 agent 编排方向的商业化延伸。Ultra 档强调更长上下文窗口 与 更多并行子任务，适合报告生成、竞品扫描、代码库级 refactor 规划等需要多轮分工的场景。",
+      "【与 Fable 5 的对标语境】公开材料中的对比多集中在 agentic benchmark：工具调用是否正确、计划是否可分解、最终答案是否自洽。需要注意 benchmark 与真实业务任务之间的 gap——前者往往有清晰 rubric，后者更依赖领域知识与隐性约束。",
+      "【个人可用性】若你已在用 Cursor / Claude Code 类工具，Fugu 的差异主要在「团队模板是否可 API 化、是否可嵌入自有数据管道」。对个人博客/知识站，更现实的用法可能是：把「摘要外链 → 抽卡片 → 挂标签」做成固定 agent 流水线，而非直接替换写作助手。",
+      "【归档策略】外链收藏建议保留：标题、来源平台、抓取日期、原文 URL、3–5 条可检索要点、以及一段「我为什么存」。本页后半的 archiveNotes 即模拟未来 md frontmatter 里的 notes 字段；P1 仍用 posts.ts mock。",
+      "【滚动验收说明】请在本页连续向下滚约三屏：第一屏 hero + AI 总结前半；第二屏要点列表 + 关键词/可落地检查 + 金句；第三屏思维导图 + 原文链 + 归档摘抄。列表页 `/posts` 选中本篇时，右栏预览也应足够长，以便确认「右栏不用列内滚动条、随页面主滚动条移动」。",
     ],
   },
   {

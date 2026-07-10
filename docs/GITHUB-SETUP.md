@@ -155,6 +155,16 @@ git config --global http.https://github.com.proxy socks5://127.0.0.1:7891
 
 部分环境对 SOCKS 支持不如 HTTP 稳，优先用 HTTP 端口。
 
+### 三种代理方式（别混）
+
+| 方式 | 作用范围 | Git 是否用 | 典型场景 |
+|------|----------|------------|----------|
+| `git config --global http.https://github.com.proxy …` | **持久**，仅 GitHub HTTPS | ✅ 是 | 本机日常 `git pull/push`（推荐） |
+| 环境变量 `HTTP_PROXY` / `HTTPS_PROXY` | **当前终端进程** | 仅当 Git 未单独配且工具读 env | Cursor Agent 终端、部分 CLI |
+| v2rayN「系统代理」 | 浏览器 / 部分 Win 应用 | ❌ Git 默认不读 | 上网浏览；**不能替代**上面 Git 配置 |
+
+配好 `git config` 后 **不必**每次开终端再 `set HTTP_PROXY`；但 **v2rayN 本体仍要开着**，否则 10808 无流量。
+
 ---
 
 ## 报错对照

@@ -1,6 +1,8 @@
 import { SiteLink } from "./SiteLink";
 import type { ContentItem } from "../data/posts";
+import { getRelatedPost } from "../data/posts";
 import { TagOrbField } from "./TagOrbField";
+import { getPreviewExtendedParagraphs } from "../utils/postsPreviewExtended";
 import { formatPostPreviewVol } from "../utils/postPlatform";
 
 /** A2-C · D2 spread 预览 + 圆形 tag 球场（冷暖 · 叠压 · 各向漂移） */
@@ -15,6 +17,8 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
 
   const tags = post.tags ?? [];
   const typeLabel = post.type === "video" ? "视频日记" : post.type === "link" ? "外链收藏" : "笔记";
+  const relatedPost = getRelatedPost(post.id);
+  const extendedParas = getPreviewExtendedParagraphs(post);
 
   return (
     <div className="posts-preview">
@@ -45,13 +49,24 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           <p>「{post.aiSummary.quote}」</p>
         </aside>
 
+        {extendedParas.length > 0 && (
+          <div className="posts-preview__extended posts-preview__layer posts-preview__layer--front">
+            <h3 className="posts-preview__extended-label">阅读延展</h3>
+            {extendedParas.map((para) => (
+              <p key={para.slice(0, 48)}>{para}</p>
+            ))}
+          </div>
+        )}
+
         <div className="posts-preview__actions posts-preview__layer posts-preview__layer--front">
           <SiteLink to={`/post/${post.id}`} className="posts-preview__cta">
             阅读全文 →
           </SiteLink>
-          <SiteLink to="/graph" className="posts-preview__graph-link">
-            全页知识图谱
-          </SiteLink>
+          {relatedPost && (
+            <SiteLink to={`/post/${relatedPost.id}`} className="posts-preview__related-link">
+              同标签 · {relatedPost.title.length > 18 ? `${relatedPost.title.slice(0, 18)}…` : relatedPost.title}
+            </SiteLink>
+          )}
         </div>
       </div>
       </TagOrbField>
@@ -59,13 +74,13 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
       <style>{`
         .posts-preview {
           position: relative;
-          min-height: calc(200vh - 7.5rem);
+          min-height: 100%;
           overflow: visible;
           background: var(--background);
           border-left: 0;
         }
         .tag-orb-scene {
-          min-height: calc(200vh - 7.5rem);
+          min-height: 100%;
         }
         .posts-preview--empty {
           display: flex;
@@ -80,7 +95,7 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
         .posts-preview__content {
           position: relative;
           z-index: 1;
-          min-height: calc(200vh - 7.5rem);
+          min-height: 100%;
           padding: clamp(2.25rem, 4vw, 3.5rem) clamp(1.75rem, 4vw, 4rem);
           display: flex;
           flex-direction: column;
@@ -204,6 +219,30 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           font-style: italic;
           color: var(--foreground);
         }
+        .posts-preview__extended {
+          padding: 1.25rem 1.5rem 1.5rem;
+          background: color-mix(in srgb, var(--card) 88%, var(--background));
+          border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+        }
+        .posts-preview__extended-label {
+          margin: 0 0 0.75rem;
+          font-family: var(--font-cond, var(--font-body));
+          font-size: 0.625rem;
+          font-weight: 800;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--muted-foreground);
+        }
+        .posts-preview__extended p {
+          margin: 0 0 1rem;
+          font-family: var(--font-serif);
+          font-size: 0.9375rem;
+          line-height: 1.82;
+          color: color-mix(in srgb, var(--foreground) 92%, var(--muted-foreground));
+        }
+        .posts-preview__extended p:last-child {
+          margin-bottom: 0;
+        }
         .posts-preview__actions {
           display: flex;
           flex-wrap: wrap;
@@ -222,13 +261,14 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           background: var(--primary);
           border: 1px solid var(--primary);
         }
-        .posts-preview__graph-link {
+        .posts-preview__related-link {
           font-size: 0.8125rem;
           color: var(--muted-foreground);
           text-decoration: none;
           border-bottom: 1px solid var(--border);
+          max-width: min(20rem, 100%);
         }
-        .posts-preview__graph-link:hover {
+        .posts-preview__related-link:hover {
           color: var(--primary);
           border-color: var(--primary);
         }

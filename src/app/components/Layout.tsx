@@ -7,7 +7,7 @@ import { SiteFooter } from "./SiteFooter";
 
 const navLinks = [
   { href: "/graph", label: "知识图谱", motion: "graph" as const },
-  { href: "/posts", label: "日记", tooltip: "点我点我～", motion: "diary" as const },
+  { href: "/posts", label: "点我点我", motion: "diary" as const },
   { href: "/feedback", label: "反馈", motion: "feedback" as const },
   { href: "/about", label: "关于我", motion: "default" as const },
 ];
@@ -63,11 +63,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={link.href}
                     to={link.href}
-                    title={link.tooltip}
                     className={`nav-link nav-link--${link.motion}${active ? " nav-link--active" : ""}`}
                   >
                     {link.label}
-                    {link.tooltip && <span className="nav-tip">{link.tooltip}</span>}
                   </Link>
                 );
               })}
@@ -101,26 +99,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         .nav-link--diary {
           color: var(--punch, var(--primary));
           font-weight: 500;
-        }
-        .nav-tip {
-          position: absolute;
-          top: calc(100% + 6px);
-          left: 50%;
-          transform: translateX(-50%) scale(0.92);
-          background: var(--foreground);
-          color: var(--background);
-          font-size: 10px;
-          letter-spacing: 0.06em;
-          padding: 4px 8px;
-          white-space: nowrap;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.12s, transform 0.12s var(--snap, ease);
-          border-radius: 2px;
-        }
-        .nav-link--diary:hover .nav-tip {
-          opacity: 1;
-          transform: translateX(-50%) scale(1);
         }
         .nav-link--graph::after {
           content: "";

@@ -447,6 +447,15 @@
   color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
 }
 
+.post-mindmap__node:focus-visible {
+  outline: 2px solid var(--punch, var(--primary));
+  outline-offset: 2px;
+}
+
+.post-mindmap__node--core:focus-visible {
+  outline-color: var(--primary-deep, var(--primary));
+}
+
 .post-mindmap__hint {
   margin: 0.65rem 0 0;
   font-family: var(--font-cond, var(--font-body));

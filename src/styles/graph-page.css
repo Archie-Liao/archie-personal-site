@@ -1,0 +1,217 @@
+/* A5-G · /graph — P1 出版物流填皮 */
+
+.graph-page {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.graph-hero__kicker {
+  margin: 0;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--primary-deep, var(--primary));
+}
+
+.graph-hero__title {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+.graph-hero__intro {
+  margin: 0.75rem 0 0;
+  max-width: 52ch;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+.graph-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .graph-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.graph-stats__cell {
+  padding: 1rem 1.15rem;
+  background: color-mix(in srgb, var(--card) 90%, var(--background));
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--background) 50%, transparent);
+}
+
+.graph-stats__lab {
+  display: block;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.graph-stats__val {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  color: var(--primary-deep, var(--primary));
+}
+
+.graph-stats__sub {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.graph-plot__cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.graph-plot__fig {
+  margin: 0;
+  font-family: var(--font-cond, var(--font-body));
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+.graph-plot__note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.graph-plot__frame {
+  position: relative;
+  margin-top: 0.65rem;
+  padding: 0.65rem;
+  background: color-mix(in srgb, var(--secondary) 55%, var(--background));
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--background) 70%, transparent),
+    0 12px 40px -28px rgba(40, 32, 24, 0.2);
+}
+
+.graph-plot__canvas {
+  position: relative;
+  height: clamp(22rem, 52vh, 32rem);
+  background: color-mix(in srgb, var(--card) 92%, var(--background));
+  border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+  overflow: hidden;
+}
+
+.graph-plot__canvas svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.graph-plot__hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  letter-spacing: 0.02em;
+}
+
+.graph-plot__p2 {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.graph-focus {
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  background: color-mix(in srgb, var(--accent) 40%, var(--card));
+  border-left: 4px solid var(--primary);
+}
+
+.graph-focus__kicker {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary-deep, var(--primary));
+}
+
+.graph-focus__title {
+  margin: 0.45rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.graph-focus__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+.graph-focus__link {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+.graph-focus__link:hover {
+  border-color: var(--primary);
+}
+
+.graph-edge--strong {
+  stroke: var(--data-red, var(--primary));
+}
+
+.graph-edge--weak {
+  stroke: color-mix(in srgb, var(--data-slate, var(--muted-foreground)) 65%, var(--border));
+}
+
+.graph-node-pill {
+  cursor: pointer;
+}
+
+.graph-node-pill rect {
+  transition: fill 0.12s ease, stroke 0.12s ease;
+}
+
+.graph-node-pill.is-active rect {
+  fill: var(--primary);
+  stroke: var(--primary-deep, var(--primary));
+}
+
+.graph-node-pill.is-active text {
+  fill: var(--primary-foreground);
+}
