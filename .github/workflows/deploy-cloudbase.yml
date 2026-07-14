@@ -1,4 +1,4 @@
-# push 到 main → 构建并部署到 CloudBase 静态网站托管
+# Push to main → build and deploy to CloudBase static hosting
 name: Deploy CloudBase Static
 
 on:
@@ -21,8 +21,21 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
+
+      - name: Check secrets present
+        env:
+          SID: ${{ secrets.TCB_SECRET_ID }}
+          SKEY: ${{ secrets.TCB_SECRET_KEY }}
+          EID: ${{ secrets.TCB_ENV_ID }}
+        run: |
+          missing=0
+          if [ -z "$SID" ]; then echo "::error::TCB_SECRET_ID is empty"; missing=1; fi
+          if [ -z "$SKEY" ]; then echo "::error::TCB_SECRET_KEY is empty"; missing=1; fi
+          if [ -z "$EID" ]; then echo "::error::TCB_ENV_ID is empty"; missing=1; fi
+          echo "TCB_ENV_ID length=${#EID}"
+          exit $missing
 
       - name: Install
         run: npm ci
@@ -31,13 +44,18 @@ jobs:
         run: npm run build
 
       - name: Install CloudBase CLI
-        run: npm install -g @cloudbase/cli
+        run: |
+          npm install -g @cloudbase/cli
+          tcb -v
 
       - name: Login CloudBase
-        run: |
-          tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
+        env:
+          TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+          TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+        run: tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
 
-      # 官方 CI 示例云端根路径为 /home（静态托管网站根）
+      # Official CI sample uses /home as static site root
       - name: Deploy hosting
-        run: |
-          tcb hosting deploy ./dist /home -e "${{ secrets.TCB_ENV_ID }}" --concurrency 5 --retry-count 3
+        env:
+          TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+        run: tcb hosting deploy ./dist /home -e "$TCB_ENV_ID" --concurrency 5 --retry-count 3
