@@ -879,6 +879,12 @@ export function GraphPage() {
                 const isHovered = hoveredId === n.id;
                 const isActive = isSelected || isHovered;
                 const dim = nodeOpacity(n.id);
+                const label = n.keyword;
+                const labelBaseline = n.y + r + labelFontSize * 0.55 + 4;
+                const charW = labelFontSize * 0.62;
+                const hitW = Math.max(r * 2 + 12, label.length * charW + 16);
+                const hitTop = n.y - r - 6;
+                const hitH = labelBaseline - hitTop + labelFontSize * 0.45 + 6;
                 return (
                   <g
                     key={n.id}
@@ -902,6 +908,14 @@ export function GraphPage() {
                       nodeDragMovedRef.current = false;
                     }}
                   >
+                    <rect
+                      x={n.x - hitW / 2}
+                      y={hitTop}
+                      width={hitW}
+                      height={hitH}
+                      className="graph-node__hit"
+                      fill="transparent"
+                    />
                     <circle
                       cx={n.x}
                       cy={n.y}
@@ -917,15 +931,15 @@ export function GraphPage() {
                     />
                     <text
                       x={n.x}
-                      y={n.y + r + labelFontSize * 0.55 + 4}
+                      y={labelBaseline}
                       textAnchor="middle"
+                      className="graph-node__label"
                       fontSize={labelFontSize}
                       fontWeight={600}
                       fill="var(--foreground)"
                       opacity={labelOpacityFor(n.id)}
-                      style={{ fontFamily: "var(--font-cond, var(--font-body))", pointerEvents: "none" }}
                     >
-                      {n.keyword}
+                      {label}
                     </text>
                     <title>{postMap.get(n.id)?.title ?? n.title}</title>
                   </g>

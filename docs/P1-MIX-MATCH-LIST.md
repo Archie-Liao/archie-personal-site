@@ -2,10 +2,10 @@
 doc_type: project_doc
 title: P1 视觉混搭清单
 status: active
-canonical: docs/MIX-MATCH-LIST.md
+canonical: docs/P1-MIX-MATCH-LIST.md
 authority: §6 拍板后的 production 视觉施工图
 depends_on: docs/sessions/2026-07-01.md §6 · docs/DEMO-TASTING-NOTES.md
-revised_at: "2026-07-14 10:31:33"
+revised_at: "2026-07-14 15:06:57"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,8 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-14 15:06:57 | **更名** `MIX-MATCH-LIST.md` → **`P1-MIX-MATCH-LIST.md`** |
+| 2026-07-14 14:20:14 | 文首注明：P3 尖兵 **不写入**本清单 · 见 SPIKE |
 | 2026-07-14 10:31:33 | **§8.13** **P1 先这样** · galaxy 内容后审 |
 | 2026-07-14 09:43:32 | **§8.13** 螺旋推翻 · **还原同心圆** |
 | 2026-07-14 09:12:32 | （已推翻）曾试黄金螺旋 |
@@ -57,7 +59,8 @@ timezone: Asia/Shanghai
 
 > **定位**：[`sessions/2026-07-01.md` §6](sessions/2026-07-01.md) 定 **要什么功能**；本文件定 **每块长什么样、从哪偷**。  
 > **气质锚**：`benchmark.html`（暖纸 + 赤陶 + folio 排印）— **非**整页照搬任一 demo。  
-> **迁 `src/` 前必读**：本文件 + [DEMO-TASTING-NOTES.md](DEMO-TASTING-NOTES.md) Must/Never。
+> **迁 `src/` 前必读**：本文件 + [DEMO-TASTING-NOTES.md](DEMO-TASTING-NOTES.md) Must/Never。  
+> **P3 尖兵**不写本文 → [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)。
 
 ---
 
@@ -347,7 +350,7 @@ timezone: Asia/Shanghai
 **访问量 / 点击热度（P2）** — **有规划，但是视觉层 + 数据后装**，不是 §9.4 里单独一行里程碑：  
 - [sessions/2026-07-01 §6.3](sessions/2026-07-01.md)：`/posts` **列表行 hover 热度色条** — 「点击量编码色 **P2 数据**；P1 可 mock」  
 - [DEMO-TASTING-NOTES](DEMO-TASTING-NOTES.md)：D4 **spread-row 按点击量** 红/黄/蓝编码  
-- [MIX-MATCH §3](MIX-MATCH-LIST.md)：`热度色条 · P1 mock · **P2 analytics**`  
+- [MIX-MATCH §3](P1-MIX-MATCH-LIST.md)：`热度色条 · P1 mock · **P2 analytics**`  
 - **不含**首页 chart-band（chart 仍是 **发布密度**）；访问量主要落在 **列表行 / 时间线 row** 等，需 P2 统计源（build 读 analytics 或静态 mock）
 
 **`/about` A5-1**：人生阶段**下方** · **viewport 全宽色带**（非 max-width 窄框）· 横排四格 REEL · 背景与纸色页面对比（A 阶段深色带占位，B 可微调参考图气质）。

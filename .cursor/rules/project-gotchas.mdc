@@ -33,4 +33,5 @@ alwaysApply: true
 - 不要擅自修改 `guidelines/` 除非用户明确要求
 - Logo 字标/stamp：先读 [`docs/LOGO-FONT-BRIEF.md`](../docs/LOGO-FONT-BRIEF.md) §2–§3；**F/Z 字体锁定前**勿改 `src/` 生产字体；compare 须 **繁简双轴**（非仅换中文）
 - 字幕排版规则见 `docs/SUBTITLE-FORMAT.md`（**一句一段** + 主题段；源稿更新跑 `node scripts/format-subtitles.mjs`）
-- **P1 改站执行逻辑**（文档分层 · A/B/C · 防跑偏）→ **AGENTS.md「P1 迁 src 执行逻辑」**；施工图 MIX-MATCH · 进度 STATUS
+- **P1 改站执行逻辑**（文档分层 · A/B/C · 防跑偏）→ **AGENTS.md「P1 迁 src 执行逻辑」**；施工图 [`P1-MIX-MATCH-LIST.md`](../docs/P1-MIX-MATCH-LIST.md) · 进度 STATUS
+- **P3 尖兵**（DeepSeek 通聊试点）→ [`docs/P3-ASSISTANT-SPIKE.md`](../docs/P3-ASSISTANT-SPIKE.md)；**勿写入 P1-MIX-MATCH**

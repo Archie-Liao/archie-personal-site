@@ -216,5 +216,5 @@ timezone: Asia/Shanghai
 ## 7. 相关文档
 
 - 试吃硬约束：[`DEMO-TASTING-NOTES.md`](DEMO-TASTING-NOTES.md)
-- A1-3 块定义：[`MIX-MATCH-LIST.md`](MIX-MATCH-LIST.md) §8.5
+- A1-3 块定义：[`P1-MIX-MATCH-LIST.md`](P1-MIX-MATCH-LIST.md) §8.5
 - 站点线框：[`SITE-MANUAL.md`](SITE-MANUAL.md)

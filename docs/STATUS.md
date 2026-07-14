@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-14 10:31:33"
+revised_at: "2026-07-14 18:19:33"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,13 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-14 18:19:33 | **CloudBase 自动部署** → GitHub Actions（静托管无「启用自动部署」开关；勿用云托管） |
+| 2026-07-14 17:05:28 | **P3 尖兵 B** — 云函数测通 · HTTP 路由已配 · 前端写入 endpoint |
+| 2026-07-14 16:31:30 | **P3 尖兵 A 出关**（「先这样」）· 下一步 **阶段 B** 云函数+DeepSeek |
+| 2026-07-14 15:56:52 | **P3 尖兵阶段 A 落地** — `AssistantChat` 浮钮+抽屉 · 假回复 · Logo stamp |
+| 2026-07-14 15:06:57 | **更名** `MIX-MATCH-LIST.md` → [`P1-MIX-MATCH-LIST.md`](P1-MIX-MATCH-LIST.md) |
+| 2026-07-14 14:20:14 | **P3 尖兵** 施工图 [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) · 主线插 ⑥b |
+| 2026-07-14 11:19:31 | Graph 标签可点 · Posts 标签可收起 · 自动部署勿用云托管 · P3=DeepSeek+RAG 评估 |
 | 2026-07-14 10:31:33 | **P1 先这样** · CloudBase 国内 URL · `/galaxy` 框架先挂、内容后审 · P2/P3 时机判断 |
 | 2026-07-14 10:00:27 | **删除** `TENCENT-CLOUD-DEPLOY.md` · 部署改走腾讯云 Git UI |
 | 2026-07-14 09:43:32 | **`/galaxy` 螺旋试排推翻** · **还原同心圆** |
@@ -66,7 +73,7 @@ timezone: Asia/Shanghai
 | 2026-07-07 15:45:00 | **A1 布局调整**：punch 顶栏下 · data-cell → about · chart 三卡上 |
 | 2026-07-07 15:10:00 | **A1 首页骨架** 已落地 → 待 Archie 验收（MIX-MATCH §8.5） |
 | 2026-07-07 14:29:00 | **混搭清单确认** → 迁 `src/` 进行中（theme + 顶栏先行） |
-| 2026-07-07 14:22:00 | **§6 拍板** → [MIX-MATCH-LIST.md](MIX-MATCH-LIST.md) 初稿 |
+| 2026-07-07 14:22:00 | **§6 拍板** → [P1-MIX-MATCH-LIST.md](P1-MIX-MATCH-LIST.md) 初稿 |
 | 2026-07-07 10:45:00 | **D4/D5 交付阶段收工** → 主阻塞转为 **Archie 试吃**（新对话填 DEMO-TASTING） |
 | 2026-07-07 10:30:00 | **D4/D5 v1 parity 交付**（14 期 · 精选三入口 · List 预览 · Detail 动态 · 导图拖拽）· GATE §3 块 5 禁占位符 |
 | 2026-07-07 09:50:00 | **D4 CP2 通过**（List r4）；**D5 tufte v0** 交付 · CP2 待审 |
@@ -95,7 +102,9 @@ timezone: Asia/Shanghai
 ③ ~~填 sessions/2026-07-01 §6~~ ✅ 2026-07-07 拍板
 ④ ~~混搭清单~~ ✅ Archie 2026-07-07 确认
 ⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅** · ~~C polish~~ **✅** · **`/graph` Obsidian 交互** **✅ 先这样** → **Archie 全站视觉扫** · Graph 双 Tab **P2**
-⑥a **`/galaxy` 3 圈 MVP** **✅ P1 先这样**（框架；节点正文后续再审）→ **P1 收工** · ⑥b P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters → P3 助手
+⑥a **`/galaxy` 3 圈 MVP** **✅ P1 先这样** → **P1 收工**  
+⑥b **P3 尖兵**（通聊 UI + DeepSeek）→ [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) **可开** · **并行** P2 捡料  
+⑥c P2a content/md + graph 双 Tab → P2b wiki/clusters → **完整 P3** 编排（尖兵之后）
 ```
 
 | 阶段 | 权威文档 | AI 何时读 |
@@ -104,7 +113,7 @@ timezone: Asia/Shanghai
 | **怎么做细** | `docs/sessions/2026-07-01.md` | 做盘点/分期/畅想时 |
 | **视觉偷什么** | `docs/DEMO-TASTING-NOTES.md` | 做 demo / 迁 `src/` 前 |
 | **站建成什么样** | `docs/SITE-MANUAL.md` | 改路由/页面后同步 |
-| **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + 框架 md | `/galaxy` 看 IA · 助手 **P3** |
+| **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + **[`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)** | `/galaxy`→IA · **尖兵施工**→SPIKE · 完整助手仍 P3 后段 |
 
 ## 进度快照
 
@@ -126,7 +135,8 @@ timezone: Asia/Shanghai
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
-| **产品畅想** | **P1 `/galaxy` 已拍板** | 助手编排 **P3**；聚类 **P2b** 先于助手 → sessions §9 |
+| **P3 尖兵** | **B 联调中** · 待站上真聊 | 云函数 `assistantChat` · HTTP 已开 · [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) |
+| **产品畅想** | **P1 `/galaxy` 已拍板** | 完整助手编排在尖兵之后；聚类 **P2b** |
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
 | 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
 | Logo | **v1 暂定 ✅** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) — Archie 不再纠结；后续主动再开 |
@@ -149,18 +159,18 @@ timezone: Asia/Shanghai
 
 ### Archie
 
-1. **（可选）轻量整理内容 inbox** — 见下方「P2 整理意见」；不阻塞休息  
-2. **是否并行探 P3** — 建议只做**规划/接口草案**，不接真助手；理由见「最近决策」  
-3. **P2 真内容** — 字幕 / 外链文章 / 笔记入库（主战场，可慢）
+1. **开 P3 尖兵 B** — 腾讯云开云函数 + 申请 DeepSeek Key（Key 只进云端环境变量）  
+2. **（可选）P2 收件箱捡料** — 与尖兵并行，不阻塞  
+3. **静态托管自动部署** — 用 GitHub Actions（`.github/workflows/deploy-cloudbase.yml`）；需仓库 Secrets：`TCB_SECRET_ID` / `TCB_SECRET_KEY` / `TCB_ENV_ID` · **勿用云托管**
 
 ### AI（建议顺序）
 
 | 序 | 块 | 状态 |
 |----|-----|------|
-| 1–7 | P1 视觉 + `/graph` + `/galaxy` 框架 | **✅ P1 先这样** |
-| 8 | **国内部署** | **✅ CloudBase 已上线** |
-| 9 | Graph 双 Tab · content/md | **P2** |
-| 10 | 助手编排 | **P3**（不抢在真内容之前全文开工） |
+| 1–8 | P1 + 国内部署 | **✅** |
+| 9 | **P3 尖兵** | **A ✅** · **下一：阶段 B**（云函数 + DeepSeek） |
+| 10 | Graph 双 Tab · content/md | **P2** |
+| 11 | 完整助手编排 | **完整 P3**（尖兵后） |
 
 > 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 继续 **全站视觉扫** 或指定路由。
 
@@ -181,7 +191,14 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
-- 2026-07-14 10:31:33：**P1 先这样** · 国内 https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com · `/galaxy` **框架先挂、内容后审** · **不建议整段跳过 P2 上 P3 实装**（可只写 P3 规划）
+- 2026-07-14 18:19:33：**国内站自动部署** — 静态托管控制台常无「启用自动部署」开关；改用 **GitHub Actions** → `tcb hosting deploy ./dist` · 密钥进 GitHub Secrets（不上 git）
+- 2026-07-14 17:05:28：**P3 尖兵 B** — `assistantChat` 控制台测试通过 · HTTP `/assistantChat` · 前端 `site.config.assistant.endpoint` 已填 · 待本地/线上真聊验收
+- 2026-07-14 16:31:30：**P3 尖兵 A 出关**（「先这样」）· 下一 **阶段 B** = CloudBase 云函数 + DeepSeek（Key 不上 git）
+- 2026-07-14 15:56:52：**P3 尖兵 A** — 右下角浮钮 + 右侧抽屉 · Logo stamp 头像 · 假回复 · 圆角/可拖宽 polish
+- 2026-07-14 15:06:57：**文件更名** `MIX-MATCH-LIST.md` → **`P1-MIX-MATCH-LIST.md`**（全文链接已更；对话语料原文保留旧名）
+- 2026-07-14 14:20:14：**P3 尖兵** 立项 — 施工图 [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)
+- 2026-07-14 11:19:31：**自动部署** — 勿改用「云托管」容器；继续 **静态网站托管** · Graph **名字可点** · Posts **标签默认收起**
+- 2026-07-14 10:31:33：**P1 先这样** · 国内 https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com · `/galaxy` **框架先挂、内容后审**
 - 2026-07-14 10:00:27：**删除** `TENCENT-CLOUD-DEPLOY.md` · 改用控制台 **Git 平台部署**当场填参
 - 2026-07-14 09:43:32：**`/galaxy` 还原同心圆** — 黄金/三臂螺旋试排 **已推翻**
 - 2026-07-13 18:10:53：**`/galaxy` polish** — 节点**静态**（取消公转/流星）· 顶栏「**思维星系**」· 详情**旁卡跟节点** · 仅选中时关联高亮 · 背景 `GalaxyStarfield` · 名/点一体命中区

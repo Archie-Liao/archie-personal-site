@@ -4,7 +4,7 @@ title: 网站说明书
 status: active
 canonical: docs/SITE-MANUAL.md
 authority: 网站现状与线框
-revised_at: "2026-07-14 10:31:33"
+revised_at: "2026-07-14 15:56:52"
 timezone: Asia/Shanghai
 ---
 
@@ -12,6 +12,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-14 15:56:52 | **P3 尖兵阶段 A** — 全站右下角助手浮钮 + 右侧抽屉（假回复 · Logo stamp） |
 | 2026-07-14 10:31:33 | **`/galaxy` P1 先这样** · 内容后审 · 记 CloudBase 国内 URL |
 | 2026-07-14 09:43:32 | **`/galaxy`** 螺旋试排推翻 · **还原静态 3 圈同心圆** |
 | 2026-07-14 09:12:32 | （已推翻）曾试三臂黄金螺旋 |
@@ -78,18 +79,24 @@ timezone: Asia/Shanghai
 | 技术 | Vite 6 + React 18 + React Router 7 + Tailwind 4 |
 | 本地预览 | 项目根目录 `npm run dev`（勿双击根 `index.html`） |
 | 内容数据 | `[已实现]` `src/app/data/posts.ts` · `[规划]` `content/*.md` build 读取 |
-| 视觉 | `[进行中]` 试吃完成 · §6 拍板 · [MIX-MATCH-LIST.md](MIX-MATCH-LIST.md) → 迁 `src/styles` |
+| 视觉 | `[进行中]` 试吃完成 · §6 拍板 · [P1-MIX-MATCH-LIST.md](P1-MIX-MATCH-LIST.md) → 迁 `src/styles` |
 
 ### 全站导航（顶栏 · 所有页共有）
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ [Logo]              [搜索…]  知识图谱  点我点我  反馈  关于  │
+│ [Logo]    [搜索…]  知识图谱 · 思维星系 · 点我点我 · 反馈 · 关于 │
 └──────────────────────────────────────────────────────────────┘
                               │
          **点我点我** → `/posts`（日记列表；punch 色 + hover 微弹，无 tooltip）
          `[P1]` 顶栏搜索 → /posts?q=… 客户端筛选（**结果在新标签打开**）
+
+全页右下角固定（非路由 · P3 尖兵 A）:
+  [助手浮钮 · Logo stamp] → 右侧抽屉：头像 + 气泡 + 输入
+  提示：通用通聊试点 · 尚未接本站知识库 · 阶段 A = 假回复（真 AI = B）
 ```
+
+> 组件 `AssistantChat` 挂在 `Layout` · 见 [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)。
 
 **链接打开方式（2026-07-08）**
 
@@ -122,7 +129,7 @@ timezone: Asia/Shanghai
 
 ### `/` 首页 `[A1 骨架]` · 视觉待 B 阶段填皮
 
-> **定稿顺序权威**：[`MIX-MATCH-LIST.md` §8.5 定稿表](MIX-MATCH-LIST.md) + 本文件 ASCII（同步维护）。
+> **定稿顺序权威**：[`P1-MIX-MATCH-LIST.md` §8.5 定稿表](P1-MIX-MATCH-LIST.md) + 本文件 ASCII（同步维护）。
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -162,7 +169,7 @@ timezone: Asia/Shanghai
 └──────────────────────────────┴──────────────────────────────┘
 ```
 
-> 对照 `design-demos/monocle.html` List · **暖纸**（非 demo 墨底）。权威：[sessions/2026-07-01.md §6](sessions/2026-07-01.md) · [MIX-MATCH §8.7](MIX-MATCH-LIST.md)。
+> 对照 `design-demos/monocle.html` List · **暖纸**（非 demo 墨底）。权威：[sessions/2026-07-01.md §6](sessions/2026-07-01.md) · [MIX-MATCH §8.7](P1-MIX-MATCH-LIST.md)。
 
 ### `/post/:id` 详情页 `[A3 骨架]`
 

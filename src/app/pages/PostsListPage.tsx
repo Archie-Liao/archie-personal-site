@@ -42,6 +42,7 @@ export function PostsListPage() {
   const [activeType, setActiveType] = useState<(typeof TYPE_LABELS)[number]["key"]>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMonths, setOpenMonths] = useState<Record<string, boolean>>({});
+  const [tagsExpanded, setTagsExpanded] = useState(false);
 
   const sorted = useMemo(
     () => [...posts].sort((a, b) => b.date.localeCompare(a.date)),
@@ -124,26 +125,50 @@ export function PostsListPage() {
               </button>
             ))}
           </div>
-          <div className="posts-d2__filters posts-d2__filters--tags">
-            <button
-              type="button"
-              onClick={() => setActiveTag(null)}
-              className="posts-d2__filter-btn"
-              data-active={!activeTag}
-            >
-              全部标签
-            </button>
-            {ALL_TAGS.map((tag) => (
+          <div className="posts-d2__filters posts-d2__filters--tags" data-expanded={tagsExpanded}>
+            <div className="posts-d2__tags-bar">
               <button
-                key={tag}
                 type="button"
-                onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                onClick={() => setActiveTag(null)}
                 className="posts-d2__filter-btn"
-                data-active={activeTag === tag}
+                data-active={!activeTag}
               >
-                {tag}
+                全部标签
               </button>
-            ))}
+              {activeTag && !tagsExpanded && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTag(null)}
+                  className="posts-d2__filter-btn"
+                  data-active="true"
+                >
+                  {activeTag}
+                </button>
+              )}
+              <button
+                type="button"
+                className="posts-d2__tags-toggle"
+                aria-expanded={tagsExpanded}
+                onClick={() => setTagsExpanded((v) => !v)}
+              >
+                {tagsExpanded ? "收起标签" : `展开标签（${ALL_TAGS.length}）`}
+              </button>
+            </div>
+            {tagsExpanded && (
+              <div className="posts-d2__tags-list" role="group" aria-label="全部标签">
+                {ALL_TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                    className="posts-d2__filter-btn"
+                    data-active={activeTag === tag}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="posts-d2__months">

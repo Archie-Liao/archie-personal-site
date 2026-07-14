@@ -125,7 +125,7 @@ python -m http.server 8765
 |------|--------|
 | [docs/STATUS.md](docs/STATUS.md) | 进度 · 下一步 · 最近决策 |
 | [docs/SITE-MANUAL.md](docs/SITE-MANUAL.md) | 网站线框与路由（改页面必同步） |
-| [docs/MIX-MATCH-LIST.md](docs/MIX-MATCH-LIST.md) | P1 视觉施工图 |
+| [docs/P1-MIX-MATCH-LIST.md](docs/P1-MIX-MATCH-LIST.md) | P1 视觉施工图 |
 | [AGENTS.md](AGENTS.md) | AI / 新会话协作入口 |
 | [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md) | **Git push · 代理配置** |
 | [design-demos/](design-demos/) | 视觉 demo 案例库 |

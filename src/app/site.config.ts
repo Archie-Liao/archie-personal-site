@@ -33,4 +33,15 @@ export const siteConfig = {
 
   /** A1-5 发布密度图：`mock` = 示意曲线 · `posts` = 按 posts 日期聚合（部署/content 后） */
   publishDensitySource: "posts" as "mock" | "posts",
+
+  /** P3 尖兵 · 阶段 B：云函数 HTTP 完整 URL；空则回退假回复 */
+  assistant: {
+    name: "Archie 助手",
+    disclaimer: "通用通聊试点 · 尚未接本站日记 / 笔记知识库",
+    welcomeMessage:
+      "你好。我是站内助手试点：接上云函数后可以通聊；你的字幕和笔记接通以前，我还回答不了「站里写过什么」。",
+    /** CloudBase HTTP 路由 · 阶段 B */
+    endpoint:
+      "https://archie-d4giq03kg9e46530b-1453642667.ap-shanghai.app.tcloudbase.com/assistantChat",
+  },
 };

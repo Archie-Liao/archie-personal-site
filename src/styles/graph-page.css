@@ -1334,13 +1334,35 @@
 
 
 
+.graph-node__hit {
+
+  cursor: pointer;
+
+  pointer-events: all;
+
+}
+
+
+
 .graph-node__shape {
+
+  pointer-events: none;
 
   transition:
 
     fill 0.14s ease,
 
     stroke 0.14s ease;
+
+}
+
+
+
+.graph-node__label {
+
+  pointer-events: none;
+
+  font-family: var(--font-cond, var(--font-body));
 
 }
 

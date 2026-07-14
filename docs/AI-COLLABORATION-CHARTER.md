@@ -410,7 +410,7 @@ src/  →  SITE-MANUAL  →  STATUS  →  专题 doc  →  guidelines  →  旧 
 
 1. **触发**：Archie 在对话中提出**新要求**、**修改意见**、**纠偏**（含对已实现功能的 UX/行为约束），即视为可能覆盖或补充已有 doc。
 2. **时机**：**同一轮或紧接下一轮** — 与改代码**同步或先于改代码**落盘；**禁止**只改 `src/` 或只口头答应、等「收工」再补 doc。
-3. **写哪**：按 §3.2 权威源地图 — 网站现状 → `SITE-MANUAL` · 进度/决策 → `STATUS` · B 阶段视觉块与验收 → `MIX-MATCH-LIST` · 专题 → 对应 `docs/主题-*.md` · 协作规则 → 本宪章 + AGENTS/gotchas。
+3. **写哪**：按 §3.2 权威源地图 — 网站现状 → `SITE-MANUAL` · 进度/决策 → `STATUS` · B 阶段视觉块与验收 → `P1-MIX-MATCH-LIST` · 专题 → 对应 `docs/主题-*.md` · 协作规则 → 本宪章 + AGENTS/gotchas。
 4. **怎么写**：YAML `revised_at`（北京时间到秒）+ `## 修订记录` 顶行追加；若**推翻**旧表述 → 旧条目标 `已推翻` 或修订表写「推翻：…」+ 新约束写清（见 [DOC-LIFECYCLE.md](DOC-LIFECYCLE.md)）。
 5. **验收标准**：下一会话 AI 只读 STATUS + MIX-MATCH（等索引 doc）即可得到**最新**约束，无需依赖「记得上次聊天」。
 

@@ -118,8 +118,42 @@
 }
 
 .posts-d2__filters--tags {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.55rem;
   padding-bottom: 1.05rem;
   background: color-mix(in srgb, var(--accent) 28%, var(--card));
+}
+
+.posts-d2__tags-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.posts-d2__tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.posts-d2__tags-toggle {
+  margin-left: auto;
+  padding: 0.4rem 0.75rem;
+  border: 1px dashed color-mix(in srgb, var(--border) 80%, var(--foreground));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.posts-d2__tags-toggle:hover {
+  color: var(--foreground);
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
 }
 
 .posts-d2__filters:not(.posts-d2__filters--tags) .posts-d2__filter-btn {
@@ -141,7 +175,7 @@
 
 .posts-d2__filter-btn {
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 12px;
   background: var(--card);
   cursor: pointer;
   transition:

@@ -4,6 +4,7 @@ import { trackPageView, addDwellSeconds } from "../utils/analytics";
 import { SiteLogo } from "./SiteLogo";
 import { SiteSearch } from "./SiteSearch";
 import { SiteFooter } from "./SiteFooter";
+import { AssistantChat } from "./AssistantChat";
 
 const navLinks = [
   { href: "/graph", label: "知识图谱", motion: "graph" as const },
@@ -80,6 +81,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <main className={`flex-1${isCanvasPage ? " layout__main--canvas" : ""}${location.pathname === "/graph" ? " layout__main--graph" : ""}${location.pathname === "/galaxy" ? " layout__main--galaxy" : ""}`}>{children}</main>
 
       {!isCanvasPage && <SiteFooter />}
+
+      <AssistantChat />
 
       <style>{`
         .brand-link {

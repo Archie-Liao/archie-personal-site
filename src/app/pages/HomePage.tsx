@@ -468,6 +468,7 @@ export function HomePage() {
         }
         .home-footer-cta {
           margin-bottom: 3rem; padding: 2rem; border: 1px solid var(--border);
+          border-radius: 12px;
           background: var(--accent); display: flex; flex-wrap: wrap;
           justify-content: space-between; align-items: center; gap: 1.25rem;
         }

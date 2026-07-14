@@ -75,16 +75,18 @@ export function DailyPunch() {
           padding: 1.125rem clamp(1.25rem, 4vw, 2rem);
           color: var(--muted-foreground);
           background: linear-gradient(
-            95deg,
-            color-mix(in srgb, var(--secondary) 82%, var(--card)) 0%,
-            color-mix(in srgb, var(--accent) 72%, var(--secondary)) 38%,
-            color-mix(in srgb, var(--punch) 16%, var(--card)) 68%,
-            color-mix(in srgb, var(--primary) 14%, color-mix(in srgb, var(--accent) 60%, var(--card))) 100%
+            98deg,
+            color-mix(in srgb, var(--ink-green) 18%, var(--card)) 0%,
+            color-mix(in srgb, var(--accent) 42%, var(--card)) 22%,
+            color-mix(in srgb, var(--card) 92%, var(--background)) 48%,
+            color-mix(in srgb, var(--punch) 14%, var(--card)) 74%,
+            color-mix(in srgb, var(--primary) 22%, var(--secondary)) 100%
           );
           box-shadow:
-            inset 4px 0 0 color-mix(in srgb, var(--punch) 38%, transparent),
-            inset 0 1px 0 color-mix(in srgb, var(--punch) 12%, transparent),
-            inset 0 -1px 0 color-mix(in srgb, var(--border) 85%, transparent);
+            inset 4px 0 0 color-mix(in srgb, var(--ink-green) 55%, transparent),
+            inset -4px 0 0 color-mix(in srgb, var(--punch) 48%, transparent),
+            inset 0 1px 0 color-mix(in srgb, var(--card) 80%, transparent),
+            inset 0 -1px 0 color-mix(in srgb, var(--border) 70%, transparent);
           clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
         }
         .daily-punch__lab {
@@ -94,7 +96,7 @@ export function DailyPunch() {
           font-size: 0.6875rem;
           letter-spacing: 0.28em;
           text-transform: uppercase;
-          color: color-mix(in srgb, var(--muted-foreground) 90%, var(--punch));
+          color: color-mix(in srgb, var(--ink-green) 55%, var(--muted-foreground));
         }
         .daily-punch__msg {
           flex: 1;
@@ -160,8 +162,8 @@ export function DailyPunch() {
           font-weight: 900;
           font-size: clamp(2rem, 5vw, 3rem);
           line-height: 1;
-          color: color-mix(in srgb, var(--punch) 28%, var(--muted-foreground));
-          opacity: 0.48;
+          color: color-mix(in srgb, var(--punch) 55%, var(--muted-foreground));
+          opacity: 0.55;
         }
         @media (max-width: 640px) {
           .daily-punch__slice {

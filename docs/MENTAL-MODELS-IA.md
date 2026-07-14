@@ -5,7 +5,7 @@ status: active
 canonical: docs/MENTAL-MODELS-IA.md
 authority: /galaxy 圈层布局 · 节点归属 · P3 助手同源数据
 depends_on: design-demos/assets/芒格多元思维模型-极简框架版.md
-revised_at: "2026-07-14 10:31:33"
+revised_at: "2026-07-14 14:20:14"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-14 14:20:14 | §一 区分 **完整 P3** vs **P3 尖兵**（链 SPIKE） |
 | 2026-07-14 10:31:33 | **P1 先这样** · 框架保留 · **§四节点表内容后审** |
 | 2026-07-14 09:43:32 | **§五** 螺旋试排推翻 · **还原同心圆** |
 | 2026-07-14 09:12:32 | （已推翻）曾改为三臂/单臂黄金螺旋试排 |
@@ -22,7 +23,7 @@ timezone: Asia/Shanghai
 # 思维模型星系 · 信息架构
 
 > **信源正文**：[`design-demos/assets/芒格多元思维模型-极简框架版.md`](../design-demos/assets/芒格多元思维模型-极简框架版.md)（芒格 v1 · 无第三方演绎）  
-> **视觉施工图**：[`MIX-MATCH-LIST.md`](MIX-MATCH-LIST.md) §8.13  
+> **视觉施工图**：[`P1-MIX-MATCH-LIST.md`](P1-MIX-MATCH-LIST.md) §8.13  
 > **线框（动工后同步）**：[`SITE-MANUAL.md`](SITE-MANUAL.md)
 
 ## 一、产品定位
@@ -30,7 +31,8 @@ timezone: Asia/Shanghai
 | 层 | 做什么 | 阶段 |
 |----|--------|------|
 | **`/galaxy` 检索学习** | 圈层式知识星系：层级 + 模型间关联 · 点节点阅读 | **P1 先这样 · 框架**（节点正文后审） |
-| **站内助手编排** | 输入具体事件 → 5 步调用流程 → 结合本站语料 | **P3**（`archie-site-assistant`） |
+| **站内助手编排** | 输入具体事件 → 5 步调用流程 → 结合本站语料 | **完整 P3**（尖兵之后） |
+| **P3 尖兵** | 通聊 UI + DeepSeek（无完整编排） | **施工图** → [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) |
 
 **与 `/graph` 区分**：`/graph` = 日记/标签**内容共现**；`/galaxy` = **思维模型层级与关联**（固定同心圆，非力导向共现）。
 

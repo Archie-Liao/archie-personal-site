@@ -1,0 +1,42 @@
+# push 到 main → 构建并部署到 CloudBase 静态网站托管
+name: Deploy CloudBase Static
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudbase-static
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install CloudBase CLI
+        run: npm install -g @cloudbase/cli
+
+      - name: Login CloudBase
+        run: |
+          tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
+
+      - name: Deploy hosting
+        run: |
+          tcb hosting deploy ./dist -e "${{ secrets.TCB_ENV_ID }}" --concurrency 5 --retry-count 3

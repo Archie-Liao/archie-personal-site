@@ -73,3 +73,4 @@ alwaysApply: true
 - Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`
 - 多源执行计划：宪章 §1.8（通用）· 本项目细则 → [`docs/MULTI-SOURCE-EXEC-PLAN.md`](../docs/MULTI-SOURCE-EXEC-PLAN.md)
 - 思维模型 `/galaxy`：[`docs/MENTAL-MODELS-IA.md`](../docs/MENTAL-MODELS-IA.md) · 框架 md → `design-demos/assets/芒格多元思维模型-极简框架版.md`
+- **P3 尖兵**（助手通聊试点）：[`docs/P3-ASSISTANT-SPIKE.md`](../docs/P3-ASSISTANT-SPIKE.md) · **勿写入 P1-MIX-MATCH**
