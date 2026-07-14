@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-10 17:05:00"
+revised_at: "2026-07-14 10:31:33"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,12 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-14 10:31:33 | **P1 先这样** · CloudBase 国内 URL · `/galaxy` 框架先挂、内容后审 · P2/P3 时机判断 |
+| 2026-07-14 10:00:27 | **删除** `TENCENT-CLOUD-DEPLOY.md` · 部署改走腾讯云 Git UI |
+| 2026-07-14 09:43:32 | **`/galaxy` 螺旋试排推翻** · **还原同心圆** |
+| 2026-07-14 09:12:32 | 曾试三臂螺旋 · **腾讯云部署指南** `TENCENT-CLOUD-DEPLOY.md`（螺旋已推翻） |
+| 2026-07-13 18:10:53 | **收工 · `/galaxy` 多轮 polish** — 静态 3 圈 · 思维星系 · 旁卡跟节点 · 星点背景（无流星）· 标签 `Noto Sans SC` · 全站视觉扫并行 |
+| 2026-07-13 17:25:00 | **`/galaxy` MVP 写码** — `GalaxyPage` · `mental-models` 数据 · 顶栏「思维星系」 |
 | 2026-07-10 17:05:00 | **配色对照** — `COLOR-TOKEN-MAP.md` + 小样站点表 · 金句降明度提纯度 |
 | 2026-07-10 16:04:16 | **`/graph` 先这样** — Obsidian 式全屏力导图 · 知识按钮弹层 · 调参导出 · Archie **全站视觉扫** 进行中 |
 | 2026-07-09 16:55:00 | **`link-fugu` 加长验收页**（~3 屏）· 列表/图谱方案 **并入 MIX-MATCH §8.7/§8.11**（sessions 仅留 delta） |
@@ -75,11 +81,11 @@ timezone: Asia/Shanghai
 # 项目状态
 
 > **新 AI 会话请先读本文 + [AGENTS.md](../AGENTS.md) + [SITE-MANUAL.md](SITE-MANUAL.md) + [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md)**  
-> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-10.md](sessions/2026-07-10.md) · [2026-07-08.md](sessions/2026-07-08.md) · [2026-07-07.md](sessions/2026-07-07.md)
+> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-13.md](sessions/2026-07-13.md) · [2026-07-10.md](sessions/2026-07-10.md) · [2026-07-08.md](sessions/2026-07-08.md)
 
 ## 主任务（仅 1 条）
 
-**第一期改版（P1）**：视觉混搭 + 六页 + 旅程 **B/C + A 筛选阅读**（**不上**站内助手）→ 迁入 `src/`
+**第一期改版（P1）**：视觉混搭 + **七页（含 `/galaxy` MVP 规划）** + 旅程 **B/C + A 筛选阅读**（**不上**站内助手编排）→ 迁入 `src/`
 
 ## 主线流程（防失焦 · 新会话先对这条）
 
@@ -89,7 +95,7 @@ timezone: Asia/Shanghai
 ③ ~~填 sessions/2026-07-01 §6~~ ✅ 2026-07-07 拍板
 ④ ~~混搭清单~~ ✅ Archie 2026-07-07 确认
 ⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅** · ~~C polish~~ **✅** · **`/graph` Obsidian 交互** **✅ 先这样** → **Archie 全站视觉扫** · Graph 双 Tab **P2**
-⑥ P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters → P3 助手
+⑥a **`/galaxy` 3 圈 MVP** **✅ P1 先这样**（框架；节点正文后续再审）→ **P1 收工** · ⑥b P2a content/md + wikilink + graph 双 Tab → P2b wiki/clusters → P3 助手
 ```
 
 | 阶段 | 权威文档 | AI 何时读 |
@@ -98,7 +104,7 @@ timezone: Asia/Shanghai
 | **怎么做细** | `docs/sessions/2026-07-01.md` | 做盘点/分期/畅想时 |
 | **视觉偷什么** | `docs/DEMO-TASTING-NOTES.md` | 做 demo / 迁 `src/` 前 |
 | **站建成什么样** | `docs/SITE-MANUAL.md` | 改路由/页面后同步 |
-| **P2/P3 产品** | sessions §9 + `design-demos/assets/芒格多元思维模型-极简框架版.md` | 做聚类/助手前，**P1 不写代码** |
+| **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + 框架 md | `/galaxy` 看 IA · 助手 **P3** |
 
 ## 进度快照
 
@@ -120,10 +126,11 @@ timezone: Asia/Shanghai
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
-| **产品畅想** | **P1 已锁 / P2 已锁** | 助手 **P3**；聚类 **P2b** 先于助手 → sessions §9 |
-| 知识库 | 部分 | `dialogues/` 2026-07-07 迁 src 会话 · `wiki/` `content/` 延后 |
+| **产品畅想** | **P1 `/galaxy` 已拍板** | 助手编排 **P3**；聚类 **P2b** 先于助手 → sessions §9 |
+| **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
+| 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
 | Logo | **v1 暂定 ✅** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) — Archie 不再纠结；后续主动再开 |
-| 部署 | 未开始 | |
+| 部署 | **国内已上线 ✅** | CloudBase 静态托管 · https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com · Vercel 可留备线 |
 
 ### 试吃进度（2026-07-07）
 
@@ -142,36 +149,45 @@ timezone: Asia/Shanghai
 
 ### Archie
 
-1. **全站视觉扫（当前）** — 六页逐路由看 · 记下要改的视觉效果 · 见下方清单
-2. **按需改 P1 polish** — 扫完集中提修改点（仍属 P1，非 P2）
-3. **P2** — Graph 双 Tab · content/md · ep86–93（**全站 P1 先这样后再开**）
+1. **（可选）轻量整理内容 inbox** — 见下方「P2 整理意见」；不阻塞休息  
+2. **是否并行探 P3** — 建议只做**规划/接口草案**，不接真助手；理由见「最近决策」  
+3. **P2 真内容** — 字幕 / 外链文章 / 笔记入库（主战场，可慢）
 
 ### AI（建议顺序）
 
 | 序 | 块 | 状态 |
 |----|-----|------|
-| 1–4 | B / C / A3-3 | **✅ 先这样** |
-| 5 | `/graph` Obsidian 交互 | **✅ 先这样**（2026-07-10） |
-| 6 | Archie 全站视觉反馈 → 零星 polish | **进行中** |
-| 7 | Graph 双 Tab | **P2** |
+| 1–7 | P1 视觉 + `/graph` + `/galaxy` 框架 | **✅ P1 先这样** |
+| 8 | **国内部署** | **✅ CloudBase 已上线** |
+| 9 | Graph 双 Tab · content/md | **P2** |
+| 10 | 助手编排 | **P3**（不抢在真内容之前全文开工） |
 
 > 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 继续 **全站视觉扫** 或指定路由。
 
 ### 可延后（P2+）
 
-- ep86–93 `posts.ts`、Logo 再迭代、助手 **P3**、聚类页 **P2b**
+- ep86–93 `posts.ts`、Logo 再迭代、助手 **P3**、聚类页 **P2b**（`/galaxy` 已前移 P1，见上）
 
 ## 待你决定
 
+- [x] **P1 视觉 + `/galaxy` 框架** — **2026-07-14 先这样**（galaxy 节点正文后审）
+- [x] **国内部署** — CloudBase https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com
 - [x] ~~**待 push**~~（2026-07-03 · `555e0f7`–`c6a6874` 已 push 至 GitHub）
 - [x] **整站混搭清单** — Archie 2026-07-07 确认 → 迁 `src/`
-- [x] **P1** 只做旅程 B/C + A 的筛选/阅读，**不上助手**
+- [x] **P1** 只做旅程 B/C + A 的筛选/阅读，**不上助手编排**（2026-07-03；**2026-07-13** 增补 `/galaxy` 展现）
+- [x] **`/galaxy`** — 元规则圆心 · 3 圈 MVP · 路由 `/galaxy`（2026-07-13）
 - [x] **P2** 聚类页先于思维模型助手
 - [x] Logo — **2026-07-08 v1 暂定**（见 LOGO-FONT-BRIEF §2.0）· **不再主动迭代**
 
 ## 最近决策
 
-- 2026-07-10 16:04:16：**`/graph` 先这样** — 全屏画布无页脚 · 左上「知识」横弹层 · ⋯ 外观/力度/复制调参 · 节点点击旁卡 · 默认 **2.2×** 几何居中 · 下一步 **Archie 全站视觉扫**
+- 2026-07-14 10:31:33：**P1 先这样** · 国内 https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com · `/galaxy` **框架先挂、内容后审** · **不建议整段跳过 P2 上 P3 实装**（可只写 P3 规划）
+- 2026-07-14 10:00:27：**删除** `TENCENT-CLOUD-DEPLOY.md` · 改用控制台 **Git 平台部署**当场填参
+- 2026-07-14 09:43:32：**`/galaxy` 还原同心圆** — 黄金/三臂螺旋试排 **已推翻**
+- 2026-07-13 18:10:53：**`/galaxy` polish** — 节点**静态**（取消公转/流星）· 顶栏「**思维星系**」· 详情**旁卡跟节点** · 仅选中时关联高亮 · 背景 `GalaxyStarfield` · 名/点一体命中区
+- 2026-07-13 17:25:00：**`/galaxy` MVP 写码** — 同心圆星系 · 元规则圆心 · 数据 `mental-models/` · 路由/顶栏/页脚已接
+- 2026-07-13 17:10:00：**思维模型 `/galaxy` 拍板** — 3 圈 · P1 展现 / P3 助手 · [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md)
+- 2026-07-10 16:04:16：**`/graph` 先这样** — 全屏画布无页脚 · 左上「知识」横弹层 · ⋯ 调参 · 节点旁卡 · 默认 **2.2×** 居中 · 下一步 **全站视觉扫**
 - 2026-07-09 10:10:03：**C 续** — Logo stamp 换图 · **`quotes.json`** punch 金句池
 - 2026-07-09 09:17:09：**C 续** — 首页精选卡/时间线无期数显示 **平台名**（`HomeCardFolio`）；列表预览 **同标签相关篇** 替代 graph 链
 - 2026-07-08 18:32:51：**收工** — 无期数条目 **平台名**（`postPlatform.ts`）详情 Hero + 列表左栏/预览；外链 Hero **grid 列修复**；边注 Note5 → **同标签相关篇**（非 `/graph`）；A3-2 **先这样**
@@ -193,6 +209,39 @@ timezone: Asia/Shanghai
 - 2026-06-30：协作宪章；YAML 规范；对话语料规则
 - 2026-06-26：知识库 wiki/content **延后**；SITE-MANUAL；单数据源 md
 
+## P2 内容整理意见（给 Archie · 2026-07-14）
+
+不必一次完美。建议三个**收件箱**，先进文件夹，再洗进站：
+
+| 收件箱 | 放什么 | 最低要求 |
+|--------|--------|----------|
+| **A · 视频日记** | 标题、日期、平台链接、字幕 txt、3～5 标签 | 字幕入 `public/subtitles/`；元数据先表格或一份索引 md |
+| **B · 优质外链** | 标题、URL、一句话理由、标签 | Excel/Notion 也可，以后再进 posts |
+| **C · 个人笔记** | 主题一句 + 要点/原文 | 先堆 `knowledge/raw/`，别急 wiki 化 |
+
+原则：**先捡、后洗、再上站**。P3 助手吃的是洗过的语料，不是桌面散文件。
+
+## 今日摘要（2026-07-14）
+
+- CloudBase 上线 · **P1 先这样** · `/galaxy` 内容后审 · 螺旋已推翻
+- 下一步：慢整理 A/B/C；AI 等开 P2 或仅写 P3 规划
+
+## 今日摘要（2026-07-13）
+
+- **`/galaxy` 并行交付**：MVP → 多轮交互/视觉迭代（静态节点 · 旁卡跟随 · 选中聚焦 · 背景星点 · 标签可读性）
+- **全站视觉扫**：与 `/galaxy` 并行；About 卷首/九宫格 · Posts 标题/筛选/手风琴 · Tag 球点击修复 等已落地
+- **下一步**：~~Archie 对照 §8.13 验收~~ → **P1 先这样（2026-07-14）**；内容后审
+
+### `/galaxy` 验收要点（Archie）
+
+| 项 | 看什么 |
+|----|--------|
+| 壳 | 全屏 · 无页脚 · 顶栏「思维星系」 |
+| 圈 | 三圈虚线可辨 · 节点**静止** · 外圈占位灰显 |
+| 读 | 点节点/**名字** → 旁卡跟在旁边 · 点空白取消选中 |
+| 聚焦 | 无选中时全不透明 · 选中后关联项高亮 |
+| 背景 | 淡柔光球 + 大星点呼吸 · **无流星** |
+
 ## 今日摘要（2026-07-10）
 
 - **`/graph` 收工**：Obsidian 式交互多轮迭代 → Archie **先这样**
@@ -207,6 +256,7 @@ timezone: Asia/Shanghai
 | `/post/link-fugu` | 长文 Hero · 边注 · 滚动 |
 | `/post/ep099` | 思维导图 · 知识卡片 · 视频/字幕 |
 | `/graph` | 知识按钮 · 力导图缩放/拖节点 · 点击旁卡 · ⋯ 设置 |
+| `/galaxy` | 三圈静态 · 点名字可选 · 旁卡跟随 · 知识弹层 · 背景星点 |
 | `/about` | metrics 全宽带 · 九宫格 · 联系区 |
 | `/feedback` | 表单窄列 · 提交反馈 |
 | 全站 | 顶栏动效 · 暖色 scrollbar · 新标签策略 |

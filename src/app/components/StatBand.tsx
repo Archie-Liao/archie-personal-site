@@ -52,9 +52,6 @@ export function StatBand() {
         .stat-band__cell:last-child {
           border-right: 0;
         }
-        .stat-band__cell--hero {
-          background: color-mix(in srgb, var(--primary) 6%, var(--secondary));
-        }
         .stat-band__lab {
           font-family: var(--font-body);
           font-size: 0.625rem;

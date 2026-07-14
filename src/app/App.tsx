@@ -6,6 +6,7 @@ import { PostsListPage } from "./pages/PostsListPage";
 import { PostPage } from "./pages/PostPage";
 import { GraphPage } from "./pages/GraphPage";
 import { FeedbackPage } from "./pages/FeedbackPage";
+import { GalaxyPage } from "./pages/GalaxyPage";
 import { AboutPage } from "./pages/AboutPage";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/posts" element={<PostsListPage />} />
             <Route path="/post/:id" element={<PostPage />} />
             <Route path="/graph" element={<GraphPage />} />
+            <Route path="/galaxy" element={<GalaxyPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

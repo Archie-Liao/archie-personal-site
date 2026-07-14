@@ -28,6 +28,8 @@ export const siteConfig = {
 
   postsListIntro: "视频日记与 AI 领域优质内容的沉淀归档，按时间线浏览，可按标签筛选。",
   graphIntro: "文章之间的语义与标签关联可视化，点击节点进入详情。",
+  galaxyIntro:
+    "芒格多元思维格栅的可视化索引：内圈为元规则，中圈为学科模型，外圈为场景应用（占位）。固定同心圆布局，强调层级与关联，非标签力导向。",
 
   /** A1-5 发布密度图：`mock` = 示意曲线 · `posts` = 按 posts 日期聚合（部署/content 后） */
   publishDensitySource: "posts" as "mock" | "posts",

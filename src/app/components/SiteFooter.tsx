@@ -10,14 +10,15 @@ const siteLinks = [
   { href: "/", label: "首页", sub: "Home" },
   { href: "/posts", label: "视频日记", sub: "Diary index" },
   { href: "/graph", label: "知识图谱", sub: "Tag graph" },
+  { href: "/galaxy", label: "思维星系", sub: "Mental lattice" },
   { href: "/feedback", label: "反馈", sub: "Feedback" },
   { href: "/about", label: "关于我", sub: "About" },
 ] as const;
 
 const externalLinks = [
-  { href: siteConfig.links.bilibili, label: "哔哩哔哩", ext: "B 站 ↗" },
-  { href: siteConfig.links.github, label: "GitHub", ext: "Archie-Liao ↗" },
-  { href: siteConfig.links.xiaohongshu, label: "小红书", ext: "RED ↗" },
+  { href: siteConfig.links.bilibili, label: "哔哩哔哩", ext: "B 站 ↗", motion: "bili" as const },
+  { href: siteConfig.links.github, label: "GitHub", ext: "Archie-Liao ↗", motion: "git" as const },
+  { href: siteConfig.links.xiaohongshu, label: "小红书", ext: "RED ↗", motion: "xhs" as const },
 ] as const;
 
 function scrollToTop() {
@@ -83,12 +84,22 @@ export function SiteFooter() {
           <div className="site-footer__col">
             <h4>关注 · Elsewhere</h4>
             {externalLinks.map((link) => (
-              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`site-footer__link site-footer__link--${link.motion}`}
+              >
                 {link.label}
                 <span className="site-footer__ext">{link.ext}</span>
               </a>
             ))}
-            <button type="button" className="site-footer__top-inline" onClick={scrollToTop}>
+            <button
+              type="button"
+              className="site-footer__top-inline site-footer__link site-footer__link--top"
+              onClick={scrollToTop}
+            >
               回到顶部 ↑
             </button>
           </div>
@@ -109,7 +120,7 @@ export function SiteFooter() {
           <p className="site-footer__copy">
             © {new Date().getFullYear()} {siteConfig.name} · 生命之书 · 自 {dayOneLabel} 起日更
           </p>
-          <button type="button" className="site-footer__top" onClick={scrollToTop}>
+          <button type="button" className="site-footer__top site-footer__link site-footer__link--top" onClick={scrollToTop}>
             回到顶部 ↑
           </button>
         </div>
@@ -213,11 +224,41 @@ export function SiteFooter() {
           border: 0;
           cursor: pointer;
           font-family: inherit;
-          transition: color 0.18s ease;
         }
-        .site-footer__col a:hover,
-        .site-footer__top-inline:hover {
+        .site-footer__link {
+          transition: color 0.2s ease, transform 0.2s ease, letter-spacing 0.2s ease;
+        }
+        .site-footer__col a:not(.site-footer__link):hover,
+        .site-footer__top-inline:not(.site-footer__link--top):hover {
           color: var(--primary);
+        }
+        /* D4 · 分平台动效 */
+        .site-footer__link--bili:hover,
+        .site-footer__link--bili:focus-visible {
+          color: #00a1d6;
+          transform: translateX(6px);
+        }
+        .site-footer__link--git:hover,
+        .site-footer__link--git:focus-visible {
+          color: var(--foreground);
+          letter-spacing: 0.06em;
+        }
+        .site-footer__link--xhs:hover,
+        .site-footer__link--xhs:focus-visible {
+          color: var(--punch);
+          transform: skewX(-4deg);
+        }
+        .site-footer__link--top:hover,
+        .site-footer__link--top:focus-visible {
+          color: var(--ink-green);
+          transform: translateY(-3px);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .site-footer__link:hover,
+          .site-footer__link:focus-visible {
+            transform: none;
+            letter-spacing: inherit;
+          }
         }
         .site-footer__ext {
           margin-left: 0.4rem;
@@ -274,9 +315,7 @@ export function SiteFooter() {
           border-bottom: 1.5px solid var(--primary);
           cursor: pointer;
           font-family: inherit;
-          transition: color 0.18s ease;
         }
-        .site-footer__top:hover { color: var(--primary); }
         @media (max-width: 900px) {
           .site-footer__top-inline { display: none; }
         }

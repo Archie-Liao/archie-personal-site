@@ -11,76 +11,77 @@
   --font-logo-script: 'Italianno', cursive;
   --font-logo-folio: 'Playfair Display', Georgia, serif;
   --font-logo-en: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-  /* stamp A+期数：深胡桃褐 · 金指纹上可读，非纯黑/白 */
-  --logo-stamp-ink: #4A2E1C;
+  /* stamp A+期数：深胡桃褐 · 金指纹上可读 */
+  --logo-stamp-ink: #4a2818;
   /* 正文：英文 Inter，中文思源黑体 */
   --font-body: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --font-cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 
-  /* MIX-MATCH: benchmark 纸底 + D4 punch + D5 数据色（仅图表） */
-  /* 焦赭点缀 · 顶栏「日记」/ 金句竖线（勿大面积铺底） */
-  --punch: #D4562A;
-  /* 数据红 · 仅图表 */
-  --data-red: #A6300E;
-  /* 数据灰蓝 · 仅图表 */
-  --data-slate: #3E4A5C;
+  /* Huemint website-2 · D · 2026-07-13 定稿
+   * 溯源：https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0
+   * 锚点 #fdf9f5 #633323 #f2640b #4849d0 · 衍生色手调见 theme-experiment 会话记录 */
+  /* 日记 / 金句竖线（勿大面积铺底） */
+  --punch: #e05c0a;
+  /* 数据红 · 仅图表（对齐主橙） */
+  --data-red: #f2640b;
+  /* 数据色 · 靛蓝（图表 / 图谱） */
+  --data-slate: #4849d0;
   --snap: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* ── L1 颜料罐（中文名见 docs/COLOR-TOKEN-MAP.md）── */
 
-  /* 奶油纸底 · 整页背景 */
-  --background: #F6F0E2;
-  /* 墨字 · 正文与标题 */
-  --foreground: #2A2622;
+  /* 暖奶油纸底 · Huemint #fdf9f5 */
+  --background: #fdf9f5;
+  /* 胡桃墨字 · Huemint #633323 */
+  --foreground: #633323;
   /* 浅卡片底 */
-  --card: #FBF7EE;
-  --card-foreground: #2A2622;
-  --popover: #FBF7EE;
-  --popover-foreground: #2A2622;
-  /* 陶土橙（链接）· 链接 / 按钮 / 图谱节点 */
-  --primary: #CC785C;
-  --primary-foreground: #F6F0E2;
-  /* 深陶土 · hover / 金句暗部 */
-  --primary-deep: #B5612F;
-  /* 浅米色面 */
-  --secondary: #ECE4D3;
-  --secondary-foreground: #4A443C;
-  --muted: #ECE4D3;
-  /* 弱化灰字 */
-  --muted-foreground: #6E655A;
-  /* 暖点缀面 */
-  --accent: #E7DEC9;
-  --accent-foreground: #3C5A4A;
-  /* 点睛色：赭石/陶土（极少量）与描金（分隔/细节） */
-  --terracotta: #CC785C;
-  /* 墨绿 */
-  --ink-green: #3C5A4A;
-  /* 描金 */
-  --gold: #9A7B3F;
+  --card: #fffcfa;
+  --card-foreground: #633323;
+  --popover: #fffcfa;
+  --popover-foreground: #633323;
+  /* 橙强调（链接）· Huemint #f2640b */
+  --primary: #f2640b;
+  --primary-foreground: #fdf9f5;
+  /* 深橙 · hover / 金句暗部 */
+  --primary-deep: #d9580a;
+  /* 暖米浅面 */
+  --secondary: #f5ebe3;
+  --secondary-foreground: #633323;
+  --muted: #f5ebe3;
+  /* 弱化褐字 */
+  --muted-foreground: #8a6b58;
+  /* 浅靛蓝点缀面 */
+  --accent: #e8e9f8;
+  --accent-foreground: #2e3070;
+  --terracotta: #f2640b;
+  /* 靛蓝标签 · Huemint #4849d0（token 名 ink-green 历史沿用） */
+  --ink-green: #4849d0;
+  /* 胡桃铜描金 */
+  --gold: #a67c52;
   --destructive: #A84A3C;
-  --destructive-foreground: #FBF7EE;
-  --border: rgba(42, 38, 34, 0.12);
-  --input: #FBF7EE;
-  --input-background: #FBF7EE;
-  --switch-background: #C4BDB4;
+  --destructive-foreground: #fffcfa;
+  --border: rgba(99, 51, 35, 0.14);
+  --input: #fffcfa;
+  --input-background: #fffcfa;
+  --switch-background: #d4c4b8;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #CC785C;
-  --chart-1: #3C5A4A;
-  --chart-2: #B5612F;
-  --chart-3: #5C7A6B;
-  --chart-4: #C4A574;
-  --chart-5: #6B5344;
+  --ring: #f2640b;
+  --chart-1: #4849d0;
+  --chart-2: #f2640b;
+  --chart-3: #633323;
+  --chart-4: #f5a872;
+  --chart-5: #8a8cc8;
   --radius: 0.625rem;
-  --sidebar: #F0EBE3;
-  --sidebar-foreground: #2A2622;
-  --sidebar-primary: #3C5A4A;
-  --sidebar-primary-foreground: #F6F0E2;
-  --sidebar-accent: #ECE4D3;
-  --sidebar-accent-foreground: #2A2622;
-  --sidebar-border: rgba(42, 38, 34, 0.1);
-  --sidebar-ring: #3C5A4A;
+  --sidebar: #f8f2ec;
+  --sidebar-foreground: #633323;
+  --sidebar-primary: #4849d0;
+  --sidebar-primary-foreground: #fdf9f5;
+  --sidebar-accent: #f5ebe3;
+  --sidebar-accent-foreground: #633323;
+  --sidebar-border: rgba(99, 51, 35, 0.1);
+  --sidebar-ring: #4849d0;
   --decoration-opacity: 0.1;
   --noise-opacity: 0.05;
 }
@@ -249,4 +250,79 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+/* ── 靛蓝微点缀（Huemint #4849d0 · 小字/色块，不大面积铺色）── */
+
+.home-page .home-hero__bar {
+  background: var(--ink-green);
+}
+
+.home-page .home-hero .home-eyebrow::first-letter {
+  color: var(--ink-green);
+}
+
+.home-page .daily-punch__lab::first-letter {
+  color: var(--ink-green);
+}
+
+.home-page .home-timeline .home-section-head h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.45rem;
+  background: var(--ink-green);
+  vertical-align: 0.2em;
+}
+
+.posts-page .posts-d2__eyebrow::first-letter {
+  color: var(--ink-green);
+}
+
+.posts-page .posts-preview__snippet-label::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.75rem;
+  margin-right: 0.4rem;
+  background: var(--ink-green);
+  vertical-align: -0.05em;
+}
+
+.post-page .post-hero__folio-from {
+  color: var(--ink-green);
+}
+
+.post-page .post-hero__over::first-letter {
+  color: var(--ink-green);
+}
+
+.post-page .post-section--summary .post-section-title__bar {
+  background: var(--ink-green);
+}
+
+.graph-page .graph-hero__kicker::first-letter {
+  color: var(--ink-green);
+}
+
+.graph-page .graph-knowledge-trigger__label::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.35rem;
+  border-radius: 1px;
+  background: var(--ink-green);
+  vertical-align: 0.15em;
+}
+
+.page-shell form label[for="feedback-msg"]::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 2px;
+  margin-right: 0.4rem;
+  background: var(--ink-green);
+  vertical-align: 0.25em;
 }

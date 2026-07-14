@@ -1,0 +1,15 @@
+/**
+ * 实验配色沙盒 · 仅 npm run dev:color 时加载（盖在 theme.css 之上）
+ *
+ * 2026-07-13：Huemint D 已迁入 theme.css（含靛蓝微点缀）。
+ * 本文件默认无覆盖；下次试色在 :root 里写要改的 token。
+ *
+ * 溯源：https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0
+ * 对照小样：design-demos/color-tokens-compare.html
+ */
+
+/* 试色示例（取消注释并修改）：
+:root {
+  --primary: #e07010;
+}
+*/

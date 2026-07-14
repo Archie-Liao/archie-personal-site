@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P1 配色对比 · 正式 vs Huemint D 实验</title>
+  <link rel="stylesheet" href="../src/styles/theme.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem clamp(1rem, 3vw, 2rem) 3rem;
+      font-family: var(--font-body);
+      background: #e8e4dc;
+      color: #2a2622;
+      line-height: 1.55;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      margin: 0 0 0.35rem;
+    }
+    .intro {
+      max-width: 56rem;
+      font-size: 0.875rem;
+      color: #5a5348;
+      margin: 0 0 1.5rem;
+    }
+    .intro code {
+      font-size: 0.8125rem;
+      background: #f6f0e2;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+    }
+    .intro a { color: #cc785c; font-weight: 600; }
+    .source-note {
+      max-width: 56rem;
+      margin: 0.65rem 0 0;
+      font-size: 0.8125rem;
+      color: #5a5348;
+      line-height: 1.6;
+    }
+    .source-note a {
+      color: #4849d0;
+      font-weight: 600;
+      word-break: break-all;
+    }
+    section { margin-bottom: 2rem; }
+    h2 {
+      font-family: var(--font-cond, var(--font-body));
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #633323;
+      margin: 0 0 0.75rem;
+    }
+    .anchors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      max-width: 56rem;
+    }
+    .anchor {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      background: #fff;
+      border: 1px solid rgba(42, 38, 34, 0.12);
+      font-size: 0.75rem;
+    }
+    .anchor__chip {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0.2rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .anchor__hex {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.6875rem;
+    }
+    .delta {
+      max-width: 56rem;
+      font-size: 0.8125rem;
+      border: 1px solid rgba(42, 38, 34, 0.12);
+      background: #fff;
+      overflow: hidden;
+    }
+    .delta table { width: 100%; border-collapse: collapse; }
+    .delta th,
+    .delta td {
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid rgba(42, 38, 34, 0.08);
+      text-align: left;
+      vertical-align: middle;
+    }
+    .delta th {
+      font-family: var(--font-cond);
+      font-size: 0.625rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: #f5f0e8;
+    }
+    .delta tr:last-child td { border-bottom: 0; }
+    .delta code { font-size: 0.6875rem; }
+    .delta__chip {
+      display: inline-block;
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 2px;
+      vertical-align: -0.15em;
+      margin-right: 0.25rem;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .delta__changed { background: #fff8e8; }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .compare { grid-template-columns: 1fr; }
+    }
+    .theme-panel {
+      padding: 1.25rem 1rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--background);
+      color: var(--foreground);
+    }
+    .theme-panel__head {
+      margin: 0 0 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .theme-panel__title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+    .theme-panel__sub {
+      margin: 0.25rem 0 0;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .theme-panel__sub code {
+      font-size: 0.6875rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+      gap: 0.55rem;
+    }
+    .swatch {
+      border: 1px solid var(--border);
+      background: var(--card);
+      overflow: hidden;
+    }
+    .swatch__chip {
+      height: 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .swatch__meta {
+      padding: 0.45rem 0.55rem 0.55rem;
+      font-size: 0.6875rem;
+    }
+    .swatch__cn {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      line-height: 1.3;
+    }
+    .swatch__hex {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.6875rem;
+      margin-top: 0.1rem;
+    }
+    .swatch__token {
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      color: var(--muted-foreground);
+      margin-top: 0.1rem;
+    }
+    .swatch__use {
+      margin-top: 0.25rem;
+      font-size: 0.625rem;
+      color: var(--muted-foreground);
+      line-height: 1.4;
+    }
+    .demo-punch {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(
+        95deg,
+        color-mix(in srgb, var(--secondary) 82%, var(--card)) 0%,
+        color-mix(in srgb, var(--accent) 72%, var(--secondary)) 38%,
+        color-mix(in srgb, var(--punch) 16%, var(--card)) 68%,
+        color-mix(in srgb, var(--primary) 14%, color-mix(in srgb, var(--accent) 60%, var(--card))) 100%
+      );
+      box-shadow: inset 4px 0 0 color-mix(in srgb, var(--punch) 38%, transparent);
+      clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
+    }
+    .demo-punch__lab {
+      font-family: var(--font-cond);
+      font-size: 0.5625rem;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--muted-foreground) 90%, var(--punch));
+    }
+    .demo-punch__lab::first-letter { color: var(--ink-green); }
+    .demo-punch__quote {
+      margin: 0.35rem 0 0;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      text-align: center;
+      color: transparent;
+      background-image: linear-gradient(
+        112deg,
+        color-mix(in srgb, var(--primary-deep) 94%, var(--foreground)) 0%,
+        color-mix(in srgb, var(--punch) 92%, var(--foreground)) 16%,
+        color-mix(in srgb, var(--background) 22%, var(--primary-deep)) 34%,
+        color-mix(in srgb, var(--punch) 90%, var(--foreground)) 48%,
+        color-mix(in srgb, var(--background) 32%, var(--primary-deep)) 58%,
+        color-mix(in srgb, var(--primary-deep) 92%, var(--punch)) 72%,
+        color-mix(in srgb, var(--background) 22%, var(--primary-deep)) 86%,
+        color-mix(in srgb, var(--punch) 88%, var(--foreground)) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 0.65rem;
+    }
+    .demo-pair {
+      flex: 1 1 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 0.75rem;
+    }
+    .demo-pair__fg { font-weight: 600; margin-bottom: 0.25rem; }
+    .demo-tag {
+      display: inline-block;
+      padding: 0.12rem 0.45rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--accent-foreground);
+      background: color-mix(in srgb, var(--accent) 55%, var(--card));
+      border-radius: 999px;
+    }
+    .demo-chart {
+      display: flex;
+      height: 1rem;
+      border-radius: 0.2rem;
+      overflow: hidden;
+      margin-top: 0.4rem;
+    }
+    .demo-chart span { flex: 1; }
+    .demo-accent {
+      margin-top: 0.65rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .demo-accent strong { color: var(--ink-green); }
+
+    /* 正式 P1 · Huemint D（与 theme.css 同步） */
+    .theme-panel--prod {
+      --background: #fdf9f5;
+      --foreground: #633323;
+      --card: #fffcfa;
+      --card-foreground: #633323;
+      --primary: #f2640b;
+      --primary-foreground: #fdf9f5;
+      --primary-deep: #d9580a;
+      --punch: #e05c0a;
+      --secondary: #f5ebe3;
+      --secondary-foreground: #633323;
+      --muted: #f5ebe3;
+      --muted-foreground: #8a6b58;
+      --accent: #e8e9f8;
+      --accent-foreground: #2e3070;
+      --ink-green: #4849d0;
+      --gold: #a67c52;
+      --logo-stamp-ink: #4a2818;
+      --border: rgba(99, 51, 35, 0.14);
+      --ring: #f2640b;
+      --data-red: #f2640b;
+      --data-slate: #4849d0;
+      --chart-1: #4849d0;
+      --chart-2: #f2640b;
+      --chart-3: #633323;
+      --chart-4: #f5a872;
+      --chart-5: #8a8cc8;
+    }
+
+    /* Huemint D 实验 · theme-experiment.css */
+    .theme-panel--exp {
+      --background: #fdf9f5;
+      --foreground: #633323;
+      --card: #fffcfa;
+      --card-foreground: #633323;
+      --primary: #f2640b;
+      --primary-foreground: #fdf9f5;
+      --primary-deep: #d9580a;
+      --punch: #e05c0a;
+      --secondary: #f5ebe3;
+      --secondary-foreground: #633323;
+      --muted: #f5ebe3;
+      --muted-foreground: #8a6b58;
+      --accent: #e8e9f8;
+      --accent-foreground: #2e3070;
+      --ink-green: #4849d0;
+      --gold: #a67c52;
+      --logo-stamp-ink: #4a2818;
+      --border: rgba(99, 51, 35, 0.14);
+      --ring: #f2640b;
+      --data-red: #f2640b;
+      --data-slate: #4849d0;
+      --chart-1: #4849d0;
+      --chart-2: #f2640b;
+      --chart-3: #633323;
+      --chart-4: #f5a872;
+      --chart-5: #8a8cc8;
+    }
+  </style>
+</head>
+<body>
+  <h1>P1 配色对比 · 正式 vs Huemint D 实验</h1>
+  <p class="intro">
+    左栏 = <code>src/styles/theme.css</code>（线上正式 · Huemint D 已定稿）·
+    右栏 = 定稿时实验值（应与左栏一致）·
+    单栏详表 → <a href="color-tokens.html">color-tokens.html</a> ·
+    对照文档 → <a href="../docs/COLOR-TOKEN-MAP.md">COLOR-TOKEN-MAP.md</a>
+  </p>
+
+  <section>
+    <h2>Huemint 四色锚点（实验方案根）</h2>
+    <p class="source-note">
+      溯源：
+      <a href="https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0" target="_blank" rel="noopener noreferrer">https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0</a>
+      · website-2 · 手调衍生见 <code>theme-experiment.css</code>
+    </p>
+    <div class="anchors">
+      <div class="anchor"><span class="anchor__chip" style="background:#fdf9f5"></span><span>奶油纸 <span class="anchor__hex">#fdf9f5</span></span></div>
+      <div class="anchor"><span class="anchor__chip" style="background:#633323"></span><span>胡桃墨 <span class="anchor__hex">#633323</span></span></div>
+      <div class="anchor"><span class="anchor__chip" style="background:#f2640b"></span><span>橙强调 <span class="anchor__hex">#f2640b</span></span></div>
+      <div class="anchor"><span class="anchor__chip" style="background:#4849d0"></span><span>靛蓝点缀 <span class="anchor__hex">#4849d0</span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Token 对照表（同名字段 hex 差异）</h2>
+    <div class="delta">
+      <table>
+        <thead>
+          <tr>
+            <th>中文名</th>
+            <th>Token</th>
+            <th>正式 P1</th>
+            <th>Huemint D 实验</th>
+          </tr>
+        </thead>
+        <tbody id="delta-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>色块一览 · 并排对比</h2>
+    <div class="compare">
+      <div class="theme-panel theme-panel--prod">
+        <div class="theme-panel__head">
+          <h3 class="theme-panel__title">正式 · Huemint D</h3>
+          <p class="theme-panel__sub"><code>theme.css</code> · <code>npm run dev</code></p>
+        </div>
+        <div class="grid" data-swatches="prod"></div>
+        <div class="demo-punch">
+          <div class="demo-punch__lab">Cover Story</div>
+          <p class="demo-punch__quote">「金句金属字 + 条子配方」</p>
+        </div>
+        <div class="demo-row">
+          <div class="demo-pair" style="background: var(--background)">
+            <div class="demo-pair__fg">纸底 + 墨字</div>
+            链接 <span style="color:var(--primary);font-weight:600">主强调色</span> · 日记 <span style="color:var(--punch);font-weight:600">punch</span>
+          </div>
+          <div class="demo-pair">
+            <div class="demo-pair__fg">标签 + 图表</div>
+            <span class="demo-tag">标签 pill</span>
+            <div class="demo-chart" aria-hidden="true">
+              <span style="background:var(--chart-1)"></span>
+              <span style="background:var(--chart-2)"></span>
+              <span style="background:var(--chart-3)"></span>
+              <span style="background:var(--chart-4)"></span>
+              <span style="background:var(--chart-5)"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-panel theme-panel--exp">
+        <div class="theme-panel__head">
+          <h3 class="theme-panel__title">定稿快照</h3>
+          <p class="theme-panel__sub">
+            2026-07-13 实验定稿值<br>
+            <a href="https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0" target="_blank" rel="noopener noreferrer" style="color:var(--ink-green);font-weight:600">Huemint 溯源链接</a>
+          </p>
+        </div>
+        <div class="grid" data-swatches="exp"></div>
+        <div class="demo-punch">
+          <div class="demo-punch__lab">Cover Story</div>
+          <p class="demo-punch__quote">「金句金属字 + 条子配方」</p>
+        </div>
+        <div class="demo-row">
+          <div class="demo-pair" style="background: var(--background)">
+            <div class="demo-pair__fg">纸底 + 墨字</div>
+            链接 <span style="color:var(--primary);font-weight:600">主强调色</span> · 日记 <span style="color:var(--punch);font-weight:600">punch</span>
+          </div>
+          <div class="demo-pair">
+            <div class="demo-pair__fg">标签 + 图表</div>
+            <span class="demo-tag">标签 pill</span>
+            <div class="demo-chart" aria-hidden="true">
+              <span style="background:var(--chart-1)"></span>
+              <span style="background:var(--chart-2)"></span>
+              <span style="background:var(--chart-3)"></span>
+              <span style="background:var(--chart-4)"></span>
+              <span style="background:var(--chart-5)"></span>
+            </div>
+          </div>
+        </div>
+        <p class="demo-accent">靛蓝微点缀示例：<strong>卷</strong>首 · <strong>C</strong>over · 时间线■</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const TOKENS = [
+      ["奶油纸底", "--background", "整页背景"],
+      ["墨字", "--foreground", "正文、标题"],
+      ["浅卡片底", "--card", "卡片、输入框"],
+      ["主强调（链接）", "--primary", "链接、按钮"],
+      ["深强调 hover", "--primary-deep", "hover、金句暗部"],
+      ["日记 / 金句", "--punch", "顶栏日记、金句竖线"],
+      ["浅米色面", "--secondary", "金句条配方"],
+      ["暖/冷点缀面", "--accent", "装饰浅底"],
+      ["弱化字", "--muted-foreground", "日期、说明"],
+      ["标签色", "--ink-green", "标签（实验=靛蓝）"],
+      ["描金", "--gold", "分隔装饰"],
+      ["数据红", "--data-red", "图表强调"],
+      ["数据色", "--data-slate", "图表弱对比"],
+      ["图表 1", "--chart-1", "发布密度"],
+      ["图表 2", "--chart-2", "发布密度"],
+      ["图表 3", "--chart-3", "发布密度"],
+      ["图表 4", "--chart-4", "发布密度"],
+      ["图表 5", "--chart-5", "发布密度"],
+    ];
+
+    const PROD = {
+      "--background": "#fdf9f5",
+      "--foreground": "#633323",
+      "--card": "#fffcfa",
+      "--primary": "#f2640b",
+      "--primary-deep": "#d9580a",
+      "--punch": "#e05c0a",
+      "--secondary": "#f5ebe3",
+      "--accent": "#e8e9f8",
+      "--muted-foreground": "#8a6b58",
+      "--ink-green": "#4849d0",
+      "--gold": "#a67c52",
+      "--data-red": "#f2640b",
+      "--data-slate": "#4849d0",
+      "--chart-1": "#4849d0",
+      "--chart-2": "#f2640b",
+      "--chart-3": "#633323",
+      "--chart-4": "#f5a872",
+      "--chart-5": "#8a8cc8",
+    };
+
+    const EXP = {
+      "--background": "#fdf9f5",
+      "--foreground": "#633323",
+      "--card": "#fffcfa",
+      "--primary": "#f2640b",
+      "--primary-deep": "#d9580a",
+      "--punch": "#e05c0a",
+      "--secondary": "#f5ebe3",
+      "--accent": "#e8e9f8",
+      "--muted-foreground": "#8a6b58",
+      "--ink-green": "#4849d0",
+      "--gold": "#a67c52",
+      "--data-red": "#f2640b",
+      "--data-slate": "#4849d0",
+      "--chart-1": "#4849d0",
+      "--chart-2": "#f2640b",
+      "--chart-3": "#633323",
+      "--chart-4": "#f5a872",
+      "--chart-5": "#8a8cc8",
+    };
+
+    function hexFromPanel(panel, token) {
+      const probe = document.createElement("span");
+      probe.style.color = `var(${token})`;
+      panel.appendChild(probe);
+      const rgb = getComputedStyle(probe).color;
+      panel.removeChild(probe);
+      const m = rgb.match(/[\d.]+/g);
+      if (!m) return "—";
+      const [r, g, b] = m.map((n) => Math.round(Number(n)));
+      return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+    }
+
+    function renderSwatches(panelKey) {
+      const panel = document.querySelector(`.theme-panel--${panelKey}`);
+      const root = panel.querySelector("[data-swatches]");
+      root.innerHTML = TOKENS.map(([cn, token, use]) => {
+        const hex = hexFromPanel(panel, token);
+        return `<article class="swatch">
+          <div class="swatch__chip" style="background: var(${token})"></div>
+          <div class="swatch__meta">
+            <div class="swatch__cn">${cn}</div>
+            <div class="swatch__hex">${hex}</div>
+            <div class="swatch__token">${token}</div>
+            <div class="swatch__use">${use}</div>
+          </div>
+        </article>`;
+      }).join("");
+    }
+
+    document.getElementById("delta-body").innerHTML = TOKENS.map(([cn, token]) => {
+      const p = PROD[token] || "—";
+      const e = EXP[token] || "—";
+      const changed = p.toUpperCase() !== e.toUpperCase();
+      return `<tr class="${changed ? "delta__changed" : ""}">
+        <td>${cn}</td>
+        <td><code>${token}</code></td>
+        <td><span class="delta__chip" style="background:${p}"></span><code>${p}</code></td>
+        <td><span class="delta__chip" style="background:${e}"></span><code>${e}</code></td>
+      </tr>`;
+    }).join("");
+
+    renderSwatches("prod");
+    renderSwatches("exp");
+  </script>
+</body>
+</html>

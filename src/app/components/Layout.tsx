@@ -7,6 +7,7 @@ import { SiteFooter } from "./SiteFooter";
 
 const navLinks = [
   { href: "/graph", label: "知识图谱", motion: "graph" as const },
+  { href: "/galaxy", label: "思维星系", motion: "galaxy" as const },
   { href: "/posts", label: "点我点我", motion: "diary" as const },
   { href: "/feedback", label: "反馈", motion: "feedback" as const },
   { href: "/about", label: "关于我", motion: "default" as const },
@@ -24,10 +25,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
     };
   }, [location.pathname]);
 
-  const isGraphPage = location.pathname === "/graph";
+  const isCanvasPage = location.pathname === "/graph" || location.pathname === "/galaxy";
 
   return (
-    <div id="top" className={`min-h-screen flex flex-col${isGraphPage ? " layout--graph" : ""}`}
+    <div id="top" className={`min-h-screen flex flex-col${isCanvasPage ? " layout--canvas" : ""}${location.pathname === "/graph" ? " layout--graph" : ""}${location.pathname === "/galaxy" ? " layout--galaxy" : ""}`}
       style={{ fontFamily: "var(--font-body)", background: "var(--background)", color: "var(--foreground)" }}
     >
       <header
@@ -76,9 +77,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className={`flex-1${isGraphPage ? " layout__main--graph" : ""}`}>{children}</main>
+      <main className={`flex-1${isCanvasPage ? " layout__main--canvas" : ""}${location.pathname === "/graph" ? " layout__main--graph" : ""}${location.pathname === "/galaxy" ? " layout__main--galaxy" : ""}`}>{children}</main>
 
-      {!isGraphPage && <SiteFooter />}
+      {!isCanvasPage && <SiteFooter />}
 
       <style>{`
         .brand-link {
@@ -112,6 +113,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         }
         .nav-link--graph:hover::after,
         .nav-link--graph.nav-link--active::after { width: 100%; }
+        .nav-link--galaxy::after {
+          content: "";
+          position: absolute;
+          left: 0; bottom: 0;
+          height: 2px; width: 0;
+          background: var(--ink-green, #4849d0);
+          transition: width 0.12s var(--snap, ease);
+        }
+        .nav-link--galaxy:hover::after,
+        .nav-link--galaxy.nav-link--active::after { width: 100%; }
         .nav-link--feedback::before {
           content: "";
           position: absolute;

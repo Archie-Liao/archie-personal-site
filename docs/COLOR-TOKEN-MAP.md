@@ -4,7 +4,7 @@ title: 配色 token 站点对照与调整指南
 status: active
 canonical: docs/COLOR-TOKEN-MAP.md
 authority: P1 配色可执行对照
-revised_at: "2026-07-10 17:31:00"
+revised_at: "2026-07-13 15:27:57"
 timezone: Asia/Shanghai
 ---
 
@@ -12,6 +12,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-13 15:27:57 | Huemint D 定稿迁入 theme.css · 更新 §0 词典 · 靛蓝微点缀入正式 |
 | 2026-07-10 17:31:00 | §0 中文色名词典 · theme.css 中文注释 · 小样改中文优先 |
 | 2026-07-10 17:23:00 | §1 补 L1/L2 颜料罐类比 · Hero 标题随机色块 |
 | 2026-07-10 17:05:00 | 初版：三层模型 · 路由对照表 · 调整工作流 · 金句配方说明 |
@@ -32,21 +33,24 @@ timezone: Asia/Shanghai
 
 | 你就记这个 | 代码里的名字 | 当前 hex | 网站上指什么 |
 |------------|--------------|----------|--------------|
-| **奶油纸底** | `--background` | `#F6F0E2` | 整页背景 |
-| **墨字** | `--foreground` | `#2A2622` | 正文、标题 |
-| **浅卡片底** | `--card` | `#FBF7EE` | 卡片、输入框 |
-| **陶土橙（链接）** | `--primary` | `#CC785C` | 链接、主按钮、时间线 Day、图谱节点 |
-| **深陶土** | `--primary-deep` | `#B5612F` | 链接 hover、金句暗部 |
-| **焦赭点缀** | `--punch` | `#D4562A` | 顶栏「日记」、金句左线、大编号 |
-| **浅米色面** | `--secondary` | `#ECE4D3` | 次要背景（金句条配方） |
-| **暖点缀面** | `--accent` | `#E7DEC9` | 浅装饰底（金句条、页脚） |
-| **弱化灰字** | `--muted-foreground` | `#6E655A` | 日期、说明 |
-| **墨绿** | `--ink-green` | `#3C5A4A` | 标签 |
-| **描金** | `--gold` | `#9A7B3F` | 顶栏分隔线 |
-| **数据红** | `--data-red` | `#A6300E` | 仅图表 / 图谱强调边 |
+| **暖奶油纸底** | `--background` | `#fdf9f5` | 整页背景（Huemint 锚点） |
+| **胡桃墨字** | `--foreground` | `#633323` | 正文、标题 |
+| **浅卡片底** | `--card` | `#fffcfa` | 卡片、输入框 |
+| **橙强调（链接）** | `--primary` | `#f2640b` | 链接、主按钮、图谱节点 |
+| **深橙** | `--primary-deep` | `#d9580a` | 链接 hover、金句暗部 |
+| **日记橙** | `--punch` | `#e05c0a` | 顶栏「日记」、金句左线 |
+| **暖米浅面** | `--secondary` | `#f5ebe3` | 次要背景（金句条配方） |
+| **浅靛蓝点缀面** | `--accent` | `#e8e9f8` | 浅装饰底（金句条、页脚） |
+| **弱化褐字** | `--muted-foreground` | `#8a6b58` | 日期、说明 |
+| **靛蓝标签** | `--ink-green` | `#4849d0` | 标签、靛蓝微点缀 |
+| **胡桃铜描金** | `--gold` | `#a67c52` | 顶栏分隔线 |
+| **数据橙** | `--data-red` | `#f2640b` | 图表 / 图谱强调 |
+| **数据靛蓝** | `--data-slate` | `#4849d0` | 图表弱对比 |
 
-**你要改「链接橙」** → 打开 `theme.css`，搜 **「陶土橙」** 或 `--primary`，改 `#CC785C`。  
-**你要改「日记红」** → 搜 **「焦赭」** 或 `--punch`，改 `#D4562A`。
+> **Huemint 溯源**：[website-2/#palette=fdf9f5-633323-f2640b-4849d0](https://huemint.com/website-2/#palette=fdf9f5-633323-f2640b-4849d0) · 对比小样 → `design-demos/color-tokens-compare.html`
+
+**你要改「链接橙」** → 打开 `theme.css`，搜 **「橙强调」** 或 `--primary`，改 `#f2640b`。  
+**你要改「日记橙」** → 搜 **「日记」** 或 `--punch`，改 `#e05c0a`。
 
 ---
 
@@ -87,11 +91,12 @@ timezone: Asia/Shanghai
 
 **推荐工作流**
 
-1. 在 [`color-tokens.html`](../design-demos/color-tokens.html) 找到要调的 **token 名**（如 `--primary`）。
+1. 在 [`color-tokens.html`](../design-demos/color-tokens.html) 或本文 §0 找到要调的 **token 名**（如 `--primary`）。
 2. 查本文 **§3 路由对照表**，看该 token 出现在哪些页面、哪些块。
-3. 改 `theme.css` 里那一行 hex → 保存 → `npm run dev` 看受影响区域。
-4. 若只有一块不对 → 用编辑器 **全局搜索** `var(--primary)` 定位配方文件，微调 `color-mix` 百分比。
-5. 金句等特殊效果 → 直接改 `DailyPunch.tsx`（§5）。
+3. **试色（不动正式配色）**：改 [`theme-experiment.css`](../src/styles/theme-experiment.css) → `npm run dev:color` → 浏览真页面；右下角有「实验配色」角标。
+4. **定稿迁入**：对 AI 说「把实验配色应用到正式 theme.css」→ 抄 hex 进 `theme.css` → `npm run dev` 验收。
+5. 若只有一块不对 → 用编辑器 **全局搜索** `var(--primary)` 定位配方文件，微调 `color-mix` 百分比。
+6. 金句等特殊效果 → 直接改 `DailyPunch.tsx`（§5）。
 
 ---
 

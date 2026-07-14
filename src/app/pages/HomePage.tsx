@@ -14,7 +14,7 @@ import { HeroTitleBackdrop } from "../components/HeroTitleBackdrop";
 import { buildHeroTitleBackdrop } from "../utils/heroTitleBackdrop";
 import { AuthorNote } from "../components/AuthorNote";
 import { HomeCardFolio } from "../components/HomeCardFolio";
-import { formatHomeCardMeta, formatHomeTimelineLabel } from "../utils/postPlatform";
+import { formatHomeCardMeta, formatHomeTimelineDek, getPostListMarker } from "../utils/postPlatform";
 
 export function HomePage() {
   const dayCount = getDiaryDayCount(siteConfig.dayOneDate);
@@ -133,13 +133,29 @@ export function HomePage() {
           </SiteLink>
         </div>
         <div className="home-timeline__list">
-          {recent.map((p) => (
-            <SiteLink key={p.id} to={`/post/${p.id}`} className="home-t-row">
-              <span className="home-t-day">{formatHomeTimelineLabel(p)}</span>
-              <span className="home-t-title">{p.title}</span>
-              <span className="home-t-date">{p.date}</span>
-            </SiteLink>
-          ))}
+          {recent.map((p, i) => {
+            const marker = getPostListMarker(p);
+            return (
+              <SiteLink key={p.id} to={`/post/${p.id}`} className="home-t-row">
+                <span className="home-t-folio">
+                  {marker.kind === "episode" ? (
+                    <>
+                      <span className="home-t-folio__num">{marker.value}</span>
+                      <span className="home-t-folio__lab">Day</span>
+                    </>
+                  ) : (
+                    <span className="home-t-folio__platform">{marker.value}</span>
+                  )}
+                </span>
+                <span className="home-t-stripe" aria-hidden="true" data-stripe={i % 3} />
+                <span className="home-t-main">
+                  <span className="home-t-title">{p.title}</span>
+                  <span className="home-t-dek">{formatHomeTimelineDek(p)}</span>
+                </span>
+                <span className="home-t-date">{p.date}</span>
+              </SiteLink>
+            );
+          })}
         </div>
       </section>
 
@@ -254,44 +270,202 @@ export function HomePage() {
         .home-cards { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); }
         @media (max-width: 900px) { .home-cards { grid-template-columns: 1fr; } }
         .home-card {
-          padding: 2rem 1.75rem; border-right: 1px solid var(--border); position: relative;
+          padding: 2.25rem 1.875rem 2rem; border-right: 1px solid var(--border); position: relative;
         }
         .home-card:last-child { border-right: 0; }
         @media (max-width: 900px) { .home-card { border-right: 0; border-bottom: 1px solid var(--border); } }
-        .home-card__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .home-folio { font-family: var(--font-display); font-style: italic; font-size: 2.25rem; color: color-mix(in srgb, var(--primary) 22%, transparent); }
+        .home-card__top {
+          display: flex; justify-content: space-between; align-items: flex-start;
+          margin-bottom: 1.125rem; gap: 0.75rem;
+        }
+        .home-card .home-eyebrow {
+          font-size: 0.6875rem;
+          font-weight: 700;
+          letter-spacing: 0.22em;
+          color: var(--primary-deep, var(--terracotta));
+        }
+        .home-folio {
+          font-family: var(--font-display); font-style: italic;
+          font-size: 1.625rem; line-height: 1;
+          color: color-mix(in srgb, var(--primary) 18%, transparent);
+        }
         .home-folio--platform {
           font-family: var(--font-cond, var(--font-display));
           font-style: normal;
           font-weight: 800;
-          font-size: 1.125rem;
-          letter-spacing: 0.04em;
-          color: color-mix(in srgb, var(--primary-deep, var(--terracotta)) 75%, transparent);
+          font-size: 1rem;
+          letter-spacing: 0.05em;
+          color: color-mix(in srgb, var(--muted-foreground) 55%, var(--primary));
         }
-        .home-card h3 { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; line-height: 1.45; }
+        .home-card h3 {
+          margin: 0 0 0.875rem;
+          font-family: var(--font-serif);
+          font-size: clamp(1.3125rem, 2.4vw, 1.4375rem);
+          font-weight: 700;
+          line-height: 1.42;
+          letter-spacing: 0.02em;
+          color: var(--foreground);
+        }
         .home-card h3 a { text-decoration: none; color: inherit; }
-        .home-card h3 a:hover { color: var(--primary); }
-        .home-card__meta { font-size: 0.8125rem; color: var(--muted-foreground); margin: 0 0 0.5rem; }
-        .home-card__tags { font-size: 0.75rem; color: var(--muted-foreground); margin: 0; }
-        .home-card__more { display: inline-block; margin-top: 1.25rem; font-size: 0.8125rem; font-weight: 600; border-bottom: 1px solid var(--primary); text-decoration: none; color: var(--foreground); }
-        .home-hot-list { list-style: none; margin: 1.25rem 0 0; padding: 0; }
-        .home-hot-list li { border-bottom: 1px solid var(--border); padding: 0.65rem 0; }
+        .home-card h3 a:hover { color: var(--primary-deep, var(--primary)); }
+        .home-card__meta {
+          font-size: 0.875rem;
+          color: var(--muted-foreground);
+          margin: 0 0 0.5rem;
+          letter-spacing: 0.04em;
+        }
+        .home-card__tags {
+          font-size: 0.8125rem;
+          color: color-mix(in srgb, var(--muted-foreground) 88%, transparent);
+          margin: 0;
+          letter-spacing: 0.06em;
+        }
+        .home-card__more {
+          display: inline-block; margin-top: 1.375rem;
+          font-size: 0.875rem; font-weight: 600;
+          letter-spacing: 0.05em;
+          border-bottom: 1.5px solid var(--primary);
+          text-decoration: none; color: var(--foreground);
+        }
+        .home-card__more:hover { color: var(--primary-deep, var(--primary)); }
+        .home-hot-list { list-style: none; margin: 0.75rem 0 0; padding: 0; }
+        .home-hot-list li { border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
         .home-hot-list li:last-child { border-bottom: 0; }
-        .home-hot-list a { display: flex; gap: 0.75rem; text-decoration: none; color: inherit; font-size: 0.875rem; font-family: var(--font-serif); }
-        .home-hot-list a:hover { color: var(--primary); }
-        .home-hot-n { font-family: var(--font-display); font-style: italic; color: var(--primary); flex-shrink: 0; }
+        .home-hot-list a {
+          display: flex; gap: 0.875rem; align-items: baseline;
+          text-decoration: none; color: inherit;
+          font-family: var(--font-serif);
+          font-size: 0.9375rem; font-weight: 600; line-height: 1.45;
+        }
+        .home-hot-list a:hover { color: var(--primary-deep, var(--primary)); }
+        .home-hot-n {
+          font-family: var(--font-display); font-style: italic;
+          font-size: 1rem; font-weight: 600;
+          color: var(--primary-deep, var(--primary));
+          flex-shrink: 0; width: 1.125rem;
+        }
         .home-timeline { padding-bottom: 5rem; }
         .home-timeline__list { border: 1px solid var(--border); }
         .home-t-row {
-          display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 1.25rem;
-          padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
-          align-items: baseline; text-decoration: none; color: inherit; transition: background 0.15s;
+          display: grid;
+          grid-template-columns: 4.75rem 6px 1fr auto;
+          gap: 0.75rem 1.25rem;
+          padding: 1.125rem 1.5rem;
+          border-bottom: 1px solid var(--border);
+          align-items: start;
+          text-decoration: none;
+          color: inherit;
+          transition: padding-left 0.2s ease, background 0.15s ease;
         }
         .home-t-row:last-child { border-bottom: 0; }
-        .home-t-row:hover { background: color-mix(in srgb, var(--primary) 5%, transparent); }
-        .home-t-day { font-family: var(--font-display); font-style: italic; font-size: 0.8125rem; color: var(--primary); }
-        .home-t-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 500; }
-        .home-t-date { font-size: 0.75rem; color: var(--muted-foreground); white-space: nowrap; }
+        .home-t-row:hover,
+        .home-t-row:focus-visible {
+          padding-left: 1.85rem;
+          background: color-mix(in srgb, var(--punch) 4%, transparent);
+          outline: none;
+        }
+        .home-t-folio {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          line-height: 1;
+          min-width: 0;
+        }
+        .home-t-folio__num {
+          font-family: var(--font-display);
+          font-weight: 900;
+          font-size: clamp(1.625rem, 3.2vw, 2.125rem);
+          line-height: 1;
+          color: var(--primary-deep, var(--primary));
+          transition: color 0.2s ease;
+        }
+        .home-t-row:hover .home-t-folio__num,
+        .home-t-row:focus-visible .home-t-folio__num {
+          color: var(--punch);
+        }
+        .home-t-folio__lab {
+          margin-top: 0.2rem;
+          font-family: var(--font-cond, var(--font-body));
+          font-size: 0.5625rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--muted-foreground);
+        }
+        .home-t-folio__platform {
+          font-family: var(--font-cond, var(--font-body));
+          font-size: 0.8125rem;
+          font-weight: 800;
+          letter-spacing: 0.06em;
+          line-height: 1.25;
+          color: var(--primary-deep, var(--primary));
+        }
+        .home-t-stripe {
+          width: 6px;
+          height: 2.75rem;
+          align-self: center;
+          background: var(--punch);
+          transform: scaleY(0);
+          transform-origin: bottom center;
+          transition: transform 0.2s ease;
+        }
+        .home-t-stripe[data-stripe="1"] { background: var(--ink-green); }
+        .home-t-stripe[data-stripe="2"] { background: var(--primary); }
+        .home-t-row:hover .home-t-stripe,
+        .home-t-row:focus-visible .home-t-stripe {
+          transform: scaleY(1);
+        }
+        .home-t-main {
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+        }
+        .home-t-title {
+          display: block;
+          font-family: var(--font-serif);
+          font-size: clamp(1.125rem, 2.1vw, 1.25rem);
+          font-weight: 600;
+          line-height: 1.35;
+          color: var(--foreground);
+          transition: color 0.2s ease;
+        }
+        .home-t-row:hover .home-t-title,
+        .home-t-row:focus-visible .home-t-title {
+          color: var(--primary-deep, var(--primary));
+        }
+        .home-t-dek {
+          display: block;
+          font-family: var(--font-body);
+          font-size: 0.8125rem;
+          line-height: 1.45;
+          color: var(--muted-foreground);
+        }
+        .home-t-date {
+          font-size: 0.75rem;
+          color: var(--muted-foreground);
+          white-space: nowrap;
+          padding-top: 0.2rem;
+          letter-spacing: 0.04em;
+        }
+        @media (max-width: 640px) {
+          .home-t-row {
+            grid-template-columns: 3.5rem 5px 1fr;
+            gap: 0.5rem 0.75rem;
+          }
+          .home-t-date { grid-column: 3; padding-top: 0; font-size: 0.6875rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .home-t-stripe {
+            transform: scaleY(0.9);
+            transition: opacity 0.15s ease;
+          }
+          .home-t-row:hover .home-t-stripe,
+          .home-t-row:focus-visible .home-t-stripe {
+            transform: scaleY(0.9);
+            opacity: 1;
+          }
+        }
         .home-footer-cta {
           margin-bottom: 3rem; padding: 2rem; border: 1px solid var(--border);
           background: var(--accent); display: flex; flex-wrap: wrap;

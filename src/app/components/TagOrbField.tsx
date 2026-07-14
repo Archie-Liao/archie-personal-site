@@ -7,6 +7,8 @@ const COOL = ["#5E8FA8", "#6A9A96", "#7289A6", "#4F7F8C"] as const;
 const SMALL_ORB_MAX = 3.8;
 const RESPAWN_MS = 6500;
 const SPAWN_MS = 900;
+/** 飘动略快一点（原 duration × 系数，越小越快） */
+const FLOAT_SPEED = 0.76;
 
 const ORB_TAG_SLOTS: readonly string[] = [
   "人生",
@@ -124,7 +126,14 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
   }, []);
 
   const handlePop = useCallback(
-    (index: number) => {
+    (index: number, wrapEl: HTMLElement | null) => {
+      if (wrapEl) {
+        const frozen = window.getComputedStyle(wrapEl).transform;
+        if (frozen && frozen !== "none") {
+          wrapEl.style.transform = frozen;
+        }
+      }
+
       setPhases((prev) => {
         if (prev[index] === "popping" || prev[index] === "hidden") return prev;
         return { ...prev, [index]: "popping" };
@@ -170,6 +179,16 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
       .filter(Boolean)
       .join(" ");
 
+    const floatDuration = spec.duration * FLOAT_SPEED;
+    const driftStyle = {
+      "--d1x": `${d1[0]}px`,
+      "--d1y": `${d1[1]}px`,
+      "--d2x": `${d2[0]}px`,
+      "--d2y": `${d2[1]}px`,
+      "--d3x": `${d3[0]}px`,
+      "--d3y": `${d3[1]}px`,
+    } as React.CSSProperties;
+
     const style = {
       left: spec.left,
       top: spec.top,
@@ -183,33 +202,55 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
           ? undefined
           : phase === "spawning"
             ? `${SPAWN_MS}ms`
-            : `${spec.duration}s`,
+            : `${floatDuration}s`,
       animationDelay: phase === "idle" ? `${spec.delay}s` : undefined,
       "--orb-opacity": phase === "popping" ? 1 : orbOpacity,
-      "--d1x": `${d1[0]}px`,
-      "--d1y": `${d1[1]}px`,
-      "--d2x": `${d2[0]}px`,
-      "--d2y": `${d2[1]}px`,
-      "--d3x": `${d3[0]}px`,
-      "--d3y": `${d3[1]}px`,
+      ...driftStyle,
     } as React.CSSProperties;
 
     if (small) {
+      const wrapPaused = phase === "popping" || phase === "spawning";
+      const wrapClass = [
+        "tag-orb-field__orb-wrap",
+        "tag-orb-field__orb-wrap--float",
+        wrapPaused ? "tag-orb-field__orb-wrap--paused" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      const wrapStyle = {
+        left: spec.left,
+        top: spec.top,
+        width: `${spec.size}rem`,
+        height: `${spec.size}rem`,
+        zIndex: spec.z,
+        animationDuration: `${floatDuration}s`,
+        animationDelay: phase === "idle" ? `${spec.delay}s` : undefined,
+        ...driftStyle,
+      } as React.CSSProperties;
+
+      const btnStyle = {
+        background: pickColor(spec, i),
+        fontSize: `${fontSize}rem`,
+        "--orb-opacity": phase === "popping" ? 1 : orbOpacity,
+      } as React.CSSProperties;
+
       return (
-        <button
-          key={`orb-${layer}-${i}-${phase}`}
-          type="button"
-          className={className}
-          style={style}
-          aria-label={`${tag} · 点击破裂`}
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePop(i);
-          }}
-          onAnimationEnd={(e) => handleAnimationEnd(i, e.currentTarget)}
-        >
-          {label && <span className="tag-orb-field__label">{label}</span>}
-        </button>
+        <span key={`orb-wrap-${layer}-${i}`} className={wrapClass} style={wrapStyle} data-orb-wrap={i}>
+          <button
+            type="button"
+            className={className}
+            style={btnStyle}
+            aria-label={`${tag} · 点击破裂`}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePop(i, e.currentTarget.parentElement as HTMLElement | null);
+            }}
+            onAnimationEnd={(e) => handleAnimationEnd(i, e.currentTarget)}
+          >
+            {label && <span className="tag-orb-field__label">{label}</span>}
+          </button>
+        </span>
       );
     }
 
@@ -245,8 +286,20 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         }
         .tag-orb-field--bg { z-index: 0; }
         .tag-orb-field--fg { z-index: 8; }
+        .tag-orb-field__orb-wrap {
+          position: absolute;
+          display: block;
+        }
+        .tag-orb-field__orb-wrap--float {
+          animation: tagOrbFloat ease-in-out infinite;
+          will-change: transform;
+        }
+        .tag-orb-field__orb-wrap--paused {
+          animation-play-state: paused;
+        }
         .tag-orb-field__orb {
           position: absolute;
+          inset: 0;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -260,6 +313,12 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
           box-shadow: 0 4px 18px rgba(40, 32, 24, 0.08);
           animation: tagOrbFloat ease-in-out infinite;
           will-change: transform, opacity;
+        }
+        .tag-orb-field__orb-wrap .tag-orb-field__orb {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          animation: none;
         }
         .tag-orb-field__orb--small {
           pointer-events: auto;
@@ -298,8 +357,8 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         }
         @keyframes orbPop {
           0% { transform: scale(1); opacity: 1; filter: blur(0); }
-          30% { transform: scale(1.15); opacity: 0.9; filter: blur(0); }
-          100% { transform: scale(1.75); opacity: 0; filter: blur(6px); }
+          35% { transform: scale(1.12); opacity: 0.88; filter: blur(0); }
+          100% { transform: scale(1.45); opacity: 0; filter: blur(5px); }
         }
         @keyframes orbSpawn {
           0% {
@@ -319,6 +378,7 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
           }
         }
         @media (prefers-reduced-motion: reduce) {
+          .tag-orb-field__orb-wrap--float { animation: none; }
           .tag-orb-field__orb { animation: none; }
           .tag-orb-field__orb--pop { animation: none; opacity: 0; }
           .tag-orb-field__orb--spawn { animation: none; opacity: var(--orb-opacity); }

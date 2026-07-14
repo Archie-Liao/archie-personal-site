@@ -97,7 +97,7 @@ export function PostsListPage() {
         <aside className="posts-d2__sidebar">
           <div className="posts-d2__sidebar-head">
             <span className="posts-d2__eyebrow">点我点我</span>
-            <h1 className="posts-d2__title">全部日记</h1>
+            <h1 className="posts-d2__title">You Can Find Everything！</h1>
             <p className="posts-d2__intro">{siteConfig.postsListIntro}</p>
             {latest && (
               <p className="posts-d2__latest">
@@ -153,12 +153,16 @@ export function PostsListPage() {
                   type="button"
                   className="posts-d2__month-btn"
                   aria-expanded={openMonths[month] !== false}
+                  data-open={openMonths[month] !== false}
                   onClick={() => setOpenMonths((m) => ({ ...m, [month]: !m[month] }))}
                 >
                   <span>{month.replace("-", ".")}</span>
-                  <span>{items.length}</span>
+                  <span className="posts-d2__month-meta">
+                    <span className="posts-d2__month-count">{items.length}</span>
+                    <span className="posts-d2__month-chevron" aria-hidden="true" />
+                  </span>
                 </button>
-                {openMonths[month] !== false && (
+                <div className="posts-d2__days-panel" data-open={openMonths[month] !== false}>
                   <ul className="posts-d2__days">
                     {items.map((post) => (
                       <li key={post.id}>
@@ -179,7 +183,7 @@ export function PostsListPage() {
                       </li>
                     ))}
                   </ul>
-                )}
+                </div>
               </div>
             ))}
             {filtered.length === 0 && <p className="posts-d2__empty">没有匹配的日记。</p>}

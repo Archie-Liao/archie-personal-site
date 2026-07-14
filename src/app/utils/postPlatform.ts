@@ -74,6 +74,18 @@ export function formatHomeTimelineLabel(post: ContentItem): string {
   return marker.value;
 }
 
+/** 首页时间线副标题 · D4 idx-dek / row-dek */
+export function formatHomeTimelineDek(post: ContentItem): string {
+  const overview = post.aiSummary?.overview?.trim();
+  if (overview) {
+    const sentence = overview.split(/[。！？.!?]/)[0]?.trim();
+    const base = sentence && sentence.length >= 8 ? sentence : overview;
+    return base.length > 88 ? `${base.slice(0, 88)}…` : base;
+  }
+  if (post.tags.length) return post.tags.slice(0, 4).join(" · ");
+  return post.type === "video" ? "视频日记" : post.type === "link" ? "外链归档" : "笔记";
+}
+
 /**
  * 无期数条目 Hero 左侧平台名；有 episode 时返回 null（显示期数）。
  */

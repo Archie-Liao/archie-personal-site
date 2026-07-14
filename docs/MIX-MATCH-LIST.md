@@ -5,7 +5,7 @@ status: active
 canonical: docs/MIX-MATCH-LIST.md
 authority: §6 拍板后的 production 视觉施工图
 depends_on: docs/sessions/2026-07-01.md §6 · docs/DEMO-TASTING-NOTES.md
-revised_at: "2026-07-10 16:04:16"
+revised_at: "2026-07-14 10:31:33"
 timezone: Asia/Shanghai
 ---
 
@@ -13,7 +13,11 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
-| 2026-07-10 16:04:16 | **§8.11** `/graph` Obsidian 式交互验收更新（全屏 · 知识弹层 · 旁卡） |
+| 2026-07-14 10:31:33 | **§8.13** **P1 先这样** · galaxy 内容后审 |
+| 2026-07-14 09:43:32 | **§8.13** 螺旋推翻 · **还原同心圆** |
+| 2026-07-14 09:12:32 | （已推翻）曾试黄金螺旋 |
+| 2026-07-13 18:10:53 | **§8.13** `/galaxy` polish — 静态节点 · 旁卡跟随 · 星点背景 · 标签 Noto Sans SC |
+| 2026-07-13 17:10:00 | **§8.13** `/galaxy` 思维星系 MVP 规划（3 圈 · 全屏） |
 | 2026-07-09 16:55:00 | **§8.7** 列表双栏滚动定稿（右栏页滚）· **§8.11** 图谱 G1–G3 验收并入 |
 | 2026-07-09 10:47:27 | **阶段 C 先这样** — §8.12 收工 · Logo 合掌 stamp |
 | 2026-07-08 17:57:13 | **阶段 C 启动** — §8.12 · 全站 sk-tag 清理 · scrollbar 统一 |
@@ -142,6 +146,7 @@ timezone: Asia/Shanghai
 |------|--------|------|------|
 | `/graph` | 标签共现 | 现站 GraphPage | P1 保持；视觉对齐 benchmark 纸底 |
 | `/graph` | Tab 文内链接 | — | **P2** |
+| `/galaxy` | 思维星系 | **MVP polish** · 静态同心圆 | 3 圈 · 全屏如 graph · 见 §8.13 · IA → `MENTAL-MODELS-IA.md` |
 | `/feedback` | 表单 | 现站 | P1 皮肤换 theme |
 | `/about` | 简介+QR+外链 | **D3** footer 气质 + benchmark | 旅程 C；可选 D3 poster-frame 圆形版画 |
 
@@ -502,6 +507,29 @@ timezone: Asia/Shanghai
 **`/graph` 验收（2026-07-09 · 已 supersede 布局）**：~~72rem 壳 + G1 hero 常驻~~ → 见上。
 
 **怎么验**：`/about` 内容与顶栏 **72rem 对齐**、metrics **全宽**；`/graph` **破例全宽**；**不应出现** `A5-x` 开发标签。
+
+### 8.13 `/galaxy` 思维星系 — **MVP polish · 待验收**（同心圆 · 螺旋已推翻）
+
+> **产品/节点归属** → [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) · 本条只管 **视觉与验收**。
+
+| 标签 | 要点 |
+|------|------|
+| **Galaxy-shell** | **全屏** `100svh`、暖纸底 · 破例无页脚（对齐 `/graph`） |
+| **Galaxy-rings** | **3 圈固定同心圆**（R1 元规则 / R2 学科模型 / R3 场景占位）· **静态** · 虚线可辨 |
+| **Galaxy-nodes** | 半透明小圆点 + **下方全名**（`Noto Serif SC` · 透气色）· **名字与圆点均可点** |
+| **Galaxy-read** | 点节点 → **旁卡跟随节点**（非固定右侧）· 点空白取消选中 |
+| **Galaxy-focus** | **无选中**时全部正常不透明 · **选中后**仅关联项高亮 |
+| **Galaxy-knowledge** | 左上 **「知识」** 横弹层 |
+| **Galaxy-bg** | `GalaxyStarfield`：柔光球 + 细线圆环星点呼吸 · **无流星** |
+| **Galaxy-narrow** | 窄屏：下方按圈文字索引 fallback |
+
+**偷谁**：`/graph` 全屏壳 + 知识弹层 + **旁卡阅读** · **不偷**力导向 · 气质 benchmark 纸色 + 橙/靛点缀
+
+**怎么验**：顶栏「思维星系」· 三圈可辨 · 点名字出旁卡 · 拖/缩放不滚页 · 背景星点不抢眼
+
+**状态**：**P1 先这样（2026-07-14）** · 框架保留 · **节点正文/归属后审** · 螺旋试排已推翻
+
+> **已推翻**：黄金螺旋 / 三臂螺旋布局（2026-07-14 试后改回同心圆）
 
 ---
 
