@@ -37,6 +37,7 @@ jobs:
         run: |
           tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
 
+      # 官方 CI 示例云端根路径为 /home（静态托管网站根）
       - name: Deploy hosting
         run: |
-          tcb hosting deploy ./dist -e "${{ secrets.TCB_ENV_ID }}" --concurrency 5 --retry-count 3
+          tcb hosting deploy ./dist /home -e "${{ secrets.TCB_ENV_ID }}" --concurrency 5 --retry-count 3
