@@ -54,8 +54,8 @@ jobs:
           TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
         run: tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
 
-      # Official CI sample uses /home as static site root
+      # Upload to static hosting ROOT (/). Do NOT use /home — that creates a leftover home/ folder.
       - name: Deploy hosting
         env:
           TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
-        run: tcb hosting deploy ./dist /home -e "$TCB_ENV_ID" --concurrency 5 --retry-count 3
+        run: tcb hosting deploy ./dist / -e "$TCB_ENV_ID" --concurrency 5 --retry-count 3

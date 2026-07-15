@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-14 18:19:33"
+revised_at: "2026-07-15 08:52:11"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-15 08:52:11 | **国内站 URL 更新** · Actions 改为部署到 `/`（勿 `/home`）· 文件管理别删 `__auth` |
 | 2026-07-14 18:19:33 | **CloudBase 自动部署** → GitHub Actions（静托管无「启用自动部署」开关；勿用云托管） |
 | 2026-07-14 17:05:28 | **P3 尖兵 B** — 云函数测通 · HTTP 路由已配 · 前端写入 endpoint |
 | 2026-07-14 16:31:30 | **P3 尖兵 A 出关**（「先这样」）· 下一步 **阶段 B** 云函数+DeepSeek |
@@ -140,7 +141,7 @@ timezone: Asia/Shanghai
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
 | 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
 | Logo | **v1 暂定 ✅** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) — Archie 不再纠结；后续主动再开 |
-| 部署 | **国内已上线 ✅** | CloudBase 静态托管 · https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com · Vercel 可留备线 |
+| 部署 | **国内已上线 ✅** | **现链** https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/ · 旧 `*.tcloudbaseapp.com` 可弃 · Vercel 备线 |
 
 ### 试吃进度（2026-07-07）
 
@@ -191,6 +192,7 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
+- 2026-07-15 08:52:11：**国内站改绑** — 现用 https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/ · GitHub Actions 应部署到静态托管 **根路径 `/`**（误用 `/home` 会多出 `home/` 文件夹）· 文件管理勿删 `__auth/`、`cloud-admin/`
 - 2026-07-14 18:19:33：**国内站自动部署** — 静态托管控制台常无「启用自动部署」开关；改用 **GitHub Actions** → `tcb hosting deploy ./dist` · 密钥进 GitHub Secrets（不上 git）
 - 2026-07-14 17:05:28：**P3 尖兵 B** — `assistantChat` 控制台测试通过 · HTTP `/assistantChat` · 前端 `site.config.assistant.endpoint` 已填 · 待本地/线上真聊验收
 - 2026-07-14 16:31:30：**P3 尖兵 A 出关**（「先这样」）· 下一 **阶段 B** = CloudBase 云函数 + DeepSeek（Key 不上 git）
