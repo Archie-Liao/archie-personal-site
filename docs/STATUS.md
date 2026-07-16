@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-15 08:52:11"
+revised_at: "2026-07-15 18:29:56"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,23 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-15 18:29:56 | **收工** — 明日续小蓝宠 **B4**（红/橙披风+键帽环+弹压发功）；B3 裸身已认可 |
+| 2026-07-15 18:26:00 | **小蓝宠 B4 改** — 红/橙披风 · 键帽环绕 · 弹压打字「音波发功」；取消笔枪 |
+| 2026-07-15 18:14:27 | **小蓝宠 B4** — 全身加披风+笔状长枪·侠客（笔枪方案已废） |
+| 2026-07-15 18:09:54 | **小蓝宠 B3** Archie「这个不错」· 正皮已换上站 · 待「小蓝宠定稿」 |
+| 2026-07-15 17:34:23 | **小蓝宠** — B1 改天蓝（图四）；B2 暂过关（形后改）→ **B3 脸** |
+| 2026-07-15 17:25:52 | **进度更新** — 小蓝宠重设：B0+B1 ✅ · B2 文字 ✅ 待出图验收；尖兵壳已有临时皮；主推仍可并行 P2 |
+| 2026-07-15 16:49:49 | **小蓝宠 B2** — 剪影文字已填（大圆头/略脖/三爪/大耳缺口）；待即梦出图验收 |
+| 2026-07-15 16:38:03 | **小蓝宠 B1** — 主色锁定电光紫（参考图）；进 B2 剪影 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-15 16:10:04 | **小蓝宠方案 B** 写入 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)；删站酷一次性 `.mjs` + 缓存 |
+| 2026-07-15 15:32:52 | **纠偏** — 「小蓝宠先这样」误作出关；实为外观**重设进行中** · Brief 人设保留 |
+| 2026-07-15 15:25:06 | （已推翻）曾记小蓝宠现图出关 |
+| 2026-07-15 15:20:13 | **小蓝宠 Brief** [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) — Archie 5 行定稿 |
+| 2026-07-15 14:34:20 | **小蓝宠 IP 流程探讨** — 对照站酷《小安》+ 小脑府四大原则 · 见 sessions |
+| 2026-07-15 11:19:08 | **吉祥物壳** — stamp=头像占位 · 坐钮→跳→停抽屉顶 · 皮后换 |
+| 2026-07-15 09:37:00 | **SPA 深链已通** — 404→`index.html`（非路径前缀） |
+| 2026-07-15 09:18:04 | **SPA 深链** — Graph「阅读全文」新标签打 `/post/…` 需托管错误页=`index.html` |
+| 2026-07-15 09:04:34 | **进度收束** — P1 ✅ · P3 尖兵 **B 可用**（能用就行）· 下一主推 **P2 捡料** 或尖兵 C |
 | 2026-07-15 08:52:11 | **国内站 URL 更新** · Actions 改为部署到 `/`（勿 `/home`）· 文件管理别删 `__auth` |
 | 2026-07-14 18:19:33 | **CloudBase 自动部署** → GitHub Actions（静托管无「启用自动部署」开关；勿用云托管） |
 | 2026-07-14 17:05:28 | **P3 尖兵 B** — 云函数测通 · HTTP 路由已配 · 前端写入 endpoint |
@@ -89,23 +106,22 @@ timezone: Asia/Shanghai
 # 项目状态
 
 > **新 AI 会话请先读本文 + [AGENTS.md](../AGENTS.md) + [SITE-MANUAL.md](SITE-MANUAL.md) + [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md)**  
-> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-13.md](sessions/2026-07-13.md) · [2026-07-10.md](sessions/2026-07-10.md) · [2026-07-08.md](sessions/2026-07-08.md)
+> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-15.md](sessions/2026-07-15.md) · [2026-07-13.md](sessions/2026-07-13.md) · [2026-07-10.md](sessions/2026-07-10.md)
 
 ## 主任务（仅 1 条）
 
-**第一期改版（P1）**：视觉混搭 + **七页（含 `/galaxy` MVP 规划）** + 旅程 **B/C + A 筛选阅读**（**不上**站内助手编排）→ 迁入 `src/`
+**插线 · 助手吉祥物重设** — **停在 B4**（提示词已写好，待即梦）：红/橙披风 + 键帽环绕 + 双手弹压打字「音波发功」。B3 裸身脸形 ✅（站上暂用裸身稿）。P1 ✅；尖兵 A+B ✅。  
+**明日开场**：`@docs/MASCOT-BRIEF.md` → 垫 B3 出 B4 图 → 验收后换浮宠全身。
 
 ## 主线流程（防失焦 · 新会话先对这条）
 
 ```text
-① ~~AI 交付 D4 turley + D5 tufte~~ ✅ v1 parity 已齐
-② ~~你试吃 D4/D5 → 填 DEMO-TASTING-NOTES~~ ✅ 2026-07-07
-③ ~~填 sessions/2026-07-01 §6~~ ✅ 2026-07-07 拍板
-④ ~~混搭清单~~ ✅ Archie 2026-07-07 确认
-⑤ ~~A 骨架~~ **✅** · ~~B 视觉~~ **✅** · ~~C polish~~ **✅** · **`/graph` Obsidian 交互** **✅ 先这样** → **Archie 全站视觉扫** · Graph 双 Tab **P2**
-⑥a **`/galaxy` 3 圈 MVP** **✅ P1 先这样** → **P1 收工**  
-⑥b **P3 尖兵**（通聊 UI + DeepSeek）→ [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) **可开** · **并行** P2 捡料  
-⑥c P2a content/md + graph 双 Tab → P2b wiki/clusters → **完整 P3** 编排（尖兵之后）
+①–⑤ ~~demo 试吃 → 混搭 → A/B/C → graph~~ ✅
+⑥a ~~`/galaxy` MVP~~ ✅ P1 先这样（节点正文后审）
+⑥b **P3 尖兵** — A ✅ · **B 真聊可用 ✅** · 吉祥物壳（坐钮/跳/栖顶）✅ · **正皮重设中** → [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)
+⑥c **P2a** 捡料 / content·md · graph 双 Tab → **P2b** 聚类 → **完整 P3** 编排
+国内站：https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/
+自动部署：GitHub Actions → 静态托管根 `/` · 助手网关 app.tcloudbase.com · SPA 深链 404→index.html ✅
 ```
 
 | 阶段 | 权威文档 | AI 何时读 |
@@ -114,6 +130,7 @@ timezone: Asia/Shanghai
 | **怎么做细** | `docs/sessions/2026-07-01.md` | 做盘点/分期/畅想时 |
 | **视觉偷什么** | `docs/DEMO-TASTING-NOTES.md` | 做 demo / 迁 `src/` 前 |
 | **站建成什么样** | `docs/SITE-MANUAL.md` | 改路由/页面后同步 |
+| **助手吉祥物** | **[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)** | 重设正皮 / 提示词 / B1–B5 |
 | **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + **[`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)** | `/galaxy`→IA · **尖兵施工**→SPIKE · 完整助手仍 P3 后段 |
 
 ## 进度快照
@@ -136,12 +153,13 @@ timezone: Asia/Shanghai
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
-| **P3 尖兵** | **B 联调中** · 待站上真聊 | 云函数 `assistantChat` · HTTP 已开 · [`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md) |
+| **P3 尖兵** | **B 可用 ✅** · 壳+动效 ✅ · 正皮重设中 | 真聊 OK · 吉祥物见 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| **助手吉祥物** | **B4 待即梦**（收工） | 红/橙披风+键帽环+弹压发功 · B3 裸身 ✅ · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
 | **产品畅想** | **P1 `/galaxy` 已拍板** | 完整助手编排在尖兵之后；聚类 **P2b** |
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
 | 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
 | Logo | **v1 暂定 ✅** | [LOGO-FONT-BRIEF.md](LOGO-FONT-BRIEF.md) — Archie 不再纠结；后续主动再开 |
-| 部署 | **国内已上线 ✅** | **现链** https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/ · 旧 `*.tcloudbaseapp.com` 可弃 · Vercel 备线 |
+| 部署 | **国内已上线 ✅** | **现链** https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/ · **须配 SPA：错误页→index.html** · Vercel 备线 |
 
 ### 试吃进度（2026-07-07）
 
@@ -158,42 +176,62 @@ timezone: Asia/Shanghai
 
 ## 接下来（按优先级）
 
-### Archie
+### Archie（选一条开）
 
-1. **开 P3 尖兵 B** — 腾讯云开云函数 + 申请 DeepSeek Key（Key 只进云端环境变量）  
-2. **（可选）P2 收件箱捡料** — 与尖兵并行，不阻塞  
-3. **静态托管自动部署** — 用 GitHub Actions（`.github/workflows/deploy-cloudbase.yml`）；需仓库 Secrets：`TCB_SECRET_ID` / `TCB_SECRET_KEY` / `TCB_ENV_ID` · **勿用云托管**
+1. **进行中 · 小蓝宠 B4** — 垫 B3 加红/橙披风 + 键帽环 + 弹压打字发功→ 验收后换浮宠全身  
+2. **推荐并行 · P2 捡料** — 字幕/文章/笔记进收件箱  
+3. **可选 · P3 尖兵 C /「尖兵先这样」**  
 
 ### AI（建议顺序）
 
 | 序 | 块 | 状态 |
 |----|-----|------|
-| 1–8 | P1 + 国内部署 | **✅** |
-| 9 | **P3 尖兵** | **A ✅** · **下一：阶段 B**（云函数 + DeepSeek） |
-| 10 | Graph 双 Tab · content/md | **P2** |
-| 11 | 完整助手编排 | **完整 P3**（尖兵后） |
+| 1–8 | P1 + 国内部署 + Actions + SPA 深链 | **✅** |
+| 9 | **P3 尖兵** A+B | **✅** · 可选 C |
+| 9b | **吉祥物正皮** | **B4 红橙披风+键帽环+弹压发功** · B3 裸身已认可 |
+| 10 | Graph 双 Tab · content/md · 捡料 | **P2** |
+| 11 | 完整助手编排 | **完整 P3** |
 
-> 新会话：`git pull` → 读 **STATUS + SITE-MANUAL** → 继续 **全站视觉扫** 或指定路由。
+> 新会话：`git pull` → 读 **STATUS + MASCOT-BRIEF** → **B4** 或 **P2 捡料**。
 
 ### 可延后（P2+）
 
-- ep86–93 `posts.ts`、Logo 再迭代、助手 **P3**、聚类页 **P2b**（`/galaxy` 已前移 P1，见上）
+- ep86–93 `posts.ts`、Logo 再迭代、聚类页 **P2b**（`/galaxy` 已前移 P1，见上）
 
 ## 待你决定
 
 - [x] **P1 视觉 + `/galaxy` 框架** — **2026-07-14 先这样**（galaxy 节点正文后审）
-- [x] **国内部署** — CloudBase https://archie-d4giq03kg9e46530b-1453642667.tcloudbaseapp.com
+- [x] **国内部署** — **现链** https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/
+- [x] **GitHub → CloudBase Actions** — Secrets 已配 · 部署根路径 `/`
+- [x] **SPA 深链** — 404→`index.html`（2026-07-15）
+- [x] **P3 尖兵 A+B** — 壳 + DeepSeek 真聊可用（2026-07-15 Archie：能用就行）
+- [x] **吉祥物动效壳** — 坐钮/跳/栖顶
+- [x] **小蓝宠 B3 正皮上站** — 2026-07-15 Archie「这个不错」
 - [x] ~~**待 push**~~（2026-07-03 · `555e0f7`–`c6a6874` 已 push 至 GitHub）
 - [x] **整站混搭清单** — Archie 2026-07-07 确认 → 迁 `src/`
 - [x] **P1** 只做旅程 B/C + A 的筛选/阅读，**不上助手编排**（2026-07-03；**2026-07-13** 增补 `/galaxy` 展现）
 - [x] **`/galaxy`** — 元规则圆心 · 3 圈 MVP · 路由 `/galaxy`（2026-07-13）
 - [x] **P2** 聚类页先于思维模型助手
 - [x] Logo — **2026-07-08 v1 暂定**（见 LOGO-FONT-BRIEF §2.0）· **不再主动迭代**
+- [x] **小蓝宠 B3 裸身** — Archie「这个不错」
+- [ ] **小蓝宠 B4 全身配件** — 红/橙披风 + 键帽环 + 弹压发功（明日续）
+- [ ] **小蓝宠定稿** — 说 **「小蓝宠定稿」** 冻结 Brief
+- [ ] **P3 尖兵 C / 出关** — 未必须；可说「尖兵先这样」跳过 C
+- [ ] **P2 捡料开工** — 内容主线
 
 ## 最近决策
 
-- 2026-07-15 08:52:11：**国内站改绑** — 现用 https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/ · GitHub Actions 应部署到静态托管 **根路径 `/`**（误用 `/home` 会多出 `home/` 文件夹）· 文件管理勿删 `__auth/`、`cloud-admin/`
-- 2026-07-14 18:19:33：**国内站自动部署** — 静态托管控制台常无「启用自动部署」开关；改用 **GitHub Actions** → `tcb hosting deploy ./dist` · 密钥进 GitHub Secrets（不上 git）
+- 2026-07-15 18:29:56：**收工** — 明日续 B4 即梦（垫 B3）；提示词在 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)
+- 2026-07-15 18:26:00：**小蓝宠 B4 改** — 红/橙披风 + 键帽环绕 + 弹压打字音波发功；取消笔枪
+- 2026-07-15 18:14:27：**小蓝宠 B4** —（已废）原披风+笔枪
+- 2026-07-15 18:09:54：**小蓝宠 B3** — Archie「这个不错」· 裸身曾换站（全身配件未定）
+- 2026-07-15 17:34:23：**小蓝宠** — 主色改图四天蓝；B2 暂过；曾进 B3 脸
+- 2026-07-15 16:10:04：**小蓝宠执行 = 方案 B**
+- 2026-07-15 15:32:52：**小蓝宠纠偏** — 要重设形象（非现图出关）
+- 2026-07-15 11:19:08：**吉祥物壳** — 坐钮→跳→停抽屉顶
+- 2026-07-15 09:37:00：**SPA 深链已通**
+- 2026-07-15 09:04:34：**尖兵 B 可用** · P2 捡料可并行
+- 2026-07-15 08:52:11：**国内站改绑** · Actions 部署根 `/`
 - 2026-07-14 17:05:28：**P3 尖兵 B** — `assistantChat` 控制台测试通过 · HTTP `/assistantChat` · 前端 `site.config.assistant.endpoint` 已填 · 待本地/线上真聊验收
 - 2026-07-14 16:31:30：**P3 尖兵 A 出关**（「先这样」）· 下一 **阶段 B** = CloudBase 云函数 + DeepSeek（Key 不上 git）
 - 2026-07-14 15:56:52：**P3 尖兵 A** — 右下角浮钮 + 右侧抽屉 · Logo stamp 头像 · 假回复 · 圆角/可拖宽 polish

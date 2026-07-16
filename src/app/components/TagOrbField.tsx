@@ -76,6 +76,8 @@ interface TagOrbFieldProps {
 
 export function TagOrbField({ children }: TagOrbFieldProps) {
   const [phases, setPhases] = useState<Record<number, OrbPhase>>({});
+  /** 点击时冻结飘动位移，避免 animationDelay/重开导致跳回原点 */
+  const [frozenXf, setFrozenXf] = useState<Record<number, string>>({});
   const respawnTimers = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   useEffect(() => {
@@ -92,6 +94,12 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
 
     const timer = setTimeout(() => {
       respawnTimers.current.delete(index);
+      setFrozenXf((prev) => {
+        if (!(index in prev)) return prev;
+        const next = { ...prev };
+        delete next[index];
+        return next;
+      });
       setPhases((prev) => ({ ...prev, [index]: "spawning" }));
 
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -130,7 +138,7 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
       if (wrapEl) {
         const frozen = window.getComputedStyle(wrapEl).transform;
         if (frozen && frozen !== "none") {
-          wrapEl.style.transform = frozen;
+          setFrozenXf((prev) => ({ ...prev, [index]: frozen }));
         }
       }
 
@@ -209,11 +217,13 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
     } as React.CSSProperties;
 
     if (small) {
-      const wrapPaused = phase === "popping" || phase === "spawning";
+      const xf = frozenXf[i];
+      const wrapPaused = phase === "popping" || phase === "spawning" || Boolean(xf);
       const wrapClass = [
         "tag-orb-field__orb-wrap",
         "tag-orb-field__orb-wrap--float",
         wrapPaused ? "tag-orb-field__orb-wrap--paused" : "",
+        xf ? "tag-orb-field__orb-wrap--frozen" : "",
       ]
         .filter(Boolean)
         .join(" ");
@@ -225,7 +235,9 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         height: `${spec.size}rem`,
         zIndex: spec.z,
         animationDuration: `${floatDuration}s`,
-        animationDelay: phase === "idle" ? `${spec.delay}s` : undefined,
+        /* 始终带 delay，点击时勿改，否则飘动会重开→跳回原点 */
+        animationDelay: `${spec.delay}s`,
+        ...(xf ? { transform: xf } : {}),
         ...driftStyle,
       } as React.CSSProperties;
 
@@ -297,6 +309,10 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         .tag-orb-field__orb-wrap--paused {
           animation-play-state: paused;
         }
+        .tag-orb-field__orb-wrap--frozen {
+          /* inline transform 定住位置；关掉动画避免与 transform 抢 */
+          animation: none !important;
+        }
         .tag-orb-field__orb {
           position: absolute;
           inset: 0;
@@ -333,7 +349,8 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         }
         .tag-orb-field__orb--pop {
           pointer-events: none;
-          animation: orbPop 0.55s ease-out forwards !important;
+          /* 原位置淡出+略胀，去掉先放大再胀造成的「跳一下」感 */
+          animation: orbPop 0.48s ease-out forwards !important;
         }
         .tag-orb-field__orb--spawn {
           pointer-events: none;
@@ -357,8 +374,7 @@ export function TagOrbField({ children }: TagOrbFieldProps) {
         }
         @keyframes orbPop {
           0% { transform: scale(1); opacity: 1; filter: blur(0); }
-          35% { transform: scale(1.12); opacity: 0.88; filter: blur(0); }
-          100% { transform: scale(1.45); opacity: 0; filter: blur(5px); }
+          100% { transform: scale(1.08); opacity: 0; filter: blur(4px); }
         }
         @keyframes orbSpawn {
           0% {

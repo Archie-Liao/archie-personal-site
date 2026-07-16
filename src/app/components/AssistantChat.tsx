@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { LogoStampFingerprint } from "./LogoStampFingerprint";
+import { AssistantMascot, AssistantMascotFace, type MascotPose } from "./AssistantMascot";
 import { siteConfig } from "../site.config";
 import "../../styles/assistant-chat.css";
+
+const JUMP_MS = 420;
 
 type ChatRole = "assistant" | "user";
 
@@ -18,8 +20,11 @@ const FAKE_REPLIES = [
 ];
 
 const WIDTH_KEY = "archie-assistant-drawer-width";
+const FAB_BOTTOM_KEY = "archie-assistant-fab-bottom";
 const DEFAULT_WIDTH = 360;
 const MIN_WIDTH = 280;
+const FAB_MARGIN = 16;
+const FAB_DRAG_THRESHOLD = 8;
 
 function makeId() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -30,6 +35,11 @@ function clampWidth(w: number) {
   return Math.round(Math.min(max, Math.max(MIN_WIDTH, w)));
 }
 
+function clampFabBottom(bottom: number, fabHeight = 52) {
+  const max = Math.max(FAB_MARGIN, window.innerHeight - fabHeight - FAB_MARGIN);
+  return Math.round(Math.min(max, Math.max(FAB_MARGIN, bottom)));
+}
+
 function readSavedWidth() {
   try {
     const raw = localStorage.getItem(WIDTH_KEY);
@@ -38,6 +48,17 @@ function readSavedWidth() {
     return Number.isFinite(n) ? clampWidth(n) : DEFAULT_WIDTH;
   } catch {
     return DEFAULT_WIDTH;
+  }
+}
+
+function readSavedFabBottom() {
+  try {
+    const raw = localStorage.getItem(FAB_BOTTOM_KEY);
+    if (!raw) return FAB_MARGIN;
+    const n = Number(raw);
+    return Number.isFinite(n) ? clampFabBottom(n) : FAB_MARGIN;
+  } catch {
+    return FAB_MARGIN;
   }
 }
 
@@ -80,17 +101,29 @@ async function askAssistant(messages: ChatMessage[]): Promise<string> {
   return data.reply || "（没有收到文字回复）";
 }
 
-/** P3 尖兵：浮钮 + 抽屉 · Logo stamp · 有 endpoint 则走云函数 */
+/** P3 尖兵：浮钮 + 抽屉 · 吉祥物 stamp 壳 · 有 endpoint 则走云函数 */
 export function AssistantChat() {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fabRef = useRef<HTMLButtonElement>(null);
   const widthRef = useRef(DEFAULT_WIDTH);
+  const fabBottomRef = useRef(FAB_MARGIN);
+  const jumpTimerRef = useRef<number | null>(null);
+  const fabDragRef = useRef<{
+    pointerId: number;
+    startY: number;
+    startBottom: number;
+    dragged: boolean;
+  } | null>(null);
   const [open, setOpen] = useState(false);
+  const [mascotPose, setMascotPose] = useState<MascotPose>("idle");
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [fabBottom, setFabBottom] = useState(FAB_MARGIN);
+  const [fabDragging, setFabDragging] = useState(false);
   const [resizing, setResizing] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
@@ -100,15 +133,68 @@ export function AssistantChat() {
     },
   ]);
 
-  const close = useCallback(() => setOpen(false), []);
+  const openRef = useRef(false);
+  openRef.current = open;
+
+  const prefersReducedMotion = useCallback(() => {
+    try {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const close = useCallback(() => {
+    if (jumpTimerRef.current != null) {
+      window.clearTimeout(jumpTimerRef.current);
+      jumpTimerRef.current = null;
+    }
+    setOpen(false);
+    setMascotPose("idle");
+  }, []);
+
+  const openWithJump = useCallback(() => {
+    if (openRef.current || jumpTimerRef.current != null) return;
+    if (prefersReducedMotion()) {
+      setOpen(true);
+      setMascotPose("perched");
+      return;
+    }
+    setMascotPose("jumping");
+    jumpTimerRef.current = window.setTimeout(() => {
+      jumpTimerRef.current = null;
+      setOpen(true);
+      setMascotPose("perched");
+    }, JUMP_MS);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     setWidth(readSavedWidth());
+    setFabBottom(readSavedFabBottom());
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (jumpTimerRef.current != null) window.clearTimeout(jumpTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
     widthRef.current = width;
   }, [width]);
+
+  useEffect(() => {
+    fabBottomRef.current = fabBottom;
+  }, [fabBottom]);
+
+  useEffect(() => {
+    const onResize = () => {
+      const h = fabRef.current?.offsetHeight ?? 52;
+      setFabBottom((b) => clampFabBottom(b, h));
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -159,6 +245,49 @@ export function AssistantChat() {
     };
   }, [resizing]);
 
+  useEffect(() => {
+    if (!fabDragging) return;
+    const onMove = (e: PointerEvent) => {
+      const drag = fabDragRef.current;
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      const delta = drag.startY - e.clientY;
+      if (Math.abs(delta) > FAB_DRAG_THRESHOLD) drag.dragged = true;
+      const h = fabRef.current?.offsetHeight ?? 52;
+      const next = clampFabBottom(drag.startBottom + delta, h);
+      setFabBottom(next);
+    };
+    const onUp = (e: PointerEvent) => {
+      const drag = fabDragRef.current;
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      const wasDrag = drag.dragged;
+      fabDragRef.current = null;
+      setFabDragging(false);
+      document.body.style.removeProperty("cursor");
+      document.body.style.removeProperty("user-select");
+      try {
+        localStorage.setItem(FAB_BOTTOM_KEY, String(fabBottomRef.current));
+      } catch {
+        /* ignore */
+      }
+      if (!wasDrag) {
+        if (openRef.current) close();
+        else openWithJump();
+      }
+    };
+    document.body.style.cursor = "grabbing";
+    document.body.style.userSelect = "none";
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      document.body.style.removeProperty("cursor");
+      document.body.style.removeProperty("user-select");
+    };
+  }, [fabDragging, close, openWithJump]);
+
   const send = useCallback(async () => {
     const text = draft.trim();
     if (!text || busy) return;
@@ -195,18 +324,51 @@ export function AssistantChat() {
     setResizing(true);
   };
 
+  const onFabPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    fabDragRef.current = {
+      pointerId: e.pointerId,
+      startY: e.clientY,
+      startBottom: fabBottomRef.current,
+      dragged: false,
+    };
+    setFabDragging(true);
+  };
+
+  const showFabMascot = mascotPose === "idle" || mascotPose === "jumping";
+
   return (
-    <div className="assistant-chat" data-open={open} data-resizing={resizing || undefined}>
+    <div
+      className="assistant-chat"
+      data-open={open}
+      data-mascot={mascotPose}
+      data-resizing={resizing || undefined}
+      data-fab-dragging={fabDragging || undefined}
+    >
+      {showFabMascot && (
+        <div
+          className="assistant-chat__mascot-fab"
+          style={{ bottom: fabBottom }}
+          data-pose={mascotPose}
+          aria-hidden
+        >
+          <AssistantMascot pose={mascotPose} />
+        </div>
+      )}
+
       <button
+        ref={fabRef}
         type="button"
         className="assistant-chat__fab"
         aria-expanded={open}
         aria-controls="assistant-drawer"
-        onClick={() => setOpen((v) => !v)}
-        title={open ? "关闭助手" : "打开助手"}
+        title={open ? "关闭助手（可上下拖动）" : "打开助手（可上下拖动）"}
+        style={{ bottom: fabBottom }}
+        onPointerDown={onFabPointerDown}
       >
         <span className="assistant-chat__fab-avatar" aria-hidden>
-          <LogoStampFingerprint />
+          <AssistantMascotFace />
         </span>
         <span className="assistant-chat__fab-label">{open ? "收起" : "助手"}</span>
       </button>
@@ -221,6 +383,11 @@ export function AssistantChat() {
         hidden={!open}
         style={{ width }}
       >
+        {mascotPose === "perched" && (
+          <div className="assistant-chat__mascot-perch" aria-hidden>
+            <AssistantMascot pose="perched" />
+          </div>
+        )}
         <button
           type="button"
           className="assistant-chat__resize"
@@ -231,7 +398,7 @@ export function AssistantChat() {
         <header className="assistant-chat__header">
           <div className="assistant-chat__brand">
             <span className="assistant-chat__avatar" aria-hidden>
-              <LogoStampFingerprint />
+              <AssistantMascotFace />
             </span>
             <div className="assistant-chat__titles">
               <h2 id={titleId} className="assistant-chat__title">
@@ -253,7 +420,7 @@ export function AssistantChat() {
             >
               {msg.role === "assistant" && (
                 <span className="assistant-chat__bubble-avatar" aria-hidden>
-                  <LogoStampFingerprint />
+                  <AssistantMascotFace />
                 </span>
               )}
               <p className="assistant-chat__bubble-text">{msg.text}</p>
@@ -262,7 +429,7 @@ export function AssistantChat() {
           {busy && (
             <div className="assistant-chat__bubble assistant-chat__bubble--assistant assistant-chat__bubble--pending">
               <span className="assistant-chat__bubble-avatar" aria-hidden>
-                <LogoStampFingerprint />
+                <AssistantMascotFace />
               </span>
               <p className="assistant-chat__bubble-text">……</p>
             </div>

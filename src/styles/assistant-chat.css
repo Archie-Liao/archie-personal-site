@@ -8,7 +8,7 @@
 .assistant-chat__fab {
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  bottom: max(1rem, env(safe-area-inset-bottom)); /* JS 可覆盖，支持上下拖 */
   z-index: var(--assistant-z);
   display: flex;
   align-items: center;
@@ -18,7 +18,8 @@
   border-radius: 999px;
   background: color-mix(in srgb, var(--card) 94%, var(--background));
   box-shadow: 0 12px 32px -18px rgba(40, 32, 24, 0.45);
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
   color: var(--foreground);
   transition:
     transform 0.16s ease,
@@ -27,15 +28,24 @@
 }
 
 .assistant-chat__fab:hover {
-  transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
   box-shadow: 0 16px 36px -16px rgba(40, 32, 24, 0.5);
 }
 
+.assistant-chat:not([data-fab-dragging]) .assistant-chat__fab:hover {
+  transform: translateY(-2px);
+}
+
+.assistant-chat[data-fab-dragging] .assistant-chat__fab {
+  cursor: grabbing;
+  transition: none;
+  transform: none;
+}
+
 .assistant-chat__fab-avatar {
   position: relative;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.7rem;
+  height: 2.7rem;
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--border) 80%, var(--gold));
@@ -63,6 +73,135 @@
   position: relative;
 }
 
+.assistant-chat__fab-avatar svg,
+.assistant-chat__avatar svg,
+.assistant-chat__bubble-avatar svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* stamp / 气泡：专用头像图，圆内居中（含大耳） */
+.assistant-chat__fab-avatar .assistant-mascot__face,
+.assistant-chat__avatar .assistant-mascot__face,
+.assistant-chat__bubble-avatar .assistant-mascot__face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  transform: none;
+  display: block;
+  object-fit: cover;
+  /* B3 巨头巨眼：圆位对准脸中上部 */
+  object-position: 50% 22%;
+}
+
+/* 吉祥物壳：坐浮钮 → 跳 → 停抽屉顶（全身，但尺码够看清眼睛） */
+.assistant-chat__mascot-fab {
+  position: fixed;
+  right: max(0.35rem, calc(env(safe-area-inset-right) - 0.15rem));
+  z-index: calc(var(--assistant-z) + 1);
+  width: 7.25rem;
+  height: 7.75rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 0.1rem;
+  pointer-events: none;
+  transform: translateY(-3.85rem);
+}
+
+.assistant-chat__mascot-perch {
+  position: absolute;
+  /* 脚踩抽屉顶边，头留在视口内（勿 top 过大被裁头顶） */
+  top: -4.35rem;
+  right: 0.35rem;
+  z-index: 4;
+  width: 7.25rem;
+  height: 7.75rem;
+  pointer-events: none;
+}
+
+.assistant-mascot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform-origin: 50% 90%;
+}
+
+.assistant-mascot__img {
+  display: block;
+  width: 7rem;
+  height: auto;
+  max-height: 7.5rem;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 8px 14px rgba(40, 32, 24, 0.28));
+  user-select: none;
+  pointer-events: none;
+}
+
+.assistant-mascot[data-pose="idle"] {
+  animation: assistantMascotIdle 2.4s ease-in-out infinite;
+}
+
+.assistant-mascot[data-pose="jumping"] {
+  animation: assistantMascotJump 0.42s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+
+.assistant-mascot[data-pose="perched"] {
+  animation: assistantMascotPerch 3.2s ease-in-out infinite;
+}
+
+@keyframes assistantMascotIdle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+@keyframes assistantMascotJump {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(-2deg);
+  }
+  35% {
+    transform: translate(-8px, -42px) scale(1.06) rotate(-8deg);
+  }
+  70% {
+    transform: translate(-28px, -18px) scale(0.98) rotate(6deg);
+  }
+  100% {
+    transform: translate(-36px, -8px) scale(1) rotate(0deg);
+    opacity: 0.35;
+  }
+}
+
+@keyframes assistantMascotPerch {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-mascot[data-pose="idle"],
+  .assistant-mascot[data-pose="jumping"],
+  .assistant-mascot[data-pose="perched"] {
+    animation: none;
+  }
+}
+
 .assistant-chat__fab-label {
   font-size: 0.8125rem;
   font-weight: 700;
@@ -71,7 +210,8 @@
 
 .assistant-chat__drawer {
   position: fixed;
-  top: 0.75rem;
+  /* 上留空给停立吉祥物，避免头被视口裁掉 */
+  top: 5.5rem;
   right: max(0.75rem, env(safe-area-inset-right));
   bottom: 0.75rem;
   z-index: calc(var(--assistant-z) + 2);
@@ -80,12 +220,12 @@
   width: 22.5rem;
   max-width: calc(100vw - 1.5rem);
   height: auto;
-  max-height: calc(100dvh - 1.5rem);
+  max-height: calc(100dvh - 5.5rem - 0.75rem);
   background: color-mix(in srgb, var(--card) 96%, var(--background));
   border: 1px solid var(--border);
   border-radius: var(--assistant-radius);
   box-shadow: 0 18px 48px -24px rgba(40, 32, 24, 0.35);
-  overflow: hidden;
+  overflow: visible;
   animation: assistantDrawerIn 0.22s ease;
 }
 
@@ -315,14 +455,19 @@
 
 @media (max-width: 480px) {
   .assistant-chat__drawer {
-    top: 0;
+    top: 4.85rem;
     right: 0;
     bottom: 0;
     width: 100vw !important;
     max-width: 100vw;
-    max-height: 100dvh;
-    border-radius: 0;
+    max-height: calc(100dvh - 4.85rem);
+    border-radius: var(--assistant-radius) var(--assistant-radius) 0 0;
     border-left: none;
+  }
+
+  .assistant-chat__mascot-perch {
+    top: -4.1rem;
+    right: 0.75rem;
   }
 
   .assistant-chat__resize {
