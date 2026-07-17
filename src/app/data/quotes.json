@@ -20,14 +20,14 @@
     "postTitle": "信息爆炸！别怕错过优质内容"
   },
   {
-    "text": "更智能的编排，可能比更大的模型更接近下一阶能力跃升。",
-    "postId": "link-fugu",
-    "postTitle": "Sakana AI 发布 Fugu 多智能体编排系统"
+    "text": "Wiki is a persistent, compounding artifact — compiled once, kept current.",
+    "postId": "link-llm-wiki",
+    "postTitle": "Karpathy · LLM Wiki：用 LLM 编译个人知识库"
   },
   {
-    "text": "当便宜到可以随便试，创意会先流向低成本方案。",
-    "postId": "link-glm",
-    "postTitle": "GLM-5.2 与 Fable 5 同 prompt 测评对比"
+    "text": "Raw data is compiled by an LLM into a .md wiki — you rarely edit the wiki by hand.",
+    "postId": "link-karpathy-x",
+    "postTitle": "Karpathy：LLM Knowledge Bases（推文）"
   },
   {
     "text": "管理 AI 和管理人一样，给错层级指令，越强越痛苦。",

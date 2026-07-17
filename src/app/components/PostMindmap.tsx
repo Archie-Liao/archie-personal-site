@@ -60,7 +60,7 @@ export function PostMindmap({ post }: { post: ContentItem }) {
       const end = borderAnchor(el, lr, coreCenter);
       next.push({
         id: branch.id,
-        d: curvedPath(start, end, branch.relation === "strong" ? 0.18 : 0.26),
+        d: curvedPath(start, end, branch.relation === "strong" ? 0.32 : 0.4),
         relation: branch.relation,
       });
     }

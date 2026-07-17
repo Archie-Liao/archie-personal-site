@@ -6,8 +6,10 @@ const URL_PLATFORM: { pattern: RegExp; label: string }[] = [
   { pattern: /(?:^|\/\/)(?:www\.)?xiaohongshu\.com|xhslink\.com/i, label: "小红书" },
   { pattern: /(?:^|\/\/)(?:www\.)?douyin\.com/i, label: "抖音" },
   { pattern: /(?:^|\/\/)(?:www\.)?(?:x\.com|twitter\.com)/i, label: "X" },
-  { pattern: /(?:^|\/\/)(?:www\.)?aihot\.virxact\.com/i, label: "AIHOT" },
+  { pattern: /(?:^|\/\/)gist\.github\.com/i, label: "Gist" },
   { pattern: /(?:^|\/\/)(?:www\.)?github\.com/i, label: "GitHub" },
+  { pattern: /(?:^|\/\/)(?:www\.)?toutiao\.com/i, label: "今日头条" },
+  { pattern: /(?:^|\/\/)(?:www\.)?aihot\.virxact\.com/i, label: "AIHOT" },
   { pattern: /(?:^|\/\/)(?:www\.)?youtube\.com|youtu\.be/i, label: "YouTube" },
   { pattern: /(?:^|\/\/)(?:www\.)?weixin\.qq\.com/i, label: "微信" },
 ];

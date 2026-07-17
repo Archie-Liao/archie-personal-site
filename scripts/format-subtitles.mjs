@@ -1,6 +1,6 @@
 /**
  * 语音导出字幕 → public/subtitles/ep*.txt
- * 规则见 docs/SUBTITLE-FORMAT.md
+ * 规则见 docs/CONTENT-FORMAT.md §D
  */
 import fs from "fs";
 import path from "path";

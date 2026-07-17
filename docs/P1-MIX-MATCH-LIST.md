@@ -269,7 +269,7 @@ timezone: Asia/Shanghai
 
 | 做了什么 | 人话 | 去哪看 | 应该什么样 |
 |----------|------|--------|------------|
-| **type 筛选** | 按内容 **类型** 过滤：视频日记 / 笔记 / 外链收藏 | 列表标题下方 **第一行** 圆角按钮 | 点 **「外链」** → 只剩 Sakana Fugu、GLM 测评等 **收藏类**；点 **「视频」** → 只剩 ep094–99 等 **视频日记** |
+| **type 筛选** | 按内容 **类型** 过滤：视频日记 / 笔记 / 外链收藏 | 列表标题下方 **第一行** 圆角按钮 | 点 **「外链」** → 只剩 Karpathy LLM Wiki 等 **收藏类**；点 **「视频」** → 只剩 ep094–99 等 **视频日记** |
 | **标签筛选** | 第二行「全部标签 / AI / 认知…」和 **以前一样** | 第一行 type 下面 | 与 type **可同时用**（例如：视频 + AI） |
 | **URL 搜索 `?q=`** | 地址栏带 `?q=AI` 表示按关键词筛；顶栏搜索也会跳到这里 | 顶栏搜「认知」或手动改地址 | 标题下出现 **「搜索「认知」· N 篇」**；列表变短 |
 | **⏳ D2 双栏 + 右预览 + tag 球** | §6 **方案 C** | **`/posts`** | **A2-C 已做** → §8.7 待验 |
@@ -374,7 +374,7 @@ timezone: Asia/Shanghai
 | **A2-2 scroll** | 双栏滚动 | **右栏不用列内滚动条** · 随 **页面主滚动条** 上下 · 滚左栏月列表 ≠ 带动右栏 | 2026-07-09 修订 |
 | **A2-2 bg** | 预览区背景 | 莫兰迪 tag 球慢漂（`prefers-reduced-motion` 静止） | 方案 C · 小石潭记式气氛 |
 
-**怎么验**：**max-width 80rem 页内留白** · 左栏 **~22–26rem 卡片** + 右预览卡片 · 双栏 **gap** 分隔；点 Day → 右栏切换。选中 **`link-fugu`** 等长条目 → 右栏应足够长、用页滚。窄屏右栏在上。
+**怎么验**：**max-width 80rem 页内留白** · 左栏 **~22–26rem 卡片** + 右预览卡片 · 双栏 **gap** 分隔；点 Day → 右栏切换。选中 **`link-llm-wiki`** 等长条目 → 右栏应足够长、用页滚。窄屏右栏在上。
 
 **已推翻**：~~A2 turley 式右栏力导向迷你图~~（2026-07-07 16:49）· ~~右栏 sticky + 列内 `overflow-y: auto`~~（2026-07-09 局促反馈）。
 
@@ -426,7 +426,7 @@ timezone: Asia/Shanghai
 | **A3-2** | **AI 总结排版** — 单面板 · 五级字号 · `PostSectionTitle` · `post-page.css` · 详情去 sk-tag · **先这样** | D2/D4 层级 |
 | **A3-M** | **`PostMarginColumn`** — sticky 视口旁 · stagger reveal · `post-margin.css` · **先这样** | tufte `margin-note` |
 | **A3-4** | **`VideoPlayer` 版画 mat** — 角标 · 左 punch 条 · 双层框 · 无倾斜 · `post-detail.css` | turley 装饰 · 非 cutout |
-| **A3-5** | **`SubtitleViewer` 语义概括词** — 主题段 + 正文菱形 · `subtitleParaMeta.ts` | D4 试吃 · SUBTITLE-FORMAT |
+| **A3-5** | **`SubtitleViewer` 语义概括词** — 主题段 + 正文菱形 · `subtitleParaMeta.ts` | D4 试吃 · CONTENT-FORMAT §D |
 | **A3-3** | **`PostMindmap`** — 可点/可拖 · 关键词/要点节点 · `post-detail.css` | turley `mindmap` |
 | **A2** | **`TagOrbField`** — 圆形·冷暖·叠压·破裂·重生入场 · **先这样** | monocle / Archie「空游」 |
 | **Logo** | **v1 暂定** — stamp 指纹 + 字体锁定 · Hero 独立 | [LOGO-FONT-BRIEF](../LOGO-FONT-BRIEF.md) |

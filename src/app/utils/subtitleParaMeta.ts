@@ -5,7 +5,7 @@ export interface SubtitleParaMeta {
   label?: string;
 }
 
-/** 主题段 + 语义段概括词 — 对齐 SUBTITLE-FORMAT.md，比固定三字更丰富 */
+/** 主题段 + 语义段概括词 — 对齐 CONTENT-FORMAT.md §D，比固定三字更丰富 */
 export function classifySubtitleParagraph(text: string): SubtitleParaMeta {
   const t = text.trim();
   const head = t.slice(0, 64);

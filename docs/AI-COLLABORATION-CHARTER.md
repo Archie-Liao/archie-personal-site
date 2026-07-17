@@ -449,7 +449,7 @@ src/  →  SITE-MANUAL  →  STATUS  →  专题 doc  →  guidelines  →  旧 
 | **P1** | `docs/SITE-MANUAL.md`                        | 新任务 / 改站 / 问「网站长什么样」       |
 | **P1** | `docs/AI-COLLABORATION-CHARTER.md`           | 协作规则 / 复杂任务 / 对话归档 / 覆盖旧需求 |
 | **P2** | `docs/DOC-FRONTMATTER.md`、`DOC-LIFECYCLE.md` | 改 doc 状态 / 覆盖旧需求           |
-| **P2** | `docs/SUBTITLE-FORMAT.md` 等专题                | gotchas 点名或 `@`            |
+| **P2** | `docs/CONTENT-FORMAT.md` 等专题                | gotchas 点名或 `@`            |
 | **P2** | `docs/sessions/YYYY-MM-DD.md`                | 收工 / 延续昨日 / `@`            |
 | **P2** | `knowledge/raw/dialogues/*.md`               | 人格蒸馏 / 整理对话                |
 | **P3** | `guidelines/`                                | `@` 或明确涉及原始需求              |

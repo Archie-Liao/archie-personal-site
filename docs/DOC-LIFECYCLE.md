@@ -57,7 +57,7 @@ timezone: Asia/Shanghai
 | 做到哪、下一步、最近决策 | `docs/STATUS.md` | 覆盖 AGENTS 里的进度叙述 |
 | 代码实际行为 | `src/` | 覆盖所有文档 |
 | 协作 / 硬约束 | `AGENTS.md` + `.cursor/rules/*.mdc` | 细则以 gotchas 点名的 `docs/*.md` 为准 |
-| 字幕怎么排版 | `docs/SUBTITLE-FORMAT.md` | — |
+| 字幕/上站文案怎么排 | `docs/CONTENT-FORMAT.md` | — |
 | Logo 字标（专题） | `docs/LOGO-FONT-BRIEF.md` | 搁置时以文首状态条为准 |
 | demo 试吃结论 | `docs/DEMO-TASTING-NOTES.md` | 覆盖 AGENTS 里「推荐 benchmark」等旧句 |
 | 原始产品意图（少动） | `guidelines/` | **可能过时**；差异见 STATUS / SITE-MANUAL |

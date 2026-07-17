@@ -1,29 +1,46 @@
 import type { ContentItem } from "../data/posts";
 
-/** 预览区延展阅读（列表右栏偏短时的补充段落 · 摘抄自条目本身） */
+const MAX_PARAS = 2;
+const MAX_CHARS_TOTAL = 220;
+const MAX_CHARS_PER_PARA = 120;
+
+/**
+ * 列表右栏「阅读延展」——只补主摘要没写过的短注。
+ * 禁止：复读 overview / keyPoints（已在上方展示）。
+ */
 export function getPreviewExtendedParagraphs(post: ContentItem): string[] {
-  const paras: string[] = [];
+  const used = new Set<string>();
+  const pushNorm = (s: string) => used.add(s.replace(/\s+/g, "").slice(0, 48));
 
-  if (post.aiSummary.overview.trim()) {
-    paras.push(post.aiSummary.overview.trim());
+  pushNorm(post.aiSummary.overview);
+  for (const p of post.aiSummary.keyPoints) pushNorm(p);
+
+  const candidates: string[] = [];
+
+  for (const note of post.archiveNotes ?? []) {
+    const t = note.trim();
+    if (!t || /验收|滚动|提示/.test(t)) continue;
+    const key = t.replace(/\s+/g, "").slice(0, 48);
+    if ([...used].some((u) => key.includes(u) || u.includes(key))) continue;
+    candidates.push(t);
+    used.add(key);
   }
 
-  for (const point of post.aiSummary.keyPoints) {
-    const t = point.trim();
-    if (t && !/待补/.test(t)) paras.push(t);
+  // 知识卡仅在无 archiveNotes 时补 1 条短注
+  if (candidates.length === 0 && post.knowledgeCards[0]) {
+    const c = post.knowledgeCards[0];
+    candidates.push(`${c.front}：${c.back}`);
   }
 
-  if (post.knowledgeCards.length > 0) {
-    for (const card of post.knowledgeCards.slice(0, 2)) {
-      paras.push(`${card.front} — ${card.back}`);
-    }
+  const out: string[] = [];
+  let budget = MAX_CHARS_TOTAL;
+  for (const raw of candidates) {
+    if (out.length >= MAX_PARAS || budget <= 40) break;
+    let t = raw.replace(/\*\*/g, "").trim();
+    if (t.length > MAX_CHARS_PER_PARA) t = `${t.slice(0, MAX_CHARS_PER_PARA - 1)}…`;
+    if (t.length > budget) t = `${t.slice(0, Math.max(40, budget - 1))}…`;
+    out.push(t);
+    budget -= t.length;
   }
-
-  if (post.archiveNotes?.length) {
-    for (const note of post.archiveNotes.slice(0, 3)) {
-      paras.push(note.trim());
-    }
-  }
-
-  return paras;
+  return out;
 }

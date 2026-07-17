@@ -27,9 +27,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [location.pathname]);
 
   const isCanvasPage = location.pathname === "/graph" || location.pathname === "/galaxy";
+  const isPostsPage = location.pathname === "/posts";
+  /* /posts 与图谱同：锁视口、不整页滚，换篇才不会被浏览器拽回顶 */
+  const lockViewport = isCanvasPage || isPostsPage;
 
   return (
-    <div id="top" className={`min-h-screen flex flex-col${isCanvasPage ? " layout--canvas" : ""}${location.pathname === "/graph" ? " layout--graph" : ""}${location.pathname === "/galaxy" ? " layout--galaxy" : ""}`}
+    <div id="top" className={`min-h-screen flex flex-col${isCanvasPage ? " layout--canvas" : ""}${location.pathname === "/graph" ? " layout--graph" : ""}${location.pathname === "/galaxy" ? " layout--galaxy" : ""}${isPostsPage ? " layout--posts" : ""}`}
       style={{ fontFamily: "var(--font-body)", background: "var(--background)", color: "var(--foreground)" }}
     >
       <header
@@ -78,9 +81,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className={`flex-1${isCanvasPage ? " layout__main--canvas" : ""}${location.pathname === "/graph" ? " layout__main--graph" : ""}${location.pathname === "/galaxy" ? " layout__main--galaxy" : ""}`}>{children}</main>
+      <main className={`flex-1${isCanvasPage ? " layout__main--canvas" : ""}${location.pathname === "/graph" ? " layout__main--graph" : ""}${location.pathname === "/galaxy" ? " layout__main--galaxy" : ""}${isPostsPage ? " layout__main--posts" : ""}`}>{children}</main>
 
-      {!isCanvasPage && <SiteFooter />}
+      {!lockViewport && <SiteFooter />}
 
       <AssistantChat />
 

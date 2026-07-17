@@ -11,7 +11,7 @@ alwaysApply: true
 |----|------|------------------|--------|
 | **硬约束** | `.cursor/rules/*.mdc` 且 `alwaysApply: true` | **每次对话自动注入** | 短、稳定、全项目必守（如 gotchas、本文件） |
 | **按文件触发** | `.cursor/rules/*.mdc` 带 `globs:` | 打开/编辑匹配文件时 | 如 `src/**/*.tsx` 组件约定 |
-| **专题规范** | `docs/*.md`（如 `SUBTITLE-FORMAT.md`） | **不自动全文注入**；由 alwaysApply 规则 **点名路径**，或你 `@docs/...` | 可执行的详细规则 + 脚本路径 |
+| **专题规范** | `docs/*.md`（如 `CONTENT-FORMAT.md`） | **不自动全文注入**；由 alwaysApply 规则 **点名路径**，或你 `@docs/...` | 可执行的详细规则 + 脚本路径 |
 | **进度与叙事** | `docs/STATUS.md`、`docs/sessions/` | 新任务约定先读 STATUS | 进行中的事，不是永久规范 |
 | **稳定需求** | `guidelines/` | 仅在你 `@` 或任务涉及时 | 产品需求；**少改** |
 
@@ -35,7 +35,7 @@ alwaysApply: true
 | P1 | `docs/AI-COLLABORATION-CHARTER.md` | 协作根本规则；复杂任务/对话/覆盖旧需求 |
 | P1 | `docs/STATUS.md` | gotchas 要求新任务先读 |
 | P1 | `docs/SITE-MANUAL.md` | 改站 / 新任务先读（网站现状 + ASCII 线框） |
-| P2 | `docs/SUBTITLE-FORMAT.md` 等专题 | gotchas 点名路径 或 `@` |
+| P2 | `docs/CONTENT-FORMAT.md` 等专题 | gotchas 点名路径 或 `@` |
 | P2 | `docs/sessions/YYYY-MM-DD.md` | 收工 / 延续昨日 / `@` |
 | P3 | `guidelines/` | `@` 或任务涉及 |
 
@@ -67,10 +67,11 @@ alwaysApply: true
 
 ## 当前专题规范索引
 
-- 字幕排版：`docs/SUBTITLE-FORMAT.md` → `node scripts/format-subtitles.mjs`
+- 站内内容排版：[`docs/CONTENT-FORMAT.md`](../docs/CONTENT-FORMAT.md) → `node scripts/format-subtitles.mjs`（§D）
 - 协作入口：`docs/AI-COLLABORATION-CHARTER.md`、`docs/STATUS.md`、`docs/SITE-MANUAL.md`、`AGENTS.md`
 - 文档 YAML 文首：`docs/DOC-FRONTMATTER.md`
 - Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`
 - 多源执行计划：宪章 §1.8（通用）· 本项目细则 → [`docs/MULTI-SOURCE-EXEC-PLAN.md`](../docs/MULTI-SOURCE-EXEC-PLAN.md)
 - 思维模型 `/galaxy`：[`docs/MENTAL-MODELS-IA.md`](../docs/MENTAL-MODELS-IA.md) · 框架 md → `design-demos/assets/芒格多元思维模型-极简框架版.md`
 - **P3 尖兵**（助手通聊试点）：[`docs/P3-ASSISTANT-SPIKE.md`](../docs/P3-ASSISTANT-SPIKE.md) · **勿写入 P1-MIX-MATCH**
+- **P2 捡料**：[`docs/P2-CONTENT-INBOX.md`](../docs/P2-CONTENT-INBOX.md) · 文案硬规则见 `CONTENT-FORMAT.md`

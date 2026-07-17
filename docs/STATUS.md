@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-15 18:29:56"
+revised_at: "2026-07-17 11:49:45"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,19 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-17 11:49:45 | **收工** — `/posts` 三栏+金句弹 · CONTENT-FORMAT · P2 外链/日期；下一主推 **I1/I2** |
+| 2026-07-17 11:33:56 | `/posts` 导语卡 → 居中随机金句弹层（quotes.json · 出入场动画） |
+| 2026-07-17 11:24:27 | `/posts` 导语卡→最右 · 热度色条仅 hover/选中 |
+| 2026-07-17 11:17:59 | `/posts` 导语矮卡+弱橙条 · 筛选 pill 再缩小 |
+| 2026-07-17 11:11:21 | `/posts` **三栏**（导语|索引|预览）· 列表压紧 · 标题 hover 右移+色条 |
+| 2026-07-17 10:59:05 | `/posts` **锁视口**（同图谱）：禁整页滚 + 隐 footer；换篇只右栏回顶 |
+| 2026-07-17 10:56:48 | `/posts` **升 C**：一屏双栏内滚 · 换篇右栏回顶（废 A 整页跳） |
+| 2026-07-17 10:52:40 | （已废）点选 `scrollIntoView` |
+| 2026-07-17 10:34:45 | 删除 `SUBTITLE-FORMAT` / `CONTENT-COPY-RULES` stub · 右栏预览字号跟宽 |
+| 2026-07-17 10:24:32 | **CONTENT-FORMAT 合并上位** · Dan Koe 日改为页面发布日 **2026-04-01** |
+| 2026-07-17 10:18:14 | **文案硬规则**（后并入 CONTENT-FORMAT）· 视频日期按字幕 · 延展限字 · `/posts` 右栏加宽 |
+| 2026-07-17 09:57:49 | **纠错** — 头条外链实为 Dan Koe 中英对照（非 Karpathy）；预览单栏 · 总结 `**加粗**` · 导图翼状曲线 |
+| 2026-07-17 09:26:37 | **P2 捡料开工** — [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)；外链换 Karpathy Gist/X + 头条；字幕 `Day*`→纯数字；AIHOT mock 移除 |
 | 2026-07-15 18:29:56 | **收工** — 明日续小蓝宠 **B4**（红/橙披风+键帽环+弹压发功）；B3 裸身已认可 |
 | 2026-07-15 18:26:00 | **小蓝宠 B4 改** — 红/橙披风 · 键帽环绕 · 弹压打字「音波发功」；取消笔枪 |
 | 2026-07-15 18:14:27 | **小蓝宠 B4** — 全身加披风+笔状长枪·侠客（笔枪方案已废） |
@@ -106,12 +119,13 @@ timezone: Asia/Shanghai
 # 项目状态
 
 > **新 AI 会话请先读本文 + [AGENTS.md](../AGENTS.md) + [SITE-MANUAL.md](SITE-MANUAL.md) + [AI-COLLABORATION-CHARTER.md](AI-COLLABORATION-CHARTER.md)**  
-> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-15.md](sessions/2026-07-15.md) · [2026-07-13.md](sessions/2026-07-13.md) · [2026-07-10.md](sessions/2026-07-10.md)
+> 详细计划 → [docs/sessions/](sessions/) · 近期：[2026-07-17.md](sessions/2026-07-17.md) · [2026-07-15.md](sessions/2026-07-15.md) · [2026-07-13.md](sessions/2026-07-13.md)
 
 ## 主任务（仅 1 条）
 
-**插线 · 助手吉祥物重设** — **停在 B4**（提示词已写好，待即梦）：红/橙披风 + 键帽环绕 + 双手弹压打字「音波发功」。B3 裸身脸形 ✅（站上暂用裸身稿）。P1 ✅；尖兵 A+B ✅。  
-**明日开场**：`@docs/MASCOT-BRIEF.md` → 垫 B3 出 B4 图 → 验收后换浮宠全身。
+**P2 捡料 · 字幕上站** — 施工图 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)；源稿 ~129 · 下一步 **I1 盘点 / I2 跑 format-subtitles**。  
+**并行插线**：小蓝宠 **B4**（[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)）· 提示词已备、待即梦。  
+**开场**：`@docs/P2-CONTENT-INBOX.md` + `@docs/CONTENT-FORMAT.md`（或续 B4）。
 
 ## 主线流程（防失焦 · 新会话先对这条）
 
@@ -131,6 +145,8 @@ timezone: Asia/Shanghai
 | **视觉偷什么** | `docs/DEMO-TASTING-NOTES.md` | 做 demo / 迁 `src/` 前 |
 | **站建成什么样** | `docs/SITE-MANUAL.md` | 改路由/页面后同步 |
 | **助手吉祥物** | **[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)** | 重设正皮 / 提示词 / B1–B5 |
+| **P2 捡料** | **[`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)** | 字幕上站 / 外链 / 批次进度 |
+| **站内内容排版** | [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md) | 日期·文案·字幕 §D · format 脚本 |
 | **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + **[`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)** | `/galaxy`→IA · **尖兵施工**→SPIKE · 完整助手仍 P3 后段 |
 
 ## 进度快照
@@ -147,14 +163,15 @@ timezone: Asia/Shanghai
 | **P1 混搭清单** | **已确认 ✅** | 2026-07-07 · 迁 `src/` 进行中 |
 | 整站视觉混搭 | **C 先这样 ✅** | B 主块 **先这样** · C polish 收工 · Graph 双 Tab **P2** |
 | 首页 `/` A1 骨架 | **✅ 已定稿** | 精选卡/时间线 **无期数→平台名** · MIX-MATCH §8.5 |
-| 日记 `/posts` A2-C | **先这样** | 左栏 **期数/平台名** · 预览 VOL · 预览相关篇链 · §8.7 |
+| 日记 `/posts` A2-C | **今日 polish ✅** | **三栏** 索引\|预览\|导语矮卡 · 锁视口 · 紧凑列表 · 热度条仅 hover/选中 · **点导语→随机金句弹** · §8.7 |
 | 详情 `/post/:id` A3 | **先这样** | A3-2 **先这样** · 无期数 Hero **平台名** · 边注 Note5 相关篇 · §8.8 |
 | 顶栏 A4 | **先这样** | §8.10 |
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
 | **P3 尖兵** | **B 可用 ✅** · 壳+动效 ✅ · 正皮重设中 | 真聊 OK · 吉祥物见 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
-| **助手吉祥物** | **B4 待即梦**（收工） | 红/橙披风+键帽环+弹压发功 · B3 裸身 ✅ · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| **助手吉祥物** | **B4 待即梦** | 红/橙披风+键帽环+弹压发功 · B3 ✅ · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| **P2 捡料** | **I0 ✅ · I1 待** | [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · 外链 3 条已换 |
 | **产品畅想** | **P1 `/galaxy` 已拍板** | 完整助手编排在尖兵之后；聚类 **P2b** |
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
 | 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
@@ -178,8 +195,8 @@ timezone: Asia/Shanghai
 
 ### Archie（选一条开）
 
-1. **进行中 · 小蓝宠 B4** — 垫 B3 加红/橙披风 + 键帽环 + 弹压打字发功→ 验收后换浮宠全身  
-2. **推荐并行 · P2 捡料** — 字幕/文章/笔记进收件箱  
+1. **主推 · P2 I1/I2** — 盘点 129 源稿 → 跑字幕脚本 → 补 ep086–093 条目  
+2. **并行 · 小蓝宠 B4** — 垫 B3 即梦（披风+键帽环+弹压发功）  
 3. **可选 · P3 尖兵 C /「尖兵先这样」**  
 
 ### AI（建议顺序）
@@ -188,11 +205,12 @@ timezone: Asia/Shanghai
 |----|-----|------|
 | 1–8 | P1 + 国内部署 + Actions + SPA 深链 | **✅** |
 | 9 | **P3 尖兵** A+B | **✅** · 可选 C |
-| 9b | **吉祥物正皮** | **B4 红橙披风+键帽环+弹压发功** · B3 裸身已认可 |
-| 10 | Graph 双 Tab · content/md · 捡料 | **P2** |
-| 11 | 完整助手编排 | **完整 P3** |
+| 9b | **吉祥物正皮** | **B4 待即梦** |
+| **10** | **P2 捡料** | **I0 ✅** · 见 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) |
+| 11 | Graph 双 Tab · content/md | **P2 后段** |
+| 12 | 完整助手编排 | **完整 P3** |
 
-> 新会话：`git pull` → 读 **STATUS + MASCOT-BRIEF** → **B4** 或 **P2 捡料**。
+> 新会话：`git pull` → 读 **STATUS + P2-CONTENT-INBOX**（或 MASCOT-BRIEF）。
 
 ### 可延后（P2+）
 
@@ -214,13 +232,19 @@ timezone: Asia/Shanghai
 - [x] **P2** 聚类页先于思维模型助手
 - [x] Logo — **2026-07-08 v1 暂定**（见 LOGO-FONT-BRIEF §2.0）· **不再主动迭代**
 - [x] **小蓝宠 B3 裸身** — Archie「这个不错」
-- [ ] **小蓝宠 B4 全身配件** — 红/橙披风 + 键帽环 + 弹压发功（明日续）
+- [x] **P2 施工图 I0** — [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · Day 文件名已规范 · 外链已换
+- [ ] **小蓝宠 B4 全身配件** — 红/橙披风 + 键帽环 + 弹压发功
 - [ ] **小蓝宠定稿** — 说 **「小蓝宠定稿」** 冻结 Brief
+- [ ] **P2 I1–I3** — 盘点 → 洗字幕 → 补 posts（含 ep086–093）
 - [ ] **P3 尖兵 C / 出关** — 未必须；可说「尖兵先这样」跳过 C
-- [ ] **P2 捡料开工** — 内容主线
 
 ## 最近决策
 
+- 2026-07-17 11:49:45：**收工** — `/posts` 锁视口三栏 + 导语点出金句；文案规范合并 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md)；外链 Karpathy/Dan Koe；视频日按字幕。下一主推 **P2 I1/I2**（或并行 B4 即梦）
+- 2026-07-17 11:33:56：**`/posts` 金句弹** — 导语卡点击 · `quotes.json` 随机 · 偏黑遮罩 · 出入场动画
+- 2026-07-17 10:59:05：**`/posts` 锁视口** — 废 `scrollIntoView`；换篇只右栏 `scrollTop=0`
+- 2026-07-17 10:24:32：**CONTENT-FORMAT** — 合并字幕/文案 stub；头条外链发布日 **2026-04-01**（Dan Koe）
+- 2026-07-17 09:26:37：**P2 开工** · 外链 → Karpathy Gist/X + 头条 · 字幕去 Day 前缀 · 施工图 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)
 - 2026-07-15 18:29:56：**收工** — 明日续 B4 即梦（垫 B3）；提示词在 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)
 - 2026-07-15 18:26:00：**小蓝宠 B4 改** — 红/橙披风 + 键帽环绕 + 弹压打字音波发功；取消笔枪
 - 2026-07-15 18:14:27：**小蓝宠 B4** —（已废）原披风+笔枪
@@ -310,7 +334,7 @@ timezone: Asia/Shanghai
 |------|--------|
 | `/` | Logo stamp · punch · 精选卡/时间线 · chart 三卡 · stat-band |
 | `/posts` | 左栏索引 · 右预览 · tag 球 · 相关篇链 |
-| `/post/link-fugu` | 长文 Hero · 边注 · 滚动 |
+| `/post/link-llm-wiki` | 长文 Hero · 边注 · 滚动 |
 | `/post/ep099` | 思维导图 · 知识卡片 · 视频/字幕 |
 | `/graph` | 知识按钮 · 力导图缩放/拖节点 · 点击旁卡 · ⋯ 设置 |
 | `/galaxy` | 三圈静态 · 点名字可选 · 旁卡跟随 · 知识弹层 · 背景星点 |
@@ -328,8 +352,8 @@ timezone: Asia/Shanghai
 |------|--------|
 | `/` 顶栏 | Logo stamp **合掌图完整** · `A133` 暖白可读 · punch 金句 |
 | `/` 首页 | 精选卡/时间线 **外链显示平台名** · chart **无「示意」badge** |
-| `/posts` | 左栏 **AIHOT** · 预览 **同标签相关篇** · 底栏「日记索引」 |
-| `/post/link-fugu` | Hero **来自 AIHOT** · 标题不挤竖条 |
+| `/posts` | 左栏 **Gist / X / 今日头条** · 预览 **同标签相关篇** · 底栏「日记索引」 |
+| `/post/link-llm-wiki` | Hero **来自 Gist** · 标题不挤竖条 |
 | `/post/ep099` | 思维导图 **拖节点/点击高亮** · 无「待补」节点 |
 | `/graph` | 全屏力导图 · **知识** 横弹层 · 点节点旁卡 · ⋯ 调参 · 无页脚 |
 | `/about` | Day1 日期与 `site.config` 一致 |

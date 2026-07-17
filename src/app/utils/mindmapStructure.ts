@@ -27,12 +27,12 @@ export interface MindmapModel {
 }
 
 const SLOT_LAYOUT: { x: number; y: number }[] = [
-  { x: 24, y: 24 },
-  { x: 76, y: 24 },
-  { x: 20, y: 76 },
-  { x: 80, y: 76 },
-  { x: 50, y: 16 },
-  { x: 50, y: 84 },
+  { x: 14, y: 22 },
+  { x: 86, y: 22 },
+  { x: 10, y: 50 },
+  { x: 90, y: 50 },
+  { x: 16, y: 78 },
+  { x: 84, y: 78 },
 ];
 
 /** 去掉口语 filler，保留议题短语 */
@@ -180,18 +180,23 @@ export function borderAnchor(el: HTMLElement, layerRect: DOMRect, toward: Point)
   return { x: cx + dx * s, y: cy + dy * s };
 }
 
-/** 二次贝塞尔曲线 */
-export function curvedPath(from: Point, to: Point, bend = 0.2): string {
-  const mx = (from.x + to.x) / 2;
-  const my = (from.y + to.y) / 2;
+/**
+ * 翼状舒展曲线：先水平抽出，再落入目标（参考左右对称 mindmap）。
+ * bend 保留作幅度系数。
+ */
+export function curvedPath(from: Point, to: Point, bend = 0.28): string {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
   const len = Math.hypot(dx, dy) || 1;
-  const nx = -dy / len;
-  const ny = dx / len;
-  const cx = mx + nx * len * bend;
-  const cy = my + ny * len * bend;
-  return `M ${from.x.toFixed(2)} ${from.y.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${to.x.toFixed(2)} ${to.y.toFixed(2)}`;
+  const side = dx === 0 ? (dy >= 0 ? 1 : -1) : Math.sign(dx);
+  const pull = Math.min(Math.abs(dx) * (0.42 + bend * 0.5), len * 0.55, 120);
+
+  const c1x = from.x + side * pull;
+  const c1y = from.y + dy * 0.08;
+  const c2x = to.x - side * pull * 0.55;
+  const c2y = to.y - dy * 0.08;
+
+  return `M ${from.x.toFixed(2)} ${from.y.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${to.x.toFixed(2)} ${to.y.toFixed(2)}`;
 }
 
 export function clampPct(n: number, min: number, max: number) {

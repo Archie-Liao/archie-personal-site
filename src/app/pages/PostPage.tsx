@@ -7,6 +7,7 @@ import { PostDetailGutter, PostMarginColumn } from "../components/PostMarginColu
 import { PostMindmap } from "../components/PostMindmap";
 import { PostSectionTitle } from "../components/PostSectionTitle";
 import { getPostPlatformLabel } from "../utils/postPlatform";
+import { renderInlineMarks } from "../utils/inlineMarks";
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +66,7 @@ export function PostPage() {
             <div className="post-summary">
               {post.aiSummary.overview.split(/\n\n+/).map((para, i) => (
                 <p key={i} className={i === 0 ? "post-summary__lead" : "post-summary__para"}>
-                  {para}
+                  {renderInlineMarks(para)}
                 </p>
               ))}
 
@@ -76,7 +77,7 @@ export function PostPage() {
                       <span className="post-summary__num" aria-hidden>
                         {i + 1}
                       </span>
-                      <span>{point}</span>
+                      <span>{renderInlineMarks(point)}</span>
                     </li>
                   ))}
                 </ol>

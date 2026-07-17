@@ -217,7 +217,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--post-text-lead);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.78;
   color: var(--foreground);
 }
@@ -228,6 +228,11 @@
   font-size: var(--post-text-body);
   line-height: 1.72;
   color: color-mix(in srgb, var(--foreground) 90%, var(--muted-foreground));
+}
+
+.post-summary .inline-mark--strong {
+  font-weight: 700;
+  color: var(--foreground);
 }
 
 .post-summary__points {

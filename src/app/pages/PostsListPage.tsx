@@ -1,11 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { siteConfig } from "../site.config";
-import { posts, type ContentItem } from "../data/posts";
+import { posts } from "../data/posts";
 import { ALL_TAGS } from "../data/tags";
 import { PostsListPreview } from "../components/PostsListPreview";
+import { PostsQuotePop } from "../components/PostsQuotePop";
 import { PostListMarker } from "../components/PostListMarker";
 import { formatPostLatestLine } from "../utils/postPlatform";
+import { getRandomQuote, type DailyQuote } from "../utils/dailyQuote";
+import type { ContentItem } from "../data/posts";
 
 const TYPE_LABELS = [
   { key: "all", label: "全部" },
@@ -24,11 +27,11 @@ function groupByMonth(items: ContentItem[]) {
   return [...map.entries()].sort((a, b) => b[0].localeCompare(a[0]));
 }
 
-function heatBorder(views: number | undefined, maxViews: number) {
+function heatLevel(views: number | undefined, maxViews: number): "hot" | "warm" | "cool" {
   const t = maxViews > 0 ? (views ?? 0) / maxViews : 0;
-  if (t > 0.66) return "3px solid var(--data-red, var(--primary))";
-  if (t > 0.33) return "3px solid var(--punch, var(--primary))";
-  return "3px solid color-mix(in srgb, var(--data-slate, var(--border)) 80%, transparent)";
+  if (t > 0.66) return "hot";
+  if (t > 0.33) return "warm";
+  return "cool";
 }
 
 export function PostsListPage() {
@@ -43,6 +46,10 @@ export function PostsListPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMonths, setOpenMonths] = useState<Record<string, boolean>>({});
   const [tagsExpanded, setTagsExpanded] = useState(false);
+  const previewPaneRef = useRef<HTMLElement>(null);
+  const [quotePop, setQuotePop] = useState<DailyQuote | null>(null);
+  const [quotePhase, setQuotePhase] = useState<"enter" | "exit">("enter");
+  const lastQuoteText = useRef<string | undefined>(undefined);
 
   const sorted = useMemo(
     () => [...posts].sort((a, b) => b.date.localeCompare(a.date)),
@@ -89,29 +96,34 @@ export function PostsListPage() {
     });
   }, [monthGroups]);
 
+  /* 换篇：只重置右栏内滚，不动整页（避免 scrollIntoView 整页跳顶） */
+  useEffect(() => {
+    const pane = previewPaneRef.current;
+    if (pane) pane.scrollTop = 0;
+  }, [selectedId]);
+
   const selected = filtered.find((p) => p.id === selectedId) ?? null;
   const latest = sorted[0];
+
+  const openQuotePop = useCallback(() => {
+    const next = getRandomQuote(lastQuoteText.current);
+    lastQuoteText.current = next.text;
+    setQuotePop(next);
+    setQuotePhase("enter");
+  }, []);
+
+  const requestCloseQuote = useCallback(() => {
+    setQuotePhase("exit");
+  }, []);
+
+  const clearQuotePop = useCallback(() => {
+    setQuotePop(null);
+  }, []);
 
   return (
     <div className="posts-page">
       <div className="posts-d2-shell">
         <aside className="posts-d2__sidebar">
-          <div className="posts-d2__sidebar-head">
-            <span className="posts-d2__eyebrow">点我点我</span>
-            <h1 className="posts-d2__title">You Can Find Everything！</h1>
-            <p className="posts-d2__intro">{siteConfig.postsListIntro}</p>
-            {latest && (
-              <p className="posts-d2__latest">
-                <strong>最新</strong> · {formatPostLatestLine(latest)}
-              </p>
-            )}
-            {query && (
-              <p className="posts-d2__search-note">
-                搜索「{queryRaw}」· {filtered.length} 篇
-              </p>
-            )}
-          </div>
-
           <div className="posts-d2__filters">
             {TYPE_LABELS.map(({ key, label }) => (
               <button
@@ -195,14 +207,16 @@ export function PostsListPage() {
                           type="button"
                           className="posts-d2__day"
                           data-active={selectedId === post.id}
-                          style={{ borderLeft: heatBorder(post.views, maxViews) }}
+                          data-heat={heatLevel(post.views, maxViews)}
                           title={post.views != null ? `阅读量 ${post.views}` : undefined}
                           onClick={() => setSelectedId(post.id)}
                         >
                           <PostListMarker post={post} />
                           <span className="posts-d2__day-body">
                             <span className="posts-d2__day-title">{post.title}</span>
-                            <span className="posts-d2__day-sub">{post.date.slice(5)} · {(post.tags ?? []).slice(0, 2).join(" · ")}</span>
+                            <span className="posts-d2__day-sub">
+                              {post.date.slice(5)} · {(post.tags ?? []).slice(0, 2).join(" · ")}
+                            </span>
                           </span>
                         </button>
                       </li>
@@ -220,10 +234,49 @@ export function PostsListPage() {
           </div>
         </aside>
 
-        <main className="posts-d2__main">
+        <main className="posts-d2__main" ref={previewPaneRef}>
           <PostsListPreview post={selected} />
         </main>
+
+        <aside
+          className="posts-d2__intro"
+          role="button"
+          tabIndex={0}
+          aria-label="点我随机弹出一句金句"
+          title="点我 · 随机金句"
+          onClick={openQuotePop}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openQuotePop();
+            }
+          }}
+        >
+          <span className="posts-d2__eyebrow">点我点我</span>
+          <h1 className="posts-d2__title">You Can Find Everything！</h1>
+          <p className="posts-d2__intro-copy">{siteConfig.postsListIntro}</p>
+          {latest && (
+            <p className="posts-d2__latest">
+              <strong>最新</strong> · {formatPostLatestLine(latest)}
+            </p>
+          )}
+          {query && (
+            <p className="posts-d2__search-note">
+              搜索「{queryRaw}」· {filtered.length} 篇
+            </p>
+          )}
+          <p className="posts-d2__intro-hint">点我 · 随机金句</p>
+        </aside>
       </div>
+
+      {quotePop && (
+        <PostsQuotePop
+          quote={quotePop}
+          phase={quotePhase}
+          onRequestClose={requestCloseQuote}
+          onExitDone={clearQuotePop}
+        />
+      )}
     </div>
   );
 }
