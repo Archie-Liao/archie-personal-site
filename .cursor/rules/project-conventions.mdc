@@ -68,6 +68,7 @@ alwaysApply: true
 ## 当前专题规范索引
 
 - 站内内容排版：[`docs/CONTENT-FORMAT.md`](../docs/CONTENT-FORMAT.md) → `node scripts/format-subtitles.mjs`（§D）
+- 详情思维导图：[`docs/MINDMAP-RULES.md`](../docs/MINDMAP-RULES.md)（Archie 要求 + XMind 参考 + 自检）
 - 协作入口：`docs/AI-COLLABORATION-CHARTER.md`、`docs/STATUS.md`、`docs/SITE-MANUAL.md`、`AGENTS.md`
 - 文档 YAML 文首：`docs/DOC-FRONTMATTER.md`
 - Logo 字标：`docs/LOGO-FONT-BRIEF.md` → `design-demos/logo-fonts/compare-v6-ref4-hunt.html`

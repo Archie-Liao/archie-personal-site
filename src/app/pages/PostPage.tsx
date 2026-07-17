@@ -64,56 +64,76 @@ export function PostPage() {
             <PostSectionTitle>AI 总结</PostSectionTitle>
 
             <div className="post-summary">
-              {post.aiSummary.overview.split(/\n\n+/).map((para, i) => (
-                <p key={i} className={i === 0 ? "post-summary__lead" : "post-summary__para"}>
-                  {renderInlineMarks(para)}
-                </p>
-              ))}
+              {(() => {
+                const paras = post.aiSummary.overview.split(/\n\n+/).filter(Boolean);
+                const [lead, ...rest] = paras;
+                return (
+                  <>
+                    {lead && (
+                      <div className="post-summary__hero">
+                        <p className="post-summary__eyebrow">导读</p>
+                        <p className="post-summary__lead">{renderInlineMarks(lead)}</p>
+                      </div>
+                    )}
+                    {rest.length > 0 && (
+                      <div className="post-summary__body">
+                        {rest.map((para, i) => (
+                          <p key={i} className="post-summary__para">
+                            {renderInlineMarks(para)}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
 
               {post.aiSummary.keyPoints.length > 0 && (
-                <ol className="post-summary__points">
-                  {post.aiSummary.keyPoints.map((point, i) => (
-                    <li key={i}>
-                      <span className="post-summary__num" aria-hidden>
-                        {i + 1}
-                      </span>
-                      <span>{renderInlineMarks(point)}</span>
-                    </li>
-                  ))}
-                </ol>
+                <div className="post-summary__points-wrap">
+                  <p className="post-summary__eyebrow">要点</p>
+                  <ol className="post-summary__points">
+                    {post.aiSummary.keyPoints.map((point, i) => (
+                      <li key={i}>
+                        <span className="post-summary__num" aria-hidden>
+                          {i + 1}
+                        </span>
+                        <span>{renderInlineMarks(point)}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {post.aiSummary.quote && !/待补/.test(post.aiSummary.quote) && (
+                <blockquote className="post-summary__quote">「{post.aiSummary.quote}」</blockquote>
               )}
 
               {hasAux && (
-                <>
-                  <hr className="post-summary__rule" />
-                  <div className="post-summary__aux">
-                    <div className="post-summary__keywords" aria-label="关键词">
-                      <span className="post-summary__label">关键词</span>
-                      <div className="post-summary__keywords-row">
-                        {post.knowledgeCards.map((card) => (
-                          <span key={card.id} className="post-summary__kw" title={card.front}>
-                            {card.front.split(/[\s·]/)[0]}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="post-summary__checks" aria-label="可落地检查">
-                      <span className="post-summary__label">可落地检查</span>
-                      <ul className="post-summary__check-list">
-                        {post.knowledgeCards.map((card) => (
-                          <li key={card.id} className="post-summary__check-item">
-                            <strong className="post-summary__check-kw">{card.front}</strong>
-                            <span className="post-summary__check-rule">{toCheckRule(card.back)}</span>
-                          </li>
-                        ))}
-                      </ul>
+                <div className="post-summary__aux">
+                  <div className="post-summary__keywords" aria-label="关键词">
+                    <span className="post-summary__label">关键词</span>
+                    <div className="post-summary__keywords-row">
+                      {post.knowledgeCards.map((card) => (
+                        <span key={card.id} className="post-summary__kw" title={card.front}>
+                          {card.front.split(/[\s·]/)[0]}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                </>
-              )}
 
-              <blockquote className="post-summary__quote">「{post.aiSummary.quote}」</blockquote>
+                  <div className="post-summary__checks" aria-label="可落地检查">
+                    <span className="post-summary__label">可落地检查</span>
+                    <ul className="post-summary__check-list">
+                      {post.knowledgeCards.map((card) => (
+                        <li key={card.id} className="post-summary__check-item">
+                          <strong className="post-summary__check-kw">{card.front}</strong>
+                          <span className="post-summary__check-rule">{toCheckRule(card.back)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 

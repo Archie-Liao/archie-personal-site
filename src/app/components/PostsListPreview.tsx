@@ -21,6 +21,8 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
   const relatedPost = getRelatedPost(post.id);
   const extendedParas = getPreviewExtendedParagraphs(post);
   const overviewParas = post.aiSummary.overview.split(/\n\n+/).filter(Boolean);
+  const quote = post.aiSummary.quote?.trim() ?? "";
+  const showQuote = Boolean(quote) && !/待补/.test(quote);
 
   return (
     <div className="posts-preview">
@@ -50,10 +52,12 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
             )}
           </div>
 
-          <aside className="posts-preview__snippet posts-preview__layer posts-preview__layer--front">
-            <h3 className="posts-preview__snippet-label">摘录</h3>
-            <p>「{post.aiSummary.quote}」</p>
-          </aside>
+          {showQuote && (
+            <aside className="posts-preview__snippet posts-preview__layer posts-preview__layer--front">
+              <h3 className="posts-preview__snippet-label">摘录</h3>
+              <p>「{quote}」</p>
+            </aside>
+          )}
 
           {extendedParas.length > 0 && (
             <div className="posts-preview__extended posts-preview__layer posts-preview__layer--front">
@@ -128,7 +132,7 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           z-index: 5;
         }
         .posts-preview__head {
-          max-width: min(42rem, 100%);
+          max-width: min(52rem, 100%);
           padding: 1.25rem 0 0;
           z-index: 4;
         }
@@ -170,8 +174,8 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           color: var(--primary);
         }
         .posts-preview__body {
-          max-width: min(42rem, 100%);
-          padding: 1.5rem 1.65rem 1.6rem;
+          max-width: min(52rem, 100%);
+          padding: 1.5rem 1.85rem 1.6rem;
           margin-top: -0.25rem;
           background: color-mix(in srgb, var(--card) 82%, transparent);
           backdrop-filter: blur(10px);
@@ -213,9 +217,9 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           margin-bottom: 0.55rem;
         }
         .posts-preview__snippet {
-          max-width: min(42rem, 100%);
+          max-width: min(52rem, 100%);
           margin-top: auto;
-          padding: 1.5rem 1.65rem;
+          padding: 1.5rem 1.85rem;
           background: color-mix(in srgb, var(--secondary) 92%, var(--card));
           border-left: 4px solid var(--primary);
           box-shadow: 0 8px 32px -16px rgba(40, 32, 24, 0.18);
@@ -236,8 +240,8 @@ export function PostsListPreview({ post }: { post: ContentItem | null }) {
           color: var(--foreground);
         }
         .posts-preview__extended {
-          max-width: min(42rem, 100%);
-          padding: 1.4rem 1.65rem 1.55rem;
+          max-width: min(52rem, 100%);
+          padding: 1.4rem 1.85rem 1.55rem;
           background: color-mix(in srgb, var(--card) 88%, var(--background));
           border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
         }

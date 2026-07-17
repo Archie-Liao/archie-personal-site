@@ -5,7 +5,7 @@ status: active
 canonical: docs/CONTENT-FORMAT.md
 authority: 字幕 · 列表/详情文案 · 日期 · 预览栏 — 同一套「上站内容」硬规则
 depends_on: docs/P2-CONTENT-INBOX.md · docs/SITE-MANUAL.md
-revised_at: "2026-07-17 11:24:27"
+revised_at: "2026-07-17 15:07:26"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,8 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-17 15:07:26 | 交叉链到 **MINDMAP-RULES**（导图抽取不归本文） |
+| 2026-07-17 14:21:52 | §B 金句禁占位 · 详情长总结渐进层级；列表预览卡加宽至 52rem |
 | 2026-07-17 11:24:27 | `/posts` 导语→最右 · 热度条仅 hover/选中 |
 | 2026-07-17 11:11:21 | `/posts` 三栏 + 列表压紧 + 标题 hover |
 | 2026-07-17 10:59:05 | `/posts` **锁视口**（layout--posts · 无 footer）防换篇整页跳顶 |
@@ -26,7 +28,8 @@ timezone: Asia/Shanghai
 # 站内内容文案与排版规范
 
 > **写 `posts.ts`、洗字幕、改 `/posts` 预览前读本文。**  
-> 批次进度另见 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)（管「做到哪了」，不管断句细则）。
+> 批次进度另见 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)（管「做到哪了」，不管断句细则）。  
+> **详情思维导图**（中心/节点抽取、布局、自检）→ [`MINDMAP-RULES.md`](MINDMAP-RULES.md)，不在本文重复。
 
 | 章 | 管什么 |
 |----|--------|
@@ -66,6 +69,8 @@ timezone: Asia/Shanghai
 | **摘要分段** | `overview` 用 `\n\n`；段勿巨长、勿句句一段；**段首概括本段** |
 | **加粗** | 总结句/关键词 `**…**`（`renderInlineMarks`） |
 | **要点** | `keyPoints` 短句 |
+| **金句** | `quote` 必须是可引用短句；禁止「待补本期金句」占位上站 |
+| **详情长总结** | 首段=导读（短橙条只贴导读）；其后展开段 → 要点卡 → 金句 → 辅区（关键词/检查）降权 |
 
 ---
 
@@ -89,7 +94,7 @@ timezone: Asia/Shanghai
 | **左栏** | 索引（紧凑行高） |
 | **中栏** | 预览 · 主视觉（最宽） |
 | **右栏** | 导语矮卡（最窄 · 不拉满） |
-| **跟栏** | 右栏加宽后，**标题/正文/摘要卡/摘录卡**须同步放大加垫，禁止栏宽变了字还钉在窄栏尺寸 |
+| **跟栏** | 预览卡 `max-width` 跟中栏（现约 **52rem**）；标题/正文/摘录同步 |
 | **点选对齐** | 桌面：**三栏锁视口**；中/右内滚；换篇只右栏 `scrollTop=0`；标题 hover 微右移+色条 |
 | **实现** | `Layout` `layout--posts` · `posts-list.css` · `PostsListPage` |
 

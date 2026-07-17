@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-17 11:49:45"
+revised_at: "2026-07-17 17:45:24"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,12 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-17 17:45:24 | **收工** — 详情导图规则/布局（MINDMAP-RULES）· AI 总结层级 · 整组居中；下一主推仍 **P2 I1/I2** |
+| 2026-07-17 16:12:31 | 导图 **整组居中**；工具栏显示构图判定理由；MINDMAP-RULES §4.0 |
+| 2026-07-17 15:20:12 | 导图厘清 **知识卡/AI要点** · **分带防线穿框**；MINDMAP-RULES §1.0/§4.3 |
+| 2026-07-17 15:07:26 | 导图权威 doc **MINDMAP-RULES**；中心单行+抽取修复；禁止要点假挂知识卡 |
+| 2026-07-17 14:58:46 | 导图 **逻辑图布局**（有层级）+ 拖父带子 + 连线自适应；对齐 XMind 结构选型 |
+| 2026-07-17 14:41:47 | 导图 **L2 各节点异色** · **L3 无底色靠字号**（要点挂二级下）；试吃笔记追加 Must/Never |
 | 2026-07-17 11:49:45 | **收工** — `/posts` 三栏+金句弹 · CONTENT-FORMAT · P2 外链/日期；下一主推 **I1/I2** |
 | 2026-07-17 11:33:56 | `/posts` 导语卡 → 居中随机金句弹层（quotes.json · 出入场动画） |
 | 2026-07-17 11:24:27 | `/posts` 导语卡→最右 · 热度色条仅 hover/选中 |
@@ -147,6 +153,7 @@ timezone: Asia/Shanghai
 | **助手吉祥物** | **[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)** | 重设正皮 / 提示词 / B1–B5 |
 | **P2 捡料** | **[`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)** | 字幕上站 / 外链 / 批次进度 |
 | **站内内容排版** | [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md) | 日期·文案·字幕 §D · format 脚本 |
+| **详情思维导图** | [`MINDMAP-RULES.md`](MINDMAP-RULES.md) | 抽取·层级·构图判定·防重叠·居中·自检 |
 | **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + **[`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)** | `/galaxy`→IA · **尖兵施工**→SPIKE · 完整助手仍 P3 后段 |
 
 ## 进度快照
@@ -164,7 +171,7 @@ timezone: Asia/Shanghai
 | 整站视觉混搭 | **C 先这样 ✅** | B 主块 **先这样** · C polish 收工 · Graph 双 Tab **P2** |
 | 首页 `/` A1 骨架 | **✅ 已定稿** | 精选卡/时间线 **无期数→平台名** · MIX-MATCH §8.5 |
 | 日记 `/posts` A2-C | **今日 polish ✅** | **三栏** 索引\|预览\|导语矮卡 · 锁视口 · 紧凑列表 · 热度条仅 hover/选中 · **点导语→随机金句弹** · §8.7 |
-| 详情 `/post/:id` A3 | **先这样** | A3-2 **先这样** · 无期数 Hero **平台名** · 边注 Note5 相关篇 · §8.8 |
+| 详情 `/post/:id` A3 | **导图今日大改 ✅** | AI 总结渐进层级 · **MINDMAP-RULES** · 逻辑图/分带/居中 · 知识卡≠AI要点 · §8.8 |
 | 顶栏 A4 | **先这样** | §8.10 |
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
@@ -240,6 +247,7 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
+- 2026-07-17 17:45:24：**收工** — [`MINDMAP-RULES.md`](MINDMAP-RULES.md)（构图判定·知识卡/AI要点·防重叠·整组居中）；详情总结层级；导图错误边界。下一主推 **P2 I1/I2**（或并行 B4）
 - 2026-07-17 11:49:45：**收工** — `/posts` 锁视口三栏 + 导语点出金句；文案规范合并 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md)；外链 Karpathy/Dan Koe；视频日按字幕。下一主推 **P2 I1/I2**（或并行 B4 即梦）
 - 2026-07-17 11:33:56：**`/posts` 金句弹** — 导语卡点击 · `quotes.json` 随机 · 偏黑遮罩 · 出入场动画
 - 2026-07-17 10:59:05：**`/posts` 锁视口** — 废 `scrollIntoView`；换篇只右栏 `scrollTop=0`

@@ -226,12 +226,12 @@
 
 .posts-d2__tags-toggle {
   margin-left: auto;
-  padding: 0.22rem 0.5rem;
+  padding: 0.28rem 0.55rem;
   border: 1px dashed color-mix(in srgb, var(--border) 80%, var(--foreground));
   border-radius: 999px;
   background: transparent;
   color: var(--muted-foreground);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -243,19 +243,19 @@
 }
 
 .posts-d2__filters:not(.posts-d2__filters--tags) .posts-d2__filter-btn {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.28rem 0.48rem;
+  padding: 0.34rem 0.55rem;
 }
 
 .posts-d2__filters--tags .posts-d2__filter-btn {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.01em;
   text-transform: none;
-  padding: 0.26rem 0.5rem;
+  padding: 0.32rem 0.55rem;
   color: color-mix(in srgb, var(--foreground) 82%, var(--muted-foreground));
 }
 
@@ -310,11 +310,12 @@
   overscroll-behavior: contain;
   padding-bottom: 0.25rem;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--primary) 42%, var(--secondary)) transparent;
+  /* 默认几乎隐没；hover 栏时再略显 */
+  scrollbar-color: color-mix(in srgb, var(--foreground) 14%, transparent) transparent;
 }
 
 .posts-d2__months::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 
 .posts-d2__months::-webkit-scrollbar-track {
@@ -322,14 +323,19 @@
 }
 
 .posts-d2__months::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--primary) 38%, var(--border));
+  background: color-mix(in srgb, var(--foreground) 12%, transparent);
   border-radius: 999px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.posts-d2__months:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
   background-clip: padding-box;
 }
 
 .posts-d2__months::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--primary) 58%, var(--border));
+  background: color-mix(in srgb, var(--primary) 32%, var(--border));
   background-clip: padding-box;
 }
 
@@ -584,17 +590,31 @@
   border-radius: var(--radius, 0.625rem);
   box-shadow: 0 10px 36px -26px rgba(40, 32, 24, 0.1);
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--primary) 42%, var(--secondary)) transparent;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 14%, transparent) transparent;
 }
 
 .posts-d2__main::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
+}
+
+.posts-d2__main::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .posts-d2__main::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--primary) 38%, var(--border));
+  background: color-mix(in srgb, var(--foreground) 12%, transparent);
   border-radius: 999px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.posts-d2__main:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
+  background-clip: padding-box;
+}
+
+.posts-d2__main::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--primary) 32%, var(--border));
   background-clip: padding-box;
 }
 
