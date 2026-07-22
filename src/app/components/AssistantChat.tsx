@@ -21,10 +21,13 @@ const FAKE_REPLIES = [
 
 const WIDTH_KEY = "archie-assistant-drawer-width";
 const FAB_BOTTOM_KEY = "archie-assistant-fab-bottom";
+const PERCH_POS_KEY = "archie-assistant-perch-xy";
 const DEFAULT_WIDTH = 360;
 const MIN_WIDTH = 280;
 const FAB_MARGIN = 16;
 const FAB_DRAG_THRESHOLD = 8;
+/** 默认停在抽屉顶左侧，避开右上角关闭钮 */
+const DEFAULT_PERCH = { x: 10, y: -72 };
 
 function makeId() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -59,6 +62,20 @@ function readSavedFabBottom() {
     return Number.isFinite(n) ? clampFabBottom(n) : FAB_MARGIN;
   } catch {
     return FAB_MARGIN;
+  }
+}
+
+function readSavedPerchPos() {
+  try {
+    const raw = localStorage.getItem(PERCH_POS_KEY);
+    if (!raw) return { ...DEFAULT_PERCH };
+    const parsed = JSON.parse(raw) as { x?: unknown; y?: unknown };
+    const x = Number(parsed.x);
+    const y = Number(parsed.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return { ...DEFAULT_PERCH };
+    return { x: Math.round(x), y: Math.round(y) };
+  } catch {
+    return { ...DEFAULT_PERCH };
   }
 }
 
@@ -110,6 +127,7 @@ export function AssistantChat() {
   const fabRef = useRef<HTMLButtonElement>(null);
   const widthRef = useRef(DEFAULT_WIDTH);
   const fabBottomRef = useRef(FAB_MARGIN);
+  const perchPosRef = useRef(DEFAULT_PERCH);
   const jumpTimerRef = useRef<number | null>(null);
   const fabDragRef = useRef<{
     pointerId: number;
@@ -117,13 +135,22 @@ export function AssistantChat() {
     startBottom: number;
     dragged: boolean;
   } | null>(null);
+  const perchDragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originX: number;
+    originY: number;
+  } | null>(null);
   const [open, setOpen] = useState(false);
   const [mascotPose, setMascotPose] = useState<MascotPose>("idle");
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [fabBottom, setFabBottom] = useState(FAB_MARGIN);
+  const [perchPos, setPerchPos] = useState(DEFAULT_PERCH);
   const [fabDragging, setFabDragging] = useState(false);
+  const [perchDragging, setPerchDragging] = useState(false);
   const [resizing, setResizing] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
@@ -171,6 +198,9 @@ export function AssistantChat() {
   useEffect(() => {
     setWidth(readSavedWidth());
     setFabBottom(readSavedFabBottom());
+    const perch = readSavedPerchPos();
+    setPerchPos(perch);
+    perchPosRef.current = perch;
   }, []);
 
   useEffect(() => {
@@ -186,6 +216,10 @@ export function AssistantChat() {
   useEffect(() => {
     fabBottomRef.current = fabBottom;
   }, [fabBottom]);
+
+  useEffect(() => {
+    perchPosRef.current = perchPos;
+  }, [perchPos]);
 
   useEffect(() => {
     const onResize = () => {
@@ -288,6 +322,43 @@ export function AssistantChat() {
     };
   }, [fabDragging, close, openWithJump]);
 
+  useEffect(() => {
+    if (!perchDragging) return;
+    const onMove = (e: PointerEvent) => {
+      const drag = perchDragRef.current;
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      setPerchPos({
+        x: Math.round(drag.originX + (e.clientX - drag.startX)),
+        y: Math.round(drag.originY + (e.clientY - drag.startY)),
+      });
+    };
+    const onUp = (e: PointerEvent) => {
+      const drag = perchDragRef.current;
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      perchDragRef.current = null;
+      setPerchDragging(false);
+      document.body.style.removeProperty("cursor");
+      document.body.style.removeProperty("user-select");
+      try {
+        localStorage.setItem(PERCH_POS_KEY, JSON.stringify(perchPosRef.current));
+      } catch {
+        /* ignore */
+      }
+    };
+    document.body.style.cursor = "grabbing";
+    document.body.style.userSelect = "none";
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      document.body.style.removeProperty("cursor");
+      document.body.style.removeProperty("user-select");
+    };
+  }, [perchDragging]);
+
   const send = useCallback(async () => {
     const text = draft.trim();
     if (!text || busy) return;
@@ -336,6 +407,20 @@ export function AssistantChat() {
     setFabDragging(true);
   };
 
+  const onPerchPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    perchDragRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      originX: perchPosRef.current.x,
+      originY: perchPosRef.current.y,
+    };
+    setPerchDragging(true);
+  };
+
   const showFabMascot = mascotPose === "idle" || mascotPose === "jumping";
 
   return (
@@ -345,6 +430,7 @@ export function AssistantChat() {
       data-mascot={mascotPose}
       data-resizing={resizing || undefined}
       data-fab-dragging={fabDragging || undefined}
+      data-perch-dragging={perchDragging || undefined}
     >
       {showFabMascot && (
         <div
@@ -384,7 +470,13 @@ export function AssistantChat() {
         style={{ width }}
       >
         {mascotPose === "perched" && (
-          <div className="assistant-chat__mascot-perch" aria-hidden>
+          <div
+            className="assistant-chat__mascot-perch"
+            style={{ left: perchPos.x, top: perchPos.y }}
+            title="拖动小蓝宠（避开关闭钮）"
+            aria-hidden
+            onPointerDown={onPerchPointerDown}
+          >
             <AssistantMascot pose="perched" />
           </div>
         )}

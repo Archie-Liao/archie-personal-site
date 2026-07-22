@@ -116,12 +116,21 @@
 
 .assistant-chat__mascot-perch {
   position: absolute;
-  /* 脚踩抽屉顶边，头留在视口内（勿 top 过大被裁头顶） */
-  top: -4.35rem;
-  right: 0.35rem;
+  /* 默认停左侧；right 取消，位置由 left/top（可拖）控制 */
+  right: auto;
   z-index: 4;
   width: 7.25rem;
   height: 7.75rem;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.assistant-chat[data-perch-dragging] .assistant-chat__mascot-perch {
+  cursor: grabbing;
+}
+
+.assistant-chat__mascot-perch .assistant-mascot__img {
   pointer-events: none;
 }
 
@@ -326,6 +335,8 @@
 }
 
 .assistant-chat__close {
+  position: relative;
+  z-index: 6;
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
@@ -463,11 +474,6 @@
     max-height: calc(100dvh - 4.85rem);
     border-radius: var(--assistant-radius) var(--assistant-radius) 0 0;
     border-left: none;
-  }
-
-  .assistant-chat__mascot-perch {
-    top: -4.1rem;
-    right: 0.75rem;
   }
 
   .assistant-chat__resize {

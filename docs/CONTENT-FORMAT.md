@@ -5,7 +5,7 @@ status: active
 canonical: docs/CONTENT-FORMAT.md
 authority: 字幕 · 列表/详情文案 · 日期 · 预览栏 — 同一套「上站内容」硬规则
 depends_on: docs/P2-CONTENT-INBOX.md · docs/SITE-MANUAL.md
-revised_at: "2026-07-17 15:07:26"
+revised_at: "2026-07-22 11:34:17"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,8 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-22 11:34:17 | §E 链 **P3-AUTHOR-NOTE-SPIKE**（站内编辑立项 · 云真源防覆盖）；字幕展示改黑体 |
+| 2026-07-22 11:20:16 | §D **段前踢标限量**：仅开场/致谢/共勉；禁止正文语义踢标刷屏；§E 亲笔旁注；§B 称「智能总结」 |
 | 2026-07-17 15:07:26 | 交叉链到 **MINDMAP-RULES**（导图抽取不归本文） |
 | 2026-07-17 14:21:52 | §B 金句禁占位 · 详情长总结渐进层级；列表预览卡加宽至 52rem |
 | 2026-07-17 11:24:27 | `/posts` 导语→最右 · 热度条仅 hover/选中 |
@@ -29,14 +31,15 @@ timezone: Asia/Shanghai
 
 > **写 `posts.ts`、洗字幕、改 `/posts` 预览前读本文。**  
 > 批次进度另见 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)（管「做到哪了」，不管断句细则）。  
-> **详情思维导图**（中心/节点抽取、布局、自检）→ [`MINDMAP-RULES.md`](MINDMAP-RULES.md)，不在本文重复。
+> **详情思维导图 / 亲笔旁注**：自动关键词导图已停用；亲笔见本文 §E。旧布局规则见 [`MINDMAP-RULES.md`](MINDMAP-RULES.md)（搁置参考）。
 
 | 章 | 管什么 |
 |----|--------|
 | **§A 日期** | 列表月分组 / VOL 的 `date` 从哪来 |
-| **§B 标题与摘要** | 外链/日记标题、AI 总结、加粗 |
+| **§B 标题与摘要** | 外链/日记标题、**智能总结**、加粗 |
 | **§C 列表预览** | 阅读延展字数、栏宽 |
-| **§D 字幕稿** | 源稿 → `public/subtitles/`（原 SUBTITLE-FORMAT） |
+| **§D 字幕稿** | 源稿 → `public/subtitles/`；**段前踢标限量** |
+| **§E 亲笔旁注** | Archie 真实表达（评书/灵感/闲话；导图可选） |
 
 ---
 
@@ -60,7 +63,7 @@ timezone: Asia/Shanghai
 
 ---
 
-## §B · 标题与 AI 总结
+## §B · 标题与智能总结
 
 | 规则 | |
 |------|--|
@@ -132,12 +135,37 @@ timezone: Asia/Shanghai
 
 ### 展示与工作流
 
-- `SubtitleViewer`：空行 → 新 `<p>`；浏览器不二次断句  
+- `SubtitleViewer`：空行 → 新 `<p>`；浏览器不二次断句；**正文字体 = Noto Sans SC 黑体**（`post-detail.css`），不用宋体长文 
+
+#### 展示 · 段前踢标（硬规则）
+
+| 规则 | 说明 |
+|------|------|
+| **角色** | 结构锚点（告诉你「这段是开场/致谢/收束」），**不是**正文导读，**不得抢字幕主体** |
+| **允许出踢标** | 仅：`今天是…` 开场 · `感谢…` 致谢 · `与君共勉` / `终身学习` / `明天见` 收束 |
+| **禁止** | 对正文语义段贴「议题·」「拉远·」「展开·」「体悟·」「结论·」等概括词；禁止几乎每段都有踢标 |
+| **密度** | 通常每篇 **≤4** 个踢标（开场+致谢+共勉类）；正文段只用菱形 mark，无踢标 |
+| **视觉** | 踢标弱于正文（小字、muted），勿大面积 punch 色 |
+
+实现：`src/app/utils/subtitleParaMeta.ts`。
 
 ```powershell
 node scripts/format-subtitles.mjs
 npm run dev   # → /post/ep099
 ```
+
+---
+
+## §E · 亲笔旁注（详情页）
+
+> 替代原「自动关键词思维导图」。本块 = Archie **真实表达**：评书、一两句灵感、甚至无关闲话；**思维导图只是可选形式之一**。
+
+| 项 | 约定 |
+|----|------|
+| 字段 | `posts.ts` → `authorNote?: string`（段间空行）；日后可扩 `mindmapOutline` |
+| 空 | 显示「待亲笔」占位，**不**自动抽知识卡/要点做假导图 |
+| 有文 | 按段渲染为旁注正文 |
+| 怎么更新 | **站内编辑已立项** → [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md)；旁注真源拟放 **CloudBase**，避免 Git push 盖网页修改 |
 
 ---
 

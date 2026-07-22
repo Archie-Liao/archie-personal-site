@@ -4,10 +4,10 @@ import { getPostById } from "../data/posts";
 import { VideoPlayer } from "../components/VideoPlayer";
 import { SubtitleViewer } from "../components/SubtitleViewer";
 import { PostDetailGutter, PostMarginColumn } from "../components/PostMarginColumn";
-import { PostMindmap } from "../components/PostMindmap";
 import { PostSectionTitle } from "../components/PostSectionTitle";
 import { getPostPlatformLabel } from "../utils/postPlatform";
 import { renderInlineMarks } from "../utils/inlineMarks";
+import { ArchieNotePanel } from "../components/ArchieNotePanel";
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -61,7 +61,7 @@ export function PostPage() {
           </header>
 
           <section className="post-section post-section--summary">
-            <PostSectionTitle>AI 总结</PostSectionTitle>
+            <PostSectionTitle>智能总结</PostSectionTitle>
 
             <div className="post-summary">
               {(() => {
@@ -137,9 +137,8 @@ export function PostPage() {
             </div>
           </section>
 
-          <section className="post-section">
-            <PostSectionTitle>思维导图</PostSectionTitle>
-            <PostMindmap post={post} />
+          <section className="post-section post-section--author-note">
+            <ArchieNotePanel postId={post.id} />
           </section>
 
           <section className="post-section">

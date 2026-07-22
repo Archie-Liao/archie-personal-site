@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>详情阅读字体小样 · 智能总结 / 亲笔旁注</title>
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
+  <link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Source+Han+Serif+SC:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F6F0E2;
+      --ink: #2c241c;
+      --muted: #6b5e52;
+      --punch: #CC785C;
+      --card: #faf6ee;
+      --line: #e2d8c8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1.25rem 4rem;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Noto Sans SC", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    h1 { font-size: 1.35rem; margin: 0 0 0.4rem; }
+    .lead { color: var(--muted); max-width: 48rem; margin: 0 0 1.75rem; font-size: 0.95rem; }
+    .lead strong { color: var(--ink); font-weight: 600; }
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 0.4rem;
+      padding: 1.15rem 1.25rem 1.35rem;
+    }
+    .tag {
+      display: inline-block;
+      margin-bottom: 0.65rem;
+      padding: 0.15rem 0.45rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--line);
+      border-radius: 0.2rem;
+      color: var(--muted);
+    }
+    .tag--now { border-color: color-mix(in srgb, var(--punch) 50%, var(--line)); color: var(--punch); }
+    .why { margin: 0 0 0.9rem; font-size: 0.8rem; color: var(--muted); }
+    .sec-title {
+      display: flex; align-items: center; gap: 0.55rem;
+      margin: 0 0 0.85rem; font-size: 1.25rem; font-weight: 700;
+    }
+    .sec-title::before {
+      content: ""; width: 4px; height: 1.1em; border-radius: 1px; background: var(--punch);
+    }
+    .eyebrow {
+      margin: 0 0 0.4rem; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; color: color-mix(in srgb, var(--punch) 70%, var(--muted));
+    }
+    .sample-summary, .sample-note {
+      margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px dashed var(--line);
+    }
+    .label-mini { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); margin: 0 0 0.45rem; }
+    /* —— A 现状 —— */
+    .a .sec-title { font-family: "Noto Serif SC", serif; }
+    .a .lead-text {
+      font-family: "Noto Serif SC", serif; font-size: 1.1rem; font-weight: 600; line-height: 1.72; margin: 0;
+    }
+    .a .body-text, .a .point {
+      font-family: "Noto Serif SC", serif; font-size: 1rem; line-height: 1.72;
+      color: color-mix(in srgb, var(--ink) 88%, var(--muted)); margin: 0.55rem 0 0;
+    }
+    .a .note-text {
+      font-family: "Noto Serif SC", serif; font-size: 1.02rem; line-height: 1.85; margin: 0;
+    }
+    /* —— B 编辑部混排（常见于长文站） —— */
+    .b .sec-title { font-family: "Noto Serif SC", serif; }
+    .b .lead-text {
+      font-family: "Noto Serif SC", serif; font-size: 1.12rem; font-weight: 600; line-height: 1.7; margin: 0;
+    }
+    .b .body-text, .b .point {
+      font-family: "Noto Sans SC", sans-serif; font-size: 0.98rem; font-weight: 400; line-height: 1.78;
+      color: color-mix(in srgb, var(--ink) 90%, var(--muted)); margin: 0.55rem 0 0;
+    }
+    .b .note-text {
+      font-family: "Noto Sans SC", sans-serif; font-size: 1rem; font-weight: 400; line-height: 1.8; margin: 0;
+    }
+    /* —— C 全黑体清晰（知识/工具站常见） —— */
+    .c .sec-title { font-family: "Noto Sans SC", sans-serif; font-weight: 700; letter-spacing: 0.02em; }
+    .c .lead-text {
+      font-family: "Noto Sans SC", sans-serif; font-size: 1.06rem; font-weight: 600; line-height: 1.7; margin: 0;
+    }
+    .c .body-text, .c .point {
+      font-family: "Noto Sans SC", sans-serif; font-size: 0.98rem; font-weight: 400; line-height: 1.75;
+      color: color-mix(in srgb, var(--ink) 92%, var(--muted)); margin: 0.55rem 0 0;
+    }
+    .c .note-text {
+      font-family: "Noto Sans SC", sans-serif; font-size: 1rem; line-height: 1.78; margin: 0;
+    }
+    /* —— D 加大字重对比 —— */
+    .d .sec-title { font-family: "Noto Serif SC", serif; }
+    .d .lead-text {
+      font-family: "Noto Sans SC", sans-serif; font-size: 1.08rem; font-weight: 600; line-height: 1.68; margin: 0;
+      letter-spacing: 0.01em;
+    }
+    .d .body-text, .d .point {
+      font-family: "Noto Sans SC", sans-serif; font-size: 1rem; font-weight: 400; line-height: 1.72;
+      color: var(--ink); margin: 0.55rem 0 0;
+    }
+    .d .note-text {
+      font-family: "Noto Serif SC", serif; font-size: 1.05rem; font-weight: 500; line-height: 1.82; margin: 0;
+      /* 旁注用宋体，总结用黑体：角色更分明 */
+    }
+    ol { margin: 0.4rem 0 0; padding: 0; list-style: none; }
+    ol li { display: flex; gap: 0.65rem; align-items: flex-start; }
+    .num {
+      flex-shrink: 0; width: 1.4rem; height: 1.4rem; margin-top: 0.15em;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 0.2rem; font-size: 0.7rem; font-weight: 700;
+      border: 1px solid var(--line); color: var(--punch);
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    footer {
+      max-width: 52rem; margin: 2rem auto 0; font-size: 0.85rem; color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="grid" style="grid-template-columns: 1fr; margin-bottom: 1rem;">
+    <div>
+      <h1>智能总结 / 亲笔旁注 · 字体小样</h1>
+      <p class="lead">
+        同类型站常见做法：<strong>长文站</strong>（Substack / 少数派长文）多用「标题/导读宋体或衬线 + 正文黑体」；
+        <strong>知识/工具站</strong>倾向全文黑体求清晰；
+        <strong>杂志感</strong>则全文衬线，但中文屏上容易发糊。
+        下面四套同一段文案，<strong>选字母回复即可</strong>，选定后再改线上 CSS。
+      </p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <article class="a">
+      <span class="tag tag--now">A · 现状</span>
+      <p class="why">总结与旁注都用 Noto Serif SC。杂志感强，屏上中文有时不够「一眼清」。</p>
+      <h2 class="sec-title">智能总结</h2>
+      <div class="sample-summary">
+        <p class="label-mini">导读</p>
+        <p class="eyebrow">导读</p>
+        <p class="lead-text">本期从个人成长曲线切入：许多当下看似无解的困境，并非需要立刻找到完美答案，而是在持续行动与积累中自然松动。</p>
+        <p class="body-text">Archie 结合近100期日记的体感，梳理「成长消解难题」的三条机制。</p>
+        <p class="eyebrow" style="margin-top:0.85rem">要点</p>
+        <ol>
+          <li><span class="num">1</span><span class="point">难题的「尺寸」会随认知水位变化</span></li>
+        </ol>
+      </div>
+      <div class="sample-note">
+        <p class="label-mini">亲笔旁注</p>
+        <h2 class="sec-title">亲笔旁注</h2>
+        <p class="note-text">牛逼呀，可以直接在网页上修改了，哇哈哈</p>
+      </div>
+    </article>
+
+    <article class="b">
+      <span class="tag">B · 编辑部混排</span>
+      <p class="why">导读保留宋体；要点/旁注改黑体。长文站最常见，清晰度和气质折中。</p>
+      <h2 class="sec-title">智能总结</h2>
+      <div class="sample-summary">
+        <p class="eyebrow">导读</p>
+        <p class="lead-text">本期从个人成长曲线切入：许多当下看似无解的困境，并非需要立刻找到完美答案，而是在持续行动与积累中自然松动。</p>
+        <p class="body-text">Archie 结合近100期日记的体感，梳理「成长消解难题」的三条机制。</p>
+        <p class="eyebrow" style="margin-top:0.85rem">要点</p>
+        <ol>
+          <li><span class="num">1</span><span class="point">难题的「尺寸」会随认知水位变化</span></li>
+        </ol>
+      </div>
+      <div class="sample-note">
+        <h2 class="sec-title">亲笔旁注</h2>
+        <p class="note-text">牛逼呀，可以直接在网页上修改了，哇哈哈</p>
+      </div>
+    </article>
+
+    <article class="c">
+      <span class="tag">C · 全黑体清晰</span>
+      <p class="why">标题到正文一律 Noto Sans SC。知识库/笔记站常用，最省眼，杂志感最弱。</p>
+      <h2 class="sec-title">智能总结</h2>
+      <div class="sample-summary">
+        <p class="eyebrow">导读</p>
+        <p class="lead-text">本期从个人成长曲线切入：许多当下看似无解的困境，并非需要立刻找到完美答案，而是在持续行动与积累中自然松动。</p>
+        <p class="body-text">Archie 结合近100期日记的体感，梳理「成长消解难题」的三条机制。</p>
+        <p class="eyebrow" style="margin-top:0.85rem">要点</p>
+        <ol>
+          <li><span class="num">1</span><span class="point">难题的「尺寸」会随认知水位变化</span></li>
+        </ol>
+      </div>
+      <div class="sample-note">
+        <h2 class="sec-title">亲笔旁注</h2>
+        <p class="note-text">牛逼呀，可以直接在网页上修改了，哇哈哈</p>
+      </div>
+    </article>
+
+    <article class="d">
+      <span class="tag">D · 角色对调</span>
+      <p class="why">智能总结用黑体（信息）；亲笔旁注用宋体（手感）。两块一眼能分清「机器整理 vs 我写的」。</p>
+      <h2 class="sec-title">智能总结</h2>
+      <div class="sample-summary">
+        <p class="eyebrow">导读</p>
+        <p class="lead-text">本期从个人成长曲线切入：许多当下看似无解的困境，并非需要立刻找到完美答案，而是在持续行动与积累中自然松动。</p>
+        <p class="body-text">Archie 结合近100期日记的体感，梳理「成长消解难题」的三条机制。</p>
+        <p class="eyebrow" style="margin-top:0.85rem">要点</p>
+        <ol>
+          <li><span class="num">1</span><span class="point">难题的「尺寸」会随认知水位变化</span></li>
+        </ol>
+      </div>
+      <div class="sample-note">
+        <h2 class="sec-title">亲笔旁注</h2>
+        <p class="note-text">牛逼呀，可以直接在网页上修改了，哇哈哈</p>
+      </div>
+    </article>
+  </div>
+
+  <footer>
+    打开方式：在 <code>design-demos</code> 起本地服务后访问
+    <code>post-reading-type-samples.html</code>。
+    回复例如「选 B」或「总结用 C、旁注用 D」。
+  </footer>
+</body>
+</html>

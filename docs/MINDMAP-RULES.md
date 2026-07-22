@@ -6,7 +6,7 @@ status: active
 canonical: docs/MINDMAP-RULES.md
 authority: 导图文案抽取 · 层级/配色 · 布局选型 · 连线拖动 · 自检
 depends_on: docs/DEMO-TASTING-NOTES.md · docs/CONTENT-FORMAT.md
-revised_at: "2026-07-17 16:12:31"
+revised_at: "2026-07-22 11:20:16"
 timezone: Asia/Shanghai
 
 ---
@@ -15,6 +15,7 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-22 11:20:16 | **搁置自动导图** — 详情改「亲笔旁注」；本文保留布局/连线作可选可视化参考 |
 | 2026-07-17 16:12:31 | §4.0 构图判定流程；§4.0b **整组居中**；修 core 坐标未用布局结果 |
 | 2026-07-17 15:20:12 | 厘清「知识卡/AI要点」定义与确认方式；**防重叠**分带+竖廊连线；踢标改名 |
 | 2026-07-17 15:07:26 | 首版：Archie 要求 + XMind 参考合并；中心单行/抽取自检；禁止假父子 |
@@ -23,9 +24,11 @@ timezone: Asia/Shanghai
 
 # 详情页思维导图规则
 
-> **唯一权威**：改 `PostMindmap` / `mindmapStructure.ts` / 导图 CSS 前读本文。  
-> **试吃底线**（Must/Never）仍在 [`DEMO-TASTING-NOTES.md`](DEMO-TASTING-NOTES.md)；本文管**怎么写节点、怎么连、怎么验收**。  
-> 实现：`src/app/utils/mindmapStructure.ts` · `src/app/components/PostMindmap.tsx` · `src/styles/post-detail.css`
+> **状态（2026-07-22）**：**自动关键词导图已停用**。详情主路径改为 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md) **§E 亲笔旁注**（评书/灵感/闲话；导图仅为可选形式）。  
+> 下文布局/连线/XMind 对齐仍作**日后若手写大纲可视化**时的参考，**不要**再把知识卡/AI要点自动压成导图节点。
+
+> **试吃底线**（Must/Never）仍在 [`DEMO-TASTING-NOTES.md`](DEMO-TASTING-NOTES.md)。  
+> 实现（搁置）：`src/app/utils/mindmapStructure.ts` · `src/app/components/PostMindmap.tsx` · `src/styles/post-detail.css`
 
 本文把 **Archie 提出的要求** 与 **XMind 公开结构说明** 写在同一文件（分节标注来源），避免散落在对话里。
 

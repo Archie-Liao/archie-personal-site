@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-17 17:45:24"
+revised_at: "2026-07-22 16:53:33"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,21 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-22 16:53:33 | **收工** — 亲笔旁注云部署通+站内可编 · 字体导读/金句宋其余黑 · 登录/连线打磨；下一主推 **P2 I1/I2** |
+| 2026-07-22 16:51:00 | 详情字体：**导读+金句宋体** · 要点/展开/旁注等 **黑体**（Archie 选定） |
+| 2026-07-22 16:36:13 | 旁注：登录旁标题+内联口令（修 Cursor 浏览器 prompt）· 导图连线框外锚点 · 按钮圆角收方 · 字体小样待选 |
+| 2026-07-22 16:16:31 | 旁注：**云部署已通**（集合/HTTP/口令）· 站内可编辑 · 下一步打磨编辑交互与导图画布 |
+| 2026-07-22 15:29:44 | 旁注：**前端+云函数已落地** · 待部署集合/HTTP/口令 · [`P3-AUTHOR-NOTE-SPIKE`](P3-AUTHOR-NOTE-SPIKE.md) |
+| 2026-07-22 14:46:14 | 旁注 SPIKE：**画布一次做完**；本地+线上均可写同一云库；纠正「只能用线上」 |
+| 2026-07-22 14:21:04 | 旁注 SPIKE 补界面/块类型/导出换库 · [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md) |
+| 2026-07-22 11:34:17 | **亲笔旁注站内编辑立项** [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md) · 云真源防 Git 覆盖；字幕改 **Noto Sans SC 黑体** |
+| 2026-07-22 11:20:16 | 详情 **智能总结** · **亲笔旁注**替自动导图 · 字幕踢标仅开场/致谢/共勉 · [`CONTENT-FORMAT`](CONTENT-FORMAT.md) §D/§E |
+| 2026-07-21 17:58:05 | **小蓝宠眉否决 A**（太丑）· 滚回 B–E 待选 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-21 17:53:09 | **小蓝宠眉选 A**（墨毡剑眉）· 已否决 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-21 17:50:06 | **小蓝宠** — 指人手形/趾恐龙感；眉作突出特征（异质感）· 方案 A–E 待选 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-21 17:37:25 | **小蓝宠基础款** — 指趾 **4/4** · 眉试 **剑眉** · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-21 17:20:13 | **小蓝宠基础款** — 补眉毛锁点 · 曾 3指/3趾（已改） · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| 2026-07-21 17:12:56 | **小蓝宠分层** — 默认定稿=B3 裸身；披风键帽=皮肤/动画（延后）· [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
 | 2026-07-17 17:45:24 | **收工** — 详情导图规则/布局（MINDMAP-RULES）· AI 总结层级 · 整组居中；下一主推仍 **P2 I1/I2** |
 | 2026-07-17 16:12:31 | 导图 **整组居中**；工具栏显示构图判定理由；MINDMAP-RULES §4.0 |
 | 2026-07-17 15:20:12 | 导图厘清 **知识卡/AI要点** · **分带防线穿框**；MINDMAP-RULES §1.0/§4.3 |
@@ -130,18 +145,19 @@ timezone: Asia/Shanghai
 ## 主任务（仅 1 条）
 
 **P2 捡料 · 字幕上站** — 施工图 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)；源稿 ~129 · 下一步 **I1 盘点 / I2 跑 format-subtitles**。  
-**并行插线**：小蓝宠 **B4**（[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)）· 提示词已备、待即梦。  
-**开场**：`@docs/P2-CONTENT-INBOX.md` + `@docs/CONTENT-FORMAT.md`（或续 B4）。
+**并行插线**：小蓝宠基础款（搁置出图）· **亲笔旁注** 云通可用 · 导图画布/交互可继续打磨 [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md)。  
+**开场**：`@docs/P2-CONTENT-INBOX.md`（主推）或旁注继续打磨。
 
 ## 主线流程（防失焦 · 新会话先对这条）
 
 ```text
 ①–⑤ ~~demo 试吃 → 混搭 → A/B/C → graph~~ ✅
 ⑥a ~~`/galaxy` MVP~~ ✅ P1 先这样（节点正文后审）
-⑥b **P3 尖兵** — A ✅ · **B 真聊可用 ✅** · 吉祥物壳（坐钮/跳/栖顶）✅ · **正皮重设中** → [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)
-⑥c **P2a** 捡料 / content·md · graph 双 Tab → **P2b** 聚类 → **完整 P3** 编排
+⑥b **P3 尖兵** — A ✅ · **B 真聊可用 ✅** · 吉祥物壳 ✅ · **基础款待定稿**（披风=皮肤延后）→ [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)
+⑥c **亲笔旁注** — 云函数/集合/HTTP ✅ · 站内编辑 ✅ · 字体定稿 ✅ · 导图交互可继续打磨
+⑥d **P2a** 捡料 / content·md · graph 双 Tab → **P2b** 聚类 → **完整 P3** 编排
 国内站：https://archie-website-archie-d4giq03kg9e46530b.webapps.tcloudbase.com/
-自动部署：GitHub Actions → 静态托管根 `/` · 助手网关 app.tcloudbase.com · SPA 深链 404→index.html ✅
+自动部署：GitHub Actions → 静态托管根 `/` · 助手+旁注网关 app.tcloudbase.com · SPA 深链 404→index.html ✅
 ```
 
 | 阶段 | 权威文档 | AI 何时读 |
@@ -153,7 +169,8 @@ timezone: Asia/Shanghai
 | **助手吉祥物** | **[`MASCOT-BRIEF.md`](MASCOT-BRIEF.md)** | 重设正皮 / 提示词 / B1–B5 |
 | **P2 捡料** | **[`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)** | 字幕上站 / 外链 / 批次进度 |
 | **站内内容排版** | [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md) | 日期·文案·字幕 §D · format 脚本 |
-| **详情思维导图** | [`MINDMAP-RULES.md`](MINDMAP-RULES.md) | 抽取·层级·构图判定·防重叠·居中·自检 |
+| **亲笔旁注** | [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md) · [`AUTHOR-NOTES-DEPLOY.md`](AUTHOR-NOTES-DEPLOY.md) | 云真源·部署·编辑 UI |
+| **详情思维导图** | [`MINDMAP-RULES.md`](MINDMAP-RULES.md) | 抽取·层级·构图判定·防重叠·居中·自检（自动导图已停用） |
 | **P2/P3 产品** | sessions §9 + [`MENTAL-MODELS-IA.md`](MENTAL-MODELS-IA.md) + **[`P3-ASSISTANT-SPIKE.md`](P3-ASSISTANT-SPIKE.md)** | `/galaxy`→IA · **尖兵施工**→SPIKE · 完整助手仍 P3 后段 |
 
 ## 进度快照
@@ -171,13 +188,13 @@ timezone: Asia/Shanghai
 | 整站视觉混搭 | **C 先这样 ✅** | B 主块 **先这样** · C polish 收工 · Graph 双 Tab **P2** |
 | 首页 `/` A1 骨架 | **✅ 已定稿** | 精选卡/时间线 **无期数→平台名** · MIX-MATCH §8.5 |
 | 日记 `/posts` A2-C | **今日 polish ✅** | **三栏** 索引\|预览\|导语矮卡 · 锁视口 · 紧凑列表 · 热度条仅 hover/选中 · **点导语→随机金句弹** · §8.7 |
-| 详情 `/post/:id` A3 | **导图今日大改 ✅** | AI 总结渐进层级 · **MINDMAP-RULES** · 逻辑图/分带/居中 · 知识卡≠AI要点 · §8.8 |
+| 详情 `/post/:id` A3 | **旁注可用 ✅** | **智能总结** · **亲笔旁注**（云 DB）· 导读/金句宋其余黑 · 自动导图停用 |
 | 顶栏 A4 | **先这样** | §8.10 |
 | graph/about/feedback A5 | **先这样** | §8.11 · **`/graph` 2026-07-10 升级** |
 | 详情 `/post/:id` | 已有 | 字幕 ep86–99；ep86–93 posts 待补 |
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
-| **P3 尖兵** | **B 可用 ✅** · 壳+动效 ✅ · 正皮重设中 | 真聊 OK · 吉祥物见 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
-| **助手吉祥物** | **B4 待即梦** | 红/橙披风+键帽环+弹压发功 · B3 ✅ · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| **P3 尖兵** | **B 可用 ✅** · 壳+动效 ✅ · 基础款待定稿 | 真聊 OK · 吉祥物见 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
+| **助手吉祥物** | **基础款待定稿** | B3 裸身=默认 · 披风键帽=皮肤/动画延后 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
 | **P2 捡料** | **I0 ✅ · I1 待** | [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · 外链 3 条已换 |
 | **产品畅想** | **P1 `/galaxy` 已拍板** | 完整助手编排在尖兵之后；聚类 **P2b** |
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
@@ -203,7 +220,8 @@ timezone: Asia/Shanghai
 ### Archie（选一条开）
 
 1. **主推 · P2 I1/I2** — 盘点 129 源稿 → 跑字幕脚本 → 补 ep086–093 条目  
-2. **并行 · 小蓝宠 B4** — 垫 B3 即梦（披风+键帽环+弹压发功）  
+2. **并行 · 小蓝宠基础款定稿** — 收细 B3 裸身 → 说「小蓝宠定稿」；披风键帽延后做皮肤/动画  
+
 3. **可选 · P3 尖兵 C /「尖兵先这样」**  
 
 ### AI（建议顺序）
@@ -212,7 +230,7 @@ timezone: Asia/Shanghai
 |----|-----|------|
 | 1–8 | P1 + 国内部署 + Actions + SPA 深链 | **✅** |
 | 9 | **P3 尖兵** A+B | **✅** · 可选 C |
-| 9b | **吉祥物正皮** | **B4 待即梦** |
+| 9b | **吉祥物正皮** | **基础款待定稿** · 皮肤/动画延后 |
 | **10** | **P2 捡料** | **I0 ✅** · 见 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) |
 | 11 | Graph 双 Tab · content/md | **P2 后段** |
 | 12 | 完整助手编排 | **完整 P3** |
@@ -240,14 +258,26 @@ timezone: Asia/Shanghai
 - [x] Logo — **2026-07-08 v1 暂定**（见 LOGO-FONT-BRIEF §2.0）· **不再主动迭代**
 - [x] **小蓝宠 B3 裸身** — Archie「这个不错」
 - [x] **P2 施工图 I0** — [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · Day 文件名已规范 · 外链已换
-- [ ] **小蓝宠 B4 全身配件** — 红/橙披风 + 键帽环 + 弹压发功
-- [ ] **小蓝宠定稿** — 说 **「小蓝宠定稿」** 冻结 Brief
+- [x] **亲笔旁注尖兵** — 云集合/HTTP/口令 ✅ · 站内登录编辑 ✅ · 部署手把手 [`AUTHOR-NOTES-DEPLOY.md`](AUTHOR-NOTES-DEPLOY.md)
+- [ ] **亲笔旁注导图交互** — 画布继续打磨（非阻塞）
+- [ ] **小蓝宠定稿** — 说 **「小蓝宠定稿」** 冻结 **基础款**（裸身）
+- [ ] **小蓝宠皮肤/动画（原 B4）** — 披风+键帽环+弹压发功 · **默认定稿后**
 - [ ] **P2 I1–I3** — 盘点 → 洗字幕 → 补 posts（含 ep086–093）
 - [ ] **P3 尖兵 C / 出关** — 未必须；可说「尖兵先这样」跳过 C
 
 ## 最近决策
 
-- 2026-07-17 17:45:24：**收工** — [`MINDMAP-RULES.md`](MINDMAP-RULES.md)（构图判定·知识卡/AI要点·防重叠·整组居中）；详情总结层级；导图错误边界。下一主推 **P2 I1/I2**（或并行 B4）
+- 2026-07-22 16:53:33：**收工** — 旁注云通+可编；字体导读/金句宋、其余黑；登录旁标题+内联口令；连线框外锚点。下一主推 **P2 I1/I2**
+- 2026-07-22 16:51:00：**详情字体** — 导读+金句宋体；要点/展开/旁注等黑体
+- 2026-07-22 16:16:31：**旁注云部署通** — `author_notes` + `/authorNotes` + `AUTHOR_NOTE_GATE`
+- 2026-07-22 11:34:17：**亲笔旁注站内编辑立项** — 云库真源防 push 覆盖；见 [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md)；字幕 **Noto Sans SC**
+- 2026-07-22 11:20:16：**详情** — 「AI总结」→**智能总结**；「思维导图」→**亲笔旁注**（停自动关键词导图）；字幕踢标仅结构段
+- 2026-07-21 17:58:05：**小蓝宠** — **否决 A 墨毡**（太丑）；眉重选 B–E
+- 2026-07-21 17:53:09：**小蓝宠** — 曾锁 A（已否决）
+- 2026-07-21 17:50:06：**小蓝宠** — 手近人指形、脚恐龙趾；眉须异质感
+- 2026-07-21 17:37:25：**小蓝宠基础款** — 4指/4趾；曾试同材质剑眉（已改）
+- 2026-07-21 17:12:56：**小蓝宠分层** — 默认=裸身定稿优先；披风键帽=皮肤/动画延后
+- 2026-07-17 17:45:24：**收工** — [`MINDMAP-RULES.md`](MINDMAP-RULES.md)（构图判定·知识卡/AI要点·防重叠·整组居中）；详情总结层级；导图错误边界。下一主推 **P2 I1/I2**（或并行基础款定稿）
 - 2026-07-17 11:49:45：**收工** — `/posts` 锁视口三栏 + 导语点出金句；文案规范合并 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md)；外链 Karpathy/Dan Koe；视频日按字幕。下一主推 **P2 I1/I2**（或并行 B4 即梦）
 - 2026-07-17 11:33:56：**`/posts` 金句弹** — 导语卡点击 · `quotes.json` 随机 · 偏黑遮罩 · 出入场动画
 - 2026-07-17 10:59:05：**`/posts` 锁视口** — 废 `scrollIntoView`；换篇只右栏 `scrollTop=0`

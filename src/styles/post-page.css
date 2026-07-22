@@ -204,8 +204,11 @@
   background: var(--punch, var(--primary));
 }
 
-/* —— AI 总结 · 渐进阅读（导读 → 展开 → 要点 → 金句 → 辅区） —— */
+/* —— 智能总结 · 渐进阅读（导读 → 展开 → 要点 → 金句 → 辅区） ——
+ * 字体：导读 + 金句 = 宋体；其余正文/要点/辅区 = 黑体（2026-07-22 Archie） */
 .post-summary {
+  --summary-sans: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    var(--font-body);
   display: flex;
   flex-direction: column;
   gap: 1.35rem;
@@ -252,10 +255,10 @@
 
 .post-summary__para {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--summary-sans);
   font-size: var(--post-text-body);
-  line-height: 1.72;
-  color: color-mix(in srgb, var(--foreground) 88%, var(--muted-foreground));
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--foreground) 90%, var(--muted-foreground));
 }
 
 .post-summary .inline-mark--strong {
@@ -283,9 +286,9 @@
   display: flex;
   gap: 0.85rem;
   align-items: flex-start;
-  font-family: var(--font-serif);
+  font-family: var(--summary-sans);
   font-size: var(--post-text-body);
-  line-height: 1.68;
+  line-height: 1.7;
   color: color-mix(in srgb, var(--foreground) 92%, var(--muted-foreground));
 }
 
@@ -370,7 +373,7 @@
 .post-summary__check-kw {
   display: block;
   margin-bottom: 0.28rem;
-  font-family: var(--font-display);
+  font-family: var(--summary-sans);
   font-size: var(--post-text-small);
   font-weight: 600;
   color: var(--foreground);
@@ -379,9 +382,9 @@
 
 .post-summary__check-rule {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--summary-sans);
   font-size: var(--post-text-body);
-  line-height: 1.62;
+  line-height: 1.65;
   color: var(--muted-foreground);
 }
 
@@ -392,7 +395,7 @@
   border-radius: 0.55rem;
   background: color-mix(in srgb, var(--punch, var(--primary)) 6%, var(--card));
   box-shadow: inset 3px 0 0 color-mix(in srgb, var(--punch, var(--primary)) 65%, transparent);
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
   font-style: italic;
   line-height: 1.65;
@@ -447,3 +450,30 @@
 .post-archive__para + .post-archive__para {
   margin-top: 1.1rem;
 }
+
+/* —— 亲笔旁注（Archie 真实表达；替代自动关键词导图） —— */
+.post-author-note {
+  margin: 0;
+}
+
+.post-author-note__para {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--post-text-body, 1.0625rem);
+  line-height: 1.78;
+  color: color-mix(in srgb, var(--foreground) 90%, var(--muted-foreground));
+  text-wrap: pretty;
+}
+
+.post-author-note__para + .post-author-note__para {
+  margin-top: 1rem;
+}
+
+.post-author-note--empty {
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+

@@ -26,6 +26,11 @@ export interface ContentItem {
     quote: string;
   };
   knowledgeCards: KnowledgeCard[];
+  /**
+   * Archie 亲笔旁注（评书 / 灵感 / 闲话；导图等可视化另议）。
+   * 空则详情页显示「待亲笔」占位，不再自动抽关键词导图。
+   */
+  authorNote?: string;
   /** 外链/笔记详情页延展段落（验收长页 · 摘抄自条目本身） */
   archiveNotes?: string[];
   /** public/subtitles/{id}.txt — 纯文本字幕稿，无时间轴 */

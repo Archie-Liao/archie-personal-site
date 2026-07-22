@@ -147,11 +147,13 @@ function buildTornBlob(colorVar: string, mix: number): HeroBackdropBlock {
     colorVar,
     mix,
     texture: "tear",
+    opacity: rnd(0.45, 0.7),
     clip: clipTornPaper(),
   };
 }
 
 function buildBrushBand(colorVar: string, mix: number): HeroBackdropBlock {
+  const opacity = rnd(0.45, 0.7);
   const variant = Math.floor(rnd(0, 3));
   if (variant === 0) {
     return {
@@ -167,6 +169,7 @@ function buildBrushBand(colorVar: string, mix: number): HeroBackdropBlock {
       colorVar,
       mix,
       texture: "brush",
+      opacity,
       clip: clipBrushStroke("horizontal"),
     };
   }
@@ -184,6 +187,7 @@ function buildBrushBand(colorVar: string, mix: number): HeroBackdropBlock {
       colorVar,
       mix,
       texture: "brush",
+      opacity,
       clip: clipBrushStroke("vertical"),
     };
   }
@@ -200,6 +204,7 @@ function buildBrushBand(colorVar: string, mix: number): HeroBackdropBlock {
     colorVar,
     mix,
     texture: "brush",
+    opacity,
     clip: clipBrushStroke("diagonal"),
   };
 }
@@ -227,7 +232,7 @@ function buildInkFibers(main: HeroBackdropBlock, colorVar: string): HeroBackdrop
     colorVar,
     mix: Math.round(main.mix * rnd(0.32, 0.52)),
     texture: "wisp" as const,
-    opacity: rnd(0.28, 0.55),
+    opacity: rnd(0.14, 0.32),
     blur: rnd(0.8, 2.2),
     clip: clipBrushStroke(axis),
   }));
@@ -235,7 +240,8 @@ function buildInkFibers(main: HeroBackdropBlock, colorVar: string): HeroBackdrop
 
 export function buildHeroTitleBackdrop(): HeroBackdropSet {
   const colorVar = pick(PALETTE);
-  const mix = Math.round(rnd(26, 44));
+  /* 存在感减弱：mix / 主块 opacity 下调，避免抢标题 */
+  const mix = Math.round(rnd(12, 24));
   const roughSeed = Math.floor(rnd(1, 997));
   const useBrush = Math.random() > 0.4;
 

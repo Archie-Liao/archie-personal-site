@@ -35,6 +35,7 @@ project-context/
 │   ├── five-layer-architecture.md
 │   ├── rule-placement-decision-tree.md
 │   ├── collaboration-charter.template.md
+│   ├── COLLABORATION-CONSTRAINTS-TABLE.md  ← **跨项目规则约束速查表（优先拷这个）**
 │   ├── complex-task-gate.template.md
 │   ├── multi-source-exec-plan.template.md
 │   ├── doc-lifecycle.template.md

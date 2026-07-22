@@ -44,4 +44,10 @@ export const siteConfig = {
     endpoint:
       "https://archie-d4giq03kg9e46530b-1453642667.ap-shanghai.app.tcloudbase.com/assistantChat",
   },
+
+  /** 亲笔旁注 · CloudBase HTTP（与 assistantChat 同主机；需单独建 HTTP 路由） */
+  authorNotes: {
+    endpoint:
+      "https://archie-d4giq03kg9e46530b-1453642667.ap-shanghai.app.tcloudbase.com/authorNotes",
+  },
 };

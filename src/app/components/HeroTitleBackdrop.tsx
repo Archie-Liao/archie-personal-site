@@ -15,8 +15,8 @@ function filterFor(block: HeroBackdropBlock): string | undefined {
 }
 
 function bleedShadow(block: HeroBackdropBlock): string | undefined {
-  const spread = 6 + (block.mix % 5);
-  const alpha = block.texture === "brush" ? "22%" : "14%";
+  const spread = 4 + (block.mix % 4);
+  const alpha = block.texture === "brush" ? "12%" : "8%";
   return `0 0 ${spread}px color-mix(in srgb, var(${block.colorVar}) ${alpha}, transparent)`;
 }
 
