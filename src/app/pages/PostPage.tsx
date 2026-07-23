@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { SiteLink } from "../components/SiteLink";
-import { getPostById } from "../data/posts";
+import { getPostById, type ContentItem } from "../data/posts";
 import { VideoPlayer } from "../components/VideoPlayer";
 import { SubtitleViewer } from "../components/SubtitleViewer";
 import { PostDetailGutter, PostMarginColumn } from "../components/PostMarginColumn";
@@ -8,6 +8,18 @@ import { PostSectionTitle } from "../components/PostSectionTitle";
 import { getPostPlatformLabel } from "../utils/postPlatform";
 import { renderInlineMarks } from "../utils/inlineMarks";
 import { ArchieNotePanel } from "../components/ArchieNotePanel";
+
+/** 站内镜像皮肤：按源站照搬；默认中性深墨（非 B 站橙） */
+function resolveArchiveSkin(post: ContentItem): NonNullable<ContentItem["archiveSkin"]> | "generic" {
+  if (post.archiveSkin) return post.archiveSkin;
+  const name = (post.sourceName ?? "").toLowerCase();
+  const url = post.sourceUrl ?? "";
+  if (name.includes("bili") || url.includes("bilibili.com")) return "bilibili";
+  if (name.includes("gist") || url.includes("gist.github")) return "gist";
+  if (name === "x" || url.includes("x.com/") || url.includes("twitter.com/")) return "x";
+  if (name.includes("头条") || url.includes("toutiao.com")) return "toutiao";
+  return "generic";
+}
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +43,7 @@ export function PostPage() {
   const heroOver =
     post.episode != null ? `Day ${post.episode} · ${post.date}` : `${typeLabel} · ${post.date}`;
   const platformLabel = getPostPlatformLabel(post);
+  const archiveSkin = resolveArchiveSkin(post);
 
   return (
     <div className="post-page">
@@ -142,7 +155,7 @@ export function PostPage() {
           </section>
 
           <section className="post-section">
-            <PostSectionTitle>{post.bvid ? "视频" : "原文"}</PostSectionTitle>
+            <PostSectionTitle>{post.bvid ? "视频" : "原文链接"}</PostSectionTitle>
             {post.bvid ? (
               <VideoPlayer post={post} />
             ) : post.sourceUrl ? (
@@ -155,13 +168,45 @@ export function PostPage() {
 
           {post.archiveNotes && post.archiveNotes.length > 0 && (
             <section className="post-section post-section--archive">
-              <PostSectionTitle>归档摘抄</PostSectionTitle>
-              <div className="post-archive">
-                {post.archiveNotes.map((note, i) => (
-                  <p key={i} className="post-archive__para">
-                    {note}
-                  </p>
-                ))}
+              <PostSectionTitle>站内镜像</PostSectionTitle>
+              <div className={`post-archive post-archive--${archiveSkin}`}>
+                {post.archiveNotes.map((note, i) => {
+                  const heading = /^##\s+(.+)$/.exec(note.trim());
+                  if (heading) {
+                    return (
+                      <h3 key={i} className="post-archive__heading">
+                        {heading[1]}
+                      </h3>
+                    );
+                  }
+                  const image = /^!\[([^\]]*)\]\(([^)]+)\)$/.exec(note.trim());
+                  if (image) {
+                    return (
+                      <figure key={i} className="post-archive__figure">
+                        <img
+                          className="post-archive__img"
+                          src={image[2]}
+                          alt={image[1] || "原文配图"}
+                          loading="lazy"
+                        />
+                      </figure>
+                    );
+                  }
+                  const numbered = /^(\d+\.)\s+([\s\S]+)$/.exec(note.trim());
+                  if (numbered) {
+                    return (
+                      <p key={i} className="post-archive__para">
+                        <span className="post-archive__num">{numbered[1]}</span>
+                        {numbered[2]}
+                      </p>
+                    );
+                  }
+                  return (
+                    <p key={i} className="post-archive__para">
+                      {note}
+                    </p>
+                  );
+                })}
               </div>
             </section>
           )}

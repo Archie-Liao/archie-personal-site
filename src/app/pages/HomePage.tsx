@@ -26,42 +26,48 @@ export function HomePage() {
 
   return (
     <div className="home-page">
-      <DailyPunch />
+      {/* 第一屏：顶栏外 = 金句条 + Hero；StatBand 及以下须滚出首屏 */}
+      <div className="home-first-screen">
+        <DailyPunch />
 
-      {/* A1-1 Hero — benchmark 双栏 + D4 cutout */}
-      <section className="home-hero wrap" aria-label="Hero">
-        <div className="home-hero__grid">
-          <div className="home-hero__left">
-            <div className="home-hero__eyebrow">
-              <span className="home-hero__bar" />
-              <span className="home-eyebrow">卷首 · Vol. {dayCount}</span>
+        {/* A1-1 Hero — benchmark 双栏 + D4 cutout */}
+        <section className="home-hero wrap" aria-label="Hero">
+          <div className="home-hero__grid">
+            <div className="home-hero__left">
+              <div className="home-hero__eyebrow">
+                <span className="home-hero__bar" />
+                <span className="home-eyebrow">卷首 · Vol. {dayCount} · Since {siteConfig.dayOneDate.slice(0, 4)}</span>
+              </div>
+              <div className="home-hero__title-wrap">
+                <HeroTitleBackdrop blocks={heroBackdrop.blocks} roughSeed={heroBackdrop.roughSeed} />
+                <HomeHeroTitle />
+              </div>
+              <p className="home-hero__meta">
+                视频日记作者 · 日更 · Day {dayCount}
+                <span className="home-hero__meta-sep"> · </span>
+                知识归档
+              </p>
+              <p className="home-tagline-zh">{siteConfig.tagline}</p>
+              <p className="home-intro">
+                视频日记 + 网络优质内容（当前以 AI 为主）的沉淀归档。
+                一部不会完结的生命之书：每一条日记是一页，每一次成长是一章。
+              </p>
+              <div className="home-hero__cta">
+                <SiteLink to="/posts" className="home-link-primary">
+                  读最新一期
+                </SiteLink>
+                <SiteLink to="/about" className="home-link-quiet">
+                  关于我 →
+                </SiteLink>
+              </div>
+              <HomeHeroByline dayCount={dayCount} />
             </div>
-            <div className="home-hero__title-wrap">
-              <HeroTitleBackdrop blocks={heroBackdrop.blocks} roughSeed={heroBackdrop.roughSeed} />
-              <HomeHeroTitle />
+            <div className="home-hero__right home-hero__cutout">
+              <HeroIllustration />
             </div>
-            <p className="home-tagline-zh">{siteConfig.tagline}</p>
-            <p className="home-tagline-en">{siteConfig.taglineEn}</p>
-            <p className="home-intro">
-              视频日记 + 网络优质内容（当前以 AI 为主）的沉淀归档。
-              <br />
-              一部不会完结的生命之书：每一条日记是一页，每一次成长是一章。
-            </p>
-            <div className="home-hero__cta">
-              <SiteLink to="/posts" className="home-link-arrow">
-                读最新一期 →
-              </SiteLink>
-              <SiteLink to="/about" className="home-link-quiet">
-                关于我 →
-              </SiteLink>
-            </div>
-            <HomeHeroByline dayCount={dayCount} />
           </div>
-          <div className="home-hero__right home-hero__cutout">
-            <HeroIllustration />
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <StatBand />
 
@@ -194,13 +200,44 @@ export function HomePage() {
           font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.26em;
           text-transform: uppercase; color: var(--primary-deep, var(--terracotta));
         }
-        .home-hero { padding: 3rem 0 2rem; }
-        .home-hero__grid {
-          display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
-          align-items: center; min-height: 28rem;
+        /* 首屏：顶栏下 = 金句条 + Hero；时间/月历滚出首屏 */
+        .home-first-screen {
+          min-height: calc(100dvh - var(--site-header-h, 3.5rem));
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
         }
-        @media (max-width: 900px) { .home-hero__grid { grid-template-columns: 1fr; } }
-        .home-hero__eyebrow { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.5rem; }
+        .home-hero.wrap {
+          /* 双栏整体居中收束，勿拉满视口造成左右空、中间散 */
+          max-width: min(68rem, 100%);
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: clamp(1.25rem, 3vw, 2rem);
+          padding-right: clamp(1.25rem, 3vw, 2rem);
+          width: 100%;
+        }
+        .home-hero {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 1.25rem 0 1.75rem;
+          box-sizing: border-box;
+        }
+        .home-hero__grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          gap: clamp(1.1rem, 2.2vw, 1.85rem);
+          align-items: center;
+          min-height: 0;
+          width: 100%;
+        }
+        @media (max-width: 900px) {
+          .home-hero__grid { grid-template-columns: 1fr; gap: 1.75rem; }
+          .home-first-screen { min-height: auto; }
+          .home-hero { padding: 1.5rem 0; }
+        }
+        .home-hero__eyebrow { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.15rem; }
         .home-hero__title-wrap {
           position: relative;
           isolation: isolate;
@@ -213,53 +250,116 @@ export function HomePage() {
           position: relative;
           z-index: 1;
         }
-        .home-hero__bar { width: 2.5rem; height: 2px; background: var(--primary); }
+        .home-hero__bar { width: 1.75rem; height: 2px; background: var(--primary); flex-shrink: 0; }
+        /* L3 眉题：极小、弱对比 */
+        .home-hero__left .home-eyebrow {
+          font-size: 0.625rem;
+          font-weight: 600;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--muted-foreground) 78%, var(--foreground));
+        }
         .home-hero-display { margin: 0; line-height: 1; }
+        /* L1 主名：压倒性字号 · 方案 A 马善政（仅 Hero） */
         .home-hero-display__zh {
           display: block;
-          font-family: var(--font-serif);
-          font-weight: 700;
-          font-size: clamp(2.125rem, 5.8vw, 3.5rem);
-          letter-spacing: 0.05em;
-          color: var(--foreground);
-          line-height: 1.05;
+          font-family: var(--font-hero-zh);
+          font-weight: 400;
+          font-size: clamp(3.15rem, 9.5vw, 5.75rem);
+          letter-spacing: 0.06em;
+          color: var(--logo-wordmark-ink, #633323);
+          line-height: 0.98;
         }
+        /* L1b 英文：浅底用站内橙强调（非深色站金）· 与中文胡桃墨拉开 */
         .home-hero-display__en {
           display: block;
-          margin-top: 0.35rem;
-          margin-left: 0.06em;
+          margin-top: 0.2rem;
+          margin-left: 0.04em;
           font-family: var(--font-display);
           font-style: italic;
           font-weight: 600;
-          font-size: clamp(1.75rem, 4.8vw, 2.875rem);
+          font-size: clamp(2.35rem, 7vw, 4.35rem);
           letter-spacing: 0.01em;
-          color: var(--foreground);
-          line-height: 1.08;
+          color: var(--primary-deep, var(--primary));
+          line-height: 1.02;
         }
         .home-hero-display__dot {
           color: var(--primary);
           font-style: normal;
           margin-left: 0.02em;
         }
+        /* L3 身份条：标题下的小字 meta */
+        .home-hero__meta {
+          margin: 1.1rem 0 0;
+          max-width: 36rem;
+          font-size: 0.6875rem;
+          font-weight: 500;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          line-height: 1.55;
+          color: color-mix(in srgb, var(--muted-foreground) 88%, transparent);
+        }
+        .home-hero__meta-sep { letter-spacing: 0.08em; opacity: 0.7; }
+        /* L2 金句标语：明显小于标题，明显高于说明 */
         .home-tagline-zh {
-          margin: 1.75rem 0 0; font-family: var(--font-serif); font-size: 1.25rem;
-          letter-spacing: 0.06em; line-height: 1.6;
+          margin: 1.35rem 0 0;
+          font-family: var(--font-serif);
+          font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          line-height: 1.45;
+          color: var(--foreground);
+          max-width: 28rem;
         }
-        .home-tagline-en {
-          margin: 0.4rem 0 0; font-family: var(--font-display); font-style: italic;
-          font-size: 1rem; color: var(--muted-foreground);
-        }
+        /* L3 说明：再降一档 */
         .home-intro {
-          margin: 1.5rem 0 0; max-width: 28rem; font-size: 0.96875rem;
-          line-height: 1.78; color: var(--muted-foreground);
+          margin: 0.85rem 0 0;
+          max-width: min(34rem, 100%);
+          font-size: 0.875rem;
+          line-height: 1.7;
+          color: color-mix(in srgb, var(--muted-foreground) 92%, transparent);
         }
-        .home-hero__cta { display: flex; gap: 1.75rem; align-items: center; margin-top: 1.75rem; }
-        .home-link-arrow {
-          font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.04em;
-          border-bottom: 1.5px solid var(--primary); padding-bottom: 3px;
-          text-decoration: none; color: var(--foreground);
+        .home-hero__cta {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.15rem 1.5rem;
+          align-items: center;
+          margin-top: 1.65rem;
         }
-        .home-link-quiet { font-size: 0.9rem; color: var(--muted-foreground); text-decoration: none; }
+        .home-link-primary {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.7rem 1.2rem;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-decoration: none;
+          color: var(--primary-foreground, #fdf9f5);
+          background: var(--primary);
+          border-radius: 2px;
+          transition: background 0.15s var(--snap, ease), transform 0.15s var(--snap, ease);
+        }
+        .home-link-primary:hover {
+          background: var(--primary-deep, var(--primary));
+          transform: translateY(-1px);
+        }
+        .home-link-quiet {
+          font-size: 0.875rem;
+          font-weight: 500;
+          letter-spacing: 0.03em;
+          color: var(--muted-foreground);
+          text-decoration: none;
+          border-bottom: 1px solid transparent;
+          padding-bottom: 2px;
+        }
+        .home-link-quiet:hover {
+          color: var(--foreground);
+          border-bottom-color: color-mix(in srgb, var(--primary) 55%, transparent);
+        }
+        .home-hero__left .home-hero-byline {
+          margin-top: 1.75rem;
+          opacity: 0.92;
+        }
         .home-section-head {
           display: flex; align-items: baseline; justify-content: space-between;
           margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);

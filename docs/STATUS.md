@@ -5,7 +5,7 @@ title: 项目状态
 status: active
 canonical: docs/STATUS.md
 authority: 进度与最近决策
-revised_at: "2026-07-22 16:53:33"
+revised_at: "2026-07-23 17:45:15"
 timezone: Asia/Shanghai
 
 ---
@@ -14,6 +14,18 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-23 17:45:15 | **收工** · 外链镜像/Hero 马善政/墨字/搜索；**Agent 演进搁置**（见 sessions/2026-07-23）；下一主推仍可 **P2 I1/I2** 或续 Agent |
+| 2026-07-23 17:28:04 | §B2 写死「按源站照搬」；镜像分皮肤（禁全站 B 站橙）；补齐三条外链全文 |
+| 2026-07-23 17:24:41 | 外链站内镜像补齐：Karpathy Gist/推文 + Dan Koe 全文（`src/app/data/archive/*.json`） |
+| 2026-07-23 17:04:40 | Hero「廖智强」锁定 **马善政**（方案 A）；顶栏 Logo 仍 Noto |
+| 2026-07-23 16:22:35 | 顶栏压至 **3.5rem**（约 −1/3）；首页 Hero 加宽收隙更饱满 |
+| 2026-07-23 16:15:39 | 搜索 `@Archie` 橙前缀+放慢弱化；Logo 锁原色；首页首屏不含 StatBand |
+| 2026-07-23 16:06:12 | 墨字 **方案 A**（C 过深回退）· `#3a1f14` / `#6e5244` |
+| 2026-07-23 15:59:26 | **墨字方案 C 上站** — `--foreground` `#1a1412`；修 SiteSearch 白屏（缺 phraseIndex/caretOn）|
+| 2026-07-23 15:12:29 | 外链区块更名 **站内镜像**；新上 `link-bili-huashu-agi-commons`（花叔 · 通往AGI的常识）|
+| 2026-07-23 15:04:20 | **外链归档定调** — 完整镜像（文+图）；梁文锋条已补 Rembrandt 封面等配图到 `public/assets/archive/`；规则 §B2 + gotchas |
+| 2026-07-23 14:48:27 | 外链详情：**原文链接**标题 · 归档摘抄改为原文逐字存档（CONTENT-FORMAT §B2）|
+| 2026-07-23 14:38:25 | **突发外链上站** — `/post/link-bili-liang-wefeng-4h` 梁文锋四小时投资人会议实录（B站 elsewhere · 52 条摘抄）|
 | 2026-07-22 16:53:33 | **收工** — 亲笔旁注云部署通+站内可编 · 字体导读/金句宋其余黑 · 登录/连线打磨；下一主推 **P2 I1/I2** |
 | 2026-07-22 16:51:00 | 详情字体：**导读+金句宋体** · 要点/展开/旁注等 **黑体**（Archie 选定） |
 | 2026-07-22 16:36:13 | 旁注：登录旁标题+内联口令（修 Cursor 浏览器 prompt）· 导图连线框外锚点 · 按钮圆角收方 · 字体小样待选 |
@@ -145,8 +157,8 @@ timezone: Asia/Shanghai
 ## 主任务（仅 1 条）
 
 **P2 捡料 · 字幕上站** — 施工图 [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md)；源稿 ~129 · 下一步 **I1 盘点 / I2 跑 format-subtitles**。  
-**并行插线**：小蓝宠基础款（搁置出图）· **亲笔旁注** 云通可用 · 导图画布/交互可继续打磨 [`P3-AUTHOR-NOTE-SPIKE.md`](P3-AUTHOR-NOTE-SPIKE.md)。  
-**开场**：`@docs/P2-CONTENT-INBOX.md`（主推）或旁注继续打磨。
+**并行插线**：小蓝宠基础款（搁置出图）· **亲笔旁注** 云通可用 · **站内 Agent 演进（搁置）** — 续做见 [`sessions/2026-07-23.md`](sessions/2026-07-23.md)（勿整仓套 Pi；优先 RAG）。  
+**开场**：`@docs/P2-CONTENT-INBOX.md`（主推）或 `@docs/sessions/2026-07-23.md`（续 Agent）。
 
 ## 主线流程（防失焦 · 新会话先对这条）
 
@@ -195,7 +207,7 @@ timezone: Asia/Shanghai
 | 知识图谱 `/graph` | **先这样 ✅** | Obsidian 式全屏 · 标签共现 · 双 Tab **P2** |
 | **P3 尖兵** | **B 可用 ✅** · 壳+动效 ✅ · 基础款待定稿 | 真聊 OK · 吉祥物见 [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
 | **助手吉祥物** | **基础款待定稿** | B3 裸身=默认 · 披风键帽=皮肤/动画延后 · [`MASCOT-BRIEF.md`](MASCOT-BRIEF.md) |
-| **P2 捡料** | **I0 ✅ · I1 待** | [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · 外链 3 条已换 |
+| **P2 捡料** | **I0 ✅ · I1 待** | [`P2-CONTENT-INBOX.md`](P2-CONTENT-INBOX.md) · 外链 5 条 |
 | **产品畅想** | **P1 `/galaxy` 已拍板** | 完整助手编排在尖兵之后；聚类 **P2b** |
 | **`/galaxy` 思维星系** | **P1 先这样 ✅** | 框架已挂 · **节点/摘要内容后审** · 同心圆 · MIX-MATCH §8.13 |
 | 知识库 | 部分 | `dialogues/` 已有 · **`wiki/` `content/` 延后（P2）** |
@@ -267,6 +279,15 @@ timezone: Asia/Shanghai
 
 ## 最近决策
 
+- 2026-07-23 17:45:15：**收工** — 外链完整镜像+分皮肤；Hero 马善政；墨字 A；搜索打字机。**Agent 演进搁置**（Pi≠站内后端；推荐 prompt→RAG）；续 [`sessions/2026-07-23.md`](sessions/2026-07-23.md)
+- 2026-07-23 17:38:37：**镜像阅读底线** — 源站无框时站内补留白，不加装饰边框（CONTENT-FORMAT §B2）
+- 2026-07-23 17:28:04：**站内镜像排版** — 按**该篇源站**照搬（字体/色/层级）；`archiveSkin`；**禁止**全站共用 B 站 Ye5 橙；见 CONTENT-FORMAT §B2
+- 2026-07-23 17:24:41：**外链镜像补齐** — `link-llm-wiki` / `link-karpathy-x` / `link-toutiao-dan-koe` 全部完整 `archiveNotes`（非摘要）；脚本 `scripts/build-link-archives.mjs`
+- 2026-07-23 17:04:40：**Hero 中文名** — 锁定方案 A **马善政**（仅首页「廖智强」；顶栏 Logo 仍 Noto）；小样 [`hero-zh-font-abc.html`](../design-demos/hero-zh-font-abc.html)
+- 2026-07-23 15:12:29：**站内镜像** — UI「归档摘抄」更名；新外链 `/post/link-bili-huashu-agi-commons`（[花叔v](https://www.bilibili.com/opus/1228046053248335878) · 2026-07-23）
+- 2026-07-23 15:04:20：**外链归档** — 精选外链做**完整镜像**（正文+配图本地化+源站阅读体），防公众号/源站下架；见 CONTENT-FORMAT §B2；本篇已补图
+- 2026-07-23 14:48:27：**外链详情规则** — 区块「原文链接」；归档摘抄=原文逐字存档（禁总结）；见 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md) §B2；梁文锋条已改
+- 2026-07-23 14:38:25：**突发外链** — `/post/link-bili-liang-wefeng-4h`《梁文锋四小时投资人会议实录》（elsewhere B站动态 · 日期 2026-07-23 · 52 条归档摘抄）
 - 2026-07-22 16:53:33：**收工** — 旁注云通+可编；字体导读/金句宋、其余黑；登录旁标题+内联口令；连线框外锚点。下一主推 **P2 I1/I2**
 - 2026-07-22 16:51:00：**详情字体** — 导读+金句宋体；要点/展开/旁注等黑体
 - 2026-07-22 16:16:31：**旁注云部署通** — `author_notes` + `/authorNotes` + `AUTHOR_NOTE_GATE`

@@ -433,22 +433,157 @@
 }
 
 .post-archive {
-  padding: 1.35rem 1.5rem;
-  background: color-mix(in srgb, var(--card) 88%, var(--background));
-  border: 1px solid var(--border);
-  border-radius: var(--radius, 0.625rem);
+  /* 默认中性（深墨标题）——橙标题仅 bilibili skin，禁止全局 Ye5 */
+  --archive-sans: "PingFang SC", "HarmonyOS Sans", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", sans-serif;
+  --archive-ink: #1f2328;
+  --archive-accent: #1f2328;
+  --archive-muted: #656d76;
+  --archive-line: #d0d7de;
+  --archive-bg: #ffffff;
+  --archive-title-size: 1.25rem;
+  --archive-title-weight: 700;
+  --archive-body-size: 1rem;
+  --archive-body-lh: 1.7;
+  --archive-para-gap: 0.95rem;
+  padding: 1.5rem 1.35rem 1.65rem;
+  background: var(--archive-bg);
+  border: 1px solid var(--archive-line);
+  border-radius: 6px;
+  color: var(--archive-ink);
+  color-scheme: light;
+}
+
+/* B 站 opus：Ga9 正文 · Ye5 小标题/序号 */
+.post-archive--bilibili {
+  --archive-ink: #2f3238;
+  --archive-accent: #ffb027;
+  --archive-muted: #aeb3b9;
+  --archive-line: #d0d3d7;
+  --archive-bg: #ffffff;
+  --archive-title-size: 1.125rem;
+  --archive-title-weight: 600;
+  --archive-body-lh: 1.75;
+}
+
+/* GitHub Gist / markdown prose */
+.post-archive--gist {
+  --archive-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --archive-ink: #1f2328;
+  --archive-accent: #1f2328;
+  --archive-muted: #656d76;
+  --archive-line: #d0d7de;
+  --archive-bg: #ffffff;
+  --archive-title-size: 1.35rem;
+  --archive-title-weight: 600;
+  --archive-body-size: 1rem;
+  --archive-body-lh: 1.65;
+  --archive-para-gap: 1rem;
+  border-radius: 6px;
+  font-family: var(--archive-sans);
+}
+
+.post-archive--gist .post-archive__heading {
+  border-bottom: 1px solid var(--archive-line);
+  padding-bottom: 0.35rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* X / Twitter 长推 */
+.post-archive--x {
+  --archive-sans: "Chirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --archive-ink: #0f1419;
+  --archive-accent: #0f1419;
+  --archive-muted: #536471;
+  --archive-line: #eff3f4;
+  --archive-bg: #ffffff;
+  --archive-title-size: 1.2rem;
+  --archive-title-weight: 800;
+  --archive-body-size: 1.0625rem;
+  --archive-body-lh: 1.5;
+  --archive-para-gap: 0.85rem;
+  border-radius: 16px;
+  border-color: #cfd9de;
+}
+
+/* 今日头条长文：源站常无框无边距 → 站内补基础阅读留白，不加装饰边框 */
+.post-archive--toutiao {
+  --archive-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --archive-ink: #222222;
+  --archive-accent: #222222;
+  --archive-muted: #999999;
+  --archive-line: transparent;
+  --archive-bg: #ffffff;
+  --archive-title-size: 1.375rem;
+  --archive-title-weight: 700;
+  --archive-body-size: 1.0625rem;
+  --archive-body-lh: 1.85;
+  --archive-para-gap: 1.1rem;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  /* 适度内边距：保证站内可读；不仿造源站没有的卡片描边 */
+  padding: 1.35rem clamp(1rem, 3.5vw, 1.75rem) 1.75rem;
+}
+
+.post-archive__heading {
+  margin: 1.75rem 0 0.9rem;
+  font-family: var(--archive-sans);
+  font-size: var(--archive-title-size);
+  font-weight: var(--archive-title-weight);
+  line-height: 1.45;
+  color: var(--archive-accent);
+  letter-spacing: 0;
+}
+
+.post-archive__heading:first-child {
+  margin-top: 0;
 }
 
 .post-archive__para {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--post-text-body);
-  line-height: 1.72;
-  color: color-mix(in srgb, var(--foreground) 88%, var(--muted-foreground));
+  font-family: var(--archive-sans);
+  font-size: var(--archive-body-size);
+  font-weight: 400;
+  line-height: var(--archive-body-lh);
+  color: var(--archive-ink);
+  letter-spacing: 0.01em;
+}
+
+.post-archive__num {
+  color: var(--archive-accent);
+  font-weight: 600;
+  margin-right: 0.2em;
+}
+
+.post-archive--bilibili .post-archive__num {
+  color: #ffb027;
+}
+
+.post-archive__figure {
+  margin: 1.25rem 0;
+}
+
+.post-archive__figure:first-child {
+  margin-top: 0;
+}
+
+.post-archive__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
 }
 
 .post-archive__para + .post-archive__para {
-  margin-top: 1.1rem;
+  margin-top: var(--archive-para-gap);
+}
+
+.post-archive__heading + .post-archive__para {
+  margin-top: 0;
 }
 
 /* —— 亲笔旁注（Archie 真实表达；替代自动关键词导图） —— */

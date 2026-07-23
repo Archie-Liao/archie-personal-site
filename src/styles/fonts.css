@@ -15,3 +15,21 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* Hero 中文主名试吃 · 马善政（Google Fonts 开源，仅首页大字） */
+@font-face {
+  font-family: 'Ma Shan Zheng';
+  src: url('/fonts/MaShanZheng-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Hero 中文主名试吃 · 龙藏 */
+@font-face {
+  font-family: 'Long Cang';
+  src: url('/fonts/LongCang-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

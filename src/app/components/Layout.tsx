@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           borderColor: "var(--border)",
         }}
       >
-        <div className="max-w-6xl mx-auto px-6 h-[5.25rem] flex items-center justify-between gap-4">
+        <div className="site-header__inner max-w-6xl mx-auto px-5 sm:px-6 flex items-center justify-between gap-3 sm:gap-4">
           <Link
             to="/"
             className="brand-link inline-flex items-center"
@@ -88,6 +88,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <AssistantChat />
 
       <style>{`
+        .site-header__inner {
+          height: var(--site-header-h, 3.5rem);
+        }
         .brand-link {
           transition: transform 0.14s var(--snap, ease);
         }
@@ -99,9 +102,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         }
         .nav-link {
           position: relative;
-          margin: 0 8px;
-          padding: 6px 2px;
-          font-size: 0.9375rem;
+          margin: 0 6px;
+          padding: 4px 2px;
+          font-size: 0.875rem;
           color: var(--muted-foreground);
           text-decoration: none;
         }

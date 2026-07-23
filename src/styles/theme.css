@@ -6,6 +6,8 @@
   --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
   /* 中文优先的衬线（标题/引文） */
   --font-serif: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+  /* 首页 Hero「廖智强」专用显示体（锁定 · 方案 A 马善政；顶栏 Logo 仍用 --font-logo） */
+  --font-hero-zh: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
   /* Logo 字标（2026-07-08 锁定 · compare F/Z） */
   --font-logo: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
   --font-logo-script: 'Italianno', cursive;
@@ -13,6 +15,9 @@
   --font-logo-en: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   /* stamp A+期数：深胡桃褐 · 金指纹上可读 */
   --logo-stamp-ink: #4a2818;
+  /* 字标锁定原色（不随正文墨方案 A/C 变） */
+  --logo-wordmark-ink: #633323;
+  --logo-wordmark-muted: #8a6b58;
   /* 正文：英文 Inter，中文思源黑体 */
   --font-body: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -28,18 +33,20 @@
   /* 数据色 · 靛蓝（图表 / 图谱） */
   --data-slate: #4849d0;
   --snap: cubic-bezier(0.22, 1, 0.36, 1);
+  /* 顶栏高度（压缩约 1/3：原 5.25rem → 3.5rem） */
+  --site-header-h: 3.5rem;
 
   /* ── L1 颜料罐（中文名见 docs/COLOR-TOKEN-MAP.md）── */
 
   /* 暖奶油纸底 · Huemint #fdf9f5 */
   --background: #fdf9f5;
-  /* 胡桃墨字 · Huemint #633323 */
-  --foreground: #633323;
+  /* 深胡桃墨 · 方案 A（2026-07-23；曾试 C #1a1412 过深） */
+  --foreground: #3a1f14;
   /* 浅卡片底 */
   --card: #fffcfa;
-  --card-foreground: #633323;
+  --card-foreground: #3a1f14;
   --popover: #fffcfa;
-  --popover-foreground: #633323;
+  --popover-foreground: #3a1f14;
   /* 橙强调（链接）· Huemint #f2640b */
   --primary: #f2640b;
   --primary-foreground: #fdf9f5;
@@ -47,10 +54,10 @@
   --primary-deep: #d9580a;
   /* 暖米浅面 */
   --secondary: #f5ebe3;
-  --secondary-foreground: #633323;
+  --secondary-foreground: #3a1f14;
   --muted: #f5ebe3;
-  /* 弱化褐字 */
-  --muted-foreground: #8a6b58;
+  /* 弱化褐字 · 方案 A */
+  --muted-foreground: #6e5244;
   /* 浅靛蓝点缀面 */
   --accent: #e8e9f8;
   --accent-foreground: #2e3070;
@@ -61,7 +68,7 @@
   --gold: #a67c52;
   --destructive: #A84A3C;
   --destructive-foreground: #fffcfa;
-  --border: rgba(99, 51, 35, 0.14);
+  --border: rgba(58, 31, 20, 0.16);
   --input: #fffcfa;
   --input-background: #fffcfa;
   --switch-background: #d4c4b8;
@@ -70,12 +77,12 @@
   --ring: #f2640b;
   --chart-1: #4849d0;
   --chart-2: #f2640b;
-  --chart-3: #633323;
+  --chart-3: #3a1f14;
   --chart-4: #f5a872;
   --chart-5: #8a8cc8;
   --radius: 0.625rem;
   --sidebar: #f8f2ec;
-  --sidebar-foreground: #633323;
+  --sidebar-foreground: #3a1f14;
   --sidebar-primary: #4849d0;
   --sidebar-primary-foreground: #fdf9f5;
   --sidebar-accent: #f5ebe3;

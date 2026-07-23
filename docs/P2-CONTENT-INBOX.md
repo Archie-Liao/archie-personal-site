@@ -5,7 +5,7 @@ status: active
 canonical: docs/P2-CONTENT-INBOX.md
 authority: P2a 捡料 / 字幕上站 / 外链归档执行进度（排版细则以 CONTENT-FORMAT 为准）
 depends_on: docs/CONTENT-FORMAT.md · docs/STATUS.md · docs/SITE-MANUAL.md
-revised_at: "2026-07-17 10:24:32"
+revised_at: "2026-07-23 15:12:29"
 timezone: Asia/Shanghai
 ---
 
@@ -13,6 +13,11 @@ timezone: Asia/Shanghai
 
 | 北京时间 | 变更 |
 |----------|------|
+| 2026-07-23 15:12:29 | +花叔外链；区块名改 **站内镜像** |
+| 2026-07-23 15:04:20 | 外链归档：**完整镜像**（含配图）；`link-bili-liang-wefeng-4h` 图入 `public/assets/archive/` |
+| 2026-07-23 14:38:25 | **突发外链**：`link-bili-liang-wefeng-4h` · 梁文锋四小时投资人会议实录（elsewhere / B站动态 2026-07-23）|
+| 2026-07-22 17:50:00 | **B站链接**：确认是投稿列表 API 风控；改搜「廖智强Archie」翻页已拿到 Day1–130；站内 ep094–099 真 `bvid` 已写入 `posts.ts` |
+| 2026-07-22 17:39:29 | **B站链接**：合集可拉 41 条→[`BILI-VIDEO-MAP.json`](BILI-VIDEO-MAP.json)；站内 ep094–099 不在合集且全量列表 API 风控，待 Archie 导出/粘贴 |
 | 2026-07-17 10:24:32 | 排版权威改链 [`CONTENT-FORMAT.md`](CONTENT-FORMAT.md)；Dan Koe `date` = **2026-04-01** |
 | 2026-07-17 10:18:14 | **日期硬规则** · 视频按字幕日修正 ep094–099；延展去重限字；列表右栏加宽 |
 | 2026-07-17 09:57:49 | 头条外链更正为 **Dan Koe 中英对照**；预览改单栏；标题/总结排版规则补记 |
@@ -38,7 +43,7 @@ timezone: Asia/Shanghai
 | 收件箱 | 路径 / 形态 | 本批 |
 |--------|-------------|------|
 | **A · 视频日记** | `design-demos/视频日记字幕稿/{期数}：{标题}.txt` | **进行中** |
-| **B · 优质外链** | `posts.ts` type=`link` | **已换 3 条**（Karpathy Gist / X / 头条） |
+| **B · 优质外链** | `posts.ts` type=`link` | **5 条** |
 | **C · 个人笔记** | `knowledge/raw/` | 未开 |
 
 ## 标题与摘要撰写（外链 / 日记）
@@ -78,12 +83,14 @@ ep094–099：`2026-05-31`～`06-05`；Dan Koe：`2026-04-01`。
 | 源稿 txt | ~129 |
 | 已发布 `public/subtitles/ep*.txt` | 14（ep086–099） |
 | `posts.ts` 视频日记 | 6（ep094–099） |
-| `posts.ts` 外链 | 3（见下） |
+| `posts.ts` 外链 | 5（见下） |
 
 ### 外链 B（已落地）
 
 | id | 来源 | URL |
 |----|------|-----|
+| `link-bili-liang-wefeng-4h` | bilibili 动态 | **2026-07-23** · 梁文锋四小时投资人会议实录（elsewhere） |
+| `link-bili-huashu-agi-commons` | bilibili 动态 | **2026-07-23** · 花叔《通往AGI的常识》 |
 | `link-llm-wiki` | Gist | https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f |
 | `link-karpathy-x` | X | https://x.com/karpathy/status/2039805659525644595 |
 | `link-toutiao-dan-koe` | 今日头条 | **2026-04-01** 发布 · Dan Koe 中英对照 |

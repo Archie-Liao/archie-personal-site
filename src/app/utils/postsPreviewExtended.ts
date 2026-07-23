@@ -19,7 +19,7 @@ export function getPreviewExtendedParagraphs(post: ContentItem): string[] {
 
   for (const note of post.archiveNotes ?? []) {
     const t = note.trim();
-    if (!t || /验收|滚动|提示/.test(t)) continue;
+    if (!t || /^##\s+/.test(t) || /^!\[/.test(t) || /验收|滚动|提示/.test(t)) continue;
     const key = t.replace(/\s+/g, "").slice(0, 48);
     if ([...used].some((u) => key.includes(u) || u.includes(key))) continue;
     candidates.push(t);

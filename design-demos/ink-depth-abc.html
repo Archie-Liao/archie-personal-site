@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>墨字深度小样 · 现状 vs A / B / C（加深修订）</title>
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
+  <link
+    href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 1.75rem clamp(1rem, 3vw, 2rem) 3rem;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #e8e4dc;
+      color: #2a2622;
+      line-height: 1.55;
+    }
+    h1 {
+      font-family: "Noto Serif SC", Georgia, serif;
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      margin: 0 0 0.4rem;
+    }
+    .intro {
+      max-width: 54rem;
+      margin: 0 0 1.25rem;
+      font-size: 0.875rem;
+      color: #5a5348;
+    }
+    .intro code {
+      font-size: 0.8rem;
+      background: #f6f0e2;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+    }
+    .callout {
+      max-width: 54rem;
+      margin: 0 0 1.35rem;
+      padding: 0.75rem 1rem;
+      background: #fff8ee;
+      border: 1px solid rgba(154, 123, 63, 0.35);
+      font-size: 0.8125rem;
+      color: #534b40;
+      line-height: 1.6;
+    }
+    .callout strong { color: #2a2622; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: stretch;
+    }
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: #fdf9f5;
+      border: 1px solid rgba(99, 51, 35, 0.16);
+      border-radius: 0.625rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .card.is-current { outline: 2px dashed rgba(90, 83, 72, 0.45); outline-offset: 2px; }
+    .card-head {
+      padding: 0.9rem 1rem 0.85rem;
+      border-bottom: 1px solid rgba(99, 51, 35, 0.12);
+      background: color-mix(in srgb, #f5ebe3 70%, #fdf9f5);
+    }
+    .card-head .tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a5348;
+      margin-bottom: 0.25rem;
+    }
+    .card-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-family: "Noto Serif SC", Georgia, serif;
+      color: #2a2622;
+    }
+    .card-head .hex {
+      margin: 0.45rem 0 0;
+      font-size: 0.75rem;
+      font-family: ui-monospace, Consolas, monospace;
+      color: #5a5348;
+      line-height: 1.5;
+    }
+    .card-head .why {
+      margin: 0.45rem 0 0;
+      font-size: 0.78rem;
+      color: #6e655a;
+      line-height: 1.45;
+    }
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.65rem;
+    }
+    .swatch-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      min-width: 3.2rem;
+    }
+    .swatch {
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 0.3rem;
+      border: 1px solid rgba(0, 0, 0, 0.22);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
+    .swatch-item span {
+      font-size: 0.65rem;
+      color: #5a5348;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .preview {
+      padding: 1.1rem 1.05rem 1.35rem;
+      flex: 1;
+    }
+    .preview .vol {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 0.45rem;
+    }
+    .preview .title {
+      font-family: "Noto Serif SC", Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0 0 0.85rem;
+    }
+    .preview .body {
+      font-family: "Noto Serif SC", Georgia, serif;
+      font-size: 0.95rem;
+      line-height: 1.72;
+    }
+    .preview .body p { margin: 0 0 0.75rem; }
+    .preview .body p:last-child { margin-bottom: 0; }
+    .preview .meta {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(99, 51, 35, 0.12);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+    .legend {
+      margin-top: 1.75rem;
+      max-width: 54rem;
+      padding: 1rem 1.1rem;
+      background: #f6f0e2;
+      border: 1px solid rgba(42, 38, 34, 0.12);
+      font-size: 0.8125rem;
+      color: #534b40;
+      line-height: 1.65;
+    }
+    .legend strong { color: #2a2622; }
+
+    /* 现状 */
+    .s-now {
+      --ink: #633323;
+      --ink-title: #633323;
+      --ink-muted: #8a6b58;
+    }
+    /* A：加深（修订后） */
+    .s-a {
+      --ink: #3a1f14;
+      --ink-title: #3a1f14;
+      --ink-muted: #6e5244;
+    }
+    /* B：双阶更深 */
+    .s-b {
+      --ink: #2f1910;
+      --ink-title: #1f110b;
+      --ink-muted: #5a4236;
+    }
+    /* C：近黑 */
+    .s-c {
+      --ink: #1a1412;
+      --ink-title: #120e0c;
+      --ink-muted: #4a403a;
+    }
+
+    .preview .vol { color: var(--ink-muted); }
+    .preview .title { color: var(--ink-title); }
+    .preview .body { color: var(--ink); }
+    .preview .meta { color: var(--ink-muted); }
+  </style>
+</head>
+<body>
+  <h1>墨字深度小样 · 现状 vs A / B / C（加深修订）</h1>
+  <p class="intro">
+    纸底仍是本站 <code>#fdf9f5</code>（很浅的奶油，看起来几乎白——<strong>不是字色</strong>）。
+    色卡只标<strong>标题 / 正文 / 弱化字</strong>三块，避免误认。
+  </p>
+  <p class="callout">
+    <strong>上一版误会说明：</strong>第三块色卡是「纸底」样例，所以看起来像第二个白块；
+    弱化字 <code>#8a6b58</code> 是偏浅的褐灰，不是白色。本版色卡已去掉纸底，并整体再加深一档。
+  </p>
+
+  <div class="grid">
+    <article class="card is-current s-now">
+      <header class="card-head">
+        <div class="tag">现状 · 对照</div>
+        <h2>Current</h2>
+        <p class="hex">
+          标题/正文 <strong>#633323</strong><br />
+          弱化字 <strong>#8a6b58</strong>
+        </p>
+        <div class="swatches">
+          <div class="swatch-item">
+            <div class="swatch" style="background:#633323"></div>
+            <span>正文</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#8a6b58"></div>
+            <span>弱化</span>
+          </div>
+        </div>
+        <p class="why">现行胡桃墨 · 长文偏飘</p>
+      </header>
+      <div class="preview">
+        <p class="vol">VOL.2026.07.23 · bilibili</p>
+        <h3 class="title">梁文锋四小时投资人会议实录</h3>
+        <div class="body">
+          <p><strong>elsewhere 整理的 52 条梁文锋语录。</strong> 源自 DeepSeek 融资传闻中那次约四小时投资人会议；语气多半质朴留余地，讲到团队稳定与 AGI 时才锋利。</p>
+          <p><strong>主线只有一条。</strong> 产品、多模态、3D/视频/世界模型都不是主线；现阶段最重 Coding Agent 与通向 AGI 的阶梯。</p>
+          <p><strong>克制是战略。</strong> 只赚合理利润、开源同质模型、不争超级 App；换的是做成 AGI 的概率。</p>
+        </div>
+        <p class="meta">日期 · 标签 · 弱化说明（应能看清是褐灰，不是白）</p>
+      </div>
+    </article>
+
+    <article class="card s-a">
+      <header class="card-head">
+        <div class="tag">方案 A · 加深修订</div>
+        <h2>统一深墨</h2>
+        <p class="hex">
+          标题/正文 <strong>#3a1f14</strong><br />
+          弱化字 <strong>#6e5244</strong>
+        </p>
+        <div class="swatches">
+          <div class="swatch-item">
+            <div class="swatch" style="background:#3a1f14"></div>
+            <span>正文</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#6e5244"></div>
+            <span>弱化</span>
+          </div>
+        </div>
+        <p class="why">比旧 A（#4a2818）再深一档 · 仍暖褐</p>
+      </header>
+      <div class="preview">
+        <p class="vol">VOL.2026.07.23 · bilibili</p>
+        <h3 class="title">梁文锋四小时投资人会议实录</h3>
+        <div class="body">
+          <p><strong>elsewhere 整理的 52 条梁文锋语录。</strong> 源自 DeepSeek 融资传闻中那次约四小时投资人会议；语气多半质朴留余地，讲到团队稳定与 AGI 时才锋利。</p>
+          <p><strong>主线只有一条。</strong> 产品、多模态、3D/视频/世界模型都不是主线；现阶段最重 Coding Agent 与通向 AGI 的阶梯。</p>
+          <p><strong>克制是战略。</strong> 只赚合理利润、开源同质模型、不争超级 App；换的是做成 AGI 的概率。</p>
+        </div>
+        <p class="meta">日期 · 标签 · 弱化说明（应能看清是褐灰，不是白）</p>
+      </div>
+    </article>
+
+    <article class="card s-b">
+      <header class="card-head">
+        <div class="tag">方案 B · 加深修订</div>
+        <h2>双阶更深</h2>
+        <p class="hex">
+          标题 <strong>#1f110b</strong> · 正文 <strong>#2f1910</strong><br />
+          弱化字 <strong>#5a4236</strong>
+        </p>
+        <div class="swatches">
+          <div class="swatch-item">
+            <div class="swatch" style="background:#1f110b"></div>
+            <span>标题</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#2f1910"></div>
+            <span>正文</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#5a4236"></div>
+            <span>弱化</span>
+          </div>
+        </div>
+        <p class="why">标题几乎近黑褐 · 层级更清楚</p>
+      </header>
+      <div class="preview">
+        <p class="vol">VOL.2026.07.23 · bilibili</p>
+        <h3 class="title">梁文锋四小时投资人会议实录</h3>
+        <div class="body">
+          <p><strong>elsewhere 整理的 52 条梁文锋语录。</strong> 源自 DeepSeek 融资传闻中那次约四小时投资人会议；语气多半质朴留余地，讲到团队稳定与 AGI 时才锋利。</p>
+          <p><strong>主线只有一条。</strong> 产品、多模态、3D/视频/世界模型都不是主线；现阶段最重 Coding Agent 与通向 AGI 的阶梯。</p>
+          <p><strong>克制是战略。</strong> 只赚合理利润、开源同质模型、不争超级 App；换的是做成 AGI 的概率。</p>
+        </div>
+        <p class="meta">日期 · 标签 · 弱化说明（应能看清是褐灰，不是白）</p>
+      </div>
+    </article>
+
+    <article class="card s-c">
+      <header class="card-head">
+        <div class="tag">方案 C · 加深修订</div>
+        <h2>近黑暖灰</h2>
+        <p class="hex">
+          标题 <strong>#120e0c</strong> · 正文 <strong>#1a1412</strong><br />
+          弱化字 <strong>#4a403a</strong>
+        </p>
+        <div class="swatches">
+          <div class="swatch-item">
+            <div class="swatch" style="background:#120e0c"></div>
+            <span>标题</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#1a1412"></div>
+            <span>正文</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch" style="background:#4a403a"></div>
+            <span>弱化</span>
+          </div>
+        </div>
+        <p class="why">对比最强 · 胡桃色最淡</p>
+      </header>
+      <div class="preview">
+        <p class="vol">VOL.2026.07.23 · bilibili</p>
+        <h3 class="title">梁文锋四小时投资人会议实录</h3>
+        <div class="body">
+          <p><strong>elsewhere 整理的 52 条梁文锋语录。</strong> 源自 DeepSeek 融资传闻中那次约四小时投资人会议；语气多半质朴留余地，讲到团队稳定与 AGI 时才锋利。</p>
+          <p><strong>主线只有一条。</strong> 产品、多模态、3D/视频/世界模型都不是主线；现阶段最重 Coding Agent 与通向 AGI 的阶梯。</p>
+          <p><strong>克制是战略。</strong> 只赚合理利润、开源同质模型、不争超级 App；换的是做成 AGI 的概率。</p>
+        </div>
+        <p class="meta">日期 · 标签 · 弱化说明（应能看清是褐灰，不是白）</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="legend">
+    <strong>怎么选：</strong>刷新本页对比。选好后说「上 A / B / C」，再改线上 <code>theme.css</code>。
+    搜索栏打字机文案在 <code>src/app/data/searchIdlePhrases.ts</code>，你之后可自己改句子。
+  </p>
+</body>
+</html>

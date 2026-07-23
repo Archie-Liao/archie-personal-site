@@ -42,7 +42,7 @@ export function HomeHeroByline({ dayCount }: Props) {
           display: flex;
           align-items: center;
           gap: 0.875rem;
-          margin-top: 2.5rem;
+          margin-top: 1.5rem;
         }
         .home-hero-byline__portrait {
           flex: 0 0 auto;
@@ -72,21 +72,21 @@ export function HomeHeroByline({ dayCount }: Props) {
         .home-hero-byline__meta {
           margin: 0;
           font-family: var(--font-body);
-          font-size: 0.8125rem;
+          font-size: 0.75rem;
           line-height: 1.55;
           letter-spacing: 0.04em;
-          color: var(--muted-foreground);
+          color: color-mix(in srgb, var(--muted-foreground) 88%, transparent);
         }
         .home-hero-byline__meta strong {
           font-family: var(--font-serif);
           font-weight: 600;
-          color: color-mix(in srgb, var(--foreground) 88%, var(--primary-deep));
+          color: color-mix(in srgb, var(--logo-wordmark-ink, #633323) 75%, var(--muted-foreground));
         }
         .home-hero-byline__dot {
           color: color-mix(in srgb, var(--muted-foreground) 65%, var(--border));
         }
         @media (max-width: 900px) {
-          .home-hero-byline { margin-top: 2rem; }
+          .home-hero-byline { margin-top: 1.25rem; }
         }
       `}</style>
     </div>

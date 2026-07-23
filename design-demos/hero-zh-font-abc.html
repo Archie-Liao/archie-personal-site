@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero 中文显示体小样 · 现状 vs A–E</title>
+  <!--
+    用途：首页 Hero「廖智强」换显示体对照（≠ 顶栏 Logo 全套）
+    打开方式同墨字深度：design-demos 索引一键，或 http://127.0.0.1:8765/hero-zh-font-abc.html
+    字体：本地 logo-fonts/fonts/（file:// 双击一般也能出字）
+  -->
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
+  <link
+    href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    @font-face {
+      font-family: "Noto Serif SC Local";
+      src: url("logo-fonts/fonts/NotoSerifSC-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Ma Shan Zheng";
+      src: url("logo-fonts/fonts/MaShanZheng-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Long Cang";
+      src: url("logo-fonts/fonts/LongCang-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Alimama DaoLiTi";
+      src: url("logo-fonts/fonts/AlimamaDaoLiTi.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Huiwen Mincho";
+      src: url("logo-fonts/fonts/Huiwenmincho-improved.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Zhi Mang Xing";
+      src: url("logo-fonts/fonts/ZhiMangXing-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 1.75rem clamp(1rem, 3vw, 2rem) 3rem;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #e8e4dc;
+      color: #2a2622;
+      line-height: 1.55;
+    }
+    h1 {
+      font-family: "Noto Serif SC Local", "Songti SC", Georgia, serif;
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      margin: 0 0 0.4rem;
+    }
+    .intro {
+      max-width: 54rem;
+      margin: 0 0 1rem;
+      font-size: 0.875rem;
+      color: #5a5348;
+    }
+    .intro code {
+      font-size: 0.8rem;
+      background: #f6f0e2;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+    }
+    .callout {
+      max-width: 54rem;
+      margin: 0 0 1.35rem;
+      padding: 0.75rem 1rem;
+      background: #fff8ee;
+      border: 1px solid rgba(154, 123, 63, 0.35);
+      font-size: 0.8125rem;
+      color: #534b40;
+      line-height: 1.6;
+    }
+    .callout strong { color: #2a2622; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: stretch;
+    }
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: #fdf9f5;
+      border: 1px solid rgba(99, 51, 35, 0.16);
+      border-radius: 0.625rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .card.is-current { outline: 2px dashed rgba(90, 83, 72, 0.45); outline-offset: 2px; }
+    .card-head {
+      padding: 0.9rem 1rem 0.85rem;
+      border-bottom: 1px solid rgba(99, 51, 35, 0.12);
+      background: color-mix(in srgb, #f5ebe3 70%, #fdf9f5);
+    }
+    .card-head .tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a5348;
+      margin-bottom: 0.25rem;
+    }
+    .card-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-family: "Noto Serif SC Local", Georgia, serif;
+      color: #2a2622;
+    }
+    .card-head .hex {
+      margin: 0.45rem 0 0;
+      font-size: 0.75rem;
+      font-family: ui-monospace, Consolas, monospace;
+      color: #5a5348;
+      line-height: 1.5;
+    }
+    .card-head .why {
+      margin: 0.45rem 0 0;
+      font-size: 0.78rem;
+      color: #6e655a;
+    }
+    .preview {
+      flex: 1;
+      padding: 1.35rem 1.15rem 1.5rem;
+      background: #fdf9f5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 14rem;
+    }
+    .preview .vol {
+      margin: 0 0 0.65rem;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #6e5244;
+    }
+    .preview .zh {
+      margin: 0;
+      color: #633323;
+      line-height: 0.98;
+      letter-spacing: 0.04em;
+      font-size: clamp(2.4rem, 5.5vw, 3.35rem);
+    }
+    .preview .en {
+      margin: 0.2rem 0 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+      color: #b84a2a;
+      letter-spacing: 0.01em;
+    }
+    .preview .en .dot { color: #cc785c; }
+    .preview .note {
+      margin: 1rem 0 0;
+      font-size: 0.75rem;
+      color: #8a6b58;
+      line-height: 1.45;
+    }
+
+    .f-now .zh {
+      font-family: "Noto Serif SC Local", "Songti SC", serif;
+      font-weight: 700;
+    }
+    .f-a .zh {
+      font-family: "Ma Shan Zheng", cursive;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+    .f-b .zh {
+      font-family: "Long Cang", cursive;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+    }
+    .f-c .zh {
+      font-family: "Alimama DaoLiTi", serif;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+    .f-d .zh {
+      font-family: "Huiwen Mincho", "Songti SC", serif;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+    .f-e .zh {
+      font-family: "Zhi Mang Xing", cursive;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hero 中文显示体小样 · 现状 vs A–E</h1>
+  <p class="intro">
+    只换首页大字「廖智强」；英文 <code>Archie.</code> 与纸底墨色保持现状。
+    回消息写编号即可（如 <code>A</code> / <code>D</code>）。
+  </p>
+  <p class="callout">
+    <strong>怎么打开：</strong>和墨字深度一样 ——
+    <a href="index.html">design-demos/index.html</a> 里点链接，或
+    <code>http://127.0.0.1:8765/hero-zh-font-abc.html</code>。
+    字体在 <code>logo-fonts/fonts/</code>，一般<strong>双击本文件</strong>也能出字。
+  </p>
+
+  <div class="grid">
+    <article class="card is-current f-now">
+      <header class="card-head">
+        <div class="tag">现状 · 对照</div>
+        <h2>Current · Noto Serif</h2>
+        <p class="hex">Noto Serif SC 700</p>
+        <p class="why">现网 Hero · 规整、可辨、偏「标准刊头」</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">你觉得「太规整没个性」的底稿</p>
+      </div>
+    </article>
+
+    <article class="card f-a">
+      <header class="card-head">
+        <div class="tag">方案 A · 笔意</div>
+        <h2>马善政</h2>
+        <p class="hex">Ma Shan Zheng</p>
+        <p class="why">匾额手写感 · 个性最强 · 略「文艺店」</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">适合「签名感」；顶栏 Logo 建议仍用 Noto</p>
+      </div>
+    </article>
+
+    <article class="card f-b">
+      <header class="card-head">
+        <div class="tag">方案 B · 行草</div>
+        <h2>龙藏</h2>
+        <p class="hex">Long Cang</p>
+        <p class="why">更放 · 动势强 · 辨识度看场景</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">三个字时节奏好看；小字号慎用</p>
+      </div>
+    </article>
+
+    <article class="card f-c">
+      <header class="card-head">
+        <div class="tag">方案 C · 碑刻</div>
+        <h2>阿里妈妈刀隶</h2>
+        <p class="hex">Alimama DaoLiTi</p>
+        <p class="why">方笔爨意 · 古印刷气质 · 不是花体</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">与站内暖纸更合；偏「器物感」</p>
+      </div>
+    </article>
+
+    <article class="card f-d">
+      <header class="card-head">
+        <div class="tag">方案 D · 铅字</div>
+        <h2>汇文明朝</h2>
+        <p class="hex">Huiwen Mincho</p>
+        <p class="why">50–60 年代印刷感 · 比 Noto 更有墨气</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">个性温和：不像书法那么跳，但比现状活</p>
+      </div>
+    </article>
+
+    <article class="card f-e">
+      <header class="card-head">
+        <div class="tag">方案 E · 行书</div>
+        <h2>芝麻行</h2>
+        <p class="hex">Zhi Mang Xing</p>
+        <p class="why">连笔行书 · 介于马善政与龙藏之间</p>
+      </header>
+      <div class="preview">
+        <p class="vol">卷首 · Vol. N</p>
+        <p class="zh">廖智强</p>
+        <p class="en">Archie<span class="dot">.</span></p>
+        <p class="note">若 A 太「招牌」、B 太飘，可看这一档</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>
